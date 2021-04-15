@@ -44,20 +44,22 @@ tabas, tahau = [], []       # Tétra*défaut
 def couple():
     x = 0
     for c in tablT:
-        print(f'Fonc{x} Couple {c}')
+        # print(f'Fonc{x} Couple {c}')
         x += 1
 
 # Fonction diatonique
 def diaton(uni, dia):
     """ Chromatisation des tétras bas/haut """
     # print(f'Fonc Unité:{uni} Diatonie:{dia}')
-    x, y, o1o, o8o = 0, 4, [], []
+    x, oo, o1o, o8o = 0, 0, [], []
     for deg in dia:
         ego1, ego8 = '', ''
+        oo = octave - len(dia)
         if int(deg) > 0:
             ged = str(int(deg) + 4)
             sign1 = x - gamme.index(deg) # BAS bémol/dièse
-            sign8 = y - gamme.index(ged) # HAUT bémol/dièse
+            sign8 = (x + oo) - gamme.index(ged) # HAUT bémol/dièse
+            # print(f'Ged{ged}, sign8{sign8} x{x} oo{oo} dia{dia} gamme.index(ged){gamme.index(ged)}')
             if int(deg) > 0:
                 # Signature dièse
                 ego1 = alter[sign1]
@@ -68,6 +70,7 @@ def diaton(uni, dia):
                 ego8 = alter[sign8]
             ooo1 = str(notes[int(deg)-1] + ego1 + deg)
             ooo8 = str(notes[int(ged)-1] + ego8 + ged)
+            # print(f'ego1&8 {ego1}{ego8}|ooo1&8{ooo1}{ooo8}')
             if ooo1[1] in alter:
                 o1o.append(ooo1)
             else:
@@ -77,10 +80,9 @@ def diaton(uni, dia):
             else:
                 o8o.append(ooo8[0])
         x += 1
-        y += 1
     tabas.append(o1o)
     tahau.append(o8o)
-    # print(f'Tabas {tabas[-1]}:{tahau[-1]} Tahau')
+    # print(f'Tabas {tabas[-1]}:{tahau[-1]} Tahau | Dia{dia}')
 
 
 for i in tetra1:

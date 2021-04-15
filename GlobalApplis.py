@@ -1,5 +1,8 @@
 
-# Python 3.9 UTF-8 | Dimanche 28 mars 2021 à 19h 45m
+# Python 3.9 UTF-8
+# Dimanche 28 mars 2021 à 19h 45m (premières lignes)
+# Mardi 13 avril 2021 (Développement des tétracordes)
+#
 # Conçu par Vicenté Llavata Abreu alias Toumic
 
 """ Script de construction des gammes musicales utilisant ces notes (C, D, E, F, G, A, B)
@@ -9,25 +12,18 @@ Explications:
     par les gammes gestionnaires de l'intervalle, assemble 2 modèles tétras superposés. La création
     tétracordique mène à une gammologie musicale à partir d'un simple cluster de 4 éléments."""
 
-# Fonction diatonique
-def diaton(t):
-    # if t
-    # print(f'Fonction DIATON {t}')
-    pass
 
 # Fonction développement
 """..."""
 # Déclarations des mémoires
-gamme = '1020340506078'     # Chromatisme naturel
-notes = 'CDEFGABC'          # Notes musique
 tablT, tetra1 = [], []
 dicoT, dicoG = {}, {}
 voirT = {}
 yoyoT = [0]
 mini0 = '1234'              # Tétracorde primaire
-octave = len(gamme)         # 13 emplacements
+octave = 13         # 13 emplacements
 maxi0 = (octave - len(mini0)) - 1
-tetra0, tetra1, tetra2, t234 = [], ['1', '2', '3', '4'], [], []
+tetra0, tetra1, t234 = [], ['1', '2', '3', '4'], []
 # Itérations
 t1, t2, t3, t4 = 0, 1, 2, 3 # maxi0 = 9
 u, u1, u2, u3, u4 = 0, 0, 0, 0, 0 # unité de blocage
@@ -39,6 +35,54 @@ mixam = {} # Dépendances Degré(min/max)
 """ Niveau T4 | MINI=3 MIDI=T3+1 MAXI=8 """
 nt234= [[2,[1, 6]], [3,[2, 7]], [4,[3, 8]]]
 j = -1
+gamme = '1020340506078'     # Chromatisme naturel
+notes = 'CDEFGABC'          # Notes musique
+alter = ['', '+', 'x', '^', '^+', '^x', '-*', '°*', '*', '°', '-']
+tabas, tahau = [], []       # Tétra*défaut
+
+# Fonction couplage
+def couple():
+    x = 0
+    for c in tablT:
+        print(f'Fonc{x} Couple {c}')
+        x += 1
+
+# Fonction diatonique
+def diaton(uni, dia):
+    """ Chromatisation des tétras bas/haut """
+    # print(f'Fonc Unité:{uni} Diatonie:{dia}')
+    x, y, o1o, o8o = 0, 4, [], []
+    for deg in dia:
+        ego1, ego8 = '', ''
+        if int(deg) > 0:
+            ged = str(int(deg) + 4)
+            sign1 = x - gamme.index(deg) # BAS bémol/dièse
+            sign8 = y - gamme.index(ged) # HAUT bémol/dièse
+            if int(deg) > 0:
+                # Signature dièse
+                ego1 = alter[sign1]
+                ego8 = alter[sign8]
+            else:
+                # Signature bémol
+                ego1 = alter[sign1]
+                ego8 = alter[sign8]
+            ooo1 = str(notes[int(deg)-1] + ego1 + deg)
+            ooo8 = str(notes[int(ged)-1] + ego8 + ged)
+            if ooo1[1] in alter:
+                o1o.append(ooo1)
+            else:
+                o1o.append(ooo1[0])
+            if ooo8[1] in alter:
+                o8o.append(ooo8)
+            else:
+                o8o.append(ooo8[0])
+        x += 1
+        y += 1
+    tabas.append(o1o)
+    tahau.append(o8o)
+    # print(f'Tabas {tabas[-1]}:{tahau[-1]} Tahau')
+
+
 for i in tetra1:
     if i != '1':
         j += 1
@@ -48,14 +92,13 @@ for i in tetra1:
 tablT.append(tetra1)
 # print(f'Maxi0={maxi0} Mini0={mini0}')
 while stop:
-
     # Fonction fabrication
     def brique(nom, valeur, vrai):
         yoyoT[0] += 1
         voirT[yoyoT[0]] = 'FoncBric'
         # Vrai[1, 2, 4] Valeur(index) Nom(degré) Table[0]=['1', '2', '3', '4']
         rang = tablT[0].index(nom) # Index Nom Cluster[1,2,3,4]
-        # print(f'_ Fonction nom:valeur {nom}:{valeur} Table {tablT[0]} Vrai {vrai}|*FoncBric mox{maxi0}')
+        # print(f'_ Fonction nom:valeur {nom}:{valeur} Table {tablT[-1]} Vrai {vrai}|*FoncBric mox{maxi0}')
         vide, pose, terme, bric = 0, 0, vrai[-1], []
         # print(f'Rang={rang} pose={pose} vrai={vrai}')
         while 1: 
@@ -79,7 +122,7 @@ while stop:
                 # print(f'Fonc(faux)|{bric}|Vide={vide}')
                 vide += 1
 
-    print(f'\n--------------------------------------Champ:{len(tablT)}:{tablT[-1]}')
+    # print(f'--------------------------------------Champ:{len(tablT)}:{tablT[-1]}')
 
     """Niveaux : T's : Comptes(T234|Routes(U234 """
     if u4 == 0 and t4 <= maxi0 and t2 < 6:
@@ -197,14 +240,12 @@ while stop:
             # print(f'COMPTESindex: {t234} |STOP(T2)bric')
             # print(f'| ifT2ifelseaprès || T234;{t2},{t3},{t4} : U234;{u2},{u3},{u4} | {tablT[-1]}')
             t234 = []
-            stop0 = True
             break
     else:
         # De u2 == 0 and t2 < maxi0 - 1:
         if t2 == mixam[0][1]:
             # print(f'elseIF:T2avant|False:STOP(T2)|| T234;{t2},{t3},{t4} : U234;{u2},{u3},{u4}')
             u2, u3, u4 = 1, 1, 1
-            stop0 = True
             # print(f'elseIF:T2après|False:STOP(T2)|| T234;{t2},{t3},{t4} : U234;{u2},{u3},{u4}')
             break
         else:
@@ -212,12 +253,13 @@ while stop:
             u2, u3, u4 = 1, 1, 0 # .....    .....   .....   .....   False:OUT
             # print(f'elseIFelse:T2après|False:OUT|| T234;{t2},{t3},{t4} : U234;{u2},{u3},{u4} ')
           
-    print(f'STOP0 {stop0} TablT+:{tablT[-1]}\ntablT={tablT}')
+    # print(f'STOP0 {stop0} TablT+:{tablT[-1]}\ntablT={tablT}')      
 
-    tetra1 = ''.join(m for m in tetra2)
-            
-    diaton(tetra1) # Envoi Fonction diaton
-    # if stop0 == 12:
-    if stop0:
-        print(f'Table T {tablT}')
-        stop = False
+# diaton(envoi) # Envoi Fonction Diatonic
+# print(f'--------------------------------------Champ:{len(tablT)}:{tablT}:Nombre de tétras = {len(tablT)}')
+unit = u
+# print(f'Unité {unit}')
+for t in range(len(tablT)):
+    diaton(unit, tablT[unit])
+    unit += 1
+couple()

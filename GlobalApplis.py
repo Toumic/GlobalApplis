@@ -16,8 +16,8 @@ Explications:
 # Fonction développement
 """..."""
 # Déclarations des mémoires
-tablT, tetra1 = [], []
-dicoT, dicoG = {}, {}
+tablT = []
+dicoT, dicoM, dicoG = {}, {}, {} # Dictionnaires(Tétra,Mode,Gamme)
 voirT = {}
 yoyoT = [0]
 mini0 = '1234'              # Tétracorde primaire
@@ -44,8 +44,32 @@ tabas, tahau = [], []       # Tétra*défaut
 def couple():
     x = 0
     for c in tablT:
-        # print(f'Fonc{x} Couple {c}')
+        y, cyt, ctt = 0, [], []
+        for t in tablT:
+            l_ct = len(c) + len(t)              # Somme cas
+            if octave >= l_ct:
+                o_ct = octave - l_ct            # Différence
+                if l_ct < octave and o_ct > 0:
+                    for o in range(o_ct):
+                        cyt.append('0')         # Vide zéro entre tétra
+                ctt = []
+                for t1 in t:
+                    if t1 != '0':
+                        t2 = str(int(t1) + 4)   # Vide zéro dans tétra
+                    else:
+                        t2 = '0'
+                    ctt.append(t2)
+                cot = c.copy()
+                dicoM[x] = tabas[x] + tahau[y]
+                if len(cyt):
+                    cot += cyt
+                cot += ctt
+                dicoT[x] = cot
+                cyt = []
+                y += 1
         x += 1
+    # for d in dicoT: print(f'{dicoT[d]}\n')
+    # for d in dicoM: print(f'{dicoM[d]}\n')
 
 # Fonction diatonique
 def diaton(uni, dia):
@@ -83,7 +107,7 @@ def diaton(uni, dia):
     tabas.append(o1o)
     tahau.append(o8o)
     # print(f'Tabas {tabas[-1]}:{tahau[-1]} Tahau | Dia{dia}')
-
+    # print(f'TableT{tablT}')
 
 for i in tetra1:
     if i != '1':
@@ -252,15 +276,9 @@ while stop:
             break
         else:
             # print(f'elseIFelse:T2avant|False:OUT|| T234;{t2},{t3},{t4} : U234;{u2},{u3},{u4} ')
-            u2, u3, u4 = 1, 1, 0 # .....    .....   .....   .....   False:OUT
-            # print(f'elseIFelse:T2après|False:OUT|| T234;{t2},{t3},{t4} : U234;{u2},{u3},{u4} ')
-          
-    # print(f'STOP0 {stop0} TablT+:{tablT[-1]}\ntablT={tablT}')      
-
-# diaton(envoi) # Envoi Fonction Diatonic
+            u2, u3, u4 = 1, 1, 0 # .....    .....   .....   .....   False:OUT             
 # print(f'--------------------------------------Champ:{len(tablT)}:{tablT}:Nombre de tétras = {len(tablT)}')
 unit = u
-# print(f'Unité {unit}')
 for t in range(len(tablT)):
     diaton(unit, tablT[unit])
     unit += 1

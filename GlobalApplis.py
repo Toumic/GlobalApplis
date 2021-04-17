@@ -47,11 +47,13 @@ def couple():
         y, cyt, ctt = 0, [], []
         for t in tablT:
             l_ct = len(c) + len(t)              # Somme cas
+            # print(f'C:{c} T:{t}')
             if octave >= l_ct:
                 o_ct = octave - l_ct            # Différence
-                if l_ct < octave and o_ct > 0:
+                if l_ct < octave and o_ct > 0 and x == 0:
                     for o in range(o_ct):
                         cyt.append('0')         # Vide zéro entre tétra
+                    # print(f'CYT:{cyt}')
                 ctt = []
                 for t1 in t:
                     if t1 != '0':
@@ -67,18 +69,20 @@ def couple():
                 dicoT[x] = cot
                 cyt = []
                 y += 1
+        # if x == 3 and y == 3: break ####
         x += 1
-    # for d in dicoT: print(f'{dicoT[d]}\n')
+    for d in dicoT: print(f'{dicoT[d]}\n')
     # for d in dicoM: print(f'{dicoM[d]}\n')
 
 # Fonction diatonique
 def diaton(uni, dia):
     """ Chromatisation des tétras bas/haut """
     # print(f'Fonc Unité:{uni} Diatonie:{dia}')
-    x, oo, o1o, o8o = 0, 0, [], []
+    x, oo, o1o, o8o = -1, 0, [], []
     for deg in dia:
         ego1, ego8 = '', ''
         oo = octave - len(dia)
+        x += 1
         if int(deg) > 0:
             ged = str(int(deg) + 4)
             sign1 = x - gamme.index(deg) # BAS bémol/dièse
@@ -103,7 +107,6 @@ def diaton(uni, dia):
                 o8o.append(ooo8)
             else:
                 o8o.append(ooo8[0])
-        x += 1
     tabas.append(o1o)
     tahau.append(o8o)
     # print(f'Tabas {tabas[-1]}:{tahau[-1]} Tahau | Dia{dia}')

@@ -12,7 +12,7 @@ Explications:
     par les gammes gestionnaires de l'intervalle, assemble 2 modèles tétras superposés. La création
     tétracordique mène à une gammologie musicale à partir d'un simple cluster de 4 éléments."""
 
-
+# Fichiers développés
 # Fonction développement
 """..."""
 # Déclarations des mémoires
@@ -42,18 +42,16 @@ tabas, tahau = [], []       # Tétra*défaut
 
 # Fonction couplage
 def couple():
-    x = 0
+    x, z = 0, 0
     for c in tablT:
         y, cyt, ctt = 0, [], []
         for t in tablT:
             l_ct = len(c) + len(t)              # Somme cas
-            # print(f'C:{c} T:{t}')
             if octave >= l_ct:
                 o_ct = octave - l_ct            # Différence
                 if l_ct < octave and o_ct > 0 and x == 0:
                     for o in range(o_ct):
                         cyt.append('0')         # Vide zéro entre tétra
-                    # print(f'CYT:{cyt}')
                 ctt = []
                 for t1 in t:
                     if t1 != '0':
@@ -61,18 +59,21 @@ def couple():
                     else:
                         t2 = '0'
                     ctt.append(t2)
+                dicoM[z] = tabas[x] + tahau[y]
+                """Suivre cot"""
                 cot = c.copy()
-                dicoM[x] = tabas[x] + tahau[y]
                 if len(cyt):
                     cot += cyt
                 cot += ctt
-                dicoT[x] = cot
+                dicoT[z] = cot
                 cyt = []
                 y += 1
-        # if x == 3 and y == 3: break ####
+                z += 1
+        # if x == 2 and y == 2: break ####
         x += 1
-    for d in dicoT: print(f'{dicoT[d]}\n')
+    # for d in dicoT.values(): print(f'{d}\n')
     # for d in dicoM: print(f'{dicoM[d]}\n')
+
 
 # Fonction diatonique
 def diaton(uni, dia):

@@ -11,12 +11,14 @@ en une diatonie relative à la gamme naturelle musicale.
 """
 
 
-def gammy(name):
+def gammy(mage, cape):
     cluster, coupler, recoder = [], [], []
+    print(f' \n Mage:{mage} \n Cape:{cape} \n')
+    diatonique = {}
 
     def lecteur():
         # Chargement Fichier.txt
-        print(f'Hi, {name}')
+        # print(f'Hi, {mage}')
         """GlobDicTCord = Tétras uniques: 1234"""
         fil_cluster = open('globdicTcord.txt', 'r')
         for d in fil_cluster:
@@ -41,11 +43,57 @@ def gammy(name):
     """RECODER GlobDicTCode = Tétras codés:1234=#/b(1234)#/b(5678) recoder[]"""
     lecteur()
 
-    # Développé diatonique tétra / gamme
+    # Définition diatonique tétra / gamme
     def transpose(module):
-        long = len(module) - 1
+        mirez, modes, motus = [], [], '1234'
+        long = len(module)
+        # wc= Tour entier; ok= Tour degré
+        ok, go = -1, 0
+        for wc in list(module):
+            ok += 1
+            ok += go
+            print(f' WC{wc}')
+            for cap in range(long):
+                modes.append(list(module)[ok])
+                print(f'Cap{cap} Modes{modes} OK{ok}')
+                ok += 1
+                if ok > long:
+                    ok = -1
+            go += 1
+            des = ''.join(d for d in modes)
+            modes.clear()
+            mirez.append(des)
+            print(f'Mirez{mirez}')
+            # break
+        # wc= Tour entier; ok= Tour degré
+        # wc, ok, go = 0, 0, 0
+        # mirez = [module[wc]]  # mirez= Index module clef
+        # print(f'****    Module{mirez} module{module}  {motus[wc]}')
+        """while 1:
+            tonal = module[wc]  # tonal= Degré lecture module
+            # Tonique premier degré [wc]
+            for cas in range(1, long):
+                if tonal != '0':
+                    ok += 1
+                    ok += go
+                    posez = mage.index(list(motus)[ok])  # posez= Tonalité majeure
+                    visez = module.index(module[wc])  # visez= Tonalité réelle
+                    moins = visez - posez  # moins= Signature tonale
+                    point = cape[moins] + tonal
+                    modes.append(point)
+                    if ok > len(motus):
+                        ok = 0
+                        go += 1
+                    # print(f' Ok{ok} Mirez{mirez}{tonal}Tonal | Posez{posez} Point{point} Moins{moins}')
+            if len(modes) == list(motus)[-1]:
+                diatonique[module] = modes
+            wc += 1
+            if wc == long:
+                print(f' Modes{modes}')
+                break"""
+
         # print(f' Long: {str(long)}')
-        print(f' Longueur modèle: {long} , {module} \n')
+        print(f' T Longueur modèle{long},{module} Diatonique{diatonique}\n')
         pass
 
     # Particule tétracordique cluster[]
@@ -53,7 +101,7 @@ def gammy(name):
         Définir les modulations diatoniques de l'élément"""
     col = 0
     for clou in cluster:
-        tr1 = str(clou[:len(clou) - 1]) + '*****'
+        tr1 = str(clou[:len(clou) - 1])
         print(f' Cloud[]: {clou[:len(clou) - 1]} Col {col}')
         # print(f' Clou: {clou}')
         if col > 2:

@@ -1,40 +1,40 @@
-GlobalApplis.py # Python 3.9 UTF-8
-# Dimanche 28 mars 2021 à 19h 45m (premières lignes)
-# Mardi 13 avril 2021 (Développement des tétracordes)
+ï»¿GlobalApplis.py # Python 3.9 UTF-8
+# Dimanche 28 mars 2021 Ã  19h 45m (premiÃ¨res lignes)
+# Mardi 13 avril 2021 (DÃ©veloppement des tÃ©tracordes)
 #
-# Conçu par Vicenté Llavata Abreu alias Toumic
+# ConÃ§u par VicentÃ© Llavata Abreu alias Toumic
 
 """ Script de construction des gammes musicales utilisant ces notes (C, D, E, F, G, A, B) 
 Explications: 
-    La création des gammes musicales englobe les notes & les intervalles dans une octave de 12 ½ tons, 
-    elle se concentre sur les tétracordes étant des corps de 4 notes. L'assemblage formé 
-    par les gammes gestionnaires de l'intervalle, assemble 2 modèles tétras superposés. La création 
-    tétracordique mène à une gammologie musicale à partir d'un simple cluster de 4 éléments."""
+    La crÃ©ation des gammes musicales englobe les notes & les intervalles dans une octave de 12 Â½ tons, 
+    elle se concentre sur les tÃ©tracordes Ã©tant des corps de 4 notes. L'assemblage formÃ© 
+    par les gammes gestionnaires de l'intervalle, assemble 2 modÃ¨les tÃ©tras superposÃ©s. La crÃ©ation 
+    tÃ©tracordique mÃ¨ne Ã  une gammologie musicale Ã  partir d'un simple cluster de 4 Ã©lÃ©ments."""
 
 import GlobModelGammy
 
 globgamy = GlobModelGammy
 
-# Fichiers développés
+# Fichiers dÃ©veloppÃ©s
 """..."""
-# Fonction développement
+# Fonction dÃ©veloppement
 """..."""
-# Déclarations des mémoires
+# DÃ©clarations des mÃ©moires
 tablette = []
-dicoT, dicoM, dicoG = {}, {}, {}  # Dictionnaires(Tétra,Mode,Gamme)
+dicoT, dicoM, dicoG = {}, {}, {}  # Dictionnaires(TÃ©tra,Mode,Gamme)
 voirT = {}
 yoyoT = [0]
-mini0 = '1234'  # Tétracorde primaire
+mini0 = '1234'  # TÃ©tracorde primaire
 octave = 13  # 13 emplacements
 maxi0 = (octave - len(mini0)) - 1
 tetra0, tetra1, t234 = [], ['1', '2', '3', '4'], []
 tablette.append(tetra1)
-# Itérations
+# ItÃ©rations
 t1, t2, t3, t4 = 0, 1, 2, 3  # maxi0 = 9
-u, u1, u2, u3, u4 = 0, 0, 0, 0, 0  # unité de blocage
+u, u1, u2, u3, u4 = 0, 0, 0, 0, 0  # unitÃ© de blocage
 x, stop, stop0, stop1 = 0, True, False, 5
-# Opération Dico(maxime)
-maxime = {}  # Dépendances Degré(min/max)
+# OpÃ©ration Dico(maxime)
+maxime = {}  # DÃ©pendances DegrÃ©(min/max)
 """ Niveau T2 | MINI=1 MIDI=NULL MAXI=6 """
 """ Niveau T3 | MINI=2 MIDI=T2+1 MAXI=7 """
 """ Niveau T4 | MINI=3 MIDI=T3+1 MAXI=8 """
@@ -42,11 +42,11 @@ nt234 = [[2, [1, 6]], [3, [2, 7]], [4, [3, 8]]]
 j = -1
 gamme = '1020340506078'  # Chromatisme naturel
 notes = 'CDEFGABC'  # Notes musique
-alter = ['', '+', 'x', '^', '^+', '^x', '-*', '°*', '*', '°', '-']
-tabas, tahau = [], []  # Tétra*défaut
+alter = ['', '+', 'x', '^', '^+', '^x', 'Â°*', '-*', '*', 'Â°', '-']
+t_bas, t_haut = [], []  # TÃ©tra*dÃ©faut
 
 
-# Fonction couplage tétracordique
+# Fonction couplage tÃ©tracordique
 def couple():
     x2, z = 0, 0
     for c in tablette:
@@ -54,18 +54,18 @@ def couple():
         for tab in tablette:
             l_ct = len(c) + len(tab)  # Somme cas
             if octave >= l_ct:
-                o_ct = octave - l_ct  # Différence
+                o_ct = octave - l_ct  # DiffÃ©rence
                 if l_ct < octave and o_ct > 0:
                     for o in range(o_ct):
-                        cyt.append('0')  # Vide zéro entre tétra
+                        cyt.append('0')  # Vide zÃ©ro entre tÃ©tra
                 ctt = []
                 for t1f in tab:
                     if t1f != '0':
-                        t2f = str(int(t1f) + 4)  # Vide zéro dans tétra
+                        t2f = str(int(t1f) + 4)  # Vide zÃ©ro dans tÃ©tra
                     else:
                         t2f = '0'
                     ctt.append(t2f)
-                dicoM[z] = tabas[x2] + tahau[y]
+                dicoM[z] = t_bas[x2] + t_haut[y]
                 """Suivre cot"""
                 cot = c.copy()
                 if len(cyt):
@@ -78,23 +78,23 @@ def couple():
         x2 += 1
 
 
-# Fonction format diatonique tétracordique
+# Fonction format diatonique tÃ©tracordique
 def diatone(dia):
-    # Chromatisation des tétras bas/haut
+    # Chromatisation des tÃ©tras bas/haut
     x1d, oo, o1o, o8o = -1, 0, [], []
     for deg in dia:
         oo = octave - len(dia)
         x1d += 1
         if int(deg) > 0:
             ged = str(int(deg) + 4)
-            sign1 = x1d - gamme.index(deg)  # BAS bémol/dièse
-            sign8 = (x1d + oo) - gamme.index(ged)  # HAUT bémol/dièse
+            sign1 = x1d - gamme.index(deg)  # BAS bÃ©mol/diÃ¨se
+            sign8 = (x1d + oo) - gamme.index(ged)  # HAUT bÃ©mol/diÃ¨se
             if int(deg) > 0:
-                # Signature dièse
+                # Signature diÃ¨se
                 ego1 = alter[sign1]
                 ego8 = alter[sign8]
             else:
-                # Signature bémol
+                # Signature bÃ©mol
                 ego1 = alter[sign1]
                 ego8 = alter[sign8]
             ooo1 = str(notes[int(deg) - 1] + ego1 + deg)
@@ -107,16 +107,16 @@ def diatone(dia):
                 o8o.append(ooo8)
             else:
                 o8o.append(ooo8[0])
-    tabas.append(o1o)
-    tahau.append(o8o)
+    t_bas.append(o1o)
+    t_haut.append(o8o)
 
 
-# Charge limite tétra
+# Charge limite tÃ©tra
 for i in tetra1:
     if i != '1':
         j += 1
         maxime[j] = nt234[j][1]
-# Développement tétracordique
+# DÃ©veloppement tÃ©tracordique
 while stop:
     # Fonction fabrication
     def brique(vrai):
@@ -153,9 +153,9 @@ while stop:
         else:
             t4 += 1
             u2, u3, u4 = 1, 1, 0  # .....    .....   .....       Tour Entier :GO(T4)
-            """ Motif T234;Index Degrés"""
+            """ Motif T234;Index DegrÃ©s"""
             t234 = [t2, t3, t4]
-            brique(t234)  # .....    .....   .....         Fonction brique tétra
+            brique(t234)  # .....    .....   .....         Fonction brique tÃ©tra
             t234 = []
     else:
         if t4 <= maxi0:
@@ -168,13 +168,13 @@ while stop:
         voirT[yoyoT[0]] = 'Cond_U3'
         """ Niveau T3 | MINI=2 MIDI=T2+1 MAXI=7"""
         t3 += 1
-        t4 = t3 + 1  # Opération Test(T3)/in
+        t4 = t3 + 1  # OpÃ©ration Test(T3)/in
         if t4 <= maxi0:
             # Test(T3) Ici T4 <= maxi0(8)"""
             u2, u3, u4 = 1, 1, 0  # .....    .....   .....   .....   Tour unique :GO(T4)
-            """ Motif T234;Index Degrés"""
+            """ Motif T234;Index DegrÃ©s"""
             t234 = [t2, t3, t4]
-            brique(t234)  # .....    .....   .....         Fonction brique tétra
+            brique(t234)  # .....    .....   .....         Fonction brique tÃ©tra
             t234.clear()
         else:
             # Test(T3) Ici T4 > maxi0(8)"""
@@ -194,20 +194,20 @@ while stop:
         """ Niveau T2 | MINI=1 MIDI=NULL MAXI=6 """
         t2 += 1
         t3 = t2 + 1
-        t4 = t3 + 1  # Opération Test(T2)/in
+        t4 = t3 + 1  # OpÃ©ration Test(T2)/in
         if t4 <= maxi0:
             # Test(T2) Ici t4 <= maxi0(8)"""
             u2, u3, u4 = 1, 1, 0
-            """ Motif T234;Index Degrés"""
+            """ Motif T234;Index DegrÃ©s"""
             t234 = [t2, t3, t4]
-            brique(t234)  # .....    .....   .....         Fonction brique tétra
+            brique(t234)  # .....    .....   .....         Fonction brique tÃ©tra
             t234.clear()
         else:
             # Test(T2) Ici t4 > maxi0(8)"""
             t2 -= 1
             t3 -= 1
             t4 -= 1
-            u2, u3, u4 = 1, 1, 1  # Opération Test(T2)/Out
+            u2, u3, u4 = 1, 1, 1  # OpÃ©ration Test(T2)/Out
             break
     else:
         # De u2 == 0 and t2 < maxi0 - 1:
@@ -223,8 +223,8 @@ for t in range(len(tablette)):
 
 couple()
 
-# Écriture fichier tétra.
-"""GlobDicTCord = Tétras uniques"""
+# Ã‰criture fichier tÃ©tra.
+"""GlobDicTCord = TÃ©tras uniques"""
 fil_cluster = open('globdicTcord.txt', 'w')
 for d in tablette:
     ee = ''.join(e for e in d)
@@ -232,7 +232,7 @@ for d in tablette:
     fil_cluster.write(ee)
 fil_cluster.close()
 
-"""GlobDicTCoup = Tétras couplés"""
+"""GlobDicTCoup = TÃ©tras couplÃ©s"""
 fil_couple = open('globdicTcoup.txt', 'w')
 for d in dicoT.values():
     ee = ''.join(e for e in d)
@@ -240,15 +240,15 @@ for d in dicoT.values():
     fil_couple.write(ee)
 fil_couple.close()
 
-"""GlobDicTCode = Tétras codés"""
+"""GlobDicTCode = TÃ©tras codÃ©s"""
 fil_codage = open('globdicTcode.txt', 'w')
 f = 0
-while f < len(tabas):
-    ee = str(tabas[f] + tahau[f])
+while f < len(t_bas):
+    ee = str(t_bas[f] + t_haut[f])
     ee += '\n'
     fil_codage.write(ee)
     f += 1
 fil_codage.close()
 
 # Direction GlobModelGammy
-globgamy.gammy('')
+globgamy.gammy(gamme, alter)

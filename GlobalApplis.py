@@ -2,8 +2,8 @@
 # Dimanche 28 mars 2021 à 19h 45m (premières lignes)
 # Mardi 13 avril 2021 (Développement des tétracordes)
 #
-# Conçu par Vicenté Llavata Abreu alias Toumic
-
+# Conçu par Vicenté Llavata Abreu | Vicenté Quantic | Toumic
+# Module GlobalApplis.py
 """ Script de construction des gammes musicales utilisant ces notes (C, D, E, F, G, A, B)
 Explications:
     La création des gammes musicales englobe les notes & les intervalles dans une octave de 12 ½ tons,
@@ -42,8 +42,8 @@ nt234 = [[2, [1, 6]], [3, [2, 7]], [4, [3, 8]]]
 j = -1
 gamme = '1020340506078'  # Chromatisme naturel
 notes = 'CDEFGABC'  # Notes musique
-alter = ['', '+', 'x', '^', '^+', '^x', '-*', '°*', '*', '°', '-']
-tabas, tahau = [], []  # Tétra*défaut
+alter = ['', '+', 'x', '^', '^+', '^x', '°*', '-*', '*', '°', '-']
+t_bas, t_haut = [], []  # Tétra*défaut
 
 
 # Fonction couplage tétracordique
@@ -65,7 +65,7 @@ def couple():
                     else:
                         t2f = '0'
                     ctt.append(t2f)
-                dicoM[z] = tabas[x2] + tahau[y]
+                dicoM[z] = t_bas[x2] + t_haut[y]
                 """Suivre cot"""
                 cot = c.copy()
                 if len(cyt):
@@ -107,8 +107,8 @@ def diatone(dia):
                 o8o.append(ooo8)
             else:
                 o8o.append(ooo8[0])
-    tabas.append(o1o)
-    tahau.append(o8o)
+    t_bas.append(o1o)
+    t_haut.append(o8o)
 
 
 # Charge limite tétra
@@ -243,12 +243,12 @@ fil_couple.close()
 """GlobDicTCode = Tétras codés"""
 fil_codage = open('globdicTcode.txt', 'w')
 f = 0
-while f < len(tabas):
-    ee = str(tabas[f] + tahau[f])
+while f < len(t_bas):
+    ee = str(t_bas[f] + t_haut[f])
     ee += '\n'
     fil_codage.write(ee)
     f += 1
 fil_codage.close()
 
 # Direction GlobModelGammy
-globgamy.gammy(gamme, alter)
+globgamy.gammy()

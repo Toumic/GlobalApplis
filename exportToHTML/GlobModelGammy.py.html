@@ -1,0 +1,118 @@
+<html>
+<head>
+<title>GlobModelGammy.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #8c8c8c; font-style: italic;}
+.s1 { color: #080808;}
+.s2 { color: #0033b3;}
+.s3 { color: #008080; font-weight: bold;}
+.s4 { color: #0037a6;}
+.s5 { color: #1750eb;}
+</style>
+</head>
+<body bgcolor="#ffffff">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+GlobModelGammy.py</font>
+</center></td></tr></table>
+<pre><span class="s0"># Python 3.9 UTF-8</span>
+<span class="s0"># Lundi 19 avril 2021 à 13h 57m (premières lignes)</span>
+<span class="s0"># Mardi ... 2021 (Développement des tétracordes)</span>
+<span class="s0">#</span>
+<span class="s0"># Conçu par Vicenté Llavata Abreu alias Toumic</span>
+
+<span class="s0">&quot;&quot;&quot; Module d'application au traitement de la résultante clustérienne 
+en une diatonie relative à la gamme naturelle musicale. 
+    * L'aspect diatonique de la gamme 
+    * L'aspect diatonique du tétracorde 
+&quot;&quot;&quot;</span>
+
+
+<span class="s2">def </span><span class="s1">gammy(mage, cape):</span>
+    <span class="s1">cluster, coupler, recoder = [], [], []</span>
+    <span class="s1">print(</span><span class="s3">f' </span><span class="s4">\n </span><span class="s3">Mage:</span><span class="s4">{</span><span class="s1">mage</span><span class="s4">} \n </span><span class="s3">Cape:</span><span class="s4">{</span><span class="s1">cape</span><span class="s4">} \n</span><span class="s3">'</span><span class="s1">)</span>
+    <span class="s1">diatonic_tetra = {}</span>
+    <span class="s1">diatonic_gamme = {}</span>
+
+    <span class="s2">def </span><span class="s1">lecteur():</span>
+        <span class="s0"># Chargement Fichier.txt</span>
+        <span class="s0">&quot;&quot;&quot;GlobDicTCord = Tétras uniques: 1234&quot;&quot;&quot;</span>
+        <span class="s1">fil_cluster = open(</span><span class="s3">'globdicTcord.txt'</span><span class="s1">, </span><span class="s3">'r'</span><span class="s1">)</span>
+        <span class="s2">for </span><span class="s1">d </span><span class="s2">in </span><span class="s1">fil_cluster:</span>
+            <span class="s1">cluster.append(d)</span>
+        <span class="s1">fil_cluster.close()</span>
+        <span class="s3">&quot;&quot;&quot;GlobDicTCoup = Tétras couplés: 1234,0,5678&quot;&quot;&quot;</span>
+        <span class="s1">fil_couple = open(</span><span class="s3">'globdicTcoup.txt'</span><span class="s1">, </span><span class="s3">'r'</span><span class="s1">)</span>
+        <span class="s2">for </span><span class="s1">d </span><span class="s2">in </span><span class="s1">fil_couple:</span>
+            <span class="s1">coupler.append(d)</span>
+        <span class="s1">fil_couple.close()</span>
+        <span class="s3">&quot;&quot;&quot;GlobDicTCode = Tétras codés:1234=#/b(1234)#/b(5678)&quot;&quot;&quot;</span>
+        <span class="s1">fil_codage = open(</span><span class="s3">'globdicTcode.txt'</span><span class="s1">, </span><span class="s3">'r'</span><span class="s1">)</span>
+        <span class="s2">for </span><span class="s1">d </span><span class="s2">in </span><span class="s1">fil_codage:</span>
+            <span class="s1">recoder.append(d)</span>
+        <span class="s1">fil_codage.close()</span>
+
+    <span class="s3">&quot;&quot;&quot;CLUSTER GlobDicTCord = Tétras uniques: 1234 cluster[]&quot;&quot;&quot;</span>
+    <span class="s3">&quot;&quot;&quot;COUPLER GlobDicTCoup = Tétras couplés: 1234,0,5678 coupler[]&quot;&quot;&quot;</span>
+    <span class="s3">&quot;&quot;&quot;RECODER GlobDicTCode = Tétras codés:1234={[#/b(1234)][#/b(5678)]} recoder[]&quot;&quot;&quot;</span>
+    <span class="s1">lecteur()</span>
+
+    <span class="s0"># Définition diatonic_tetra tétra / gamme</span>
+    <span class="s2">def </span><span class="s1">transpose(module):</span>
+        <span class="s1">mirez, modes = </span><span class="s3">''</span><span class="s1">, []</span>
+        <span class="s1">oxo, oyo, ozo = </span><span class="s5">0</span><span class="s1">, </span><span class="s5">0</span><span class="s1">, module[-</span><span class="s5">1</span><span class="s1">]</span>
+        <span class="s2">while </span><span class="s5">1</span><span class="s1">:</span>
+            <span class="s1">mirez += module[oxo]        </span><span class="s0"># Donnée :module</span>
+            <span class="s2">if </span><span class="s1">ozo != </span><span class="s3">'8'</span><span class="s1">:</span>
+                <span class="s2">if </span><span class="s1">module[oxo] == </span><span class="s3">'4'</span><span class="s1">:  </span><span class="s0"># Entrave :'8'</span>
+                    <span class="s1">oxo = </span><span class="s5">0</span>
+                <span class="s2">else</span><span class="s1">:</span>
+                    <span class="s1">oxo += </span><span class="s5">1</span>
+            <span class="s2">else</span><span class="s1">:</span>
+                <span class="s2">if </span><span class="s1">module[oxo] == </span><span class="s3">'8'</span><span class="s1">:  </span><span class="s0"># Entrave :'8'</span>
+                    <span class="s1">oxo = </span><span class="s5">0</span>
+                <span class="s2">else</span><span class="s1">:</span>
+                    <span class="s1">oxo += </span><span class="s5">1</span>
+            <span class="s2">if </span><span class="s1">len(mirez) == len(module):</span>
+                <span class="s1">oyo += </span><span class="s5">1</span>
+                <span class="s1">oxo = oyo</span>
+                <span class="s1">modes.append(mirez)</span>
+                <span class="s2">if </span><span class="s1">ozo != </span><span class="s3">'8'</span><span class="s1">:</span>
+                    <span class="s2">if </span><span class="s1">mirez[-</span><span class="s5">1</span><span class="s1">] == </span><span class="s3">'3'</span><span class="s1">:  </span><span class="s0"># Entrave :'8'</span>
+                        <span class="s2">break</span>
+                <span class="s2">else</span><span class="s1">:</span>
+                    <span class="s2">if </span><span class="s1">mirez[-</span><span class="s5">1</span><span class="s1">] == </span><span class="s3">'7'</span><span class="s1">:  </span><span class="s0"># Entrave :'8'</span>
+                        <span class="s2">break</span>
+                <span class="s1">mirez = </span><span class="s3">''</span>
+        <span class="s2">if </span><span class="s1">len(module) &lt; </span><span class="s5">10</span><span class="s1">:</span>
+            <span class="s1">diatonic_tetra[col[</span><span class="s5">0</span><span class="s1">]] = modes</span>
+        <span class="s2">else</span><span class="s1">:</span>
+            <span class="s1">diatonic_gamme[col[</span><span class="s5">0</span><span class="s1">]] = modes</span>
+
+    <span class="s0"># Origine tétra cluster[]</span>
+    <span class="s3">&quot;&quot;&quot;Les tétras uniques: 1234&quot;&quot;&quot;</span>
+    <span class="s1">col = [</span><span class="s5">0</span><span class="s1">]</span>
+    <span class="s2">for </span><span class="s1">clou </span><span class="s2">in </span><span class="s1">cluster:</span>
+        <span class="s1">tr1 = str(clou[:len(clou) - </span><span class="s5">1</span><span class="s1">])</span>
+        <span class="s1">col[</span><span class="s5">0</span><span class="s1">] += </span><span class="s5">1</span>
+        <span class="s1">transpose(tr1)</span>
+    <span class="s0"># print(f' diatonic_tetra:{diatonic_tetra}\n\n')</span>
+
+    <span class="s0"># Fondamentales gammes coupler[]</span>
+    <span class="s3">&quot;&quot;&quot;Les fondamentales sont plus légères 1234,0,5678&quot;&quot;&quot;</span>
+    <span class="s1">col = [</span><span class="s5">0</span><span class="s1">]</span>
+    <span class="s2">for </span><span class="s1">clou </span><span class="s2">in </span><span class="s1">coupler:</span>
+        <span class="s1">tr1 = str(clou[:len(clou) - </span><span class="s5">1</span><span class="s1">])</span>
+        <span class="s1">col[</span><span class="s5">0</span><span class="s1">] += </span><span class="s5">1</span>
+        <span class="s1">transpose(tr1)</span>
+    <span class="s0"># print(f' diatonic_gamme:{diatonic_gamme}')</span>
+
+    <span class="s0"># print(f'Diatonic_tétra{diatonic_tetra}')</span>
+
+    <span class="s0"># Tétracorde binaire recoder[]</span>
+    <span class="s3">&quot;&quot;&quot;L'alternative tétracordique 1234=#/b(1234)#/b(5678)&quot;&quot;&quot;</span>
+</pre>
+</body>
+</html>

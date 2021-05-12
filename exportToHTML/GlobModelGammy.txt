@@ -1,0 +1,96 @@
+﻿GlobModelGammy.py # Python 3.9 UTF-8
+# Lundi 19 avril 2021 à 13h 57m (premières lignes)
+# Mardi ... 2021 (Développement des tétracordes)
+#
+# Conçu par Vicenté Llavata Abreu alias Toumic
+
+""" Module d'application au traitement de la résultante clustérienne 
+en une diatonie relative à la gamme naturelle musicale. 
+    * L'aspect diatonique de la gamme 
+    * L'aspect diatonique du tétracorde 
+"""
+
+
+def gammy(mage, cape):
+    cluster, coupler, recoder = [], [], []
+    print(f' \n Mage:{mage} \n Cape:{cape} \n')
+    diatonic_tetra = {}
+    diatonic_gamme = {}
+
+    def lecteur():
+        # Chargement Fichier.txt
+        """GlobDicTCord = Tétras uniques: 1234"""
+        fil_cluster = open('globdicTcord.txt', 'r')
+        for d in fil_cluster:
+            cluster.append(d)
+        fil_cluster.close()
+        """GlobDicTCoup = Tétras couplés: 1234,0,5678"""
+        fil_couple = open('globdicTcoup.txt', 'r')
+        for d in fil_couple:
+            coupler.append(d)
+        fil_couple.close()
+        """GlobDicTCode = Tétras codés:1234=#/b(1234)#/b(5678)"""
+        fil_codage = open('globdicTcode.txt', 'r')
+        for d in fil_codage:
+            recoder.append(d)
+        fil_codage.close()
+
+    """CLUSTER GlobDicTCord = Tétras uniques: 1234 cluster[]"""
+    """COUPLER GlobDicTCoup = Tétras couplés: 1234,0,5678 coupler[]"""
+    """RECODER GlobDicTCode = Tétras codés:1234={[#/b(1234)][#/b(5678)]} recoder[]"""
+    lecteur()
+
+    # Définition diatonic_tetra tétra / gamme
+    def transpose(module):
+        mirez, modes = '', []
+        oxo, oyo, ozo = 0, 0, module[-1]
+        while 1:
+            mirez += module[oxo]        # Donnée :module
+            if ozo != '8':
+                if module[oxo] == '4':  # Entrave :'8'
+                    oxo = 0
+                else:
+                    oxo += 1
+            else:
+                if module[oxo] == '8':  # Entrave :'8'
+                    oxo = 0
+                else:
+                    oxo += 1
+            if len(mirez) == len(module):
+                oyo += 1
+                oxo = oyo
+                modes.append(mirez)
+                if ozo != '8':
+                    if mirez[-1] == '3':  # Entrave :'8'
+                        break
+                else:
+                    if mirez[-1] == '7':  # Entrave :'8'
+                        break
+                mirez = ''
+        if len(module) < 10:
+            diatonic_tetra[col[0]] = modes
+        else:
+            diatonic_gamme[col[0]] = modes
+
+    # Origine tétra cluster[]
+    """Les tétras uniques: 1234"""
+    col = [0]
+    for clou in cluster:
+        tr1 = str(clou[:len(clou) - 1])
+        col[0] += 1
+        transpose(tr1)
+    # print(f' diatonic_tetra:{diatonic_tetra}\n\n')
+
+    # Fondamentales gammes coupler[]
+    """Les fondamentales sont plus légères 1234,0,5678"""
+    col = [0]
+    for clou in coupler:
+        tr1 = str(clou[:len(clou) - 1])
+        col[0] += 1
+        transpose(tr1)
+    # print(f' diatonic_gamme:{diatonic_gamme}')
+
+    # print(f'Diatonic_tétra{diatonic_tetra}')
+
+    # Tétracorde binaire recoder[]
+    """L'alternative tétracordique 1234=#/b(1234)#/b(5678)"""

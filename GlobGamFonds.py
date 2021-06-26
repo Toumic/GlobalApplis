@@ -7,32 +7,115 @@
 Priorité aux gammes heptatoniques:
     classement par le poids altéré du degré modal"""
 
-action = ['', '+', 'x', '^', '^+', '^x', '°*', '-*', '*', '°', '-']
-gamme_majeure = '102034050607'  # Diatonisme naturel
-gamme_signaux = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [], }
+import os
+import inspect
+from typing import Callable
+
+inspect.getsource(os)
+
+# lineno() Pour déboguer le programme grâce au suivi des print's
+lineno: Callable[[], int] = lambda: inspect.currentframe().f_back.f_lineno
+
+# Fondues Tableau préconçu servant de référence, il n'est pas exhaustif
+fondues = ['0', '-2', '+2', '^2', '-3', '-23', '-34x', '+34', '+23x', '-34', 'x3',
+           '°3', '+34x', '°34x', '^3', '-4', '-24', '^4', '°4', '-5', '-25', '-25+',
+           '+25-', '-35', '-35+', '+45x', '+25x', '°35-', '+35x', '-45+', '-45',
+           'x5', 'x45+', '-25°', '-35°', '-45°', '°45-', '°5', '°35+', '*5', '°35x',
+           '-45x', '°45x', '-6', '+6', '-26', '-26+', '+26-', '+26', '-36', '-36+',
+           '-56', '-56+', '+56', 'x46+', '-26°', '-46+', '-46°', 'x36+', '-56°',
+           '°46-', '°36+', '*6', '°46+', '°6', 'x26-']
+# Limites Tableau des signatures mini/maxi de chaque degré
+limites = {1: [], 2: [-1, 4], 3: [-2, 3], 4: [-2, 3], 5: [-3, 2], 6: [-4, 1], 7: [-5, 0]}
+# Signes Table des différents niveaux d'altérations sur les degrés
+signes = ['', '+', 'x', '^', '^+', '^x', '°*', '-*', '*', '°', '-']
+gamme_majeure, gamme_index = '102034050607', [0, 2, 4, 5, 7, 9, 11]  # Diatonisme naturel
+gamme_signaux = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []}
 gammic = {'maj': '102034050607'}
+# Gamme_Pesante Tableau des poids modaux de la gamme majeure
 gamme_pesante = {1: [[0], [0]], 2: [['b3', 'b7'], [-4, -8]],
                  3: [['b2', 'b3', '6', 'b7'], [-3, -4, -7, -8]], 4: [['#4'], [+5]],
                  5: [['b7'], [-8]], 6: [['b3', 'b6', 'b7'], [-4, -7, -8]],
                  7: [['b2', 'b3', 'b5', 'b6', 'b7'], [-3, -4, -6, -7, -8]]}
 poids_major = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []}
-poids_modal = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []}
-# longer = {4: [], 5: [], 6: [], 7: [], 8: [], 9: [], 12: []}
+tour = [0]
+poids_modal = []
+longs, magma = [], []
+longs_modes = {4: [], 5: [], 6: [], 7: [], 8: [], 9: [], 12: longs}
+"""Poids Altéré Modal :gamme_pesante{}"""
+kkk = 0
 for deg, kg in gamme_pesante.items():
     kgk = 0
     if len(kg[1]) == 1:
         poids_major[deg] = kg[1][0]
+        kkk += kg[1][0]
     else:
         for k in kg[1]:
+            khk = 0
+            khk += k
+            kkk += khk
             kgk += k
         poids_major[deg] = kgk
-print(f' Poids maj:{poids_major}')
 
 
-def diatonic(topic, top01):
-    top00 = [0]  # :top00[0]=Premier mode majeur
-    for top in topic:
-        if gamme_majeure in top:
-            top00[0] = topic.index(top)  # :top00[0]=Emplacement gamme dans topic
-            print(f" \nTopic335i:{top[-1]} Index:{top00[0]} Top01:{top01[top00[0]]}")
-            break
+def diatonic(topic):
+    """Fonction de détection des gammes fondamentales,
+    basée sur le poids le plus faible donné par les degrés modaux."""
+    for top01 in topic:
+        poids_class = {}
+        top00 = ''.join(t for t in top01)
+        retour, poids_gen = 1, 0
+        """Passe: Autres modes"""
+        while retour < 8:  # Défaut retour < 8
+            grader, regard, lacune, pesant, poids = 0, -1, 0, [0], 0
+            """Traitement d'Un Mode Fondamental |Pesant|"""
+            for t00 in top00:
+                regard += 1
+                """Passe: Poids du Uème mode"""
+                if t00 == '1':
+                    grader += 1
+                    extra = gamme_majeure.index(str(grader))  # :extra= Position Degré
+                    lacune = regard - extra  # :lacune= Niveau Altération
+                    if lacune < 0:
+                        pesant[0] = lacune - grader
+                    elif lacune == 0:
+                        pesant[0] = 0
+                    else:
+                        pesant[0] = grader + lacune
+                    poids_modal.append(pesant[0])
+                    poids += pesant[0]  #
+                    pesant[0] = 0
+            poids_gen += poids
+            poids_class[top00] = top00, abs(poids)
+            poids_modal.clear()
+            pilote = list(top00)
+            pilote.insert(0, pilote.pop())
+            while pilote[0] == '0':
+                pilote.insert(0, pilote.pop())
+            top00 = ''.join(p for p in pilote)
+            retour += 1
+        lys_0, dic_pt, dic_neg = [], {}, {}
+        for c in poids_class.keys():
+            if c[-1] == '1':
+                lys_0.append(poids_class[c])
+        for io in lys_0:
+            q, m = io[0], io[1]
+            dic_neg[m] = q
+            dic_pt[q] = m
+        mini = min(dic_pt.values())
+        gamme, ga = [], ''
+        pm, pp = 0, -1
+        for p in dic_neg[mini]:
+            pp += 1
+            if p == '1':
+                pm += 1
+                alter = gamme_majeure.index(str(pm))
+                if pp != alter:
+                    dif = pp - alter
+                    ga = signes[dif] + str(pm)
+                else:
+                    ga = str(pm)
+            else:
+                ga = '0'
+            gamme.append(ga)
+        # Magma Tableau des degrés les plus légers...
+        magma.append(gamme)

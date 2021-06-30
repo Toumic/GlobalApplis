@@ -12,6 +12,7 @@ Explications:
     tétracordique mène à une gammologie musicale à partir d'un simple cluster de 4 éléments."""
 
 import GlobModelGammy
+
 globgamy = GlobModelGammy
 
 # Fichiers développés
@@ -28,7 +29,7 @@ octave = 13  # 13 emplacements
 maxi0 = (octave - len(mini0)) - 1
 tetra0, tetra1, t234 = [], ['1', '2', '3', '4'], []
 tablette.append(tetra1)
-# Itératifs
+# Itérations
 t1, t2, t3, t4 = 0, 1, 2, 3  # maxi0 = 9
 u, u1, u2, u3, u4 = 0, 0, 0, 0, 0  # unité de blocage
 x, stop, stop0, stop1 = 0, True, False, 5
@@ -45,8 +46,8 @@ alter = ['', '+', 'x', '^', '^+', '^x', '°*', '-*', '*', '°', '-']
 t_bas, t_haut = [], []  # Tétra*défaut
 
 
+# Fonction couplage tétracordique
 def couple():
-    """Fonction de couplage tétracordique, 2 tétras pour une gamme"""
     x2, z = 0, 0
     for c in tablette:
         y, cyt, ctt = 0, [], []
@@ -77,9 +78,9 @@ def couple():
         x2 += 1
 
 
+# Fonction format diatonique tétracordique
 def diatone(dia):
-    """Fonction format diatonique tétracordique
-    Chromatisation des tétras bas/haut"""
+    # Chromatisation des tétras bas/haut
     x1d, oo, o1o, o8o = -1, 0, [], []
     for deg in dia:
         oo = octave - len(dia)
@@ -139,7 +140,8 @@ while stop:
                 bric.append('0')
                 vide += 1
 
-    # ----------------------------------------------------------------------------
+
+    # print(f'--------------------------------------Champ:{len(tablette)}:{tablette[-1]}')
 
     """Niveaux : T's : Comptes(T234|Routes(U234 """
     if u4 == 0 and t4 <= maxi0 and t2 < 6:

@@ -16,33 +16,29 @@ inspect.getsource(os)
 # lineno() Pour déboguer le programme grâce au suivi des print's
 lineno: Callable[[], int] = lambda: inspect.currentframe().f_back.f_lineno
 
-# Fondues Tableau préconçu servant de référence, il n'est pas exhaustif
+"""# Fondues Tableau préconçu servant de référence, il n'est pas exhaustif
 fondues = ['0', '-2', '+2', '^2', '-3', '-23', '-34x', '+34', '+23x', '-34', 'x3',
            '°3', '+34x', '°34x', '^3', '-4', '-24', '^4', '°4', '-5', '-25', '-25+',
            '+25-', '-35', '-35+', '+45x', '+25x', '°35-', '+35x', '-45+', '-45',
            'x5', 'x45+', '-25°', '-35°', '-45°', '°45-', '°5', '°35+', '*5', '°35x',
            '-45x', '°45x', '-6', '+6', '-26', '-26+', '+26-', '+26', '-36', '-36+',
            '-56', '-56+', '+56', 'x46+', '-26°', '-46+', '-46°', 'x36+', '-56°',
-           '°46-', '°36+', '*6', '°46+', '°6', 'x26-']
+           '°46-', '°36+', '*6', '°46+', '°6', 'x26-']"""
 # Limites Tableau des signatures mini/maxi de chaque degré
-limites = {1: [], 2: [-1, 4], 3: [-2, 3], 4: [-2, 3], 5: [-3, 2], 6: [-4, 1], 7: [-5, 0]}
+# limites = {1: [], 2: [-1, 4], 3: [-2, 3], 4: [-2, 3], 5: [-3, 2], 6: [-4, 1], 7: [-5, 0]}
 # Signes Table des différents niveaux d'altérations sur les degrés
-signes = ['', '+', 'x', '^', '^+', '^x', '°*', '-*', '*', '°', '-']
-gamme_majeure, gamme_index = '102034050607', [0, 2, 4, 5, 7, 9, 11]  # Diatonisme naturel
-gamme_signaux = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []}
-gammic = {'maj': '102034050607'}
-# Gamme_Pesante Tableau des poids modaux de la gamme majeure
+# gamme_signaux = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []}
+# gammic = {'maj': '102034050607'}
+""" Gamme_Pesante Tableau des poids modaux de la gamme majeure
 gamme_pesante = {1: [[0], [0]], 2: [['b3', 'b7'], [-4, -8]],
-                 3: [['b2', 'b3', '6', 'b7'], [-3, -4, -7, -8]], 4: [['#4'], [+5]],
-                 5: [['b7'], [-8]], 6: [['b3', 'b6', 'b7'], [-4, -7, -8]],
-                 7: [['b2', 'b3', 'b5', 'b6', 'b7'], [-3, -4, -6, -7, -8]]}
-poids_major = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []}
-tour = [0]
-poids_modal = []
-longs, magma = [], []
-longs_modes = {4: [], 5: [], 6: [], 7: [], 8: [], 9: [], 12: longs}
+                3: [['b2', 'b3', '6', 'b7'], [-3, -4, -7, -8]], 4: [['#4'], [+5]],
+                5: [['b7'], [-8]], 6: [['b3', 'b6', 'b7'], [-4, -7, -8]],
+                7: [['b2', 'b3', 'b5', 'b6', 'b7'], [-3, -4, -6, -7, -8]]}
+# poids_major = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []}"""
+# tour = [0]
+# longs_modes = {4: [], 5: [], 6: [], 7: [], 8: [], 9: [], 12: longs}
 """Poids Altéré Modal :gamme_pesante{}"""
-kkk = 0
+"""kkk = 0
 for deg, kg in gamme_pesante.items():
     kgk = 0
     if len(kg[1]) == 1:
@@ -54,7 +50,11 @@ for deg, kg in gamme_pesante.items():
             khk += k
             kkk += khk
             kgk += k
-        poids_major[deg] = kgk
+        poids_major[deg] = kgk"""
+signes = ['', '+', 'x', '^', '^+', '^x', '°*', '-*', '*', '°', '-']
+gamme_majeure, gamme_index = '102034050607', [0, 2, 4, 5, 7, 9, 11]  # Diatonisme naturel
+poids_modal = []
+gam_tonique, magma, tab_eh = [], [], []
 
 
 def diatonic(topic):
@@ -119,3 +119,28 @@ def diatonic(topic):
             gamme.append(ga)
         # Magma Tableau des degrés les plus légers...
         magma.append(gamme)
+    """GlobDicTGams = Gammes fondamentales"""
+    fil_gammes = open('globdicTgams.txt', 'w')
+    f = 0
+    while f < len(magma):
+        mm = str(magma[f])
+        mm += '\n'
+        fil_gammes.write(mm)
+        gam_tonique.append(mm)
+        f += 1
+    fil_gammes.close()
+    ff_ = 0
+    for gf in gam_tonique:
+        ff_ += 1
+        oh, eh = '', []
+        for g in gf:
+            if g not in ('[', ']', ',', "'", "\n") and g != ' ':
+                if g in signes:
+                    oh += g
+                elif int(g) or g == '0':
+                    oh += g
+                    eh.append(oh)
+                    oh = ''
+        hi = ','.join(i for i in eh)
+        print('****', ff_, 'HI', 'hi', hi)
+        tab_eh.append(eh)

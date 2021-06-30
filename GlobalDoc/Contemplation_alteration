@@ -1,0 +1,78 @@
+Contemplation
+1ère vue, les modèles les plus légers représentants les gammes fondamentales, imposent une réflexion.
+Le quantité des notes altérées dépasse deux, alors que le modèle développé à la maison ne va pas au-dessus de deux.
+La méthode utilisée fait un assemblage cumulé : Degré de la note altérée + Le nombre d'altérations (- ou +).
+o1) Chaque degré modal fait une opération potentielle, ex : C, D, bE, F, G, A, bB =
+>>>> =-3,-7=\*Fondement=Maj 7ème. Bémol 7ème Degré non tonique. Alors C=2ème Degré. 1er Degré=bB(bémol Si)*\=
+>>>> =\*Degré cumulé avec l'altération[3ème + 1 bémol=-4]*\=-4,-8=-4-8=Absolu(-12)=12\*Poids diatonic*\
+o2) Chaque gamme a sa propre diatonie, cette dernière compose sept tonalités modales diatoniques.
+o3) La manière[o1)] formule le 1er type original, car il n'est pas modifié.
+>>>> Mais elle a été créée par un principe calculé entre nombre/signe/degré.
+>>>> En calculant nombre/signe le résultat devient primitif et moins nuancé.
+>>>> La valeur absolue de la signature modale fait le flottement à zéro
+o4) Le quantité des notes altérées dépasse deux:
+>>>> Comme: **** HI hi 1,0,2,-3,0,0,+4,0,+5,6,0,7=-3+4+5=|6|
+>>>> \*Fondement=Maj 7ème. Séparation 7 & 1 = ½ Ton*\= 3 choix:
+o4 : 3 Choix) Origine: 1,0,2,-3,0,0,+4,0,+5,6,0,7 = -3+4+5 = +6 = |6|
+    >>>> |-3=1,2=7|_6,0,7,1,0,0,+2,0,+3,+4,0,+5 = +2+3+4+5 = +14 = |14|
+    >>>> |6=1,+5=7|_-3,0,4,-5,0,0,6,0,7,1,0,2 = -3-5 = -8 = |8|
+
+Cette gamme mélodique & dominante a 2 éléments coutumiers [Tierce & Quinte Mineures]
+i_ Parlons peu, parlons bien:
+>>>> Malgré une 1ère tentative d'avantage mathématique qu'analogique,
+>>>> ce traitement a évolué en filtrant les septièmes majeures, et les 1ers Degrés.
+>>>> Obtenant ainsi les modèles proches au mode fondamental de la gamme en question.
+>>>> Sauf qu'en développant diatoniquement on obtient une variation de la définition,
+>>>> un autre choix fondamental aux termes alliés à une mélo-dominance classique.
+
+ii_ C'est mécaniquement que se développent les tendances systémiques:
+>>>> Il s'agit d'un fichier dans lequel sont enregistrés les primitives,
+>>>> celles qui jouent avec la tolérance zéro. Un 1er tour à vélo facile.
+>>>> * Créant une subordination débordante de fondamentales désordonnées, une approche
+>>>> * humaine aussi désorientante qu'une mer agitée (inconséquence/imperturbable).
+
+iii_ L'harmonie est une réponse venue d'un complexe assemblé:
+>>>> Si de l'extérieur l'harmonie ressemble à une philosophie,
+>>>> de l'intérieur l'harmonie ressemble à une plurielle morphologie.
+>>>> Cet intérieur familier, dont la régularité de ses lignes va de pair avec intelligence.
+>>>> L'unité musicale a une zone élémentaire qui inclut l'utilisation des notes.
+
+iv_ Les gammes fondamentales ont six entités primitives:
+>>>> Les 6 primitives [D,E,F,G,A], et deux primitives (constantes) majeures [C,B].
+o1 L'altération unique inconséquent: [-2, -3, -5, -6] & [+2, +4, +5, +6].
+o2 L'altération unique conséquent: [-4] & [+3]. Une perturbation sur sa voisine.
+o3 L'altéractivité défini les conséquences des altérations sur les notes.
+>>>> c*1) -4 active -3, +3 active +4. Afin d'éviter l'enharmonie.
+o4 Les altérations complexes sont ordonnées & limitées :
+>>>> L'altération double improbable [°2] & [x6], car °2=1, x6=7.
+>>>> En liste [°3, °4, °5, °6] & [x2, x3, x4, x5]. À altéraction².
+>>>> En liste [*5, *6] & [^2, ^3, ^4]. À altéraction³.
+v_ Imagination de la verticalité organisée par les signatures :
+>>>> Inconséquent : [-2, -3, -5, -6] & [+2, +4, +5, +6].
+>>>> Conséquent : [-4] & [+3].
+>>>> [°3, °4, °5, °6] & [x2, x3, x4, x5]. À altéraction².
+o1 Selon travaux les nominations fondamentales occupent deux postes
+>>>> Deux notes seulement sont directement concernées par l'altération.
+>>>> Ces mêmes deux notes sont au maximum doublement altérées (° ou x)
+>>>> [*5, *6] & [^2, ^3, ^4]. À altéraction³. En attente de développement.
+o2 Verticalité:
+>>>> v| -4 donne -3| V- = [-3]
+>>>> v| +3 donne +4| V+ = [+4]
+>>>> v| °3 donne -2| V- = [-2, -3]
+>>>> v| °4 donne °3,-2| V- = [-2, -3]
+>>>> v| °5 donne -6| V- = [-2, -3, -6]
+>>>> v| °6 donne -5| V- = [-2, -3, -5, -6]
+>>>> v| x2 donne +3, +4| V+ = [+4]
+>>>> v| x3 donne x4, +5| V+ = [+4]
+>>>> v| x4 donne +5| V+ = [+4, +5]
+>>>> v| x5 donne +6| V+ = [+4, +5, +6]
+o3 Originalité de la seconde augmentée, ou 3ème degré majeur sensible
+>>>> Si #D=+2, 2ème degré augmenté de la tonique(1).
+>>>> Si #D=3, 3ème degré majeur de la sensible(7).
+vi, Comment organiser les liens entre les gammes fondamentales:
+>>>> vic: Lorsque commence l'initialisation du tableau
+>>>> vic: On peut y inscrire les 1ères inconséquences
+>>>> vic: Ainsi que les éléments verticaux et leurs altéractions.
+>>>> vic: Tout ceci au fur et à mesure de l'initialisation.
+>>>> vic: Rechercher sélectivement les poids opportuns
+

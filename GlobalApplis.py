@@ -48,6 +48,7 @@ t_bas, t_haut = [], []  # Tétra*défaut
 
 # Fonction couplage tétracordique
 def couple():
+    """Fonderie tétras & Moulage gammes"""
     x2, z = 0, 0
     for c in tablette:
         y, cyt, ctt = 0, [], []
@@ -80,7 +81,7 @@ def couple():
 
 # Fonction format diatonique tétracordique
 def diatone(dia):
-    # Chromatisation des tétras bas/haut
+    """Chromatisation des tétras bas/haut"""
     x1d, oo, o1o, o8o = -1, 0, [], []
     for deg in dia:
         oo = octave - len(dia)
@@ -118,7 +119,7 @@ for i in tetra1:
         maxime[j] = nt234[j][1]
 # Développement tétracordique
 while stop:
-    # Fonction fabrication
+    # Atelier fabrication
     def brique(vrai):
         yoyoT[0] += 1
         voirT[yoyoT[0]] = 'FoncBric'

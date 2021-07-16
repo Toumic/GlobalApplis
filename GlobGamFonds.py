@@ -7,11 +7,13 @@
 Priorité aux gammes heptatoniques:
     classement par le poids altéré du degré modal"""
 
-import os
+import GlobEnModes
 import inspect
+import os
 from typing import Callable
 
 inspect.getsource(os)
+glob_en = GlobEnModes
 
 # lineno() Pour déboguer le programme grâce au suivi des print's
 lineno: Callable[[], int] = lambda: inspect.currentframe().f_back.f_lineno
@@ -29,16 +31,20 @@ fondues = ['0', '-2', '+2', '^2', '-3', '-23', '-34x', '+34', '+23x', '-34', 'x3
 # Signes Table des différents niveaux d'altérations sur les degrés
 # gamme_signaux = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []}
 # gammic = {'maj': '102034050607'}
-""" Gamme_Pesante Tableau des poids modaux de la gamme majeure
+# Gamme_Pesante Tableau des poids modaux de la gamme majeure
 gamme_pesante = {1: [[0], [0]], 2: [['b3', 'b7'], [-4, -8]],
-                3: [['b2', 'b3', '6', 'b7'], [-3, -4, -7, -8]], 4: [['#4'], [+5]],
-                5: [['b7'], [-8]], 6: [['b3', 'b6', 'b7'], [-4, -7, -8]],
-                7: [['b2', 'b3', 'b5', 'b6', 'b7'], [-3, -4, -6, -7, -8]]}
-# poids_major = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []}"""
-# tour = [0]
+                 3: [['b2', 'b3', '6', 'b7'], [-3, -4, -7, -8]], 4: [['#4'], [+5]],
+                 5: [['b7'], [-8]], 6: [['b3', 'b6', 'b7'], [-4, -7, -8]],
+                 7: [['b2', 'b3', 'b5', 'b6', 'b7'], [-3, -4, -6, -7, -8]]}
+modes_major = {1: [0, 0, 0, 0, 0, 0, 0], 2: [0, 0, -4, 0, 0, 0, -8],
+               3: [0, -3, -4, 0, 0, -7, -8], 4: [0, 0, 0, +5, 0, 0, 0],
+               5: [0, 0, 0, 0, 0, 0, -8], 6: [0, 0, -4, 0, 0, -7, -8],
+               7: [0, -3, -4, 0, -6, -7, -8]}
+poids_major = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []}
+modes_grade = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII']
 # longs_modes = {4: [], 5: [], 6: [], 7: [], 8: [], 9: [], 12: longs}
 """Poids Altéré Modal :gamme_pesante{}"""
-"""kkk = 0
+kkk = 0
 for deg, kg in gamme_pesante.items():
     kgk = 0
     if len(kg[1]) == 1:
@@ -50,11 +56,15 @@ for deg, kg in gamme_pesante.items():
             khk += k
             kkk += khk
             kgk += k
-        poids_major[deg] = kgk"""
+        poids_major[deg] = kgk
+    # print(f' {lineno()}, Poids_Major:{poids_major[deg]} Deg{modes_grade[deg-1]}')
+# print(f' {lineno()}, Poids_Major:{poids_major}')
 signes = ['', '+', 'x', '^', '^+', '^x', '°*', '-*', '*', '°', '-']
 gamme_majeure, gamme_index = '102034050607', [0, 2, 4, 5, 7, 9, 11]  # Diatonisme naturel
 poids_modal = []
+modes_modal = []
 gam_tonique, magma, tab_eh = [], [], []
+# modes_modal = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []}
 
 
 def diatonic(topic):
@@ -62,10 +72,15 @@ def diatonic(topic):
     basée sur le poids le plus faible donné par les degrés modaux."""
     for top01 in topic:
         poids_class = {}
+        modes_modal.clear()
         top00 = ''.join(t for t in top01)
-        retour, poids_gen = 1, 0
+        retour, poids_gen, dio = 0, 0, 0
+        print(f' {lineno()}, {top00}')
         """Passe: Autres modes"""
-        while retour < 8:  # Défaut retour < 8
+        while retour < 7:  # Défaut retour < 8
+            # print(lineno())
+            retour += 1
+            poids_modal.clear()
             grader, regard, lacune, pesant, poids = 0, -1, 0, [0], 0
             """Traitement d'Un Mode Fondamental |Pesant|"""
             for t00 in top00:
@@ -75,6 +90,7 @@ def diatonic(topic):
                     grader += 1
                     extra = gamme_majeure.index(str(grader))  # :extra= Position Degré
                     lacune = regard - extra  # :lacune= Niveau Altération
+                    # print(f' {lineno()} {lacune} |{grader}| {extra} ')
                     if lacune < 0:
                         pesant[0] = lacune - grader
                     elif lacune == 0:
@@ -82,17 +98,24 @@ def diatonic(topic):
                     else:
                         pesant[0] = grader + lacune
                     poids_modal.append(pesant[0])
-                    poids += pesant[0]  #
+                    poids += pesant[0]
                     pesant[0] = 0
             poids_gen += poids
             poids_class[top00] = top00, abs(poids)
-            poids_modal.clear()
+            modes_modal.append(poids_modal.copy())
+            # print(lineno(), modes_modal)
+            # poids_modal.clear()
             pilote = list(top00)
             pilote.insert(0, pilote.pop())
             while pilote[0] == '0':
                 pilote.insert(0, pilote.pop())
             top00 = ''.join(p for p in pilote)
-            retour += 1
+            # print(lineno(), 'PM', poids_modal, len(poids_modal), retour)
+            # modes_modal[] = poids_modal
+        if len(modes_modal) == 7:
+            # print(lineno(), modes_modal)
+            ggg = glob_en.seption(modes_modal)
+            print(lineno(), 'GGF Oblic', ggg)
         lys_0, dic_pt, dic_neg = [], {}, {}
         for c in poids_class.keys():
             if c[-1] == '1':
@@ -119,6 +142,8 @@ def diatonic(topic):
             gamme.append(ga)
         # Magma Tableau des degrés les plus légers...
         magma.append(gamme)
+        print('145 GGF Classic', gamme, '\n')
+        # break
     """GlobDicTGams = Gammes fondamentales"""
     fil_gammes = open('globdicTgams.txt', 'w')
     f = 0
@@ -141,6 +166,7 @@ def diatonic(topic):
                     oh += g
                     eh.append(oh)
                     oh = ''
-        hi = ','.join(i for i in eh)
-        print('****', ff_, 'HI', 'hi', hi)
+        # hi = ','.join(i for i in eh)
+        # print('****', ff_, 'HI', 'hi', hi)
         tab_eh.append(eh)
+    # print(lineno(), 'MM', modes_modal)

@@ -1,6 +1,6 @@
 """ # La masse de la gamme naturelle
-# Composée des sept notes majeures: C, D, E, F, G, A, B.
-# Harmonisée des sept degrés majeurs:
+# Composée des seption notes majeures: C, D, E, F, G, A, B.
+# Harmonisée des seption degrés majeurs:
 #		(CDEFGAB) = 0
 #		(DEFGABC) = b3, b7 = -4-8 = -12
 #		(EFGABCD) = b2, b3, b6, b7 = -3-4-7-8 = -22
@@ -20,3 +20,12 @@
  "				7ème degré moins 1 bémol = -7 - 1 = -8\n"
  "						}\n"
  "				Masse pesante totale = -4-7-8 = -19\n")"""
+
+z = [0]
+def func(x):
+    print(x)
+    z[0] = 8
+    return(z)
+
+func(4)
+print('z',z[0])

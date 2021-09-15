@@ -1,0 +1,691 @@
+<html>
+<head>
+<title>Notes Analyses</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #080808;}
+.ln { color: #adadad; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#ffffff">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Notes Analyses</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0"># GlobalApplis.py Analogie d'un étalage paralogique</span>
+<a name="l2"><span class="ln">2    </span></a><span class="s0">&quot;&quot;&quot; Le module GlobEnModes: A la charge de détecter les modèles fondamentaux. La section GlobGamFonds n'est pas correcte,</span>
+<a name="l3"><span class="ln">3    </span></a><span class="s0">le poids majeur a une valeur naturelle qui ne s'applique pas partout. Le numérique de la note altérée enfin mesurable,</span>
+<a name="l4"><span class="ln">4    </span></a><span class="s0">afin d'y calculer les poids des degrés diatoniques. Aussi vrai que : M_P [0+0+0+0+0+0+0] cumule zéro.</span>
+<a name="l5"><span class="ln">5    </span></a><span class="s0">La statique GlobEnModes traite chaque degré ainsi : Différentiel Diatonique Naturel. Du poids entrant - degré.modal.</span>
+<a name="l6"><span class="ln">6    </span></a><span class="s0">Une surmodulation diatonique naturelle entière soit 7 modulations diatoniques, \ par mode entrant.</span>
+<a name="l7"><span class="ln">7    </span></a><span class="s0">PS { Séquence analogie cas*cas, en manuel, créer un visuel augmenté des gammes musicales}&quot;&quot;&quot;</span>
+<a name="l8"><span class="ln">8    </span></a><span class="s0"># * ** *** **** ***** Modulations + For in.. + 0à6 + Degrés&amp;&amp; = 10 lignes ****** *******</span>
+<a name="l9"><span class="ln">9    </span></a><span class="s0">&quot;&quot;&quot;</span>
+<a name="l10"><span class="ln">10   </span></a><span class="s0">***                 Modulations naturelles 101010110101 66</span>
+<a name="l11"><span class="ln">11   </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés          États   NOTES</span>
+<a name="l12"><span class="ln">12   </span></a> <span class="s0">0 For moi in...  M_P [0, 0, 0, 5, 0, 0, 0],        M:[588]     5       iv      #4</span>
+<a name="l13"><span class="ln">13   </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -4, 0, 0, -7, -8],    M:[0]       1       iii</span>
+<a name="l14"><span class="ln">14   </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, 0, 0, 0, -8],      M:[490]     4       ii</span>
+<a name="l15"><span class="ln">15   </span></a> <span class="s0">3 For moi in...  M_P [0, 0, 0, 0, 0, 0, 0],        M:[833]     7       i       3 For   major   Sup.Maj7</span>
+<a name="l16"><span class="ln">16   </span></a> <span class="s0">4 For moi in...  M_P [0, -3, -4, 0, -6, -7, -8],   M:[196]     2       vii</span>
+<a name="l17"><span class="ln">17   </span></a> <span class="s0">5 For moi in...  M_P [0, 0, -4, 0, 0, -7, -8],     M:[343]     3       vi</span>
+<a name="l18"><span class="ln">18   </span></a> <span class="s0">6 For moi in...  M_P [0, 0, 0, 0, 0, 0, -8],       M:[784]     6       v</span>
+<a name="l19"><span class="ln">19   </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids [major = b3]</span>
+<a name="l20"><span class="ln">20   </span></a><span class="s0">***                 Modulations mélodiques 101101010101 65</span>
+<a name="l21"><span class="ln">21   </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l22"><span class="ln">22   </span></a> <span class="s0">0 For moi in...  M_P [0, 0, -4, 0, 0, 0, 0],       M:[588]     5       i       0 For   b3      Sup.Maj7</span>
+<a name="l23"><span class="ln">23   </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -4, -5, -6, -7, -8],  M:[0]       1       vii</span>
+<a name="l24"><span class="ln">24   </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, 0, -6, -7, -8],    M:[490]     4       vi</span>
+<a name="l25"><span class="ln">25   </span></a> <span class="s0">3 For moi in...  M_P [0, 0, 0, 0, 0, -7, -8],      M:[833]     7       v</span>
+<a name="l26"><span class="ln">26   </span></a> <span class="s0">4 For moi in...  M_P [0, 0, 0, 5, 0, 0, -8],       M:[196]     2       iv</span>
+<a name="l27"><span class="ln">27   </span></a> <span class="s0">5 For moi in...  M_P [0, 0, 0, 5, 6, 0, 0],        M:[343]     3       iii     #45</span>
+<a name="l28"><span class="ln">28   </span></a> <span class="s0">6 For moi in...  M_P [0, -3, -4, 0, 0, 0, -8],     M:[784]     6       ii</span>
+<a name="l29"><span class="ln">29   </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids [major = b3]</span>
+<a name="l30"><span class="ln">30   </span></a><span class="s0">***                 Modulations adominantes(#) 101101011001 64</span>
+<a name="l31"><span class="ln">31   </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l32"><span class="ln">32   </span></a> <span class="s0">0 For moi in...  M_P [0, 0, -4, 0, 0, -7, 0],      M:[539]     4       vi      b36     Double (0)</span>
+<a name="l33"><span class="ln">33   </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -4, -5, -6, -7, -9],  M:[49]      1       v</span>
+<a name="l34"><span class="ln">34   </span></a> <span class="s0">2 For moi in...  M_P [0, 3, 0, 5, 0, 0, 0],        M:[539]     4       iv      #24     Double (0)</span>
+<a name="l35"><span class="ln">35   </span></a> <span class="s0">3 For moi in...  M_P [0, -3, 0, 0, 0, -7, -8],     M:[784]     6       iii</span>
+<a name="l36"><span class="ln">36   </span></a> <span class="s0">4 For moi in...  M_P [0, 0, -4, 5, 0, 0, -8],      M:[147]     2       ii</span>
+<a name="l37"><span class="ln">37   </span></a> <span class="s0">5 For moi in...  M_P [0, 0, 0, 0, 6, 0, 0],        M:[392]     3       i       5 For   #5      Inf.Maj7</span>
+<a name="l38"><span class="ln">38   </span></a> <span class="s0">6 For moi in...  M_P [0, -3, -4, 0, -6, 0, -8],    M:[833]     7       vii</span>
+<a name="l39"><span class="ln">39   </span></a>    <span class="s0">Degrés &amp; les rangs [Doublons] &amp; les poids [Doublons][#5 = b6]</span>
+<a name="l40"><span class="ln">40   </span></a><span class="s0">***                 Modulations mélodiques dominantes 101101100101 63</span>
+<a name="l41"><span class="ln">41   </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l42"><span class="ln">42   </span></a> <span class="s0">0 For moi in...  M_P [0, 0, -4, 0, -6, 0, 0],      M:[497]     4       i       0 For   b35     Axe.Maj7</span>
+<a name="l43"><span class="ln">43   </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -4, -5, -6, -8, -8],  M:[91]      1       vii</span>
+<a name="l44"><span class="ln">44   </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, 0, -6, -7, -9],    M:[581]     5       vi</span>
+<a name="l45"><span class="ln">45   </span></a> <span class="s0">3 For moi in...  M_P [0, 3, 4, 5, 6, 0, 0],        M:[742]     6       v       #235</span>
+<a name="l46"><span class="ln">46   </span></a> <span class="s0">4 For moi in...  M_P [0, -3, 0, 5, 0, 0, -8],      M:[105]     2       iv</span>
+<a name="l47"><span class="ln">47   </span></a> <span class="s0">5 For moi in...  M_P [0, 0, -4, 5, 6, 0, 0],       M:[434]     3       iii     b3,#45 ou (b34#,#5)</span>
+<a name="l48"><span class="ln">48   </span></a> <span class="s0">6 For moi in...  M_P [0, -3, -4, -5, 0, 0, -8],    M:[875]     7       ii</span>
+<a name="l49"><span class="ln">49   </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids [b35 = b35#]</span>
+<a name="l50"><span class="ln">50   </span></a><span class="s0">***                 Modulations mélodiques adominantes(#) 101101101001 62</span>
+<a name="l51"><span class="ln">51   </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l52"><span class="ln">52   </span></a> <span class="s0">0 For moi in...  M_P [0, 0, -4, 0, -6, -7, 0],     M:[497]     4       vi      b356 ou (b35,b6)</span>
+<a name="l53"><span class="ln">53   </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -4, -5, -6, -8, -9],  M:[91]      1       v</span>
+<a name="l54"><span class="ln">54   </span></a> <span class="s0">2 For moi in...  M_P [0, 3, 0, 5, 0, 0, -8],       M:[581]     5       iv</span>
+<a name="l55"><span class="ln">55   </span></a> <span class="s0">3 For moi in...  M_P [0, 0, 4, 5, 6, 0, 0],        M:[742]     6       iii     #35</span>
+<a name="l56"><span class="ln">56   </span></a> <span class="s0">4 For moi in...  M_P [0, -3, -4, 5, 0, 0, -8],     M:[105]     2       ii</span>
+<a name="l57"><span class="ln">57   </span></a> <span class="s0">5 For moi in...  M_P [0, 0, -4, 0, 6, 0, 0],       M:[434]     3       i       5 For   b35#    Axe.Maj7</span>
+<a name="l58"><span class="ln">58   </span></a> <span class="s0">6 For moi in...  M_P [0, -3, -4, -5, -6, 0, -8],   M:[875]     7       vii</span>
+<a name="l59"><span class="ln">59   </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids [b35 = b35#]</span>
+<a name="l60"><span class="ln">60   </span></a><span class="s0">***                 Modulations harmoniques 101100110101 61</span>
+<a name="l61"><span class="ln">61   </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l62"><span class="ln">62   </span></a> <span class="s0">0 For moi in...  M_P [0, 0, -4, 5, 0, 0, 0],       M:[539]     4       iv      b34#    Double (0)</span>
+<a name="l63"><span class="ln">63   </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -4, -5, 0, -7, -8],   M:[49]      1       iii</span>
+<a name="l64"><span class="ln">64   </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, 0, -6, 0, -8],     M:[539]     4       ii              Double (-8)</span>
+<a name="l65"><span class="ln">65   </span></a> <span class="s0">3 For moi in...  M_P [0, 0, 0, 0, 0, -7, 0],       M:[784]     6       i       3 For   b6      Sup.Maj7</span>
+<a name="l66"><span class="ln">66   </span></a> <span class="s0">4 For moi in...  M_P [0, -3, -4, 0, -6, -7, -9],   M:[147]     2       vii</span>
+<a name="l67"><span class="ln">67   </span></a> <span class="s0">5 For moi in...  M_P [0, 3, 0, 5, 6, 0, 0],        M:[392]     3       vi      #245</span>
+<a name="l68"><span class="ln">68   </span></a> <span class="s0">6 For moi in...  M_P [0, -3, 0, 0, 0, 0, -8],      M:[833]     7       v</span>
+<a name="l69"><span class="ln">69   </span></a>    <span class="s0">Degrés &amp; les rangs [Doublons] &amp; les poids [Doublons][#5 = b6]</span>
+<a name="l70"><span class="ln">70   </span></a><span class="s0">***                 Modulations mélodiques diharmoniques (°) 110001101101 60</span>
+<a name="l71"><span class="ln">71   </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l72"><span class="ln">72   </span></a> <span class="s0">0 For moi in...  M_P [0, -3, 4, 5, 6, 0, 0],       M:[392]     3       v       b2,#35</span>
+<a name="l73"><span class="ln">73   </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, 5, 0, 0, -8],     M:[196]     2       iv</span>
+<a name="l74"><span class="ln">74   </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, 6, 0, 0],      M:[686]     6       iii     b45#</span>
+<a name="l75"><span class="ln">75   </span></a> <span class="s0">3 For moi in...  M_P [0, -3, -4, -5, -7, 0, -8],   M:[637]     5       ii</span>
+<a name="l76"><span class="ln">76   </span></a> <span class="s0">4 For moi in...  M_P [0, 0, -4, 0, -6, -8, 0],     M:[0]       1       i       4 For   b36°    Inf.Maj7</span>
+<a name="l77"><span class="ln">77   </span></a> <span class="s0">5 For moi in...  M_P [0, -3, -4, -5, -6, -8, -10], M:[539]     4       vii</span>
+<a name="l78"><span class="ln">78   </span></a> <span class="s0">6 For moi in...  M_P [0, 4, 4, 6, 6, 7, 0],        M:[980]     7       vi      ##2,#46</span>
+<a name="l79"><span class="ln">79   </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids</span>
+<a name="l80"><span class="ln">80   </span></a><span class="s0">***                 Modulations médianes harmoniques 110011001101 59</span>
+<a name="l81"><span class="ln">81   </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l82"><span class="ln">82   </span></a> <span class="s0">0 For moi in...  M_P [0, -3, 0, 0, 6, 0, 0],       M:[462]     3       iii     b25#</span>
+<a name="l83"><span class="ln">83   </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, 0, -6, 0, -8],    M:[126]     2       ii</span>
+<a name="l84"><span class="ln">84   </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, 0, -7, 0],     M:[616]     5       i       2 For   b46     Maj7</span>
+<a name="l85"><span class="ln">85   </span></a> <span class="s0">3 For moi in...  M_P [0, -3, -4, -5, -7, -7, -9],  M:[707]     6       vii</span>
+<a name="l86"><span class="ln">86   </span></a> <span class="s0">4 For moi in...  M_P [0, 3, 0, 5, 0, -7, 0],       M:[70]      1       vi      #24,b6</span>
+<a name="l87"><span class="ln">87   </span></a> <span class="s0">5 For moi in...  M_P [0, -3, 0, 0, 0, -7, -9],     M:[469]     4       v</span>
+<a name="l88"><span class="ln">88   </span></a> <span class="s0">6 For moi in...  M_P [0, 3, 0, 6, 6, 7, 0],        M:[910]     7       iv      #24##,#6</span>
+<a name="l89"><span class="ln">89   </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids</span>
+<a name="l90"><span class="ln">90   </span></a><span class="s0">***                 Modulations tonales 110011010101 58</span>
+<a name="l91"><span class="ln">91   </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l92"><span class="ln">92   </span></a> <span class="s0">0 For moi in...  M_P [0, -3, 0, 0, 0, 0, 0],       M:[518]     4       i       0 For   b2      Axe.Maj7</span>
+<a name="l93"><span class="ln">93   </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, 0, -6, -7, -8],   M:[70]      1       vii</span>
+<a name="l94"><span class="ln">94   </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, 0, -7, -8],    M:[560]     5       vi</span>
+<a name="l95"><span class="ln">95   </span></a> <span class="s0">3 For moi in...  M_P [0, 0, 0, 0, -6, 0, -8],      M:[763]     6       v</span>
+<a name="l96"><span class="ln">96   </span></a> <span class="s0">4 For moi in...  M_P [0, 0, 0, 5, 0, -7, 0],       M:[126]     2       iv      #46b</span>
+<a name="l97"><span class="ln">97   </span></a> <span class="s0">5 For moi in...  M_P [0, -3, -4, 0, 0, -7, -9],    M:[413]     3       iii</span>
+<a name="l98"><span class="ln">98   </span></a> <span class="s0">6 For moi in...  M_P [0, 3, 0, 5, 6, 7, 0],        M:[854]     7       ii      #2456</span>
+<a name="l99"><span class="ln">99   </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids</span>
+<a name="l100"><span class="ln">100  </span></a><span class="s0">***                 Modulations tonales harmoniques 110011011001 57</span>
+<a name="l101"><span class="ln">101  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l102"><span class="ln">102  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, 0, 0, 0, -7, 0],      M:[469]     4       i       0 For   b26     Maj7</span>
+<a name="l103"><span class="ln">103  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, 0, -6, -7, -9],   M:[119]     2       vii</span>
+<a name="l104"><span class="ln">104  </span></a> <span class="s0">2 For moi in...  M_P [0, 3, 0, 0, 6, 0, 0],        M:[609]     5       vi      #25</span>
+<a name="l105"><span class="ln">105  </span></a> <span class="s0">3 For moi in...  M_P [0, -3, 0, 0, -6, 0, -8],     M:[714]     6       v</span>
+<a name="l106"><span class="ln">106  </span></a> <span class="s0">4 For moi in...  M_P [0, 0, -4, 5, 0, -7, 0],      M:[77]      1       iv      b34#,b6</span>
+<a name="l107"><span class="ln">107  </span></a> <span class="s0">5 For moi in...  M_P [0, -3, -4, -5, 0, -7, -9],   M:[462]     3       iii</span>
+<a name="l108"><span class="ln">108  </span></a> <span class="s0">6 For moi in...  M_P [0, 3, 0, 5, 0, 7, 0],        M:[903]     7       ii      #246</span>
+<a name="l109"><span class="ln">109  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids [b26 = b4]</span>
+<a name="l110"><span class="ln">110  </span></a><span class="s0">***                 Modulations médianes 110010101101 56</span>
+<a name="l111"><span class="ln">111  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l112"><span class="ln">112  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, 0, 5, 6, 0, 0],       M:[469]     4       iii     b2,#45</span>
+<a name="l113"><span class="ln">113  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, 0, 0, 0, -8],     M:[119]     2       ii</span>
+<a name="l114"><span class="ln">114  </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, 0, 0, 0],      M:[609]     5       i       2 For   b4      Maj7</span>
+<a name="l115"><span class="ln">115  </span></a> <span class="s0">3 For moi in...  M_P [0, -3, -4, -5, -7, -7, -8],  M:[714]     6       vii</span>
+<a name="l116"><span class="ln">116  </span></a> <span class="s0">4 For moi in...  M_P [0, 0, -4, 0, -6, -8, -8],    M:[77]      1       vi</span>
+<a name="l117"><span class="ln">117  </span></a> <span class="s0">5 For moi in...  M_P [0, 0, 0, 0, 0, -7, -9],      M:[462]     3       v</span>
+<a name="l118"><span class="ln">118  </span></a> <span class="s0">6 For moi in...  M_P [0, 3, 4, 6, 6, 7, 0],        M:[903]     7       iv      #2346</span>
+<a name="l119"><span class="ln">119  </span></a>    <span class="s0">Degrés &amp; les rangs [b4 = b5] &amp; les poids [b26 = b4]</span>
+<a name="l120"><span class="ln">120  </span></a><span class="s0">***                 Modulations dominantes 110010110101 55</span>
+<a name="l121"><span class="ln">121  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l122"><span class="ln">122  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, 0, 5, 0, 0, 0],       M:[476]     4       iv      b24#</span>
+<a name="l123"><span class="ln">123  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, 0, 0, -7, -8],    M:[112]     2       iii</span>
+<a name="l124"><span class="ln">124  </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, 0, 0, -8],     M:[602]     5       ii</span>
+<a name="l125"><span class="ln">125  </span></a> <span class="s0">3 For moi in...  M_P [0, 0, 0, 0, -6, 0, 0],       M:[721]     6       i       3 For   b5      Axe.Maj7</span>
+<a name="l126"><span class="ln">126  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, -4, 0, -6, -8, -8],   M:[84]      1       vii</span>
+<a name="l127"><span class="ln">127  </span></a> <span class="s0">5 For moi in...  M_P [0, 0, -4, 0, 0, -7, -9],     M:[455]     3       vi</span>
+<a name="l128"><span class="ln">128  </span></a> <span class="s0">6 For moi in...  M_P [0, 3, 4, 5, 6, 7, 0],        M:[896]     7       v       #2356</span>
+<a name="l129"><span class="ln">129  </span></a>    <span class="s0">Degrés &amp; les rangs [b4 = b5] &amp; les poids</span>
+<a name="l130"><span class="ln">130  </span></a><span class="s0">***                 Modulations tonales dominantes 110010111001 54</span>
+<a name="l131"><span class="ln">131  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l132"><span class="ln">132  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, 0, 5, 0, -7, 0],      M:[406]     3       iv      b24#,b6</span>
+<a name="l133"><span class="ln">133  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, 0, 0, -7, -9],    M:[182]     2       iii</span>
+<a name="l134"><span class="ln">134  </span></a> <span class="s0">2 For moi in...  M_P [0, 3, 0, 0, 6, 7, 0],        M:[672]     6       ii      #256</span>
+<a name="l135"><span class="ln">135  </span></a> <span class="s0">3 For moi in...  M_P [0, -3, 0, 0, -6, 0, 0],      M:[651]     5       i       3 For   b25     Maj7</span>
+<a name="l136"><span class="ln">136  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, -5, 0, -6, -8, -8],   M:[14]      1       vii</span>
+<a name="l137"><span class="ln">137  </span></a> <span class="s0">5 For moi in...  M_P [0, 0, -4, -5, 0, -7, -9],    M:[525]     4       vi</span>
+<a name="l138"><span class="ln">138  </span></a> <span class="s0">6 For moi in...  M_P [0, 3, 4, 5, 0, 7, 0],        M:[966]     7       v       #23,#6</span>
+<a name="l139"><span class="ln">139  </span></a>    <span class="s0">Degrés &amp; les rangs [b25 = b46°] &amp; les poids</span>
+<a name="l140"><span class="ln">140  </span></a><span class="s0">***                 Modulations médianes diharmoniques (°) 110110001101 53</span>
+<a name="l141"><span class="ln">141  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l142"><span class="ln">142  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -4, -5, 6, 0, 0],     M:[385]     3       iii     b24,#5</span>
+<a name="l143"><span class="ln">143  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -5, -7, 0, -8],   M:[203]     2       ii</span>
+<a name="l144"><span class="ln">144  </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, -6, -8, 0],    M:[693]     6       i       2 For   b46°    Maj7</span>
+<a name="l145"><span class="ln">145  </span></a> <span class="s0">3 For moi in...  M_P [0, -3, -4, -5, -7, -8, -10], M:[630]     5       vii</span>
+<a name="l146"><span class="ln">146  </span></a> <span class="s0">4 For moi in...  M_P [0, 4, 4, 6, 6, 0, 0],        M:[7]       1       vi      ##24#</span>
+<a name="l147"><span class="ln">147  </span></a> <span class="s0">5 For moi in...  M_P [0, -3, 4, 5, 6, 0, -8],      M:[546]     4       v</span>
+<a name="l148"><span class="ln">148  </span></a> <span class="s0">6 For moi in...  M_P [0, 0, -4, 6, 6, 7, 0],       M:[987]     7       iv      b34##,#6</span>
+<a name="l149"><span class="ln">149  </span></a>    <span class="s0">Degrés &amp; les rangs [b25 = b46°] &amp; les poids</span>
+<a name="l150"><span class="ln">150  </span></a><span class="s0">***                 Modulations tonales médianes 110110010101 52</span>
+<a name="l151"><span class="ln">151  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l152"><span class="ln">152  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -4, -5, 0, 0, 0],     M:[469]     4       i       0 For   b24     Axe.Maj7</span>
+<a name="l153"><span class="ln">153  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -5, -7, -7, -8],  M:[119]     2       vii</span>
+<a name="l154"><span class="ln">154  </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, -6, -8, -8],   M:[609]     5       vi</span>
+<a name="l155"><span class="ln">155  </span></a> <span class="s0">3 For moi in...  M_P [0, 0, 0, 0, -6, -7, -9],     M:[714]     6       v</span>
+<a name="l156"><span class="ln">156  </span></a> <span class="s0">4 For moi in...  M_P [0, 3, 4, 6, 6, 0, 0],        M:[77]      1       iv      #234</span>
+<a name="l157"><span class="ln">157  </span></a> <span class="s0">5 For moi in...  M_P [0, -3, 0, 5, 6, 0, -8],      M:[462]     3       iii</span>
+<a name="l158"><span class="ln">158  </span></a> <span class="s0">6 For moi in...  M_P [0, 0, -4, 5, 6, 7, 0],       M:[903]     7       ii      b3,#456</span>
+<a name="l159"><span class="ln">159  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids [b24 = ##46# = ##4]</span>
+<a name="l160"><span class="ln">160  </span></a><span class="s0">***                 Modulations atonales harmoniques 110110011001 51</span>
+<a name="l161"><span class="ln">161  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l162"><span class="ln">162  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -4, -5, 0, -7, 0],    M:[462]     3       iii     b246</span>
+<a name="l163"><span class="ln">163  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -5, -7, -7, -9],  M:[126]     2       ii</span>
+<a name="l164"><span class="ln">164  </span></a> <span class="s0">2 For moi in...  M_P [0, 3, 0, 0, 0, -7, 0],       M:[616]     5       i       2 For   #26b    Maj7</span>
+<a name="l165"><span class="ln">165  </span></a> <span class="s0">3 For moi in...  M_P [0, -3, 0, 0, -6, -7, -9],    M:[707]     6       vii</span>
+<a name="l166"><span class="ln">166  </span></a> <span class="s0">4 For moi in...  M_P [0, 3, 0, 6, 6, 0, 0],        M:[70]      1       vi      b24##</span>
+<a name="l167"><span class="ln">167  </span></a> <span class="s0">5 For moi in...  M_P [0, -3, 0, 0, 6, 0, -8],      M:[469]     4       v</span>
+<a name="l168"><span class="ln">168  </span></a> <span class="s0">6 For moi in...  M_P [0, 0, -4, 5, 0, 7, 0],       M:[910]     7       iv      b3,#46</span>
+<a name="l169"><span class="ln">169  </span></a>    <span class="s0">Degrés &amp; les rangs [#26b = #34]&amp; les poids</span>
+<a name="l170"><span class="ln">170  </span></a><span class="s0">***                 Modulations parmédianes aharmoniques 110101001101 50</span>
+<a name="l171"><span class="ln">171  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l172"><span class="ln">172  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -4, 0, 6, 0, 0],      M:[469]     4       b23,#5</span>
+<a name="l173"><span class="ln">173  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -5, -6, 0, -8],   M:[119]     2</span>
+<a name="l174"><span class="ln">174  </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, -6, -7, 0],    M:[609]     5       b456</span>
+<a name="l175"><span class="ln">175  </span></a> <span class="s0">3 For moi in...  M_P [0, -3, -4, -5, -7, -8, -9],  M:[714]     6</span>
+<a name="l176"><span class="ln">176  </span></a> <span class="s0">4 For moi in...  M_P [0, 3, 0, 5, 0, -7, -8],      M:[77]      1</span>
+<a name="l177"><span class="ln">177  </span></a> <span class="s0">5 For moi in...  M_P [0, 0, 4, 5, 6, 0, -8],       M:[462]     3</span>
+<a name="l178"><span class="ln">178  </span></a> <span class="s0">6 For moi in...  M_P [0, 0, 0, 6, 6, 7, 0],        M:[903]     7       i       6 For   ##46#   Sup.Maj7</span>
+<a name="l179"><span class="ln">179  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids [b24 = ##46# = ##4]</span>
+<a name="l180"><span class="ln">180  </span></a><span class="s0">***                 Modulations amélodiques parmédianes 110110100101 49</span>
+<a name="l181"><span class="ln">181  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l182"><span class="ln">182  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -4, -5, -6, 0, 0],    M:[427]     3       v       b245</span>
+<a name="l183"><span class="ln">183  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -5, -7, -8, -8],  M:[161]     2       iv</span>
+<a name="l184"><span class="ln">184  </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, -6, -8, -9],   M:[651]     5       iii</span>
+<a name="l185"><span class="ln">185  </span></a> <span class="s0">3 For moi in...  M_P [0, 3, 4, 5, 0, 0, -8],       M:[672]     6       ii</span>
+<a name="l186"><span class="ln">186  </span></a> <span class="s0">4 For moi in...  M_P [0, 0, 4, 6, 6, 0, 0],        M:[35]      1       i       4 For   #34     Inf.Maj7</span>
+<a name="l187"><span class="ln">187  </span></a> <span class="s0">5 For moi in...  M_P [0, -3, -4, 5, 6, 0, -8],     M:[504]     4       vii</span>
+<a name="l188"><span class="ln">188  </span></a> <span class="s0">6 For moi in...  M_P [0, 0, -4, 0, 6, 7, 0],       M:[945]     7       vi      b3,#56</span>
+<a name="l189"><span class="ln">189  </span></a>    <span class="s0">Degrés [#34 = ##4 = b34##] &amp; les rangs [#26b = #34]&amp; les poids</span>
+<a name="l190"><span class="ln">190  </span></a><span class="s0">***                 Modulations parmédianes 110110101001 48</span>
+<a name="l191"><span class="ln">191  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l192"><span class="ln">192  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -4, -5, -6, -7, 0],   M:[469]     4       v       b2456</span>
+<a name="l193"><span class="ln">193  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -5, -7, -8, -9],  M:[119]     2       iv</span>
+<a name="l194"><span class="ln">194  </span></a> <span class="s0">2 For moi in...  M_P [0, 3, 0, 0, 0, -7, -8],      M:[609]     5       iii</span>
+<a name="l195"><span class="ln">195  </span></a> <span class="s0">3 For moi in...  M_P [0, 0, 4, 5, 0, 0, -8],       M:[714]     6       ii</span>
+<a name="l196"><span class="ln">196  </span></a> <span class="s0">4 For moi in...  M_P [0, 0, 0, 6, 6, 0, 0],        M:[77]      1       i       4 For   ##4     Inf.Maj7</span>
+<a name="l197"><span class="ln">197  </span></a> <span class="s0">5 For moi in...  M_P [0, -3, -4, 0, 6, 0, -8],     M:[462]     3       vii</span>
+<a name="l198"><span class="ln">198  </span></a> <span class="s0">6 For moi in...  M_P [0, 0, -4, 0, 0, 7, 0],       M:[903]     7       vi      b36#</span>
+<a name="l199"><span class="ln">199  </span></a>    <span class="s0">Degrés [#34 = ##4 = b34##] &amp; les rangs &amp; les poids [b24 = ##46# = ##4]</span>
+<a name="l200"><span class="ln">200  </span></a><span class="s0">***                 Modulations tonales mélodiques 110101010101 47</span>
+<a name="l201"><span class="ln">201  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l202"><span class="ln">202  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -4, 0, 0, 0, 0],      M:[567]     5       i       0 For   b23     Inf.Maj7</span>
+<a name="l203"><span class="ln">203  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -5, -6, -7, -8],  M:[21]      1       vii</span>
+<a name="l204"><span class="ln">204  </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, -6, -7, -8],   M:[511]     4       vi</span>
+<a name="l205"><span class="ln">205  </span></a> <span class="s0">3 For moi in...  M_P [0, 0, 0, 0, -6, -7, -8],     M:[812]     7       v</span>
+<a name="l206"><span class="ln">206  </span></a> <span class="s0">4 For moi in...  M_P [0, 0, 0, 5, 0, -7, -8],      M:[175]     2       iv</span>
+<a name="l207"><span class="ln">207  </span></a> <span class="s0">5 For moi in...  M_P [0, 0, 0, 5, 6, 0, -8],       M:[364]     3       iii</span>
+<a name="l208"><span class="ln">208  </span></a> <span class="s0">6 For moi in...  M_P [0, 0, 0, 5, 6, 7, 0],        M:[805]     6       ii      #456</span>
+<a name="l209"><span class="ln">209  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids</span>
+<a name="l210"><span class="ln">210  </span></a><span class="s0">***                 Modulations mélodiques parmédianes 110110110001 46</span>
+<a name="l211"><span class="ln">211  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l212"><span class="ln">212  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -4, -5, -6, -8, 0],   M:[392]     3       v       b24,°6</span>
+<a name="l213"><span class="ln">213  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -5, -7, -8, -10], M:[196]     2       iv</span>
+<a name="l214"><span class="ln">214  </span></a> <span class="s0">2 For moi in...  M_P [0, 4, 4, 5, 6, 0, 0],        M:[686]     6       iii     ##25#</span>
+<a name="l215"><span class="ln">215  </span></a> <span class="s0">3 For moi in...  M_P [0, -3, 4, 5, 0, 0, -8],      M:[637]     5       ii</span>
+<a name="l216"><span class="ln">216  </span></a> <span class="s0">4 For moi in...  M_P [0, 0, -4, 6, 6, 0, 0],       M:[0]       1       i       4 For   b34##   Inf.Maj7</span>
+<a name="l217"><span class="ln">217  </span></a> <span class="s0">5 For moi in...  M_P [0, -3, -4, -5, 6, 0, -8],    M:[539]     4       vii</span>
+<a name="l218"><span class="ln">218  </span></a> <span class="s0">6 For moi in...  M_P [0, 0, -4, 0, -6, 7, 0],      M:[980]     7       vi      b35,#6</span>
+<a name="l219"><span class="ln">219  </span></a>    <span class="s0">Degrés [#34 = ##4 = b34##] &amp; les rangs &amp; les poids</span>
+<a name="l220"><span class="ln">220  </span></a>    <span class="s0">***                 Modulations atonales 110101011001 45</span>
+<a name="l221"><span class="ln">221  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l222"><span class="ln">222  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -4, 0, 0, -7, 0],     M:[518]     4       iii     b236</span>
+<a name="l223"><span class="ln">223  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -5, -6, -7, -9],  M:[70]      1       ii</span>
+<a name="l224"><span class="ln">224  </span></a> <span class="s0">2 For moi in...  M_P [0, 3, 0, 0, 0, 0, 0],        M:[560]     5       i       2 For   #2      Axe.Maj7</span>
+<a name="l225"><span class="ln">225  </span></a> <span class="s0">3 For moi in...  M_P [0, -3, 0, 0, -6, -7, -8],    M:[763]     6       vii</span>
+<a name="l226"><span class="ln">226  </span></a> <span class="s0">4 For moi in...  M_P [0, 0, -4, 5, 0, -7, -8],     M:[126]     2       vi</span>
+<a name="l227"><span class="ln">227  </span></a> <span class="s0">5 For moi in...  M_P [0, 0, 0, 0, 6, 0, -8],       M:[413]     3       v</span>
+<a name="l228"><span class="ln">228  </span></a> <span class="s0">6 For moi in...  M_P [0, 0, 0, 5, 0, 7, 0],        M:[854]     7       iv      #46</span>
+<a name="l229"><span class="ln">229  </span></a>    <span class="s0">Degrés [#2 = b45] &amp; les rangs &amp; les poids</span>
+<a name="l230"><span class="ln">230  </span></a><span class="s0">***                 Modulations médianes dominantes 110100101101 44</span>
+<a name="l231"><span class="ln">231  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l232"><span class="ln">232  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -4, 5, 6, 0, 0],      M:[427]     3       iii     b3,#45</span>
+<a name="l233"><span class="ln">233  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -5, 0, 0, -8],    M:[161]     2       ii</span>
+<a name="l234"><span class="ln">234  </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, -6, 0, 0],     M:[651]     5       i       2 For   b45     Axe.Maj7</span>
+<a name="l235"><span class="ln">235  </span></a> <span class="s0">3 For moi in...  M_P [0, -3, -4, -5, -7, -8, -8],  M:[672]     6       vii</span>
+<a name="l236"><span class="ln">236  </span></a> <span class="s0">4 For moi in...  M_P [0, 0, -4, 0, -6, -8, -9],    M:[35]      1       vi</span>
+<a name="l237"><span class="ln">237  </span></a> <span class="s0">5 For moi in...  M_P [0, 3, 4, 5, 6, 0, -8],       M:[504]     4       v</span>
+<a name="l238"><span class="ln">238  </span></a> <span class="s0">6 For moi in...  M_P [0, 0, 4, 6, 6, 7, 0],        M:[945]     7       iv      #346</span>
+<a name="l239"><span class="ln">239  </span></a>    <span class="s0">Degrés [#2 = b45] &amp; les rangs &amp; les poids</span>
+<a name="l240"><span class="ln">240  </span></a><span class="s0">***                 Modulations tonales didominantes 110111000101 43</span>
+<a name="l241"><span class="ln">241  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l242"><span class="ln">242  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -4, -5, -7, 0, 0],    M:[343]     3       i       0 For   b25°    Maj7</span>
+<a name="l243"><span class="ln">243  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -5, -7, -9, -8],  M:[245]     2       vii</span>
+<a name="l244"><span class="ln">244  </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, -6, -8, -10],  M:[735]     6       vi</span>
+<a name="l245"><span class="ln">245  </span></a> <span class="s0">3 For moi in...  M_P [0, 4, 5, 6, 6, 7, 0],        M:[588]     4       v       ##23,#6 Double (0)</span>
+<a name="l246"><span class="ln">246  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, 4, 6, 6, 0, 0],       M:[49]      1       iv      b2,#34</span>
+<a name="l247"><span class="ln">247  </span></a> <span class="s0">5 For moi in...  M_P [0, -3, -5, 5, 6, 0, -8],     M:[588]     4       iii             Double (-8)</span>
+<a name="l248"><span class="ln">248  </span></a> <span class="s0">6 For moi in...  M_P [0, 0, -4, -5, 6, 7, 0],      M:[1029]    7       ii      #356</span>
+<a name="l249"><span class="ln">249  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids [b25° = ##36# = ##35#]</span>
+<a name="l250"><span class="ln">250  </span></a><span class="s0">***                 Modulations tonales parmédianes 110111001001 42</span>
+<a name="l251"><span class="ln">251  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l252"><span class="ln">252  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -4, -5, -7, -7, 0],   M:[371]     3       v       b25°,b6</span>
+<a name="l253"><span class="ln">253  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -5, -7, -9, -9],  M:[217]     2       iv</span>
+<a name="l254"><span class="ln">254  </span></a> <span class="s0">2 For moi in...  M_P [0, 3, 0, 0, 0, -7, -9],      M:[707]     6       iii</span>
+<a name="l255"><span class="ln">255  </span></a> <span class="s0">3 For moi in...  M_P [0, 3, 5, 6, 6, 7, 0],        M:[616]     5       ii      #26,##3</span>
+<a name="l256"><span class="ln">256  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, 0, 6, 6, 0, 0],       M:[21]      1       i       4 For   b24##   Inf.Maj7</span>
+<a name="l257"><span class="ln">257  </span></a> <span class="s0">5 For moi in...  M_P [0, -3, -5, 0, 6, 0, -8],     M:[560]     4       vii</span>
+<a name="l258"><span class="ln">258  </span></a> <span class="s0">6 For moi in...  M_P [0, 0, -4, -5, 0, 7, 0],      M:[1001]    7       vi      b46#</span>
+<a name="l259"><span class="ln">259  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids</span>
+<a name="l260"><span class="ln">260  </span></a><span class="s0">***                 Modulations adominantes aharmoniques 110101100101 41</span>
+<a name="l261"><span class="ln">261  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l262"><span class="ln">262  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -4, 0, -6, 0, 0],     M:[476]     4       vii     b235</span>
+<a name="l263"><span class="ln">263  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -5, -6, -8, -8],  M:[112]     2       vi</span>
+<a name="l264"><span class="ln">264  </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, -6, -7, -9],   M:[602]     5       v</span>
+<a name="l265"><span class="ln">265  </span></a> <span class="s0">3 For moi in...  M_P [0, 3, 4, 5, 0, 0, 0],        M:[721]     6       iv      #23</span>
+<a name="l266"><span class="ln">266  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, 0, 5, 0, -7, -8],     M:[84]      1       iii</span>
+<a name="l267"><span class="ln">267  </span></a> <span class="s0">5 For moi in...  M_P [0, 0, -4, 5, 6, 0, -8],      M:[455]     3       ii</span>
+<a name="l268"><span class="ln">268  </span></a> <span class="s0">6 For moi in...  M_P [0, 0, 0, 0, 6, 7, 0],        M:[896]     7       i       6 For   #56     Sup.Maj7</span>
+<a name="l269"><span class="ln">269  </span></a>    <span class="s0">Degrés [#56 = #6] &amp; les rangs &amp; les poids [#56 = #6 = b56]</span>
+<a name="l270"><span class="ln">270  </span></a><span class="s0">***                 Modulations aharmoniques 110101101001</span>
+<a name="l271"><span class="ln">271  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés 40</span>
+<a name="l272"><span class="ln">272  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -4, 0, -6, -7, 0],    M:[476]     4       vii     b2356</span>
+<a name="l273"><span class="ln">273  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -5, -6, -8, -9],  M:[112]     2       vi</span>
+<a name="l274"><span class="ln">274  </span></a> <span class="s0">2 For moi in...  M_P [0, 3, 0, 0, 0, 0, -8],       M:[602]     5       v</span>
+<a name="l275"><span class="ln">275  </span></a> <span class="s0">3 For moi in...  M_P [0, 0, 4, 5, 0, 0, 0],        M:[721]     6       iv      #3</span>
+<a name="l276"><span class="ln">276  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, -4, 5, 0, -7, -8],    M:[84]      1       iii</span>
+<a name="l277"><span class="ln">277  </span></a> <span class="s0">5 For moi in...  M_P [0, 0, -4, 0, 6, 0, -8],      M:[455]     3       ii</span>
+<a name="l278"><span class="ln">278  </span></a> <span class="s0">6 For moi in...  M_P [0, 0, 0, 0, 0, 7, 0],        M:[896]     7       i       6 For   #6      Sup.Maj7</span>
+<a name="l279"><span class="ln">279  </span></a>    <span class="s0">Degrés [#56 = #6] &amp; les rangs &amp; les poids [#56 = #6 = b56]</span>
+<a name="l280"><span class="ln">280  </span></a><span class="s0">***                 Modulations dominantes harmoniques  110100110101 39</span>
+<a name="l281"><span class="ln">281  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l282"><span class="ln">282  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -4, 5, 0, 0, 0],      M:[476]     4       iv      b23,#4</span>
+<a name="l283"><span class="ln">283  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -5, 0, -7, -8],   M:[112]     2       iii</span>
+<a name="l284"><span class="ln">284  </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, -6, 0, -8],    M:[602]     5       ii</span>
+<a name="l285"><span class="ln">285  </span></a> <span class="s0">3 For moi in...  M_P [0, 0, 0, 0, -6, -7, 0],      M:[721]     6       i       3 For   b56     Axe.Maj7</span>
+<a name="l286"><span class="ln">286  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, -4, 0, -6, -8, -9],   M:[84]      1       vii</span>
+<a name="l287"><span class="ln">287  </span></a> <span class="s0">5 For moi in...  M_P [0, 3, 0, 5, 6, 0, -8],       M:[455]     3       vi</span>
+<a name="l288"><span class="ln">288  </span></a> <span class="s0">6 For moi in...  M_P [0, 0, 4, 5, 6, 7, 0],        M:[896]     7       v       #356</span>
+<a name="l289"><span class="ln">289  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids [#56 = #6 = b56]</span>
+<a name="l290"><span class="ln">290  </span></a><span class="s0">***                 Modulations dominantes aharmoniques 110101110001 38</span>
+<a name="l291"><span class="ln">291  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l292"><span class="ln">292  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -4, 0, -6, -8, 0],    M:[378]     3       vii     b23,°6</span>
+<a name="l293"><span class="ln">293  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -5, -6, -8, -10], M:[210]     2       vi</span>
+<a name="l294"><span class="ln">294  </span></a> <span class="s0">2 For moi in...  M_P [0, 4, 4, 5, 6, 7, 0],        M:[700]     6       v       ##2,#56</span>
+<a name="l295"><span class="ln">295  </span></a> <span class="s0">3 For moi in...  M_P [0, -3, 4, 5, 0, 0, 0],       M:[623]     5       iv      b23#</span>
+<a name="l296"><span class="ln">296  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, -5, 5, 0, -7, -8],    M:[14]      1       iii</span>
+<a name="l297"><span class="ln">297  </span></a> <span class="s0">5 For moi in...  M_P [0, 0, -4, -5, 6, 0, -8],     M:[553]     4       ii</span>
+<a name="l298"><span class="ln">298  </span></a> <span class="s0">6 For moi in...  M_P [0, 0, 0, 0, -6, 7, 0],       M:[994]     7       i       6 For   b56#    Sup.Maj7</span>
+<a name="l299"><span class="ln">299  </span></a>    <span class="s0">Degrés &amp; les rangs [b56# = #26] &amp; les poids</span>
+<a name="l300"><span class="ln">300  </span></a><span class="s0">***                 Modulations atonales aharmoniques 110100111001 37</span>
+<a name="l301"><span class="ln">301  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l302"><span class="ln">302  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -4, 5, 0, -7, 0],     M:[406]     3       iii     b236,#4</span>
+<a name="l303"><span class="ln">303  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -5, 0, -7, -9],   M:[182]     2       ii</span>
+<a name="l304"><span class="ln">304  </span></a> <span class="s0">2 For moi in...  M_P [0, 3, 0, 0, 0, 7, 0],        M:[672]     6       i       2 For   #26     Maj7</span>
+<a name="l305"><span class="ln">305  </span></a> <span class="s0">3 For moi in...  M_P [0, -3, 0, 0, -6, -7, 0],     M:[651]     5       vii     b256</span>
+<a name="l306"><span class="ln">306  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, -5, 0, -6, -8, -9],   M:[14]      1       vi</span>
+<a name="l307"><span class="ln">307  </span></a> <span class="s0">5 For moi in...  M_P [0, 3, 0, 0, 6, 0, -8],       M:[525]     4       v</span>
+<a name="l308"><span class="ln">308  </span></a> <span class="s0">6 For moi in...  M_P [0, 0, 4, 5, 0, 7, 0],        M:[966]     7       iv      #36</span>
+<a name="l309"><span class="ln">309  </span></a>    <span class="s0">Degrés &amp; les rangs [b56# = #26] &amp; les poids</span>
+<a name="l310"><span class="ln">310  </span></a><span class="s0">***                 Modulations parmélodiques aharmoniques 110100011101 36</span>
+<a name="l311"><span class="ln">311  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l312"><span class="ln">312  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -4, 6, 6, 0, 0],      M:[343]     3       vii     b23,##4</span>
+<a name="l313"><span class="ln">313  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -5, 6, 0, -8],    M:[245]     2       vi</span>
+<a name="l314"><span class="ln">314  </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, -6, 7, 0],     M:[735]     6       v       b45,#6</span>
+<a name="l315"><span class="ln">315  </span></a> <span class="s0">3 For moi in...  M_P [0, -3, -4, -5, -7, -8, 0],   M:[588]     4       iv      b24,°6  Double (0)</span>
+<a name="l316"><span class="ln">316  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, -5, -5, -7, -9, -10], M:[49]      1       iii</span>
+<a name="l317"><span class="ln">317  </span></a> <span class="s0">5 For moi in...  M_P [0, 4, 4, 5, 6, 0, -8],       M:[588]     4       ii              Double (-8)</span>
+<a name="l318"><span class="ln">318  </span></a> <span class="s0">6 For moi in...  M_P [0, 0, 5, 6, 6, 7, 0],        M:[1029]    7       i       6 For   ##36#   Sup.Maj7</span>
+<a name="l319"><span class="ln">319  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids [b25° = ##36# = ##35#]</span>
+<a name="l320"><span class="ln">320  </span></a><span class="s0">***                 Modulations parmélodique adominante    111010001101 35</span>
+<a name="l321"><span class="ln">321  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l322"><span class="ln">322  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, -5, 6, 0, 0],     M:[343]     3       vi      b34,#5</span>
+<a name="l323"><span class="ln">323  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -7, 0, -8],   M:[245]     2       v</span>
+<a name="l324"><span class="ln">324  </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, -7, -8, 0],    M:[735]     6       iv      bb65b</span>
+<a name="l325"><span class="ln">325  </span></a> <span class="s0">3 For moi in...  M_P [0, -3, -4, -5, -7, -9, -10], M:[588]     4       iii             Double (-10)</span>
+<a name="l326"><span class="ln">326  </span></a> <span class="s0">4 For moi in...  M_P [0, 4, 4, 6, 6, 0, -8],       M:[49]      1       ii</span>
+<a name="l327"><span class="ln">327  </span></a> <span class="s0">5 For moi in...  M_P [0, 0, 5, 6, 7, 7, 0],        M:[588]     4       i       5 For   ##35#   D(0).Maj7</span>
+<a name="l328"><span class="ln">328  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, -4, 6, 6, 7, 0],      M:[1029]    7       vii     b23,##46#</span>
+<a name="l329"><span class="ln">329  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids [b25° = ##36# = ##35#]</span>
+<a name="l330"><span class="ln">330  </span></a><span class="s0">***                 Modulations médiane dimélodique   111010010101 34</span>
+<a name="l331"><span class="ln">331  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l332"><span class="ln">332  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, -5, 0, 0, 0],     M:[406]     3       i       0 For   b34     Inf.Maj7</span>
+<a name="l333"><span class="ln">333  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -7, -7, -8],  M:[182]     2       vii</span>
+<a name="l334"><span class="ln">334  </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, -7, -8, -8],   M:[672]     6       vi</span>
+<a name="l335"><span class="ln">335  </span></a> <span class="s0">3 For moi in...  M_P [0, 0, 0, 0, -6, -8, -9],     M:[651]     5       v</span>
+<a name="l336"><span class="ln">336  </span></a> <span class="s0">4 For moi in...  M_P [0, 3, 4, 6, 6, 0, -8],       M:[14]      1       iv</span>
+<a name="l337"><span class="ln">337  </span></a> <span class="s0">5 For moi in...  M_P [0, 0, 4, 6, 7, 7, 0],        M:[525]     4       iii     #34,#6</span>
+<a name="l338"><span class="ln">338  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, -4, 5, 6, 7, 0],      M:[966]     7       ii      b3,#456</span>
+<a name="l339"><span class="ln">339  </span></a>    <span class="s0">Degrés &amp; les rangs [bb35#] &amp; les poids [b34 = #35## = ##45#]</span>
+<a name="l340"><span class="ln">340  </span></a><span class="s0">***                 Modulations dimédiane dominante 111001001011 33</span>
+<a name="l341"><span class="ln">341  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l342"><span class="ln">342  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, 0, 6, 7, 0],      M:[315]     3       ii  bb3,#56</span>
+<a name="l343"><span class="ln">343  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -6, 0, 0],    M:[273]     2       i   1 For   bb45b       Inf.Maj7</span>
+<a name="l344"><span class="ln">344  </span></a> <span class="s0">2 For moi in...  M_P [0, -3, -5, -6, -8, -8, -8],  M:[763]     6       vii</span>
+<a name="l345"><span class="ln">345  </span></a> <span class="s0">3 For moi in...  M_P [0, 0, -4, -5, -7, -9, -9],   M:[560]     4       vi</span>
+<a name="l346"><span class="ln">346  </span></a> <span class="s0">4 For moi in...  M_P [0, 3, 4, 5, 0, -7, -9],      M:[77]      1       v</span>
+<a name="l347"><span class="ln">347  </span></a> <span class="s0">5 For moi in...  M_P [0, 3, 5, 7, 7, 7, 0],        M:[616]     5       iv  ##34#,#2</span>
+<a name="l348"><span class="ln">348  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, 0, 6, 7, 7, 0],       M:[1057]    7       iii b24##,#56</span>
+<a name="l349"><span class="ln">349  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids</span>
+<a name="l350"><span class="ln">350  </span></a><span class="s0">***                 Modulations amélodique pardominante 111010011001 32</span>
+<a name="l351"><span class="ln">351  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l352"><span class="ln">352  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, -5, 0, -7, 0],    M:[406]     3       vi  b346</span>
+<a name="l353"><span class="ln">353  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -7, -7, -9],  M:[182]     2       v</span>
+<a name="l354"><span class="ln">354  </span></a> <span class="s0">2 For moi in...  M_P [0, 3, 0, 0, -6, -7, 0],      M:[672]     6       iv  #2,b56</span>
+<a name="l355"><span class="ln">355  </span></a> <span class="s0">3 For moi in...  M_P [0, -3, 0, 0, -6, -8, -9],    M:[651]     5       iii</span>
+<a name="l356"><span class="ln">356  </span></a> <span class="s0">4 For moi in...  M_P [0, 3, 0, 6, 6, 0, -8],       M:[14]      1       ii</span>
+<a name="l357"><span class="ln">357  </span></a> <span class="s0">5 For moi in...  M_P [0, 0, 4, 5, 7, 7, 0],        M:[525]     4       i   5 For   #35##       Maj7</span>
+<a name="l358"><span class="ln">358  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, -4, 5, 0, 7, 0],      M:[966]     7       vii b23,#6</span>
+<a name="l359"><span class="ln">359  </span></a>    <span class="s0">Degrés &amp; les rangs [bb35#] &amp; les poids [b34 = #35## = ##45#]</span>
+<a name="l360"><span class="ln">360  </span></a><span class="s0">***                 Modulations dimélodique adominante 111001001101 31</span>
+<a name="l361"><span class="ln">361  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l362"><span class="ln">362  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, 0, 6, 0, 0],      M:[378]     3       i   0 For   bb35#       Inf.Maj7</span>
+<a name="l363"><span class="ln">363  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -6, 0, -8],   M:[210]     2       vii</span>
+<a name="l364"><span class="ln">364  </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, -7, -7, 0],    M:[700]     6       vi  bb5,b36</span>
+<a name="l365"><span class="ln">365  </span></a> <span class="s0">3 For moi in...  M_P [0, -3, -4, -5, -7, -9, -9],  M:[623]     5       v</span>
+<a name="l366"><span class="ln">366  </span></a> <span class="s0">4 For moi in...  M_P [0, 3, 0, 5, 0, -7, -9],      M:[14]      1       iv</span>
+<a name="l367"><span class="ln">367  </span></a> <span class="s0">5 For moi in...  M_P [0, 3, 5, 6, 7, 7, 0],        M:[553]     4       iii ##3,#25</span>
+<a name="l368"><span class="ln">368  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, 0, 6, 6, 7, 0],       M:[994]     7       ii  b24##,#6</span>
+<a name="l369"><span class="ln">369  </span></a>    <span class="s0">Degrés &amp; les rangs [b34 = #35## = bb35#] &amp; les poids</span>
+<a name="l370"><span class="ln">370  </span></a><span class="s0">***                 Modulations didominante dimédiane 111101000101 30</span>
+<a name="l371"><span class="ln">371  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l372"><span class="ln">372  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, -6, -7, 0, 0],    M:[301]     3       i   0 For   bb54b       Maj7</span>
+<a name="l373"><span class="ln">373  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -8, -9, -8],  M:[287]     2       vii</span>
+<a name="l374"><span class="ln">374  </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, -7, -9, -10],  M:[777]     6       vi</span>
+<a name="l375"><span class="ln">375  </span></a> <span class="s0">3 For moi in...  M_P [0, 4, 5, 6, 6, 0, -8],       M:[546]     4       v</span>
+<a name="l376"><span class="ln">376  </span></a> <span class="s0">4 For moi in...  M_P [0, 0, 5, 7, 7, 7, 0],        M:[91]      1       iv  ##34#</span>
+<a name="l377"><span class="ln">377  </span></a> <span class="s0">5 For moi in...  M_P [0, -3, -4, 6, 7, 7, 0],      M:[630]     5       iii b23,##45#</span>
+<a name="l378"><span class="ln">378  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, -5, -5, 6, 7, 0],     M:[1071]    7       ii  b34,#56</span>
+<a name="l379"><span class="ln">379  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids</span>
+<a name="l380"><span class="ln">380  </span></a><span class="s0">***                 Modulations amélodique paramédiane 111101001001 29</span>
+<a name="l381"><span class="ln">381  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l382"><span class="ln">382  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, -6, -7, -7, 0],   M:[315]     3       v   bb54b,b6</span>
+<a name="l383"><span class="ln">383  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -8, -9, -9],  M:[273]     2       iv</span>
+<a name="l384"><span class="ln">384  </span></a> <span class="s0">2 For moi in...  M_P [0, 3, 0, 0, -6, -8, -9],     M:[763]     6       iii</span>
+<a name="l385"><span class="ln">385  </span></a> <span class="s0">3 For moi in...  M_P [0, 3, 5, 6, 6, 0, -8],       M:[560]     4       ii</span>
+<a name="l386"><span class="ln">386  </span></a> <span class="s0">4 For moi in...  M_P [0, 0, 4, 7, 7, 7, 0],        M:[77]      1       i   4 For   #34##       Inf.Maj7</span>
+<a name="l387"><span class="ln">387  </span></a> <span class="s0">5 For moi in...  M_P [0, -3, -4, 5, 7, 7, 0],      M:[616]     5       vii b23,#45##</span>
+<a name="l388"><span class="ln">388  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, -5, -5, 0, 7, 0],     M:[1057]    7       vi  b34,#6</span>
+<a name="l389"><span class="ln">389  </span></a>    <span class="s0">Degrés &amp; les rangs [bb54b = #34##] &amp; les poids</span>
+<a name="l390"><span class="ln">390  </span></a><span class="s0">***                 Modulations parmédiane pardominante 111010100101 28</span>
+<a name="l391"><span class="ln">391  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l392"><span class="ln">392  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, -5, -6, 0, 0],    M:[406]     3       vi  bb3,b45</span>
+<a name="l393"><span class="ln">393  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -7, -8, -8],  M:[182]     2       v</span>
+<a name="l394"><span class="ln">394  </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, -7, -8, -9],   M:[672]     6       iv</span>
+<a name="l395"><span class="ln">395  </span></a> <span class="s0">3 For moi in...  M_P [0, 3, 4, 5, 0, -7, -8],      M:[651]     5       iii</span>
+<a name="l396"><span class="ln">396  </span></a> <span class="s0">4 For moi in...  M_P [0, 0, 4, 6, 6, 0, -8],       M:[14]      1       ii</span>
+<a name="l397"><span class="ln">397  </span></a> <span class="s0">5 For moi in...  M_P [0, 0, 0, 6, 7, 7, 0],        M:[525]     4       i   5 For   ##45#       Axe.Maj7</span>
+<a name="l398"><span class="ln">398  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, -4, 0, 6, 7, 0],      M:[966]     7       vii b23,#56</span>
+<a name="l399"><span class="ln">399  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids [b34 = #35## = ##45#]</span>
+<a name="l400"><span class="ln">400  </span></a><span class="s0">***                 Modulations dimélodique aharmonique 111001010011 27</span>
+<a name="l401"><span class="ln">401  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l402"><span class="ln">402  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, 0, 0, 7, 0],      M:[343]     3       i   0 For   bb36#       Maj7</span>
+<a name="l403"><span class="ln">403  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -6, -7, 0],   M:[245]     2       vii bb4,b56</span>
+<a name="l404"><span class="ln">404  </span></a> <span class="s0">2 For moi in...  M_P [0, -3, -5, -6, -8, -8, -9],  M:[735]     6       vi</span>
+<a name="l405"><span class="ln">405  </span></a> <span class="s0">3 For moi in...  M_P [0, 3, 0, 0, -6, -8, -8],     M:[588]     4       v               Double (-8)</span>
+<a name="l406"><span class="ln">406  </span></a> <span class="s0">4 For moi in...  M_P [0, 0, 4, 5, 0, -7, -9],      M:[49]      1       iv</span>
+<a name="l407"><span class="ln">407  </span></a> <span class="s0">5 For moi in...  M_P [0, 3, 4, 7, 7, 7, 0],        M:[588]     4       iii #23,##4     Double (0)</span>
+<a name="l408"><span class="ln">408  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, 0, 5, 7, 7, 0],       M:[1029]    7       ii  b24#,##5</span>
+<a name="l409"><span class="ln">409  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids</span>
+<a name="l410"><span class="ln">410  </span></a><span class="s0">***                 Modulations paramédiane 111101010001 26</span>
+<a name="l411"><span class="ln">411  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l412"><span class="ln">412  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, -6, -7, -8, 0],   M:[329]     3       v   bb6,b54</span>
+<a name="l413"><span class="ln">413  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -8, -9, -10], M:[259]     2       iv</span>
+<a name="l414"><span class="ln">414  </span></a> <span class="s0">2 For moi in...  M_P [0, 4, 4, 5, 0, -7, -8],      M:[749]     6       iii</span>
+<a name="l415"><span class="ln">415  </span></a> <span class="s0">3 For moi in...  M_P [0, 0, 5, 6, 6, 0, -8],       M:[574]     4       ii</span>
+<a name="l416"><span class="ln">416  </span></a> <span class="s0">4 For moi in...  M_P [0, 0, 0, 7, 7, 7, 0],        M:[63]      1       i   4 For   ###4        Inf.Maj7</span>
+<a name="l417"><span class="ln">417  </span></a> <span class="s0">5 For moi in...  M_P [0, -3, -4, 0, 7, 7, 0],      M:[602]     5       vii b23,##5</span>
+<a name="l418"><span class="ln">418  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, -5, -5, -6, 7, 0],    M:[1043]    7       vi  b345,#6</span>
+<a name="l419"><span class="ln">419  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids</span>
+<a name="l420"><span class="ln">420  </span></a><span class="s0">***                 Modulations amédiane pardominante 111010101001 25</span>
+<a name="l421"><span class="ln">421  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l422"><span class="ln">422  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, -5, -6, -7, 0],   M:[455]     3       vi  b3456</span>
+<a name="l423"><span class="ln">423  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -7, -8, -9],  M:[133]     2       v</span>
+<a name="l424"><span class="ln">424  </span></a> <span class="s0">2 For moi in...  M_P [0, 3, 0, 0, -6, -7, -8],     M:[623]     5       iv</span>
+<a name="l425"><span class="ln">425  </span></a> <span class="s0">3 For moi in...  M_P [0, 0, 4, 5, 0, -7, -8],      M:[700]     6       iii</span>
+<a name="l426"><span class="ln">426  </span></a> <span class="s0">4 For moi in...  M_P [0, 0, 0, 6, 6, 0, -8],       M:[63]      1       ii</span>
+<a name="l427"><span class="ln">427  </span></a> <span class="s0">5 For moi in...  M_P [0, 0, 0, 5, 7, 7, 0],        M:[476]     4       i   5 For   #45##       Axe.Maj7</span>
+<a name="l428"><span class="ln">428  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, -4, 0, 0, 7, 0],      M:[917]     7       vii b23,#6</span>
+<a name="l429"><span class="ln">429  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids [#45## = bb3]</span>
+<a name="l430"><span class="ln">430  </span></a><span class="s0">***                 Modulations dimélodique 111001010101 24</span>
+<a name="l431"><span class="ln">431  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l432"><span class="ln">432  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, 0, 0, 0, 0],      M:[455]     3       i   0 For   bb3         Inf.Maj7</span>
+<a name="l433"><span class="ln">433  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -6, -7, -8],  M:[133]     2       vii</span>
+<a name="l434"><span class="ln">434  </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, -7, -7, -8],   M:[623]     5       vi</span>
+<a name="l435"><span class="ln">435  </span></a> <span class="s0">3 For moi in...  M_P [0, 0, 0, 0, -6, -8, -8],     M:[700]     6       v</span>
+<a name="l436"><span class="ln">436  </span></a> <span class="s0">4 For moi in...  M_P [0, 0, 0, 5, 0, -7, -9],      M:[63]      1       iv</span>
+<a name="l437"><span class="ln">437  </span></a> <span class="s0">5 For moi in...  M_P [0, 3, 4, 6, 7, 7, 0],        M:[476]     4       iii #2345</span>
+<a name="l438"><span class="ln">438  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, 0, 5, 6, 7, 0],       M:[917]     7       ii  b2,#456</span>
+<a name="l439"><span class="ln">439  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids [#45## = bb3]</span>
+<a name="l440"><span class="ln">440  </span></a><span class="s0">***                 Modulations dimédiane 111000101011 23</span>
+<a name="l441"><span class="ln">441  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l442"><span class="ln">442  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, 5, 6, 7, 0],      M:[329]     3       bb3,#456</span>
+<a name="l443"><span class="ln">443  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, 0, 0, 0],     M:[259]     2       i   1 For   bb4         Inf.Maj7</span>
+<a name="l444"><span class="ln">444  </span></a> <span class="s0">2 For moi in...  M_P [0, -3, -5, -6, -8, -7, -8],  M:[749]     6       vii</span>
+<a name="l445"><span class="ln">445  </span></a> <span class="s0">3 For moi in...  M_P [0, 0, -4, -5, -7, -9, -8],   M:[574]     4       vi</span>
+<a name="l446"><span class="ln">446  </span></a> <span class="s0">4 For moi in...  M_P [0, 0, 0, 0, -6, -8, -10],    M:[63]      1       v</span>
+<a name="l447"><span class="ln">447  </span></a> <span class="s0">5 For moi in...  M_P [0, 4, 5, 7, 7, 7, 0],        M:[602]     5       iv  ##2,#34</span>
+<a name="l448"><span class="ln">448  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, 4, 6, 7, 7, 0],       M:[1043]    7       iii b2,#345</span>
+<a name="l449"><span class="ln">449  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids</span>
+<a name="l450"><span class="ln">450  </span></a><span class="s0">***                 Modulations partonale 111010110001 22</span>
+<a name="l451"><span class="ln">451  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l452"><span class="ln">452  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, -5, -6, -8, 0],   M:[378]     3       iii b34,bb6</span>
+<a name="l453"><span class="ln">453  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -7, -8, -10], M:[210]     2       ii</span>
+<a name="l454"><span class="ln">454  </span></a> <span class="s0">2 For moi in...  M_P [0, 4, 4, 5, 0, 0, 0],        M:[700]     6       i   2 For   ##2         Maj7</span>
+<a name="l455"><span class="ln">455  </span></a> <span class="s0">3 For moi in...  M_P [0, -3, 4, 5, 0, -7, -8],     M:[623]     5       vii</span>
+<a name="l456"><span class="ln">456  </span></a> <span class="s0">4 For moi in...  M_P [0, 0, -4, 6, 6, 0, -8],      M:[14]      1       vi</span>
+<a name="l457"><span class="ln">457  </span></a> <span class="s0">5 For moi in...  M_P [0, 0, 0, 0, 7, 7, 0],        M:[553]     4       v   ##5</span>
+<a name="l458"><span class="ln">458  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, -4, 0, -6, 7, 0],     M:[994]     7       iv  b235,#6</span>
+<a name="l459"><span class="ln">459  </span></a>    <span class="s0">Degrés &amp; les rangs [##2 = #25b = bb5] &amp; les poids</span>
+<a name="l460"><span class="ln">460  </span></a><span class="s0">***                 Modulations atonale dominante 111001011001 21</span>
+<a name="l461"><span class="ln">461  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l462"><span class="ln">462  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, 0, 0, -7, 0],     M:[413]     3       iii bb36b</span>
+<a name="l463"><span class="ln">463  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -6, -7, -9],  M:[175]     2       ii</span>
+<a name="l464"><span class="ln">464  </span></a> <span class="s0">2 For moi in...  M_P [0, 3, 0, 0, -6, 0, 0],       M:[665]     6       i   2 For   #25b        Maj7</span>
+<a name="l465"><span class="ln">465  </span></a> <span class="s0">3 For moi in...  M_P [0, -3, 0, 0, -6, -8, -8],    M:[658]     5       vii</span>
+<a name="l466"><span class="ln">466  </span></a> <span class="s0">4 For moi in...  M_P [0, 0, -4, 5, 0, -7, -9],     M:[21]      1       vi</span>
+<a name="l467"><span class="ln">467  </span></a> <span class="s0">5 For moi in...  M_P [0, 3, 4, 5, 7, 7, 0],        M:[518]     4       v   #23,##5</span>
+<a name="l468"><span class="ln">468  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, 0, 5, 0, 7, 0],       M:[959]     7       iv  b2,#46</span>
+<a name="l469"><span class="ln">469  </span></a>    <span class="s0">Degrés &amp; les rangs [##2 = #25b = bb5] &amp; les poids</span>
+<a name="l470"><span class="ln">470  </span></a><span class="s0">***                 Modulations didominante 111000101101 20</span>
+<a name="l471"><span class="ln">471  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l472"><span class="ln">472  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, 5, 6, 0, 0],      M:[350]     3       iii bb3,#45</span>
+<a name="l473"><span class="ln">473  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, 0, 0, -8],    M:[238]     2       ii</span>
+<a name="l474"><span class="ln">474  </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, -7, 0, 0],     M:[728]     6       i   2 For   bb5         Maj7</span>
+<a name="l475"><span class="ln">475  </span></a> <span class="s0">3 For moi in...  M_P [0, -3, -4, -5, -7, -9, -8],  M:[595]     5       vii</span>
+<a name="l476"><span class="ln">476  </span></a> <span class="s0">4 For moi in...  M_P [0, 0, -4, 0, -6, -8, -10],   M:[42]      1       vi</span>
+<a name="l477"><span class="ln">477  </span></a> <span class="s0">5 For moi in...  M_P [0, 4, 5, 6, 7, 7, 0],        M:[581]     4       v   ##2,#35</span>
+<a name="l478"><span class="ln">478  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, 4, 6, 6, 7, 0],       M:[1022]    7       iv  b2,#34</span>
+<a name="l479"><span class="ln">479  </span></a>    <span class="s0">Degrés &amp; les rangs [##2 = #25b = bb5] &amp; les poids</span>
+<a name="l480"><span class="ln">480  </span></a><span class="s0">***                 Modulations tridominante 111110000101 19</span>
+<a name="l481"><span class="ln">481  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l482"><span class="ln">482  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, -6, -8, 0, 0],    M:[224]     2       i   0 For   bbb5        Maj7</span>
+<a name="l483"><span class="ln">483  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -8, -10, -8], M:[364]     3       vii</span>
+<a name="l484"><span class="ln">484  </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, -7, -9, -11],  M:[854]     6       vi</span>
+<a name="l485"><span class="ln">485  </span></a> <span class="s0">3 For moi in...  M_P [0, 5, 6, 7, 7, 7, 0],        M:[469]     4       v   ###2,#3</span>
+<a name="l486"><span class="ln">486  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, 5, 7, 7, 7, 0],       M:[168]     1       iv  b23##,#4</span>
+<a name="l487"><span class="ln">487  </span></a> <span class="s0">5 For moi in...  M_P [0, -3, -5, 6, 7, 7, 0],      M:[707]     5       iii bb34##,#5</span>
+<a name="l488"><span class="ln">488  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, -5, -6, 6, 7, 0],     M:[1148]    7       ii  bb4,#56</span>
+<a name="l489"><span class="ln">489  </span></a>    <span class="s0">Degrés &amp; les rangs [bbb5 = ###2 = bb46#] &amp; les poids</span>
+<a name="l490"><span class="ln">490  </span></a><span class="s0">***                 Modulations paratonale 111011000011 18</span>
+<a name="l491"><span class="ln">491  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l492"><span class="ln">492  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, -5, -7, 7, 0],    M:[266]     2       iv  bb53b,#6</span>
+<a name="l493"><span class="ln">493  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -7, -9, 0],   M:[322]     3       iii bbb64b</span>
+<a name="l494"><span class="ln">494  </span></a> <span class="s0">2 For moi in...  M_P [0, -3, -5, -6, -8, -9, -11], M:[812]     6       ii</span>
+<a name="l495"><span class="ln">495  </span></a> <span class="s0">3 For moi in...  M_P [0, 5, 5, 6, 6, 0, 0],        M:[511]     4       i   3 For   ###2        Maj7</span>
+<a name="l496"><span class="ln">496  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, 5, 6, 6, 0, -8],      M:[126]     1       vii</span>
+<a name="l497"><span class="ln">497  </span></a> <span class="s0">5 For moi in...  M_P [0, 0, -4, 7, 7, 7, 0],       M:[665]     5       vi  b34###</span>
+<a name="l498"><span class="ln">498  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, -4, -5, 7, 7, 0],     M:[1106]    7       v   b24,##5</span>
+<a name="l499"><span class="ln">499  </span></a>    <span class="s0">Degrés &amp; les rangs [bbb5 = ###2 = bb46#] &amp; les poids</span>
+<a name="l500"><span class="ln">500  </span></a><span class="s0">***                 Modulations dimédiane aharmonique 111110001001 17</span>
+<a name="l501"><span class="ln">501  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l502"><span class="ln">502  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, -6, -8, -7, 0],   M:[238]     2       vii bbb56b</span>
+<a name="l503"><span class="ln">503  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -8, -10, -9], M:[350]     3       vi</span>
+<a name="l504"><span class="ln">504  </span></a> <span class="s0">2 For moi in...  M_P [0, 3, 0, 0, -6, -8, -10],    M:[840]     6       v</span>
+<a name="l505"><span class="ln">505  </span></a> <span class="s0">3 For moi in...  M_P [0, 4, 6, 7, 7, 7, 0],        M:[483]     4       iv  ##23#</span>
+<a name="l506"><span class="ln">506  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, 4, 7, 7, 7, 0],       M:[154]     1       iii b23#,##4</span>
+<a name="l507"><span class="ln">507  </span></a> <span class="s0">5 For moi in...  M_P [0, -3, -5, 5, 7, 7, 0],      M:[693]     5       ii  bb34#,##5</span>
+<a name="l508"><span class="ln">508  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, -5, -6, 0, 7, 0],     M:[1134]    7       i   6 For   bb46#       Sup.Maj7</span>
+<a name="l509"><span class="ln">509  </span></a>    <span class="s0">Degrés &amp; les rangs [bbb5 = ###2 = bb46#] &amp; les poids</span>
+<a name="l510"><span class="ln">510  </span></a><span class="s0">***                 Modulations didominante dimélodique 111011000101 16</span>
+<a name="l511"><span class="ln">511  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l512"><span class="ln">512  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, -5, -7, 0, 0],    M:[343]     3       i   0 For   bb53b       Inf.Maj7</span>
+<a name="l513"><span class="ln">513  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -7, -9, -8],  M:[245]     2       vii</span>
+<a name="l514"><span class="ln">514  </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, -7, -8, -10],  M:[735]     6       vi</span>
+<a name="l515"><span class="ln">515  </span></a> <span class="s0">3 For moi in...  M_P [0, 4, 5, 6, 6, 0, 0],        M:[588]     4       v   ##23#       Double (0)</span>
+<a name="l516"><span class="ln">516  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, 4, 6, 6, 0, -8],      M:[49]      1       iv</span>
+<a name="l517"><span class="ln">517  </span></a> <span class="s0">5 For moi in...  M_P [0, 0, -4, 6, 7, 7, 0],       M:[588]     4       iii b34##,#5    Double (0)</span>
+<a name="l518"><span class="ln">518  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, -4, -5, 6, 7, 0],     M:[1029]    7       ii  b24,#56</span>
+<a name="l519"><span class="ln">519  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids</span>
+<a name="l520"><span class="ln">520  </span></a><span class="s0">***                 Modulations tonale pardominante 111001100011 15</span>
+<a name="l521"><span class="ln">521  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l522"><span class="ln">522  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, 0, -6, 7, 0],     M:[308]     3       vii bb35b,#6</span>
+<a name="l523"><span class="ln">523  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -6, -8, 0],   M:[280]     2       vi  bb46</span>
+<a name="l524"><span class="ln">524  </span></a> <span class="s0">2 For moi in...  M_P [0, -3, -5, -6, -8, -8, -10], M:[770]     6       v</span>
+<a name="l525"><span class="ln">525  </span></a> <span class="s0">3 For moi in...  M_P [0, 4, 4, 5, 0, -7, 0],       M:[553]     4       iv  ##26b</span>
+<a name="l526"><span class="ln">526  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, 4, 5, 0, -7, -9],     M:[84]      1       iii</span>
+<a name="l527"><span class="ln">527  </span></a> <span class="s0">5 For moi in...  M_P [0, 3, 0, 7, 7, 7, 0],        M:[623]     5       ii  #24###</span>
+<a name="l528"><span class="ln">528  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, 0, 0, 7, 7, 0],       M:[1064]    7       i   6 For   b25##       Sup.Maj7</span>
+<a name="l529"><span class="ln">529  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids</span>
+<a name="l530"><span class="ln">530  </span></a><span class="s0">***                 Modulations dimélodique pardominante 111110010001 14</span>
+<a name="l531"><span class="ln">531  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l532"><span class="ln">532  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, -6, -8, -8, 0],   M:[238]     2       vi  bb65</span>
+<a name="l533"><span class="ln">533  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -8, -10, -10],M:[350]     3       v</span>
+<a name="l534"><span class="ln">534  </span></a> <span class="s0">2 For moi in...  M_P [0, 4, 4, 5, 0, -7, -9],      M:[840]     6       iv</span>
+<a name="l535"><span class="ln">535  </span></a> <span class="s0">3 For moi in...  M_P [0, 3, 6, 7, 7, 7, 0],        M:[483]     4       iii #23###</span>
+<a name="l536"><span class="ln">536  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, 0, 7, 7, 7, 0],       M:[154]     1       ii  b24###</span>
+<a name="l537"><span class="ln">537  </span></a> <span class="s0">5 For moi in...  M_P [0, -3, -5, 0, 7, 7, 0],      M:[693]     5       i   5 For   bb35##      Maj7</span>
+<a name="l538"><span class="ln">538  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, -5, -6, -6, 7, 0],    M:[1134]    7       vii bb45b,#6</span>
+<a name="l539"><span class="ln">539  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids</span>
+<a name="l540"><span class="ln">540  </span></a><span class="s0">***                 Modulations atonale parmélodique 111011001001 13</span>
+<a name="l541"><span class="ln">541  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l542"><span class="ln">542  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, -5, -7, -7, 0],   M:[378]     3       iv  bb5,b36</span>
+<a name="l543"><span class="ln">543  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -7, -9, -9],  M:[210]     2       iii</span>
+<a name="l544"><span class="ln">544  </span></a> <span class="s0">2 For moi in...  M_P [0, 3, 0, 0, -6, -7, -9],     M:[700]     6       ii</span>
+<a name="l545"><span class="ln">545  </span></a> <span class="s0">3 For moi in...  M_P [0, 3, 5, 6, 6, 0, 0],        M:[623]     5       i   3 For   #23##       Maj7</span>
+<a name="l546"><span class="ln">546  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, 0, 6, 6, 0, -8],      M:[14]      1       vii</span>
+<a name="l547"><span class="ln">547  </span></a> <span class="s0">5 For moi in...  M_P [0, 0, -4, 5, 7, 7, 0],       M:[553]     4       vi  b34#,##5</span>
+<a name="l548"><span class="ln">548  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, -4, -5, 0, 7, 0],     M:[994]     7       v   b24,#6</span>
+<a name="l549"><span class="ln">549  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids</span>
+<a name="l550"><span class="ln">550  </span></a><span class="s0">***                 Modulations dimélodique dominante 111001100101 12</span>
+<a name="l551"><span class="ln">551  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l552"><span class="ln">552  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, 0, -6, 0, 0],     M:[406]     3       i   0 For   bb35b       Inf.maj7</span>
+<a name="l553"><span class="ln">553  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -6, -8, -8],  M:[182]     2       vii</span>
+<a name="l554"><span class="ln">554  </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, -7, -7, -9],   M:[672]     6       vi</span>
+<a name="l555"><span class="ln">555  </span></a> <span class="s0">3 For moi in...  M_P [0, 3, 4, 5, 0, -7, 0],       M:[651]     5       v   #23,b6</span>
+<a name="l556"><span class="ln">556  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, 0, 5, 0, -7, -9],     M:[14]      1       iv</span>
+<a name="l557"><span class="ln">557  </span></a> <span class="s0">5 For moi in...  M_P [0, 3, 0, 6, 7, 7, 0],        M:[525]     4       iii #24##,#5</span>
+<a name="l558"><span class="ln">558  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, 0, 0, 6, 7, 0],       M:[966]     7       ii  b2,#56</span>
+<a name="l559"><span class="ln">559  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids</span>
+<a name="l560"><span class="ln">560  </span></a><span class="s0">***                 Modulations dimédiane harmonique 111000110011 11</span>
+<a name="l561"><span class="ln">561  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l562"><span class="ln">562  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, 5, 0, 7, 0],      M:[308]     3       ii  bb3,#46</span>
+<a name="l563"><span class="ln">563  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, 0, -7, 0],    M:[280]     2       i   1 For   bb46b       Inf.Maj7</span>
+<a name="l564"><span class="ln">564  </span></a> <span class="s0">2 For moi in...  M_P [0, -3, -5, -6, -8, -7, -9],  M:[770]     6       vii</span>
+<a name="l565"><span class="ln">565  </span></a> <span class="s0">3 For moi in...  M_P [0, 3, 0, 0, -6, -8, 0],      M:[553]     4       vi  #26bb</span>
+<a name="l566"><span class="ln">566  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, 0, 0, -6, -8, -10],   M:[84]      1       v</span>
+<a name="l567"><span class="ln">567  </span></a> <span class="s0">5 For moi in...  M_P [0, 4, 4, 7, 7, 7, 0],        M:[623]     5       iv  ##24</span>
+<a name="l568"><span class="ln">568  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, 4, 5, 7, 7, 0],       M:[1064]    7       iii b23#,##5</span>
+<a name="l569"><span class="ln">569  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids</span>
+<a name="l570"><span class="ln">570  </span></a><span class="s0">***                 Modulations paramélodique 111110100001 10</span>
+<a name="l571"><span class="ln">571  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l572"><span class="ln">572  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, -6, -8, -9, 0],   M:[224]     2       iv  bbb65b</span>
+<a name="l573"><span class="ln">573  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -8, -10, -11],M:[364]     3       iii</span>
+<a name="l574"><span class="ln">574  </span></a> <span class="s0">2 For moi in...  M_P [0, 5, 5, 6, 6, 0, -8],       M:[854]     6       ii</span>
+<a name="l575"><span class="ln">575  </span></a> <span class="s0">3 For moi in...  M_P [0, 0, 6, 7, 7, 7, 0],        M:[469]     4       i   3 For   ###3        Maj7</span>
+<a name="l576"><span class="ln">576  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, -4, 7, 7, 7, 0],      M:[168]     1       vii b23,###4</span>
+<a name="l577"><span class="ln">577  </span></a> <span class="s0">5 For moi in...  M_P [0, -3, -5, -5, 7, 7, 0],     M:[707]     5       vi  b34,##5</span>
+<a name="l578"><span class="ln">578  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, -5, -6, -7, 7, 0],    M:[1148]    7       v   bb54b,#6</span>
+<a name="l579"><span class="ln">579  </span></a>    <span class="s0">Degrés [###3 = ##3 = #36b = bb6 = bbb6] &amp; les rangs &amp; les poids</span>
+<a name="l580"><span class="ln">580  </span></a><span class="s0">***                 Modulations parmélodique 111011010001 9</span>
+<a name="l581"><span class="ln">581  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l582"><span class="ln">582  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, -5, -7, -8, 0],   M:[350]     3       iv  bb63b</span>
+<a name="l583"><span class="ln">583  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -7, -9, -10], M:[238]     2       iii</span>
+<a name="l584"><span class="ln">584  </span></a> <span class="s0">2 For moi in...  M_P [0, 4, 4, 5, 0, 0, -8],       M:[728]     6       ii</span>
+<a name="l585"><span class="ln">585  </span></a> <span class="s0">3 For moi in...  M_P [0, 0, 5, 6, 6, 0, 0],        M:[595]     5       i   3 For   ##3         Maj7</span>
+<a name="l586"><span class="ln">586  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, -4, 6, 6, 0, -8],     M:[42]      1       vii</span>
+<a name="l587"><span class="ln">587  </span></a> <span class="s0">5 For moi in...  M_P [0, 0, -4, 0, 7, 7, 0],       M:[581]     4       vi  b35##</span>
+<a name="l588"><span class="ln">588  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, -4, -5, -6, 7, 0],    M:[1022]    7       v   b345,#6</span>
+<a name="l589"><span class="ln">589  </span></a>    <span class="s0">Degrés [###3 = ##3 = #36b = bb6 = bbb6] &amp; les rangs [##3 = #36b = bb6] &amp; les poids</span>
+<a name="l590"><span class="ln">590  </span></a><span class="s0">***                 Modulations amélodique harmonique 111001101001 8</span>
+<a name="l591"><span class="ln">591  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l592"><span class="ln">592  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, 0, -6, -7, 0],    M:[413]     3       iv  bb3,b56</span>
+<a name="l593"><span class="ln">593  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -6, -8, -9],  M:[175]     2       iii</span>
+<a name="l594"><span class="ln">594  </span></a> <span class="s0">2 For moi in...  M_P [0, 3, 0, 0, -6, 0, -8],      M:[665]     6       ii</span>
+<a name="l595"><span class="ln">595  </span></a> <span class="s0">3 For moi in...  M_P [0, 0, 4, 5, 0, -7, 0],       M:[658]     5       i   3 For   #36b        Maj7</span>
+<a name="l596"><span class="ln">596  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, -4, 5, 0, -7, -9],    M:[21]      1       vii</span>
+<a name="l597"><span class="ln">597  </span></a> <span class="s0">5 For moi in...  M_P [0, 3, 0, 5, 7, 7, 0],        M:[518]     4       vi  #24,##5</span>
+<a name="l598"><span class="ln">598  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, 0, 0, 0, 7, 0],       M:[959]     7       v   b26#</span>
+<a name="l599"><span class="ln">599  </span></a>    <span class="s0">Degrés [###3 = ##3 = #36b = bb6 = bbb6] &amp; les rangs [##3 = #36b = bb6] &amp; les poids</span>
+<a name="l600"><span class="ln">600  </span></a><span class="s0">***                 Modulations diharmonique 111000110101 7</span>
+<a name="l601"><span class="ln">601  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l602"><span class="ln">602  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, 5, 0, 0, 0],      M:[378]     3       bb34#</span>
+<a name="l603"><span class="ln">603  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, 0, -7, -8],   M:[210]     2</span>
+<a name="l604"><span class="ln">604  </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, -7, 0, -8],    M:[700]     6</span>
+<a name="l605"><span class="ln">605  </span></a> <span class="s0">3 For moi in...  M_P [0, 0, 0, 0, -6, -8, 0],      M:[623]     5       i   3 For   bb6         Maj7</span>
+<a name="l606"><span class="ln">606  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, -4, 0, -6, -8, -10],  M:[14]      1       vii</span>
+<a name="l607"><span class="ln">607  </span></a> <span class="s0">5 For moi in...  M_P [0, 4, 4, 6, 7, 7, 0],        M:[553]     4       vi  ##2,#45</span>
+<a name="l608"><span class="ln">608  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, 4, 5, 6, 7, 0],       M:[994]     7       v   b2,#356</span>
+<a name="l609"><span class="ln">609  </span></a>    <span class="s0">Degrés [###3 = ##3 = #36b = bb6 = bbb6] &amp; les rangs [##3 = #36b = bb6 = bb6] &amp; les poids</span>
+<a name="l610"><span class="ln">610  </span></a><span class="s0">***                 Modulations triharmonique 111000011011 6</span>
+<a name="l611"><span class="ln">611  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l612"><span class="ln">612  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, 6, 6, 7, 0],      M:[266]     2       iv  bb34##,#6</span>
+<a name="l613"><span class="ln">613  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, 6, 0, 0],     M:[322]     3       iii bb45#</span>
+<a name="l614"><span class="ln">614  </span></a> <span class="s0">2 For moi in...  M_P [0, -3, -5, -6, -8, 0, -8],   M:[812]     6       ii</span>
+<a name="l615"><span class="ln">615  </span></a> <span class="s0">3 For moi in...  M_P [0, 0, -4, -5, -7, -9, 0],    M:[511]     4       i   3 For   bbb6        Maj7</span>
+<a name="l616"><span class="ln">616  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, -4, -5, -7, -9, -11], M:[126]     1       vii</span>
+<a name="l617"><span class="ln">617  </span></a> <span class="s0">5 For moi in...  M_P [0, 5, 5, 7, 7, 7, 0],        M:[665]     5       vi  ###24#</span>
+<a name="l618"><span class="ln">618  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, 5, 6, 7, 7, 0],       M:[1106]    7       v   b23##,#5</span>
+<a name="l619"><span class="ln">619  </span></a>    <span class="s0">Degrés [###3 = ##3 = #36b = bb6 = bbb6] &amp; les rangs [bbb6 = bb52b = #25##] &amp; les poids</span>
+<a name="l620"><span class="ln">620  </span></a><span class="s0">***                 Modulations didominante tonale 111011100001 5</span>
+<a name="l621"><span class="ln">621  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l622"><span class="ln">622  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, -5, -7, -9, 0],   M:[266]     2       vii bbb63b</span>
+<a name="l623"><span class="ln">623  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -7, -9, -11], M:[322]     3       vi</span>
+<a name="l624"><span class="ln">624  </span></a> <span class="s0">2 For moi in...  M_P [0, 5, 5, 6, 6, 7, 0],        M:[812]     6       v   ###2,#6</span>
+<a name="l625"><span class="ln">625  </span></a> <span class="s0">3 For moi in...  M_P [0, -3, 5, 6, 6, 0, 0],       M:[511]     4       vi  b23##</span>
+<a name="l626"><span class="ln">626  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, -5, 6, 6, 0, -8],     M:[126]     1       iii</span>
+<a name="l627"><span class="ln">627  </span></a> <span class="s0">5 For moi in...  M_P [0, 0, -4, -5, 7, 7, 0],      M:[665]     5       ii  b45##</span>
+<a name="l628"><span class="ln">628  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, -4, -5, -7, 7, 0],    M:[1106]    7       i   6 For   bb52b       Sup.Maj7</span>
+<a name="l629"><span class="ln">629  </span></a>    <span class="s0">Degrés &amp; les rangs [bbb6 = bb52b = #25##] &amp; les poids</span>
+<a name="l630"><span class="ln">630  </span></a><span class="s0">***                 Modulations atonale pardominante 111001110001 4</span>
+<a name="l631"><span class="ln">631  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l632"><span class="ln">632  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, 0, -6, -8, 0],    M:[315]     3       vi  bb36</span>
+<a name="l633"><span class="ln">633  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, -6, -8, -10], M:[273]     2       v</span>
+<a name="l634"><span class="ln">634  </span></a> <span class="s0">2 For moi in...  M_P [0, 4, 4, 5, 0, 7, 0],        M:[763]     6       iv  ##26#</span>
+<a name="l635"><span class="ln">635  </span></a> <span class="s0">3 For moi in...  M_P [0, -3, 4, 5, 0, -7, 0],      M:[560]     4       iii b26,#3</span>
+<a name="l636"><span class="ln">636  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, -5, 5, 0, -7, -9],    M:[77]      1       ii</span>
+<a name="l637"><span class="ln">637  </span></a> <span class="s0">5 For moi in...  M_P [0, 3, 0, 0, 7, 7, 0],        M:[616]     5       i   5 For   #25##       Maj7</span>
+<a name="l638"><span class="ln">638  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, 0, 0, -6, 7, 0],      M:[1057]    7       vii b25,#6</span>
+<a name="l639"><span class="ln">639  </span></a>    <span class="s0">Degrés &amp; les rangs [bbb6 = bb52b = #25##] &amp; les poids [#25## = b26bb]</span>
+<a name="l640"><span class="ln">640  </span></a><span class="s0">***                 Modulations tonale diharmonique 111000111001 3</span>
+<a name="l641"><span class="ln">641  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l642"><span class="ln">642  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, 5, 0, -7, 0],     M:[315]     3       iv  bb36b,#4</span>
+<a name="l643"><span class="ln">643  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, 0, -7, -9],   M:[273]     2       iii</span>
+<a name="l644"><span class="ln">644  </span></a> <span class="s0">2 For moi in...  M_P [0, 3, 0, 0, -6, 7, 0],       M:[763]     6       ii  #26,b5</span>
+<a name="l645"><span class="ln">645  </span></a> <span class="s0">3 For moi in...  M_P [0, -3, 0, 0, -6, -8, 0],     M:[560]     4       i   3 For   b26bb       Maj7</span>
+<a name="l646"><span class="ln">646  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, -5, 0, -6, -8, -10],  M:[77]      1       vii</span>
+<a name="l647"><span class="ln">647  </span></a> <span class="s0">5 For moi in...  M_P [0, 4, 4, 5, 7, 7, 0],        M:[616]     5       vi  ##25</span>
+<a name="l648"><span class="ln">648  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, 4, 5, 0, 7, 0],       M:[1057]    7       v   b2,#36</span>
+<a name="l649"><span class="ln">649  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids [#25## = b26bb]</span>
+<a name="l650"><span class="ln">650  </span></a><span class="s0">***                 Modulations dimélodique parmédiane 111000011101 2</span>
+<a name="l651"><span class="ln">651  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l652"><span class="ln">652  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, 6, 6, 0, 0],      M:[266]     2       i   0 For   bb34##      Inf.Maj7</span>
+<a name="l653"><span class="ln">653  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, 6, 0, -8],    M:[322]     3       vii</span>
+<a name="l654"><span class="ln">654  </span></a> <span class="s0">2 For moi in...  M_P [0, 0, -4, -5, -7, 7, 0],     M:[812]     6       vi  bb56#</span>
+<a name="l655"><span class="ln">655  </span></a> <span class="s0">3 For moi in...  M_P [0, -3, -4, -5, -7, -9, 0],   M:[511]     4       v   bbb62b</span>
+<a name="l656"><span class="ln">656  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, -5, -5, -7, -9, -11], M:[126]     1       iv</span>
+<a name="l657"><span class="ln">657  </span></a> <span class="s0">5 For moi in...  M_P [0, 5, 5, 6, 7, 7, 0],        M:[665]     5       iii ###25#</span>
+<a name="l658"><span class="ln">658  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, 5, 6, 6, 7, 0],       M:[1106]    7       ii  b23##,#6</span>
+<a name="l659"><span class="ln">659  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids</span>
+<a name="l660"><span class="ln">660  </span></a><span class="s0">***                 Modulations dimédiane pardominante 111000001111 1</span>
+<a name="l661"><span class="ln">661  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l662"><span class="ln">662  </span></a> <span class="s0">0 For moi in...  M_P [0, -3, -5, 7, 7, 7, 0],      M:[147]     1       ii  bb34###</span>
+<a name="l663"><span class="ln">663  </span></a> <span class="s0">1 For moi in...  M_P [0, -3, -5, -6, 7, 7, 0],     M:[441]     4       i   1 For   bb45##      Maj7</span>
+<a name="l664"><span class="ln">664  </span></a> <span class="s0">2 For moi in...  M_P [0, -3, -5, -6, -8, 7, 0],    M:[931]     6       vii bbb56#</span>
+<a name="l665"><span class="ln">665  </span></a> <span class="s0">3 For moi in...  M_P [0, -3, -5, -6, -8, -10, 0],  M:[392]     3       vi  bbbb6</span>
+<a name="l666"><span class="ln">666  </span></a> <span class="s0">4 For moi in...  M_P [0, -3, -5, -6, -8, -10, -12],M:[245]     2       v</span>
+<a name="l667"><span class="ln">667  </span></a> <span class="s0">5 For moi in...  M_P [0, 6, 6, 7, 7, 7, 0],        M:[784]     5       iv  ####2</span>
+<a name="l668"><span class="ln">668  </span></a> <span class="s0">6 For moi in...  M_P [0, -3, 6, 7, 7, 7, 0],       M:[1225]    7       iii b23###</span>
+<a name="l669"><span class="ln">669  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids</span>
+<a name="l670"><span class="ln">670  </span></a><span class="s0">***                 Modulations</span>
+<a name="l671"><span class="ln">671  </span></a><span class="s0">For in.. Modes      Liste                           Poids       Rangs   Degrés</span>
+<a name="l672"><span class="ln">672  </span></a>    <span class="s0">Degrés &amp; les rangs &amp; les poids</span>
+<a name="l673"><span class="ln">673  </span></a>
+<a name="l674"><span class="ln">674  </span></a> <span class="s0">&quot;&quot;&quot;</span></pre>
+</body>
+</html>

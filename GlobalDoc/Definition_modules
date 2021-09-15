@@ -5,13 +5,22 @@ Définition des modules utilisés pour calculer les gammes.
 GlobalApplis module principal:
     Ce 1er module a pour but de générer les tétracordes,
     afin de les assembler en couple pour former les modes.
+    Branche module GlobModelGammy
 
-GlobModelGammy module de fonction:
-    Ce module a une fonction de tri,
-    afin de binariser les modes.
+GlobModelGammy module de triage:
+    Ce module a une fonction de tri fondamental,
+    afin d'en binariser les modes.
+    Branche module GlobGamFonds
 
-GlobGamFonds module du résultat:
-    Ce dernier module présenté nous donne un résultat,
+GlobGamFonds module de masse:
+    Cet unième module présenté nous donne un résultat,
     sous-forme d'un degré tonique de poids le plus faible.
     Voir: calcul_tare_gam (dossier:GlobalDoc)
+    Branche module GlobEnModes
 
+GlobEnModes module du poids:
+    Ce module affine l'unité de poids en algorithme,
+    1- Cumul diatonique naturel entier, par degré
+    2- Démultiplication par un rapport de sept
+    3- Ajouter un tableau de mise en altéraction
+    Mémoriser les modélisations analytiques clones

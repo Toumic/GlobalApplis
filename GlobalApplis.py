@@ -1,6 +1,7 @@
 # Python 3.9 UTF-8
 # Dimanche 28 mars 2021 à 19h 45m (premières lignes)
 # Mardi 13 avril 2021 (Développement des tétracordes)
+# Mardi 27 juillet 2021
 #
 # Conçu par Vicenté Llavata Abreu | Vicenté Quantic | Toumic
 # Module GlobalApplis.py
@@ -42,7 +43,7 @@ nt234 = [[2, [1, 6]], [3, [2, 7]], [4, [3, 8]]]
 j = -1
 gamme = '1020340506078'  # Chromatisme naturel
 notes = 'CDEFGABC'  # Notes musique
-alter = ['', '+', 'x', '^', '^+', '^x', '°*', '-*', '*', '°', '-']
+alter = ['', '+', 'x', '^', '^+', '^x', 'o*', '-*', '*', 'o', '-']
 t_bas, t_haut = [], []  # Tétra*défaut
 
 

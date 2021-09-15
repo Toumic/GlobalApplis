@@ -1,6 +1,8 @@
 # Python 3.9 UTF-8
 # Mercredi 12 mai 2021 à 20h 32m (premières lignes)
 # Cabviva.fr Cab.Rich.Int.Music.Quant
+# Mardi 27 juillet 2021
+
 # Conçu par Vicenté Llavata Abreu|Vicenté Quantic|Toumic
 # Module GlobGamFonds.py
 """Réception liste binaire Tétra + Gamme
@@ -59,23 +61,28 @@ for deg, kg in gamme_pesante.items():
         poids_major[deg] = kgk
     # print(f' {lineno()}, Poids_Major:{poids_major[deg]} Deg{modes_grade[deg-1]}')
 # print(f' {lineno()}, Poids_Major:{poids_major}')
-signes = ['', '+', 'x', '^', '^+', '^x', '°*', '-*', '*', '°', '-']
+signes = ['', '+', 'x', '^', '^+', '^x', 'o*', '-*', '*', 'o', '-']
 gamme_majeure, gamme_index = '102034050607', [0, 2, 4, 5, 7, 9, 11]  # Diatonisme naturel
-poids_modal = []
-modes_modal = []
+poids_modal, modes_modal = [], []
 gam_tonique, magma, tab_eh = [], [], []
+poids_avals = {}
 # modes_modal = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []}
 
 
 def diatonic(topic):
     """Fonction de détection des gammes fondamentales,
     basée sur le poids le plus faible donné par les degrés modaux."""
+    kit = 0
     for top01 in topic:
+        kit += 1
         poids_class = {}
+        poids_avals[kit] = []
         modes_modal.clear()
         top00 = ''.join(t for t in top01)
         retour, poids_gen, dio = 0, 0, 0
-        print(f' {lineno()}, {top00}')
+
+        # print(f'\n {lineno()} {top00} {kit}')  # Notes Analyses : Affichage mode binaire
+
         """Passe: Autres modes"""
         while retour < 7:  # Défaut retour < 8
             # print(lineno())
@@ -83,6 +90,7 @@ def diatonic(topic):
             poids_modal.clear()
             grader, regard, lacune, pesant, poids = 0, -1, 0, [0], 0
             """Traitement d'Un Mode Fondamental |Pesant|"""
+            # print(top00)
             for t00 in top00:
                 regard += 1
                 """Passe: Poids du Uème mode"""
@@ -101,10 +109,12 @@ def diatonic(topic):
                     poids += pesant[0]
                     pesant[0] = 0
             poids_gen += poids
-            poids_class[top00] = top00, abs(poids)
+            poids_class[kit, top00] = top00, abs(poids)
+            poids_avals[kit].append(top00)
             modes_modal.append(poids_modal.copy())
-            # print(lineno(), modes_modal)
-            # poids_modal.clear()
+            # modes_modal.append(top00)
+            # print(lineno(), modes_modal, top00, '\n')
+            # print(lineno(), poids_class)
             pilote = list(top00)
             pilote.insert(0, pilote.pop())
             while pilote[0] == '0':
@@ -113,12 +123,14 @@ def diatonic(topic):
             # print(lineno(), 'PM', poids_modal, len(poids_modal), retour)
             # modes_modal[] = poids_modal
         if len(modes_modal) == 7:
-            # print(lineno(), modes_modal)
-            ggg = glob_en.seption(modes_modal)
-            print(lineno(), 'GGF Oblic', ggg)
+            # print(lineno(), '*****', kit, modes_modal)
+            glob_en.seption(modes_modal, kit, poids_avals[kit])
+            # ggg = glob_en.seption(modes_modal, kit)
+            # print(lineno(), 'GGF Oblic Len(ggg)', len(ggg), '\n')
         lys_0, dic_pt, dic_neg = [], {}, {}
         for c in poids_class.keys():
-            if c[-1] == '1':
+            # print(c[1])
+            if c[1][-1] == '1':
                 lys_0.append(poids_class[c])
         for io in lys_0:
             q, m = io[0], io[1]
@@ -142,7 +154,7 @@ def diatonic(topic):
             gamme.append(ga)
         # Magma Tableau des degrés les plus légers...
         magma.append(gamme)
-        print('145 GGF Classic', gamme, '\n')
+        # print('145 GGF Classic', gamme, '\n')
         # break
     """GlobDicTGams = Gammes fondamentales"""
     fil_gammes = open('globdicTgams.txt', 'w')

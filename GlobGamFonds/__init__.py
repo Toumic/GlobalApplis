@@ -9,11 +9,10 @@
 Priorité aux gammes heptatoniques:
     classement par le poids altéré du degré modal"""
 
-import GlobEnModes
 import inspect
 import os
 from typing import Callable
-
+import GlobEnModes
 inspect.getsource(os)
 glob_en = GlobEnModes
 
@@ -64,7 +63,7 @@ for deg, kg in gamme_pesante.items():
 signes = ['', '+', 'x', '^', '^+', '^x', 'o*', '-*', '*', 'o', '-']
 gamme_majeure, gamme_index = '102034050607', [0, 2, 4, 5, 7, 9, 11]  # Diatonisme naturel
 poids_modal, modes_modal = [], []
-gam_tonique, magma, tab_eh = [], [], []
+gam_tonique, magma, tab_eh, gamme_avals = [], [], [], []
 poids_avals = {}
 # modes_modal = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []}
 
@@ -122,24 +121,29 @@ def diatonic(topic):
             top00 = ''.join(p for p in pilote)
             # print(lineno(), 'PM', poids_modal, len(poids_modal), retour)
             # modes_modal[] = poids_modal
-        if len(modes_modal) == 7:
-            # print(lineno(), '*****', kit, modes_modal)
-            glob_en.seption(modes_modal, kit, poids_avals[kit])
-            # ggg = glob_en.seption(modes_modal, kit)
-            # print(lineno(), 'GGF Oblic Len(ggg)', len(ggg), '\n')
         lys_0, dic_pt, dic_neg = [], {}, {}
         for c in poids_class.keys():
-            # print(c[1])
+            # print('C1', c[1], c)  # C1 101011010110 (66, '101011010110')
             if c[1][-1] == '1':
-                lys_0.append(poids_class[c])
+                lp = poids_class[c], c[0]
+                lys_0.append(lp)
+                # print('lys', poids_class[c], c[0])  # lys ('101011010101', 0) 66
         for io in lys_0:
-            q, m = io[0], io[1]
+            q, m, n = io[0], io[0][1], io[1]
             dic_neg[m] = q
-            dic_pt[q] = m
-        mini = min(dic_pt.values())
+            dic_pt[q] = m, n
+            # print('  **Lys**', lys_0)  # **Lys** [(('101010110101', 5), 66), (('101011010101', 0), 66)]
+            # print('Q', q, 'M', m, 'N', n, 'IO', io)  # Q('101011010101',0) M 0 N 66 IO(('101011010101',0),66)
+            # print(' * D_p', dic_pt.values(), q)  # D_p dict_values([(5, 66), (0, 66)]) ('101011010101', 0)
+            # print('D_n', dic_neg.values())  # D_p dict_values([(5, 66), (0, 66)])
+        mono = min(dic_pt.values())[1]
+        mini = min(dic_pt.values())[0], mono
+        # print('mini', mini, dic_pt.values())  # mini (0, 66) dict_values([(5, 66), (0, 66)])
+        # print(' * mini', mini, dic_neg[mini[0]][0])  # * mini (0, 66) 101011010101
         gamme, ga = [], ''
         pm, pp = 0, -1
-        for p in dic_neg[mini]:
+        for p in dic_neg[mini[0]][0]:
+            # print('     P', p, 'DNm', dic_neg[mini[0]][0])  # P 1 DNm 101011010101...
             pp += 1
             if p == '1':
                 pm += 1
@@ -152,12 +156,23 @@ def diatonic(topic):
             else:
                 ga = '0'
             gamme.append(ga)
+        # gamme_avals: Diction (nbr alt < 3)
+        f0 = 0
+        for n0 in gamme:  # Compter les notes altérées
+            if len(n0) > 1:
+                f0 += 1
+        if f0 < 3:
+            gamme_avals.append(mini[1])
         # Magma Tableau des degrés les plus légers...
         magma.append(gamme)
-        # print('145 GGF Classic', gamme, '\n')
-        # break
+        if len(modes_modal) == 7:
+            # print(lineno(), '**2**', kit, modes_modal[0])  # 161 **2** 66 [0, 0, 0, 5, 0, 0, 0]
+            glob_en.seption(modes_modal, kit, poids_avals[kit], gamme_avals)
+    print(lineno(), 'GGF gamme_avals', gamme_avals)
     """GlobDicTGams = Gammes fondamentales"""
     fil_gammes = open('globdicTgams.txt', 'w')
+
+    """à Réviser"""
     f = 0
     while f < len(magma):
         mm = str(magma[f])
@@ -178,7 +193,7 @@ def diatonic(topic):
                     oh += g
                     eh.append(oh)
                     oh = ''
-        # hi = ','.join(i for i in eh)
-        # print('****', ff_, 'HI', 'hi', hi)
         tab_eh.append(eh)
+    """for te in tab_eh:
+        print('tab_eh', te)"""
     # print(lineno(), 'MM', modes_modal)

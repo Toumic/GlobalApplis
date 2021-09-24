@@ -8,7 +8,7 @@ _Est une application qui rassemble plusieurs instruments de mesure._
  
 ## Résumé gammologique :
     La gammologie est une science qui consiste à étudier les gammes musicales
-La gamme musicale est naturelle et elle comporte 12 ½ tons chromatiques, dont 7 tonalités majeures. Le fait de comprendre que les intervalles forment une ressource et une voie de développement, ils nous orientent dans une bonne direction. Celle du déploiement des possibilités gammales :
+La gamme musicale est naturelle et elle comporte 12 ½ tons chromatiques, dont sept tonalités majeures. Le fait de comprendre que les intervalles forment une ressource et une voie de développement, ils nous orientent dans une bonne direction. Celle du déploiement des possibilités gammales :
 ###     _C'est bien connu ! Il y a 462 modulations diatoniques_
     _Les 66 gammes fondamentales & Uniques diatoniques toniques. & leurs 396 modes diatoniques_
 Les gammes sont développées grâce aux altérations bémol et dièse. Elles servent à la découverte des modèles fondamentaux et de leurs tonalités, et elles commencent le développement par la gamme naturellement majeure et non altérée. La nature non signée des notes est une indication de départ, si bien que cette gamme a des degrés modaux faisant partie d'une seule diatonie.
@@ -17,7 +17,7 @@ Les gammes sont développées grâce aux altérations bémol et dièse. Elles se
     _Tout un rassemblement diatonique aux tonalités qui se suivent sans se répéter_
 La simplicité de cette gamme (**CDEFGAB**). Et la calculabilité des tonalités et la légèreté des modes toniques fondamentaux. Un ensemble d'informations aisément transmissibles à un quelconque algorithme. On notera que la notion de poids prend son pied avec la gamme, la charge diatonique répartie sur les tares modales associées, pouvant à terme être démultiplié au facteur 7.
  
-### _Comment cette appli fait pour "calculer" la gamme naturelle_
+### _Comment cette appli agit pour "calculer" la gamme naturelle_
     _La gamme naturelle comporte deux tétracordes et sept modulations diatoniques_
 Normalement chaque nouvelle gamme fondamentale créée possède sept qualités modales majeures, si bien qu'à ce niveau la gamme de Do majeure et celle de Ré majeure ont les mêmes qualités tonales. Car elles sont égales du point de vue des intervalles. La gamme a sept notes & cinq intervalles qui déterminent sa tonalité, et en particulier la valeur naturelle de la tonalité. Comme il a été dit le tétracorde en fait partie en tant qu'objet, le mode tonique majeur de toutes les tonalités représentent une forme qualitative identique. Parmi les fondamentales il y a **°45x**, & ces notes : **[Do, bRé, bbMi, bbFa, ##Sol, #La, Si]**.
 Les tétras majeurs occupent l'octave de Do à Do : Do, _, Ré, _, Mi, Fa & Sol, _, La, _, Si, Do. Ils ont une forme similaire : **"OoOoOO" = "OoOoOO" = ~~FAUX~~**. Puis le cas "°45x" donne l'aperçu d'un tétra minimal aussi appelé cluster : **OOOOoooooOOOO**
@@ -53,5 +53,25 @@ _L'application a des modules sobres en fonction_
 **Le module des pesées, ** 'GGF' a pour fonction de donner un poids aux éléments modaux, ainsi chaque mode diatonique a sa propre charge. Cette réponse est nécessaire à l'appréciation du choix fondamental, puisque la gamme naturelle est de poids zéro car elle ne comporte pas de signature. Autrement les degrés qui lui sont diatoniques ont chacun un poids `calcul_tare_gam Ligne 13 & 14 Séquence: F, C, G, D, A, E, B || #4, 0, b7, b3b7, b3b6b7, b2b3b6b7, b2b3b5b6b7`. Mais les résultats sont nombreux, et ils ne répondent pas tous au critère de légèreté des signes. C'est aussi dire que l'algorithme ne répond pas à nos attentes, et que cette partie est à rehausser.
 #### Glob Fondy `Sort Léger [(GlobGamFonds Ligne 117)(glob_en.seption(modes_modal))]`
 ### _GlobEnModes ***_
-**Le module des précis.** 'GEM' Dans ce module arrivent les gammes légères envoyées par `GlobGamFonds`. Elles deviennent opérationnelles avec le modèle majeur naturel, comme ceci : Chaque mode léger est opérationnel à tous les niveaux diatoniques, finalement chaque mode a sa définition de masse. En un 1er temps les modes sont représentés par des nombres assez conséquents, qui peuvent être rendus plus faciles à comprendre. Ainsi chaque donnée modale va être démultipliée par un facteur 7, jusqu'à zéro. Le résultat est propre malgré qu'il soit décimal, certains affichent des valeurs entières à 1.
+**Le module des précis.** 'GEM' Dans ce module arrivent les gammes légères envoyées par `GlobGamFonds`. Elles deviennent opérationnelles avec le modèle majeur naturel, comme ceci : Chaque mode léger est opérationnel à tous les niveaux diatoniques, finalement chaque mode a sa définition de masse. En un 1er temps les modes sont représentés par des nombres assez conséquents, qui peuvent être rendus plus faciles à comprendre. Ainsi chaque donnée modale va être démultipliée par un facteur 7, jusqu'à zéro. Le résultat est absolu malgré qu'il soit décimal, certains affichent des valeurs entières à 1.
+
+`def seption(mode_poids, k1, pc1, gm1): Réception des poids modaux standards à augmenter & Création 'globdic_Dana.txt'|def dana_fonc(dana, gam1): Les dictionnaires {dan/ego/maj}: Enregistrer. Répertorier. Référencer.`
+###### Brièvement ; Augmenter les mesures entrantes. Capter les 7èmes majeures. Trier les gammes selon leurs masses : Mêmes poids signifient également mêmes rangs. Mêmes rangs possibilité de poids différents. 
+
 #### Glob Modely `Program Test & Actif [(Test.Précis)(Acte.Effet)]`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+P0o

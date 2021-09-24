@@ -14,7 +14,7 @@ gam_oblic = {}
 def inv_acc(pc):
     """Traitement dictionnaire pc clone fichier binaire
     Synchronisation des modes diatoniques Formes classic et leurs inverses"""
-    print(f' GlobInverseAcc  signatures')
+    print(f'GIA GlobInverseAcc  signatures')
     """GlobEnModes > dic_analyse"""
     for ikey1, aval1 in pc.items():
         gam_oblic[ikey1] = []

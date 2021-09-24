@@ -16,7 +16,7 @@ import GlobEnModes
 inspect.getsource(os)
 glob_en = GlobEnModes
 
-# lineno() Pour déboguer le programme grâce au suivi des print's
+# lineno() Pour coder le programme grâce au suivi des print's
 lineno: Callable[[], int] = lambda: inspect.currentframe().f_back.f_lineno
 
 """# Fondues Tableau préconçu servant de référence, il n'est pas exhaustif

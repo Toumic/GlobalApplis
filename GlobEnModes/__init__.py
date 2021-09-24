@@ -68,8 +68,7 @@ def dana_fonc(dana, gam1):
             La démultiplication modale _[147,21.0,3.0,,,]]
                 Divise Poids par 7 jusqu'à zéro entier
     Réunir: 1- Les tonalités aux mêmes poids. 2- Les poids aux mêmes rangs. 3- Les tonalités aux mêmes degrés
-        1)  Les gammes à masses égales. 2) Les reliefs des pesants. 3) Les fondements réguliers.
-    """
+        1)  Les gammes à masses égales. 2) Les reliefs des pesants. 3) Les fondements réguliers."""
     (lineno(), 'GlobEnModes.Dana[dana]', len(dana), '[[forme.classic][poids]]', 'GAM1', gam1)
     # 73 GlobEnModes.Dana[dana] 66 [[forme.classic][poids]]
     # GAM1 [21, 24, 38, 40, 45, 47, 48, 51, 55, 58, 61, 62, 64, 65, 66]
@@ -99,35 +98,44 @@ def dana_fonc(dana, gam1):
                     maj_mode[66] = [dana[dan][dn][0]]   # Maj.Mode [0, 0, 0, 0, 0, 0, 0]
                     maj_mode[66].append(tempo)          # Maj.Mode [[0, 0, 0, 0, 0, 0, 0], 3]
                 (lineno(), dn, '     Dd', dd, '\tDan', dan)
-                # 92 3      Dd [0, 0, 0, 0, 0, 0, 0] 	Dan 66
+                # 101 3      Dd [0, 0, 0, 0, 0, 0, 0] 	Dan 66
             maj_lest = maj_poids[66].copy()
             maj_lest.sort()
             for mp in maj_poids[66]:
                 maj_rang[66].append(maj_lest.index(mp))
-            # print(f'* maj_poids:{maj_poids[66]}  \n* maj_rang:{maj_rang[66]}')
-            # print(f'* maj_lest:{maj_lest}  \n* maj_mode:{maj_mode[66]}')
-        # print(lineno(), dan, dana[dan][0][0])
+            # ('* maj_poids:', maj_poids[66], '\n* maj_rang:', maj_rang[66])
+            # ('* maj_lest:', maj_lest, '\n* maj_mode:', maj_mode[66])
+            # * maj_poids: [588, 0, 490, 833, 196, 343, 784]
+            # * maj_rang: [4, 0, 3, 6, 1, 2, 5]
+            # * maj_lest: [0, 196, 343, 490, 588, 784, 833]
+            # * maj_mode: [[0, 0, 0, 0, 0, 0, 0], 3]
+        if dan == 66:
+            print(lineno(), dan, dana[dan][0][0])
         """Cette boucle récupère les modes maj7
-            Comme on sait que les gammes fondamentales sont toutes...
-                Ou chacune a une septième majeure"""
+            Les gammes fondamentales ont une septième majeure"""
         for dn in range(7):  # Séquence les modes diatoniques (Mj7 & Non maj7)
             tous_poi[dan].append(dana[dan][dn][1])
             dan_poids[dan].append(dana[dan][dn][1][0])  # Poids Tonalité
-            if dana[dan][dn][0][-1] == 0:
+            if dana[dan][dn][0][-1] == 0:  # Filtre 7èmes majeures
                 vide = dana[dan][dn][0], dn
                 tous_mod[dan].append(vide)
-                # print(' ', lineno(), dan, 'Dn', dana[dan][dn][0])
+                (' ', lineno(), dan, 'Dn', dana[dan][dn][0])
+                # 122 66 Dn [0, 0, 0, 5, 0, 0, 0]
+                # 122 66 Dn [0, 0, 0, 0, 0, 0, 0]
         maj_lest = dan_poids[dan].copy()
         maj_lest.sort()
         for mp in dan_poids[dan]:
             dan_rang[dan].append(maj_lest.index(mp))
-        # print(f' Dan: {dan} Dana :{dana[dan][0]}')
-        # print(f'* DanPoi:{dan_poids[dan]}  \n* DanRng:{dan_rang[dan]}')
-        # print(f'* MajMod:{dan_mode[dan]}  \n* MajLes:{maj_lest} Dan:{dan}')
-        # print(f'* TouMod:{len(tous_mod[dan])} \n* TouPoi:{len(tous_poi[dan])}')
-        # break
-    # print(f' Nombre de poids de dan : {len(dan_poids)} exemplaires')
-    # print(f' Nombre les poids modaux : {len(tous_poi)} gammes par 7 modes')  # {tous_poi[66]}
+        # (' Dan:', dan, 'Dana[dan][0] :', dana[dan][0])
+        # ('* DanPoi:', dan_poids[dan], '\n* DanRng:', dan_rang[dan])
+        # ('* MajMod:', dan_mode[dan], '* MajLes:', maj_lest, 'Dan:', dan)
+        # ('* TouMod:', len(tous_mod[dan]), '* TouPoi:', len(tous_poi[dan]))
+        # Dan: 66 Dana[dan][0] : [[0, 0, 0, 5, 0, 0, 0],
+        # [588, 84.0, 12.0, 1.7142857142857142, 0.24489795918367346]]
+        # * DanPoi: [588, 0, 490, 833, 196, 343, 784]
+        # * DanRng: [4, 0, 3, 6, 1, 2, 5]
+        # * MajMod: [] * MajLes: [0, 196, 343, 490, 588, 784, 833] Dan: 66
+        # * TouMod: 2 * TouPoi: 7
     # :iso_poids= Gammes de mêmes poids et rangs
     # :dif_poids= Mêmes rangées
     # :dat_rang= Tous les rangs
@@ -142,10 +150,6 @@ def dana_fonc(dana, gam1):
         memo = ''.join(str(y) for y in dan_rang[c1])
         if c1 not in ego_rang[memo]:
             ego_rang[memo].append(c1)
-        # ego_rang[c1] = []
-        # print(' \n Dan_poids[c1]', c1, dan_poids[c1])
-        # print(' ego_rang[memo]', c1, memo, ego_rang[memo])
-        # print(f' ****** Clé 1:{c1}  LenIso:{len(iso_poids)}{iso_poids}')
         for c2 in range(1, 67):
             if c1 != c2:  # :c1==c2= Mêmes gammes
                 if dan_poids[c1] == dan_poids[c2]:  # :dan_poids
@@ -153,23 +157,22 @@ def dana_fonc(dana, gam1):
                         c0 = [c1, c2]
                         vide = c0, dan_poids[c1]
                         iso_poids.append(vide)
-                        # print('Vide', vide, iso_poids[0])
                     else:
                         if dan_poids[c2] not in iso_poids[0][0]:
                             vide = c2
                             iso_poids[0][0].append(vide)
-                    # print(f' {c1} Clé_2:{c2} Poids:{dan_poids[c1][0]}, {iso_poids}')
                 elif dan_rang[c1] == dan_rang[c2]:
                     dif_poids.append(c2)
-                    # print(f' ** {c1} Clé_2:{c2} Rang:{dan_rang[c1]}, {dif_poids}')
-            if c2 == 66:
-                pass
-                # print(f' *66* {c1} Clé_2:{c2} Rang:{dan_rang[c1]}, {dif_poids}')
-        if iso_poids:
+        # ('_C1', c1, ' Dan_poids[c1]', dan_poids[c1])
+        # ('_C1', c1, ' ego_rang[memo]', ego_rang[memo], 'Ranger', memo)
+        # (f'_ ****** Clé 1:{c1}  LenIso:{len(iso_poids)}|{iso_poids}')
+        # _C1 66  Dan_poids[c1] [588, 0, 490, 833, 196, 343, 784]
+        # _C1 66  ego_rang[memo] [47, 65, 66] Ranger 4036125
+        # _ ****** Clé 1:66  LenIso:1|[([66, 65], [588, 0, 490, 833, 196, 343, 784])]
+        if iso_poids:  # iso_poids: Construit :ego_poids
             for ip in iso_poids[0][0]:
                 if ip not in ego_poids[dan_poids[c1][0]]:
                     ego_poids[dan_poids[c1][0]].append(ip)
-            # ego_poids[dan_poids[c1][0]].append(iso_poids[0][0].copy())
         if len(dif_poids) > 0:
             memo = ''.join(str(y) for y in dan_rang[c1])
             for dp in dif_poids:
@@ -192,55 +195,65 @@ def dana_fonc(dana, gam1):
         for rn in rng:
             if rn not in filet:
                 filet.append(rn)
-    # filer.sort()
-    # print('Nombre Filer', len(filer),  'Long ego_poids', len(ego_poids), '\n ego_poids', ego_poids)
-    # filet.sort()
-    # print('Nombre Filet', len(filet), 'Long ego_rang', len(ego_rang), '\n ego_rang', ego_rang)
+    ('Nombre Filer', len(filer),  'Long ego_poids', len(ego_poids), '** ego_poids', ego_poids)
+    ('Nombre Filet', len(filet), 'Long ego_rang', len(ego_rang), '** ego_rang', ego_rang)
+    # Nombre Filer 66 Long ego_poids 26 ** ego_poids {147: [1], 266: [18, 2, 5, 6],
+    # 315: [33, 3, 4, 29], 378: [38, 7, 13, 22, 31], 413: [21, 8], 350: [20, 9],
+    # 224: [19, 10], 308: [15, 11], 406: [54, 12, 28, 32, 34, 37], 238: [17, 14],
+    # 343: [43, 16, 27, 35, 36], 329: [26, 23], 455: [25, 24], 301: [30], 476: [55, 39, 40, 41],
+    # 371: [42], 427: [49, 44], 518: [58, 45], 392: [60, 46], 567: [47], 469: [57, 48, 50, 52, 56],
+    # 462: [59, 51], 385: [53], 539: [64, 61], 497: [63, 62], 588: [66, 65]}
+    #
+    # Nombre Filet 66 Long ego_rang 10 ** ego_rang {'0352146': [1], '1253046': [2, 10, 14, 17, 19, 5, 6, 18],
+    # '2153046': [3, 11, 15, 23, 26, 30, 4, 29, 33], '2154036': [7, 8, 9, 12, 20, 21, 28, 32, 34, 37, 42, 46,
+    # 53, 54, 60, 13, 22, 31, 38], '2153036': [16, 27, 35, 36, 43], '2145036': [24, 44, 49, 51, 59, 25],
+    # '3145026': [39, 48, 50, 52, 56, 57, 40, 41, 55], '3045126': [45, 62, 63, 58], '4036125': [47, 65, 66], '
+    # 3035126': [61, 64]}
 
-    # print('**** \n65', dana[65])
-    # print('**** \n66', dana[66])
     for kd, vd in dana.items():
-        # print('**GEM(Dana_fonc()**', kd, vd)
-        # print()
         td, f0 = {}, -1
         for v1 in vd:
-            # print(kd, v1[0], '\t', [v1[1][0]])
             f0 += 1
             f1 = 0
             td[f0] = []
-            if v1[0][-1] == 0:
-                # f1 = 0
-                # print(kd, v1[0], 'f0', f0, 'f1', f1)
+            if v1[0][-1] == 0:      # Modes 7èmes majeures
                 for v2 in v1[0]:
                     if v2 != 0:
-                        f1 += 1
-                # print(kd, v1[0], 'f0', f0, 'f1', f1)
+                        f1 += 1     # Mode Nombre notes altérées
             else:
-                f1 = 8
+                f1 = 8              # f1 = 8: Mode 7ème non majeure
             td[f0] = f1
-            # break
+            # print('KD', kd, 'F0', f0, 'F1', f1)
+        td[7] = kd
         mtd = min(td.values())                  # Valeur Minimum
-        # ctd = list(td.values()).count(mtd)      # Nombre de Minimum(s)
+        ctd = list(td.values()).count(mtd)      # Nombre de Minimum(s)
         # Pour afficher Dana & Minimums altérés
-        # print('* kd', kd, 'td', td)
-        # print('* kd', kd, 'mtd', mtd, 'ctd', ctd)
+        (lineno(), 'KD', kd, 'TD', td, 'CTD', ctd, '\n * Dana[kd]', dana[kd])
+        # 233 KD 66 TD {0: 1, 1: 8, 2: 8, 3: 0, 4: 8, 5: 8, 6: 8, 7: 66} CTD 1
+        #  * Dana[kd] [[[0, 0, 0, 5, 0, 0, 0], [588, 84.0, 12.0, 1.7142857142857142,
+        #  0.24489795918367346]], [[0, -3, -4, 0, 0, -7, -8], [0]], [[0, 0, -4, 0, 0, 0, -8],
+        #  [490, 70.0, 10.0, 1.4285714285714286, 0.20408163265306123]], [[0, 0, 0, 0, 0, 0, 0],
+        #  [833, 119.0, 17.0, 2.4285714285714284, 0.3469387755102041]], [[0, -3, -4, 0, -6, -7, -8],
+        #  [196, 28.0, 4.0, 0.5714285714285714]], [[0, 0, -4, 0, 0, -7, -8], [343, 49.0, 7.0, 1.0]],
+        #  [[0, 0, 0, 0, 0, 0, -8], [784, 112.0, 16.0, 2.2857142857142856, 0.32653061224489793]]]
 
         for kf, vf in td.items():
-            if vf == mtd:
-                # (f' Kf:{kf} Vf:{vf}  Dana:{dana[kd][kf][0]}')
+            # print('KF', kf, 'VF', vf)
+            if vf == mtd and 7 != kf:
+                # print(f'{lineno()} :_ Kf:{kf} Vf:{vf}  Dana:{dana[kd][kf][0]}')
                 break
         # if kd == 3: break
     """Blague (science/musique)"""
 
 
 def seption(mode_poids, k1, pc1, gm1):
-    """Réception des poids modaux standards à augmenter"""
+    """Réception des poids modaux standards à augmenter & Création 'globdic_Dana.txt'"""
     ('\n', lineno(), ' ¤ GEM Mode_poids=', mode_poids, 'K1=', k1, 'PC1=', pc1, 'Gm1=', gm1)
-    """ 219  ¤ GEM Mode_poids= [[0, 0, 0, 5, 0, 0, 0], [0, -3, -4, 0, 0, -7, -8], 
-    [0, 0, -4, 0, 0, 0, -8], [0, 0, 0, 0, 0, 0, 0], [0, -3, -4, 0, -6, -7, -8], 
-    [0, 0, -4, 0, 0, -7, -8], [0, 0, 0, 0, 0, 0, -8]] K1= 66 PC1= ['101010110101', '110101011010', 
-    '101101010110', '101011010101', '110101101010', '101101011010', '101011010110'] 
-    Gm1= [21, 24, 38, 40, 45, 47, 48, 51, 55, 58, 61, 62, 64, 65, 66]"""
+    # 219  ¤ GEM Mode_poids= [[0, 0, 0, 5, 0, 0, 0], [0, -3, -4, 0, 0, -7, -8],
+    # [0, 0, -4, 0, 0, 0, -8], [0, 0, 0, 0, 0, 0, 0], [0, -3, -4, 0, -6, -7, -8],
+    # [0, 0, -4, 0, 0, -7, -8], [0, 0, 0, 0, 0, 0, -8]] K1= 66 PC1= ['101010110101', '110101011010',
+    # '101101010110', '101011010101', '110101101010', '101101011010', '101011010110']
+    # Gm1= [21, 24, 38, 40, 45, 47, 48, 51, 55, 58, 61, 62, 64, 65, 66]
     goo = []
     cumul = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []}
     dic_analyse[k1] = []  # :Dana initie table
@@ -294,6 +307,7 @@ def seption(mode_poids, k1, pc1, gm1):
     (lineno(), 'Plouc', k1, type(k1), 'Dic_analyse', dic_analyse[k1][0])
     #  280 Plouc:66 <class 'int'> Dic_analyse:[[0, 0, 0, 5, 0, 0, 0],
     #  [588, 84.0, 12.0, 1.7142857142857142, 0.24489795918367346]]
+
     """GlobEnModes = Gammes"""
     fil_analyse = open('globdic_Dana.txt', 'w')
     for ky1, va1 in dic_analyse.items():  # dic_analyse: Infos Dana

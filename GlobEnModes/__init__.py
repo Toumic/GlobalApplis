@@ -51,7 +51,7 @@ maj_mode, maj_rang, maj_poids = {}, {}, {}  # Dico:maj. Diatonic majeur
 maj_clef = [66]  # Table:maj_clef. Clef référence majeure. :dana.keys().
 
 
-def dana_fonc(dana, gam1):
+def dana_fonc(dana, gam1, gam7):
     """
     Les dictionnaires {dan/ego/maj}:
         Tous. Intégrales Poids/Modes
@@ -110,7 +110,8 @@ def dana_fonc(dana, gam1):
             # * maj_lest: [0, 196, 343, 490, 588, 784, 833]
             # * maj_mode: [[0, 0, 0, 0, 0, 0, 0], 3]
         if dan == 66:
-            print(lineno(), dan, dana[dan][0][0])
+            (lineno(), 'GEM', dan, dana[dan][0][0])
+
         """Cette boucle récupère les modes maj7
             Les gammes fondamentales ont une septième majeure"""
         for dn in range(7):  # Séquence les modes diatoniques (Mj7 & Non maj7)
@@ -209,7 +210,8 @@ def dana_fonc(dana, gam1):
     # 53, 54, 60, 13, 22, 31, 38], '2153036': [16, 27, 35, 36, 43], '2145036': [24, 44, 49, 51, 59, 25],
     # '3145026': [39, 48, 50, 52, 56, 57, 40, 41, 55], '3045126': [45, 62, 63, 58], '4036125': [47, 65, 66], '
     # 3035126': [61, 64]}
-
+    #
+    # En étude
     for kd, vd in dana.items():
         td, f0 = {}, -1
         for v1 in vd:
@@ -223,19 +225,13 @@ def dana_fonc(dana, gam1):
             else:
                 f1 = 8              # f1 = 8: Mode 7ème non majeure
             td[f0] = f1
-            # print('KD', kd, 'F0', f0, 'F1', f1)
         td[7] = kd
         mtd = min(td.values())                  # Valeur Minimum
         ctd = list(td.values()).count(mtd)      # Nombre de Minimum(s)
         # Pour afficher Dana & Minimums altérés
-        (lineno(), 'KD', kd, 'TD', td, 'CTD', ctd, '\n * Dana[kd]', dana[kd])
-        # 233 KD 66 TD {0: 1, 1: 8, 2: 8, 3: 0, 4: 8, 5: 8, 6: 8, 7: 66} CTD 1
-        #  * Dana[kd] [[[0, 0, 0, 5, 0, 0, 0], [588, 84.0, 12.0, 1.7142857142857142,
-        #  0.24489795918367346]], [[0, -3, -4, 0, 0, -7, -8], [0]], [[0, 0, -4, 0, 0, 0, -8],
-        #  [490, 70.0, 10.0, 1.4285714285714286, 0.20408163265306123]], [[0, 0, 0, 0, 0, 0, 0],
-        #  [833, 119.0, 17.0, 2.4285714285714284, 0.3469387755102041]], [[0, -3, -4, 0, -6, -7, -8],
-        #  [196, 28.0, 4.0, 0.5714285714285714]], [[0, 0, -4, 0, 0, -7, -8], [343, 49.0, 7.0, 1.0]],
-        #  [[0, 0, 0, 0, 0, 0, -8], [784, 112.0, 16.0, 2.2857142857142856, 0.32653061224489793]]]
+        print(lineno(), 'KD', kd, 'TD', td, 'CTD', ctd, '\n * Gam7[kd]', gam7[kd])
+        # 231 KD 66 TD {0: 1, 1: 8, 2: 8, 3: 0, 4: 8, 5: 8, 6: 8, 7: 66} CTD 1
+        #  * Gam7[kd] [(('101010110101', 5), 66), (('101011010101', 0), 66)]
 
         for kf, vf in td.items():
             # print('KF', kf, 'VF', vf)
@@ -246,14 +242,16 @@ def dana_fonc(dana, gam1):
     """Blague (science/musique)"""
 
 
-def seption(mode_poids, k1, pc1, gm1):
-    """Réception des poids modaux standards à augmenter & Création 'globdic_Dana.txt'"""
-    ('\n', lineno(), ' ¤ GEM Mode_poids=', mode_poids, 'K1=', k1, 'PC1=', pc1, 'Gm1=', gm1)
-    # 219  ¤ GEM Mode_poids= [[0, 0, 0, 5, 0, 0, 0], [0, -3, -4, 0, 0, -7, -8],
+def seption(mode_poids, k1, pc1, gm1, maj7):
+    """Réception des poids modaux standards à augmenter & Création 'globdic_Dana.txt'.
+    L'argument 'maj7' est le dictionnaire des modes maj 7èmes et poids standards par gamme"""
+    ('\n', lineno(), ' ¤ GEM M_P', mode_poids, 'K1=', k1, 'PC1=', pc1, 'Gm1=', gm1, '\nMaj7', maj7)
+    # 251  ¤ GEM Mode_poids= [[0, 0, 0, 5, 0, 0, 0], [0, -3, -4, 0, 0, -7, -8],
     # [0, 0, -4, 0, 0, 0, -8], [0, 0, 0, 0, 0, 0, 0], [0, -3, -4, 0, -6, -7, -8],
     # [0, 0, -4, 0, 0, -7, -8], [0, 0, 0, 0, 0, 0, -8]] K1= 66 PC1= ['101010110101', '110101011010',
     # '101101010110', '101011010101', '110101101010', '101101011010', '101011010110']
     # Gm1= [21, 24, 38, 40, 45, 47, 48, 51, 55, 58, 61, 62, 64, 65, 66]
+    # Maj7[66] = [(('101010110101', 5), 66), (('101011010101', 0), 66)]}
     goo = []
     cumul = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []}
     dic_analyse[k1] = []  # :Dana initie table
@@ -311,13 +309,13 @@ def seption(mode_poids, k1, pc1, gm1):
     """GlobEnModes = Gammes"""
     fil_analyse = open('globdic_Dana.txt', 'w')
     for ky1, va1 in dic_analyse.items():  # dic_analyse: Infos Dana
-        mm = str(ky1) + str(va1)
-        mm += '\n'
+        mm = str(ky1) + str(va1)            # ky1: Numéro gamme
+        mm += '\n'                          # va1: Modes poids augmentés
         fil_analyse.write(mm)
     fil_analyse.close()  # Écriture fichier globdic_Dana.txt
 
     if len(dic_analyse.keys()) == 66:
-        dana_fonc(dic_analyse, gm1)
+        dana_fonc(dic_analyse, gm1, maj7)
         glob_in_acc.inv_acc(dic_pc)
 
 
@@ -345,4 +343,4 @@ if __name__ == '__main__':
                 3: [0, -3, -4, 0, 0, -7, -8], 4: [0, 0, 0, +5, 0, 0, 0],
                 5: [0, 0, 0, 0, 0, 0, -8], 6: [0, 0, -4, 0, 0, -7, -8],
                 7: [0, -3, -4, 0, -6, -7, -8]}
-    seption(mode_po, 1, {}, [])
+    seption(mode_po, 1, {}, [], {})

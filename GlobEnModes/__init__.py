@@ -51,7 +51,26 @@ maj_mode, maj_rang, maj_poids = {}, {}, {}  # Dico:maj. Diatonic majeur
 maj_clef = [66]  # Table:maj_clef. Clef référence majeure. :dana.keys().
 
 
-def dana_fonc(dana, gam1, gam7):
+
+def maj7_fonc(unic, fondre):
+    """Les gammes fondamentales enfin
+    """
+    """GlobEnModes = Gammes"""
+    fil_analyse = open('globdic_Dana.txt', 'w')
+    for ky1, va1 in dic_analyse.items():  # dic_analyse: Infos Dana
+        mm = str(ky1) + str(va1)  # ky1: Numéro gamme
+        mm += '\n'  # va1: Modes poids augmentés
+        fil_analyse.write(mm)
+    fil_analyse.close()  # Écriture fichier globdic_Dana.txt
+    for fk, fv in fondre.items():
+        pass
+        print(lineno(), 'Fondre', fk, fv)
+    for uk, uv in unic.items():
+        print(lineno(), 'Unic', uk, uv[:12], '\n', uv[12:])
+    (lineno(), 'GEM DicFondre', fondre[66], '\nUnic', unic.keys())
+
+
+def dana_fonc(dana):
     """
     Les dictionnaires {dan/ego/maj}:
         Tous. Intégrales Poids/Modes
@@ -59,7 +78,7 @@ def dana_fonc(dana, gam1, gam7):
         Ego. Répertorier gammes mêmes types
         Maj. Référencer diatonic majeur
     Dana est le dictionnaire entrant:
-        Dana Keys = Numéro des gammes
+        Dana Keys = Numéros des gammes
         Dana Values = Diatonic Poids & Divise Sept
         Logic histoire:
         Des gammes (dan.keys()) avec une unité majeure
@@ -67,11 +86,9 @@ def dana_fonc(dana, gam1, gam7):
             La signature modale [[0,-3,-5,,,]_ Tonalité
             La démultiplication modale _[147,21.0,3.0,,,]]
                 Divise Poids par 7 jusqu'à zéro entier
-    Réunir: 1- Les tonalités aux mêmes poids. 2- Les poids aux mêmes rangs. 3- Les tonalités aux mêmes degrés
+    Union: 1- Les tonalités aux mêmes poids. 2- Les poids aux mêmes rangs. 3- Les tonalités aux mêmes degrés
         1)  Les gammes à masses égales. 2) Les reliefs des pesants. 3) Les fondements réguliers."""
-    (lineno(), 'GlobEnModes.Dana[dana]', len(dana), '[[forme.classic][poids]]', 'GAM1', gam1)
-    # 73 GlobEnModes.Dana[dana] 66 [[forme.classic][poids]]
-    # GAM1 [21, 24, 38, 40, 45, 47, 48, 51, 55, 58, 61, 62, 64, 65, 66]
+
     maj_poids[66], maj_rang[66], maj_mode[66] = [], [], []
     for dan in range(1, len(dana) + 1):  # Épisode Dana
         tous_poi[dan], tous_mod[dan] = [], []
@@ -109,8 +126,6 @@ def dana_fonc(dana, gam1, gam7):
             # * maj_rang: [4, 0, 3, 6, 1, 2, 5]
             # * maj_lest: [0, 196, 343, 490, 588, 784, 833]
             # * maj_mode: [[0, 0, 0, 0, 0, 0, 0], 3]
-        if dan == 66:
-            (lineno(), 'GEM', dan, dana[dan][0][0])
 
         """Cette boucle récupère les modes maj7
             Les gammes fondamentales ont une septième majeure"""
@@ -152,7 +167,7 @@ def dana_fonc(dana, gam1, gam7):
         if c1 not in ego_rang[memo]:
             ego_rang[memo].append(c1)
         for c2 in range(1, 67):
-            if c1 != c2:  # :c1==c2= Mêmes gammes
+            if c1 != c2:  # Quand :c1==c2: Mêmes gammes
                 if dan_poids[c1] == dan_poids[c2]:  # :dan_poids
                     if len(iso_poids) == 0:
                         c0 = [c1, c2]
@@ -190,55 +205,25 @@ def dana_fonc(dana, gam1, gam7):
                 vii = vi, kilo
                 if vii not in filer:
                     filer.append(vii)
-    # Lecture Ego Rangs
-    filet = []
-    for nom, rng in ego_rang.items():
-        for rn in rng:
-            if rn not in filet:
-                filet.append(rn)
     ('Nombre Filer', len(filer),  'Long ego_poids', len(ego_poids), '** ego_poids', ego_poids)
-    ('Nombre Filet', len(filet), 'Long ego_rang', len(ego_rang), '** ego_rang', ego_rang)
     # Nombre Filer 66 Long ego_poids 26 ** ego_poids {147: [1], 266: [18, 2, 5, 6],
     # 315: [33, 3, 4, 29], 378: [38, 7, 13, 22, 31], 413: [21, 8], 350: [20, 9],
     # 224: [19, 10], 308: [15, 11], 406: [54, 12, 28, 32, 34, 37], 238: [17, 14],
     # 343: [43, 16, 27, 35, 36], 329: [26, 23], 455: [25, 24], 301: [30], 476: [55, 39, 40, 41],
     # 371: [42], 427: [49, 44], 518: [58, 45], 392: [60, 46], 567: [47], 469: [57, 48, 50, 52, 56],
     # 462: [59, 51], 385: [53], 539: [64, 61], 497: [63, 62], 588: [66, 65]}
-    #
+    # Lecture Ego Rangs
+    filet = []
+    for nom, rng in ego_rang.items():
+        for rn in rng:
+            if rn not in filet:
+                filet.append(rn)
+    ('Nombre Filet', len(filet), 'Long ego_rang', len(ego_rang), '** ego_rang', ego_rang)
     # Nombre Filet 66 Long ego_rang 10 ** ego_rang {'0352146': [1], '1253046': [2, 10, 14, 17, 19, 5, 6, 18],
     # '2153046': [3, 11, 15, 23, 26, 30, 4, 29, 33], '2154036': [7, 8, 9, 12, 20, 21, 28, 32, 34, 37, 42, 46,
     # 53, 54, 60, 13, 22, 31, 38], '2153036': [16, 27, 35, 36, 43], '2145036': [24, 44, 49, 51, 59, 25],
     # '3145026': [39, 48, 50, 52, 56, 57, 40, 41, 55], '3045126': [45, 62, 63, 58], '4036125': [47, 65, 66], '
     # 3035126': [61, 64]}
-    #
-    # En étude
-    for kd, vd in dana.items():
-        td, f0 = {}, -1
-        for v1 in vd:
-            f0 += 1
-            f1 = 0
-            td[f0] = []
-            if v1[0][-1] == 0:      # Modes 7èmes majeures
-                for v2 in v1[0]:
-                    if v2 != 0:
-                        f1 += 1     # Mode Nombre notes altérées
-            else:
-                f1 = 8              # f1 = 8: Mode 7ème non majeure
-            td[f0] = f1
-        td[7] = kd
-        mtd = min(td.values())                  # Valeur Minimum
-        ctd = list(td.values()).count(mtd)      # Nombre de Minimum(s)
-        # Pour afficher Dana & Minimums altérés
-        print(lineno(), 'KD', kd, 'TD', td, 'CTD', ctd, '\n * Gam7[kd]', gam7[kd])
-        # 231 KD 66 TD {0: 1, 1: 8, 2: 8, 3: 0, 4: 8, 5: 8, 6: 8, 7: 66} CTD 1
-        #  * Gam7[kd] [(('101010110101', 5), 66), (('101011010101', 0), 66)]
-
-        for kf, vf in td.items():
-            # print('KF', kf, 'VF', vf)
-            if vf == mtd and 7 != kf:
-                # print(f'{lineno()} :_ Kf:{kf} Vf:{vf}  Dana:{dana[kd][kf][0]}')
-                break
-        # if kd == 3: break
     """Blague (science/musique)"""
 
 
@@ -315,7 +300,8 @@ def seption(mode_poids, k1, pc1, gm1, maj7):
     fil_analyse.close()  # Écriture fichier globdic_Dana.txt
 
     if len(dic_analyse.keys()) == 66:
-        dana_fonc(dic_analyse, gm1, maj7)
+        dana_fonc(dic_analyse)
+        maj7_fonc(gm1, maj7)
         glob_in_acc.inv_acc(dic_pc)
 
 

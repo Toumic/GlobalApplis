@@ -55,7 +55,9 @@ _L'application a des modules sobres en fonction_
 ### _GlobEnModes ***_
 **Le module des précis.** 'GEM' Dans ce module arrivent les gammes légères envoyées par `GlobGamFonds`. Elles deviennent opérationnelles avec le modèle majeur naturel, comme ceci : Chaque mode léger est opérationnel à tous les niveaux diatoniques, finalement chaque mode a sa définition de masse. En un 1er temps les modes sont représentés par des nombres assez conséquents, qui peuvent être rendus plus faciles à comprendre. Ainsi chaque donnée modale va être démultipliée par un facteur 7, jusqu'à zéro. Le résultat est absolu malgré qu'il soit décimal, certains affichent des valeurs entières à 1.
 
-`def seption(mode_poids, k1, pc1, gm1): Réception des poids modaux standards à augmenter & Création 'globdic_Dana.txt'|def dana_fonc(dana, gam1): Les dictionnaires {dan/ego/maj}: Enregistrer. Répertorier. Référencer.`
+`def seption(mode_poids, k1, pc1, gm1): Réception des poids modaux standards à augmenter & Création 'globdic_Dana.txt'`
+
+`def dana_fonc(dana, gam1): Les dictionnaires {dan/ego/maj}: Enregistrer. Répertorier. Référencer.`
 ###### Brièvement ; Augmenter les mesures entrantes. Capter les 7èmes majeures. Trier les gammes selon leurs masses : Mêmes poids signifient également mêmes rangs. Mêmes rangs possibilité de poids différents. 
 
 #### Glob Modely `Program Test & Actif [(Test.Précis)(Acte.Effet)]`

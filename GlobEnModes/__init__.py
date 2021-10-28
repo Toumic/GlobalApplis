@@ -14,7 +14,7 @@ import GlobInverseAcc
 glob_in_acc = GlobInverseAcc
 inspect.getsource(os)
 
-# lineno() Pour déboguer le programme grâce au suivi des print's
+# lineno() Pour consulter le programme grâce au suivi des print's
 lineno: Callable[[], int] = lambda: inspect.currentframe().f_back.f_lineno
 
 # Nécessités pour repérages:
@@ -41,7 +41,7 @@ gamme_poids = {1: [0, 0, 0, 0, 0, 0, 0], 2: [0, 0, -4, 0, 0, 0, -8],
 
 signes = ['', '+', 'x', '^', '^+', '^x', 'o*', '-*', '*', 'o', '-']
 dic_analyse = {}  # :Dana initie dico
-dic_pc = {}
+dic_pc, dic_gammes, tab_faible = {}, {}, {}
 # Les clefs de ces dictionnaires valent chacune une gamme
 tous_poi, tous_mod = {}, {}  # Poids division Modes diatonic's
 dan_mode, dan_rang, dan_poids = {}, {}, {}  # Dico:dan. Trier infos
@@ -50,24 +50,68 @@ maj_mode, maj_rang, maj_poids = {}, {}, {}  # Dico:maj. Diatonic majeur
 # Pour éviter de tourner autour du pot!
 maj_clef = [66]  # Table:maj_clef. Clef référence majeure. :dana.keys().
 
+# Classement Gammes.mécanic
+"""Les mutations sont chiffrées :
+Noms mécaniques unic ou couple degrés centrés aux signes conjoins.
+Les noms des gammes ont plusieurs formes :
+    1- Forme simple. Do maj | Do -3 | Do -5         Max(1 degré, 1 signe)
+    2- Forme double. Do -34+ | Do -25 | Do -36+     Max(2 degrés, 1 signe)
+        Max(2 degrés, 2 signes) Les degrés prioritaires..
+    3- Forme organe. Do o34x | Do ^3 | Do *5        Max(2 degrés, 3 signes)
+    4- Forme groupe. Do -235 | Do +456              Ras(mêmes signes)
+Les nomes des gammes ont deux types numériques :
+    1- Type  entier. Voir exemples ci-dessus.
+    2- Type décimal. Do -34.+56 | Do +24.-36        Associe(Type entier)
+Les priorités des traitements :
+    1- Traitement clustérien solution altéractivité.
+    2- Traitement signature modèle altération."""
 
 
 def maj7_fonc(unic, fondre):
-    """Les gammes fondamentales enfin
-    """
-    """GlobEnModes = Gammes"""
-    fil_analyse = open('globdic_Dana.txt', 'w')
-    for ky1, va1 in dic_analyse.items():  # dic_analyse: Infos Dana
-        mm = str(ky1) + str(va1)  # ky1: Numéro gamme
-        mm += '\n'  # va1: Modes poids augmentés
-        fil_analyse.write(mm)
-    fil_analyse.close()  # Écriture fichier globdic_Dana.txt
-    for fk, fv in fondre.items():
-        pass
-        print(lineno(), 'Fondre', fk, fv)
-    for uk, uv in unic.items():
-        print(lineno(), 'Unic', uk, uv[:12], '\n', uv[12:])
+    """Les gammes fondamentales enfin!
+    Unic: Les quinze modèles légers renseignés
+    Fondre: Les 66 gammes et leurs modes diatoniques binaires"""
+    stop = False
+
+    def fond_gam(mode):
+        """Développement diatonique du mode binaire avec mages_biner[0]
+         Créer une liste de la topologie et mettre en forme le nom
+         Format(nom) = Max(2 degrés, 2 signes) (Ligne 59).."""
+        print('\n', lineno(), 'ImgBin', mages_biner[0], 'Mode', mode)
+
+    """GlobEnModes = Gammes-fichier:globdicTgams.txt (Ligne 72)"""
+    fil_gammes = open('globdicTgams.txt', 'r')
+    fix = 0
+    for fil in fil_gammes:  # dic_analyse: Infos gammes
+        fix += 1
+        tab_faible[fix] = []
+        ff = fil  # fil_gammes: Numéro gamme
+        (lineno(), 'Fix', fix, 'FF', ff[:len(ff)-1])  # [:len(ff)-1]: Moins retour chariot
+        # 88 Fix 61 FF ['1', '0', '2', '-3', '0', '0', '+4', '5', '0', '6', '0', '7',
+        # [((1, 61), '101100110101')]]
+
+        if fix in unic.keys():  # Unic: Premières gammes faciles (Ligne 71)
+            (lineno(), fix, 'unic[fix][-1][0][1] =', unic[fix][-1][0][1])
+            # 91 66 unic[fix][-1][0][1] = 101011010101
+            fond_gam(unic[fix][-1][0][1])             # fond_gam: Fonction envoi(unic)
+        elif fix in fondre.keys():  # Fondre: Gammes secondaires (Ligne 72)
+            my2 = []            # my2: Créer liste des poids légers par gamme
+            for mz in fondre[fix]:
+                my = mz[0][1]
+                tab_faible[fix].append(my)
+                my2.append(my)
+            my2.sort()          # my2: Trié
+            for m22 in my2:     # my2: Lecture liste
+                for m23 in fondre[fix]:
+                    if m22 in m23[0]:
+                        (lineno(), fix, 'my2', my2, 'M23', m23[0][0])
+                        # fond_gam(m23[0][0])           # fond_gam: Fonction envoi(fondre)
+                        if stop is False:
+                            break
+            (lineno(), fix, 'MY2', my2, 'Fondre', fondre[fix][0], '\n')
+            # fond_gam(fondre[fix])  # fond_gam: Fonction envoi(fondre)
     (lineno(), 'GEM DicFondre', fondre[66], '\nUnic', unic.keys())
+    fil_gammes.close()  # Lecture fichier globdicTgams.txt
 
 
 def dana_fonc(dana):
@@ -222,21 +266,24 @@ def dana_fonc(dana):
     # Nombre Filet 66 Long ego_rang 10 ** ego_rang {'0352146': [1], '1253046': [2, 10, 14, 17, 19, 5, 6, 18],
     # '2153046': [3, 11, 15, 23, 26, 30, 4, 29, 33], '2154036': [7, 8, 9, 12, 20, 21, 28, 32, 34, 37, 42, 46,
     # 53, 54, 60, 13, 22, 31, 38], '2153036': [16, 27, 35, 36, 43], '2145036': [24, 44, 49, 51, 59, 25],
-    # '3145026': [39, 48, 50, 52, 56, 57, 40, 41, 55], '3045126': [45, 62, 63, 58], '4036125': [47, 65, 66], '
-    # 3035126': [61, 64]}
+    # '3145026': [39, 48, 50, 52, 56, 57, 40, 41, 55], '3045126': [45, 62, 63, 58], '4036125': [47, 65, 66],
+    # '3035126': [61, 64]}
     """Blague (science/musique)"""
 
 
 def seption(mode_poids, k1, pc1, gm1, maj7):
     """Réception des poids modaux standards à augmenter & Création 'globdic_Dana.txt'.
     L'argument 'maj7' est le dictionnaire des modes maj 7èmes et poids standards par gamme"""
-    ('\n', lineno(), ' ¤ GEM M_P', mode_poids, 'K1=', k1, 'PC1=', pc1, 'Gm1=', gm1, '\nMaj7', maj7)
-    # 251  ¤ GEM Mode_poids= [[0, 0, 0, 5, 0, 0, 0], [0, -3, -4, 0, 0, -7, -8],
-    # [0, 0, -4, 0, 0, 0, -8], [0, 0, 0, 0, 0, 0, 0], [0, -3, -4, 0, -6, -7, -8],
-    # [0, 0, -4, 0, 0, -7, -8], [0, 0, 0, 0, 0, 0, -8]] K1= 66 PC1= ['101010110101', '110101011010',
-    # '101101010110', '101011010101', '110101101010', '101101011010', '101011010110']
-    # Gm1= [21, 24, 38, 40, 45, 47, 48, 51, 55, 58, 61, 62, 64, 65, 66]
-    # Maj7[66] = [(('101010110101', 5), 66), (('101011010101', 0), 66)]}
+    ('\n', lineno(), 'K1=', k1, ' ¤ GEM M_P', mode_poids, '\nPC1=', pc1, '\nGm1=', gm1.keys())
+    # 238 K1= 66  ¤ GEM M_P [[0, 0, 0, 5, 0, 0, 0], [0, -3, -4, 0, 0, -7, -8], [0, 0, -4, 0, 0, 0, -8],
+    # [0, 0, 0, 0, 0, 0, 0], [0, -3, -4, 0, -6, -7, -8], [0, 0, -4, 0, 0, -7, -8], [0, 0, 0, 0, 0, 0, -8]]
+    # PC1= ['1', '0', '2', '0', '3', '4', '0', '5', '0', '6', '0', '7', [((0, 66), '101011010101')]]
+    # Gm1= dict_keys([21, 24, 38, 40, 45, 47, 48, 51, 55, 58, 61, 62, 64, 65, 66])
+    """if maj7:
+        for magie in maj7.keys():
+            print(lineno(), 'Quant', magie, 'Magic Majeur 7ème \n', maj7[magie])
+            # 245 Quant 66 Magic Majeur 7ème
+            # [(('101010110101', 5), 66), (('101011010101', 0), 66)]"""
     goo = []
     cumul = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []}
     dic_analyse[k1] = []  # :Dana initie table
@@ -329,4 +376,4 @@ if __name__ == '__main__':
                 3: [0, -3, -4, 0, 0, -7, -8], 4: [0, 0, 0, +5, 0, 0, 0],
                 5: [0, 0, 0, 0, 0, 0, -8], 6: [0, 0, -4, 0, 0, -7, -8],
                 7: [0, -3, -4, 0, -6, -7, -8]}
-    seption(mode_po, 1, {}, [], {})
+    seption(mode_po, 1, {}, {}, {})

@@ -11,6 +11,7 @@ import inspect
 import os
 from typing import Callable
 import GlobInverseAcc
+
 glob_in_acc = GlobInverseAcc
 inspect.getsource(os)
 
@@ -39,7 +40,6 @@ gamme_poids = {1: [0, 0, 0, 0, 0, 0, 0], 2: [0, 0, -4, 0, 0, 0, -8],
                5: [0, 0, 0, 0, 0, 0, -8], 6: [0, 0, -4, 0, 0, -7, -8],
                7: [0, -3, -4, 0, -6, -7, -8]}
 
-signes = ['', '+', 'x', '^', '^+', '^x', 'o*', '-*', '*', 'o', '-']
 dic_analyse = {}  # :Dana initie dico
 dic_pc, dic_gammes, tab_faible = {}, {}, {}
 # Les clefs de ces dictionnaires valent chacune une gamme
@@ -49,6 +49,8 @@ ego_mode, ego_rang, ego_poids = {}, {}, {}  # Dico:ego. Union gammes
 maj_mode, maj_rang, maj_poids = {}, {}, {}  # Dico:maj. Diatonic majeur
 # Pour éviter de tourner autour du pot!
 maj_clef = [66]  # Table:maj_clef. Clef référence majeure. :dana.keys().
+# Dictionnaire final des noms des gammes
+noms_dic = {}
 
 # Classement Gammes.mécanic
 """Les mutations sont chiffrées :
@@ -65,6 +67,7 @@ Les nomes des gammes ont deux types numériques :
 Les priorités des traitements :
     1- Traitement clustérien solution altéractivité.
     2- Traitement signature modèle altération."""
+signes = ['', '+', 'x', '^', '^+', '^x', 'o*', '-*', '*', 'o', '-']
 
 
 def maj7_fonc(unic, fondre):
@@ -73,11 +76,48 @@ def maj7_fonc(unic, fondre):
     Fondre: Les 66 gammes et leurs modes diatoniques binaires"""
     stop = False
 
-    def fond_gam(mode):
-        """Développement diatonique du mode binaire avec mages_biner[0]
+    def fond_gam(mode, fol):
+        """Développement diatonique du mode binaire
+            Transforme binaire en unaire pour calculer
          Créer une liste de la topologie et mettre en forme le nom
-         Format(nom) = Max(2 degrés, 2 signes) (Ligne 59).."""
-        print('\n', lineno(), 'ImgBin', mages_biner[0], 'Mode', mode)
+         Format(nom) = Max(2 degrés, 2 signes) (Ligne 59)..
+            Altéractifs = o3, +3, -4, o4, x4, o5, x5,,"""
+        alteractif = {'o3': ['o3', '-2'], '+3': ['+3', '+4'], '-4': ['-4', '-3'],
+                      'o4': ['o4', 'o3', '-2'], 'x4': ['x4', '+5'],
+                      'o5': ['o5', '-4', '-3'], 'x5': ['x5', '+6']}
+        signatures = {'+': [0], 'x': [0], '^': [0], '^+': [0], '^x': [0],
+                      'o*': [0], '-*': [0], '*': [0], 'o': [0], '-': [0]}
+
+        g_maj = [1, 0, 2, 0, 3, 4, 0, 5, 0, 6, 0, 7]
+        i_mod, z = [], 0
+        for i in mode:  # Construction mode unaire
+            if i == '1':
+                z += 1
+                y = z
+            else:
+                y = 0
+            i_mod.append(y)
+        (lineno(), 'I_mod', i_mod)
+        photo, z = [], 0
+        for im in i_mod:
+            if im > 0:
+                pro1 = i_mod.index(im)
+                pro2 = g_maj.index(im)
+
+                prout = pro1 - pro2
+                if prout != 0:
+                    ph = signes[prout] + str(im)
+                    if ph in alteractif.keys():
+                        photo = [ph]
+                    else:
+                        photo.append(ph)
+            z += 1
+        for hot in photo:
+            ist = (list(hot)[:len(hot)-1])[0]
+            if ist in signatures.keys():
+                signatures[ist].append(hot)
+                print(fol, 'signatures[', ist, ']', signatures[ist])
+        (lineno(), '  Photo', photo, '\n')
 
     """GlobEnModes = Gammes-fichier:globdicTgams.txt (Ligne 72)"""
     fil_gammes = open('globdicTgams.txt', 'r')
@@ -86,30 +126,29 @@ def maj7_fonc(unic, fondre):
         fix += 1
         tab_faible[fix] = []
         ff = fil  # fil_gammes: Numéro gamme
-        (lineno(), 'Fix', fix, 'FF', ff[:len(ff)-1])  # [:len(ff)-1]: Moins retour chariot
+        (lineno(), 'Fix', fix, 'FF', ff[:len(ff) - 1])  # [:len(ff)-1]: Moins retour chariot
         # 88 Fix 61 FF ['1', '0', '2', '-3', '0', '0', '+4', '5', '0', '6', '0', '7',
         # [((1, 61), '101100110101')]]
 
         if fix in unic.keys():  # Unic: Premières gammes faciles (Ligne 71)
             (lineno(), fix, 'unic[fix][-1][0][1] =', unic[fix][-1][0][1])
             # 91 66 unic[fix][-1][0][1] = 101011010101
-            fond_gam(unic[fix][-1][0][1])             # fond_gam: Fonction envoi(unic)
+            fond_gam(unic[fix][-1][0][1], fix)  # fond_gam: Fonction envoi(unic)
         elif fix in fondre.keys():  # Fondre: Gammes secondaires (Ligne 72)
-            my2 = []            # my2: Créer liste des poids légers par gamme
+            my2 = []  # my2: Créer liste des poids légers par gamme
             for mz in fondre[fix]:
                 my = mz[0][1]
                 tab_faible[fix].append(my)
                 my2.append(my)
-            my2.sort()          # my2: Trié
-            for m22 in my2:     # my2: Lecture liste
+            my2.sort()  # my2: Trié
+            for m22 in my2:  # my2: Lecture liste
                 for m23 in fondre[fix]:
                     if m22 in m23[0]:
                         (lineno(), fix, 'my2', my2, 'M23', m23[0][0])
-                        # fond_gam(m23[0][0])           # fond_gam: Fonction envoi(fondre)
+                        # fond_gam(m23[0][0], fix)           # fond_gam: Fonction envoi(fondre)
                         if stop is False:
                             break
             (lineno(), fix, 'MY2', my2, 'Fondre', fondre[fix][0], '\n')
-            # fond_gam(fondre[fix])  # fond_gam: Fonction envoi(fondre)
     (lineno(), 'GEM DicFondre', fondre[66], '\nUnic', unic.keys())
     fil_gammes.close()  # Lecture fichier globdicTgams.txt
 
@@ -153,11 +192,11 @@ def dana_fonc(dana):
                 dd = dana[dan][dn][0]  # 66.dd: = [0, 0, 0, 5, 0, 0, 0]
                 maj_poids[66].append(dana[dan][dn][1][0])  # 66.maj_poids: = 588
                 for ide in dd:
-                    tm += ide       # tm nul = ide§ nul§
-                if tm == 0:         # 66.dd: = [0, 0, 0, 0, 0, 0, 0] = Tonique majeure
-                    tempo = dn      # 66.Tempo: dana[dan][tempo]
-                    maj_mode[66] = [dana[dan][dn][0]]   # Maj.Mode [0, 0, 0, 0, 0, 0, 0]
-                    maj_mode[66].append(tempo)          # Maj.Mode [[0, 0, 0, 0, 0, 0, 0], 3]
+                    tm += ide  # tm nul = ide§ nul§
+                if tm == 0:  # 66.dd: = [0, 0, 0, 0, 0, 0, 0] = Tonique majeure
+                    tempo = dn  # 66.Tempo: dana[dan][tempo]
+                    maj_mode[66] = [dana[dan][dn][0]]  # Maj.Mode [0, 0, 0, 0, 0, 0, 0]
+                    maj_mode[66].append(tempo)  # Maj.Mode [[0, 0, 0, 0, 0, 0, 0], 3]
                 (lineno(), dn, '     Dd', dd, '\tDan', dan)
                 # 101 3      Dd [0, 0, 0, 0, 0, 0, 0] 	Dan 66
             maj_lest = maj_poids[66].copy()
@@ -249,7 +288,7 @@ def dana_fonc(dana):
                 vii = vi, kilo
                 if vii not in filer:
                     filer.append(vii)
-    ('Nombre Filer', len(filer),  'Long ego_poids', len(ego_poids), '** ego_poids', ego_poids)
+    ('Nombre Filer', len(filer), 'Long ego_poids', len(ego_poids), '** ego_poids', ego_poids)
     # Nombre Filer 66 Long ego_poids 26 ** ego_poids {147: [1], 266: [18, 2, 5, 6],
     # 315: [33, 3, 4, 29], 378: [38, 7, 13, 22, 31], 413: [21, 8], 350: [20, 9],
     # 224: [19, 10], 308: [15, 11], 406: [54, 12, 28, 32, 34, 37], 238: [17, 14],
@@ -299,9 +338,9 @@ def seption(mode_poids, k1, pc1, gm1, maj7):
                 modal, cc = [], 0
                 """:mod = [0,-3, -5, 7, 7, 7,0]"""
                 for mo in mod:  # :mo= Signature Non Majeure
-                    diff = mo - com     # :com= Unité valeur Majeure
-                    cc += diff          #
-                modal.append(cc)        # Cumul cc Entre Maj ou pas
+                    diff = mo - com  # :com= Unité valeur Majeure
+                    cc += diff  #
+                modal.append(cc)  # Cumul cc Entre Maj ou pas
                 cumul[gpk].append(modal)
     # Par degré[Cumul poids cumul.keys(values)]
     mana1, mana2 = [], []
@@ -309,8 +348,8 @@ def seption(mode_poids, k1, pc1, gm1, maj7):
         aaa = 0
         for van in rame:
             aaa += van[0]
-        mana1.append(aaa)           # Version signée (±) Util False
-        mana2.append(abs(aaa))      # Version absolue (|) Util True
+        mana1.append(aaa)  # Version signée (±) Util False
+        mana2.append(abs(aaa))  # Version absolue (|) Util True
     # Démultiplications des moyennes pour seption notes
     moyen = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []}
     goo.clear()
@@ -341,8 +380,8 @@ def seption(mode_poids, k1, pc1, gm1, maj7):
     """GlobEnModes = Gammes"""
     fil_analyse = open('globdic_Dana.txt', 'w')
     for ky1, va1 in dic_analyse.items():  # dic_analyse: Infos Dana
-        mm = str(ky1) + str(va1)            # ky1: Numéro gamme
-        mm += '\n'                          # va1: Modes poids augmentés
+        mm = str(ky1) + str(va1)  # ky1: Numéro gamme
+        mm += '\n'  # va1: Modes poids augmentés
         fil_analyse.write(mm)
     fil_analyse.close()  # Écriture fichier globdic_Dana.txt
 

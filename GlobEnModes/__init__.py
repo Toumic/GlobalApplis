@@ -50,7 +50,7 @@ maj_mode, maj_rang, maj_poids = {}, {}, {}  # Dico:maj. Diatonic majeur
 # Pour éviter de tourner autour du pot!
 maj_clef = [66]  # Table:maj_clef. Clef référence majeure. :dana.keys().
 # Dictionnaire final des noms des gammes
-noms_dic = {}
+noms_dic = {66: 'maj'}
 
 # Classement Gammes.mécanic
 """Les mutations sont chiffrées :
@@ -82,42 +82,64 @@ def maj7_fonc(unic, fondre):
          Créer une liste de la topologie et mettre en forme le nom
          Format(nom) = Max(2 degrés, 2 signes) (Ligne 59)..
             Altéractifs = o3, +3, -4, o4, x4, o5, x5,,"""
-        alteractif = {'o3': ['o3', '-2'], '+3': ['+3', '+4'], '-4': ['-4', '-3'],
-                      'o4': ['o4', 'o3', '-2'], 'x4': ['x4', '+5'],
-                      'o5': ['o5', '-4', '-3'], 'x5': ['x5', '+6']}
-        signatures = {'+': [0], 'x': [0], '^': [0], '^+': [0], '^x': [0],
-                      'o*': [0], '-*': [0], '*': [0], 'o': [0], '-': [0]}
+        alteractif = {'o3': ['o3', '-2'], '+3': ['+3', '+4'], '^3': ['^3', '^4', 'x5', '+6'],
+                      '-4': ['-4', '-3'], 'o4': ['o4', 'o3', '-2'], 'x4': ['x4', '+5'],
+                      '*5': ['*5', 'o4', 'o3', '-2'], 'o5': ['o5', '-4', '-3'],
+                      'x5': ['x5', '+6'], 'o6': ['o6', '-5']}
+        signatures = {}
+        # '+': [], 'x': [], '^': [], '^+': [], '^x': [],
+        # 'o*': [], '-*': [], '*': [], 'o': [], '-': []
 
         g_maj = [1, 0, 2, 0, 3, 4, 0, 5, 0, 6, 0, 7]
         i_mod, z = [], 0
-        for i in mode:  # Construction mode unaire
-            if i == '1':
+        for i in mode:              # Construction mode unaire
+            if i == '1':            # [1, 0, 2, 0, 3, 4, 0, 5, 0, 6, 0, 7]
                 z += 1
                 y = z
             else:
                 y = 0
             i_mod.append(y)
-        (lineno(), 'I_mod', i_mod)
+        print(' **', lineno(), 'I_mod', i_mod)
         photo, z = [], 0
-        for im in i_mod:
+        for im in i_mod:                            # Section lecture mode unaire
             if im > 0:
                 pro1 = i_mod.index(im)
                 pro2 = g_maj.index(im)
-
                 prout = pro1 - pro2
                 if prout != 0:
                     ph = signes[prout] + str(im)
-                    if ph in alteractif.keys():
-                        photo = [ph]
-                    else:
-                        photo.append(ph)
+                    photo.append(ph)
             z += 1
         for hot in photo:
             ist = (list(hot)[:len(hot)-1])[0]
-            if ist in signatures.keys():
+            if ist not in signatures.keys():
+                signatures[ist] = [fol]
                 signatures[ist].append(hot)
-                print(fol, 'signatures[', ist, ']', signatures[ist])
-        (lineno(), '  Photo', photo, '\n')
+            else:
+                signatures[ist].append(hot)
+            print(lineno(), signatures[ist], 'Photo', photo)
+        duo = []
+        for ks, kv in signatures.items():
+            cou = ''
+            if len(signatures.keys()) == 1:
+                if len(kv) == 2:
+                    cou = kv[1]
+                if len(kv) > 2:
+                    cou = kv[1] + kv[2][1:]
+                # (fol, 'KS', ks, 'KV', kv, 'COU', cou)
+            elif len(duo) != len(signatures.keys()):
+                if not duo:
+                    duo.append(kv[1])
+                    # (lineno(), duo)
+                else:
+                    du = kv[1][1] + kv[1][0]
+                    duo.append(du)
+                if len(duo) == len(signatures.keys()):
+                    cou = duo[0] + duo[1]
+                    # ('     ', lineno(), 'Kv', kv, 'Cou', cou)
+            noms_dic[kv[0]] = cou
+            print(lineno(), fol, 'KS', ks, 'KV', kv, 'COU', cou)
+        (lineno(), '  noms_dic', noms_dic[66], '\n')
 
     """GlobEnModes = Gammes-fichier:globdicTgams.txt (Ligne 72)"""
     fil_gammes = open('globdicTgams.txt', 'r')
@@ -133,7 +155,7 @@ def maj7_fonc(unic, fondre):
         if fix in unic.keys():  # Unic: Premières gammes faciles (Ligne 71)
             (lineno(), fix, 'unic[fix][-1][0][1] =', unic[fix][-1][0][1])
             # 91 66 unic[fix][-1][0][1] = 101011010101
-            fond_gam(unic[fix][-1][0][1], fix)  # fond_gam: Fonction envoi(unic)
+            # fond_gam(unic[fix][-1][0][1], fix)  # fond_gam: Fonction envoi(unic)
         elif fix in fondre.keys():  # Fondre: Gammes secondaires (Ligne 72)
             my2 = []  # my2: Créer liste des poids légers par gamme
             for mz in fondre[fix]:
@@ -144,10 +166,11 @@ def maj7_fonc(unic, fondre):
             for m22 in my2:  # my2: Lecture liste
                 for m23 in fondre[fix]:
                     if m22 in m23[0]:
-                        (lineno(), fix, 'my2', my2, 'M23', m23[0][0])
-                        # fond_gam(m23[0][0], fix)           # fond_gam: Fonction envoi(fondre)
-                        if stop is False:
-                            break
+                        print('\n ** ** ', lineno(), fix, 'my2:', my2, 'M22:', m22, '    M23', m23[0][0])
+                        #  **** ****  173 63 my2 [7, 10, 18] M23 100101101101
+                        fond_gam(m23[0][0], fix)           # fond_gam: Fonction envoi(fondre)
+                    if stop is True:
+                        break
             (lineno(), fix, 'MY2', my2, 'Fondre', fondre[fix][0], '\n')
     (lineno(), 'GEM DicFondre', fondre[66], '\nUnic', unic.keys())
     fil_gammes.close()  # Lecture fichier globdicTgams.txt

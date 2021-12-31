@@ -1,12 +1,12 @@
 # Python 3.9 UTF-8
-# Mercredi 12 mai 2021 à 20h 32m (premières lignes)
+# mercredi 12 mai 2021 à 20 h 32 mn (premières lignes)
 # Cabviva.fr Cab.Rich.Int.Music.Quant
 # Mardi 27 juillet 2021
 
 # Conçu par Vicenté Llavata Abreu|Vicenté Quantic|Toumic
 # Module GlobGamFonds.py
 """Réception liste binaire Tétra + Gamme
-Priorité aux gammes heptatoniques:
+Priorité aux gammes heptatoniques :
     classement par le poids altéré du degré modal"""
 
 import inspect
@@ -20,7 +20,7 @@ glob_en = GlobEnModes
 # lineno() Pour coder le programme grâce au suivi des print's
 lineno: Callable[[], int] = lambda: inspect.currentframe().f_back.f_lineno
 
-"""# Fondues Tableau préconçu servant de référence, il n'est pas exhaustif
+"""# Fondues Tableau préconçu servant de référence
 fondues = ['0', '-2', '+2', '^2', '-3', '-23', '-34x', '+34', '+23x', '-34', 'x3',
            '°3', '+34x', '°34x', '^3', '-4', '-24', '^4', '°4', '-5', '-25', '-25+',
            '+25-', '-35', '-35+', '+45x', '+25x', '°35-', '+35x', '-45+', '-45',
@@ -60,7 +60,7 @@ for deg, kg in gamme_pesante.items():
         poids_major[deg] = kgk
 # (f' {lineno()}: GGF Poids_Major:{poids_major}')
 #  60: GGF Poids_Major:{1: 0, 2: -12, 3: -22, 4: 5, 5: -8, 6: -19, 7: -28}
-signes = ['', '+', 'x', '^', '^+', '^x', 'o*', '-*', '*', 'o', '-']
+signes = ['', '+', 'x', '^', '+^', 'x^', 'o*', '-*', '*', 'o', '-']
 gamme_majeure, gamme_index = '102034050607', [0, 2, 4, 5, 7, 9, 11]  # Diatonisme naturel
 poids_modal, modes_modal, tab_eh = [], [], []
 poids_avals, gamme_avals, magma, gam_tonique, mode_maj7 = {}, {}, {}, {}, {}
@@ -172,16 +172,19 @@ def diatonic(topic):
             else:
                 glob_en.seption(modes_modal, kit, magma[kit], gamme_avals, {})
     (lineno(), 'GGF gamme_avals', gamme_avals.keys())
-    (lineno(), 'GGF Long MagMa', len(magma))
+    # 174 GGF gamme&avals dict_keys([21, 24, 38, 40, 45, 47, 48, 51, 55, 58, 61, 62, 64, 65, 66])
+    # Long MagMa = Les modèles légers. Dictionnaire 66 éléments
+    (lineno(), 'GGF Long MagMa', len(magma), magma)
 
     """GlobDicTGams = Gammes fondamentales"""
-    fil_gammes = open('globdicTgams.txt', 'w')
+    fil_gammes = open('GlobalTexte/globdicTgams.txt', 'w')
     f = 1
     while f <= len(magma):
         mm = str(magma[f])
         mm += '\n'
         fil_gammes.write(mm)
         gam_tonique[f] = magma[f]  # gam_tonique: Création
+        # print(lineno(), 'GGF MagMa', magma[f][12:])
         f += 1
     fil_gammes.close()
     (lineno(), 'GGF GamTon', gam_tonique)

@@ -1,7 +1,7 @@
 ####{ GlobalApplis
 `Cette application }`
 
-~~README.md~~
+README.md
 
 # GlobalApplis
 _Est une application qui rassemble plusieurs instruments de mesure._
@@ -20,7 +20,7 @@ La simplicité de cette gamme (**CDEFGAB**). Et la calculabilité des tonalités
 ### _Comment cette appli agit pour "calculer" la gamme naturelle_
     _La gamme naturelle comporte deux tétracordes et sept modulations diatoniques_
 Normalement chaque nouvelle gamme fondamentale créée possède sept qualités modales majeures, si bien qu'à ce niveau la gamme de Do majeure et celle de Ré majeure ont les mêmes qualités tonales. Car elles sont égales du point de vue des intervalles. La gamme a sept notes & cinq intervalles qui déterminent sa tonalité, et en particulier la valeur naturelle de la tonalité. Comme il a été dit le tétracorde en fait partie en tant qu'objet, le mode tonique majeur de toutes les tonalités représentent une forme qualitative identique. Parmi les fondamentales il y a **°45x**, & ces notes : **[Do, bRé, bbMi, bbFa, ##Sol, #La, Si]**.
-Les tétras majeurs occupent l'octave de Do à Do : Do, _, Ré, _, Mi, Fa & Sol, _, La, _, Si, Do. Ils ont une forme similaire : **"OoOoOO" = "OoOoOO" = ~~FAUX~~**. Puis le cas "°45x" donne l'aperçu d'un tétra minimal aussi appelé cluster : **OOOOoooooOOOO**
+Les tétras majeurs occupent l'octave de Do à Do : Do, _, Ré, _, Mi, Fa et Sol, _, La, _, Si, Do. Ils ont une forme similaire : **"OoOoOO" = "OoOoOO" = ~~FAUX~~**. Puis le cas "°45x" donne l'aperçu d'un tétra minimal aussi appelé cluster : **OOOOoooooOOOO**
 `Le développement clusterien initialiser systémique`
  
 ###Pour parler un peu du système tétra = Développer cluster
@@ -44,7 +44,7 @@ Et si cette limite faisait l'occasion à l'apprentissage d'une organisation clus
 _L'application a des modules sobres en fonction_
 #### `GlobalApplis.GlobModelGammy.GlobGamFonds.GlobEnModes.`
 ### _GlobalApplis ***_
-**Le module des initiales, ** 'GA' est chargé de transformer le cluster en une entité recevable. Modifier par la voie des incrémentations dans un jeu de priorités rangées aux extrémités libres. C'est dire que lorsque l'extrémité parvient à l'extrême, l'élément clustérien précédant l'extrémité incrémentée avance d'un cran en rappelant l'extrémité à son côté. L'unité clustérienne propage son extrémité jusqu'à l'extrême, puis avance l'unité inférieure & Relance l'extrémisme. Selon que les libertés des unités inférieures ne soient limitées, l'avancée intérieure avance à chaque relance à une aide orientée vers le bas pour le cas.
+**Le module des initiales, ** 'GA' est chargé de transformer le cluster en une entité recevable. Modifier par la voie des incrémentations dans un jeu de priorités rangées aux extrémités libres. C'est dire que lorsque l'extrémité parvient à l'extrême, l'élément clustérien précédant l'extrémité incrémentée avance d'un cran en rappelant l'extrémité à son côté. L'unité clustérienne propage son extrémité jusqu'à l'extrême, puis avance l'unité inférieure et Relance l'extrémisme. Selon que les libertés des unités inférieures ne soient limitées, l'avancée intérieure avance à chaque relance à une aide orientée vers le bas pour le cas.
 #### Glob Apply `Édition Fichiers [(Tétras.µ)(Tétras.µ©)(Tétras.Qµ)]`µ: 1234. µ©: 1234. .5678. Q©: 1,b2, .,7,8.
 ### _GlobModelGammy ***_
 **Le module des premiers, ** 'GMG' service de triage des modèles (Tetra/Couple). Obtention des modèles uniques débarrassés de leurs modes diatoniques. Modélisations parfaites protagonistes du rôle fondamental : `Réductions Analytiques`. Une gamme a plusieurs descriptions, un exemple lettré "**123045670000**", et sa binarisation "**111011110000**". Binariser les notes à une finalité de comparaison entre modèles, methode de calcul se dispensant des degrés chiffrés.
@@ -58,7 +58,17 @@ _L'application a des modules sobres en fonction_
 `def seption(mode_poids, k1, pc1, gm1): Réception des poids modaux basiques à augmenter & Création 'globdic_Dana.txt'`
 
 `def dana_fonc(dana, gam1): Les dictionnaires {dan/ego/maj}: Enregistrer. Répertorier. Référencer.`
-###### Brièvement ; Augmenter les mesures entrantes. Capter les 7èmes majeures. Trier les gammes selon leurs masses : Mêmes poids signifient également mêmes rangs. Mêmes rangs possibilité de poids différents. 
+
+`def maj7_fonc(unic, fondre): Réception simple(unic), abscon(fondre). Trie les gammes.`
+
+`def fond_gam(mode, fol): A la charge signer les gammes(notes et signes)+ Modes diatoniques.`
+
+
+###### Brièvement ; Augmenter les mesures entrantes. Capter les 7èmes majeures. Trier les gammes selon leurs masses : Mêmes poids signifient également mêmes rangs. Mêmes rangs possibilité de poids différents. Préciser les différentes natures gammales, soit que l'issue fonctionnelle produise un ensemble fondamental basé sur la légèreté des gammes à noms entiers.
+
+Les gammes fondamentales sont les 1ers modes diatoniques, ces modes fondamentaux ont leurs importances et aussi leurs exactitudes est primordiale. En un premier temps, nous avons déterminé selon deux vecteurs : Les poids modaux. Les noms entiers. Et dans une deuxième mesure pouvant être décisive, nous avons décidés de réaliser une seconde expertise avec la même méthode que celle appliquée dans le développement diatonique. Et ainsi saisir l'occasion de valider ou pas la 1ère déduction fondamentale :
+
+Le premier degré modal naturel est majeur à toutes les tonalités, ainsi que touts les autres modes incorporés dans la diatonie. Afin la lecture s'améliore sans les mots inutiles, et en sriptant l'écriture explicative : `I. Mode tonique. Tonalité modale/majeure. |. II. Mode tonal. Tonalité (b3, b7) plus la valeur du mode tonique. |. III. Mode mélodique. Tonalité (b2, b3, b6, b7) plus la valeur du mode tonique. |. IV. Mode médian. (#4)... |. Mode dominant. (b7)... |. Mode harmonique. (b3, b6, b7)... |. Mode sensible. (b2, b3, b5, b6, b7)... |` Chaque modulation diatonique a sa propre définition, elle est chargée de s'appliquer au modèle fondamental. Si, `I. Tonique harmonique. Tonie(b6). |. II. (b3, b7)+(b5). |. III. (b3, b6, b7)+(b4). |. IV. (#4)+(b3). |. V. (b7)+(b2). |. VI. (b3, b6, b7)+(b1). |. VII. VII. (b2, b3, b5, b6, b7)+(b7).`. À bonne lecture bon entendeur, il y a une présence modale qui présente une improbable qualité modale : `|. VI. (b3, b6, b7)+(b1). |`
 
 #### Glob Modely `Program Test & Actif [(Test.Précis)(Acte.Effet)]`
 

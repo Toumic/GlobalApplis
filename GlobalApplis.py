@@ -1,12 +1,12 @@
 # Python 3.9 UTF-8
-# Dimanche 28 mars 2021 à 19h 45m (premières lignes)
-# Mardi 13 avril 2021 (Développement des tétracordes)
-# Mardi 27 juillet 2021
+# dimanche 28 mars 2021 à 19 h 45 mn (premières lignes)
+# mardi 13 avril 2021 (Développement des tétracordes)
+# mardi 27 juillet 2021
 #
 # Conçu par Vicenté Llavata Abreu | Vicenté Quantic | Toumic
 # Module GlobalApplis.py
 """ Script de construction des gammes musicales utilisant ces notes (C, D, E, F, G, A, B)
-Explications:
+Explications :
     La création des gammes musicales englobe les notes & les intervalles dans une octave de 12 ½ tons,
     elle se concentre sur les tétracordes étant des corps de 4 notes. L'assemblage formé
     par les gammes gestionnaires de l'intervalle, assemble 2 modèles tétras superposés. La création
@@ -43,13 +43,13 @@ nt234 = [[2, [1, 6]], [3, [2, 7]], [4, [3, 8]]]
 j = -1
 gamme = '1020340506078'  # Chromatisme naturel
 notes = 'CDEFGABC'  # Notes musique
-alter = ['', '+', 'x', '^', '^+', '^x', 'o*', '-*', '*', 'o', '-']
+alter = ['', '+', 'x', '^', '+^', 'x^', 'o*', '-*', '*', 'o', '-']
 t_bas, t_haut = [], []  # Tétra*défaut
 
 
 # Fonction couplage tétracordique
 def couple():
-    """Fonderie tétras & Moulage gammes"""
+    """Fonderie tétras et Moulage gammes"""
     x2, z = 0, 0
     for c in tablette:
         y, cyt, ctt = 0, [], []
@@ -227,7 +227,7 @@ couple()
 
 # Écriture fichier tétra.
 """GlobDicTCord = Tétras uniques"""
-fil_cluster = open('globdicTcord.txt', 'w')
+fil_cluster = open('GlobalTexte/globdicTcord.txt', 'w')
 for d in tablette:
     ee = ''.join(e for e in d)
     ee += '\n'
@@ -235,7 +235,7 @@ for d in tablette:
 fil_cluster.close()
 
 """GlobDicTCoup = Tétras couplés"""
-fil_couple = open('globdicTcoup.txt', 'w')
+fil_couple = open('GlobalTexte/globdicTcoup.txt', 'w')
 for d in dicoT.values():
     ee = ''.join(e for e in d)
     ee += '\n'
@@ -243,7 +243,7 @@ for d in dicoT.values():
 fil_couple.close()
 
 """GlobDicTCode = Tétras codés"""
-fil_codage = open('globdicTcode.txt', 'w')
+fil_codage = open('GlobalTexte/globdicTcode.txt', 'w')
 f = 0
 while f < len(t_bas):
     ee = str(t_bas[f] + t_haut[f])

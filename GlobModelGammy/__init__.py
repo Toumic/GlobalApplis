@@ -9,13 +9,13 @@
 """ Module d'application au traitement de la résultante clustérienne
 en une diatonie relative à la gamme_majeure naturelle musicale.
     * L'aspect diatonique de la gamme_majeure:_ = Sur une octave de 12 notes
-    * L'aspect diatonique du tétracorde:_ = Sur l'éventail du tétra
+    * L'aspect diatonique du tétracorde : Sur la diatonique tétra.
 Il y a autant de notes que de modulations diatoniques et
 les ensembles fondamentaux n'ont pas les mêmes modulations
 Ce module trie les diatoniques afin d'un rassemblement fondamental
 sans exécuter le traitement des tonalités avec les signes (b/#)
 Afin de faciliter le traitement, chaque entrée [1,2,3,4] devient [1,1,1,1]
-    Rajouté: Pour plusieurs tétracordes de même longueur
+    Rajouté : Pour plusieurs tétracordes de même longueur
         Une suite consécutive de zéros tient de famille diatonique
 """
 
@@ -34,19 +34,19 @@ def gammy():
 
     # Chargement des fichiers
     def lecteur():
-        """GlobDicTCord = Tétras uniques: 1234"""
+        """GlobDicTCord = Tétras uniques : 1234"""
         # Chargement Fichier.txt
-        fil_cluster = open('globdicTcord.txt', 'r')
+        fil_cluster = open('GlobalTexte/globdicTcord.txt', 'r')
         for d in fil_cluster:
             cluster.append(d)
         fil_cluster.close()
         """GlobDicTCoup = Tétras couplés: 1234,0,5678"""
-        fil_couple = open('globdicTcoup.txt', 'r')
+        fil_couple = open('GlobalTexte/globdicTcoup.txt', 'r')
         for d in fil_couple:
             coupler.append(d)
         fil_couple.close()
         """GlobDicTCode = Tétras codés:1234=#/b(1234)#/b(5678)"""
-        fil_codage = open('globdicTcode.txt', 'r')
+        fil_codage = open('GlobalTexte/globdicTcode.txt', 'r')
         for d in fil_codage:
             recoder.append(d)
         fil_codage.close()
@@ -54,7 +54,7 @@ def gammy():
     """CLUSTER GlobDicTCord = Tétras uniques: 1234 cluster[]"""
     """COUPLER GlobDicTCoup = Tétras couplés: 1234,0,5678 coupler[]"""
     """RECODER GlobDicTCode = Tétras codés:1234={[#/b(1234)][#/b(5678)]} recoder[]"""
-    lecteur()
+    lecteur()  # lecteur est une fonction(def)
 
     # Définition diatonic_tetra / Tétracordic
     """Cycle degrés tétras non signés (Quand 12340 = 34012)"""

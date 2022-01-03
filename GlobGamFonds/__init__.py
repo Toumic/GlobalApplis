@@ -64,6 +64,7 @@ signes = ['', '+', 'x', '^', '+^', 'x^', 'o*', '-*', '*', 'o', '-']
 gamme_majeure, gamme_index = '102034050607', [0, 2, 4, 5, 7, 9, 11]  # Diatonisme naturel
 poids_modal, modes_modal, tab_eh = [], [], []
 poids_avals, gamme_avals, magma, gam_tonique, mode_maj7 = {}, {}, {}, {}, {}
+h_bin = {}
 
 
 def diatonic(topic):
@@ -115,10 +116,14 @@ def diatonic(topic):
             top00 = ''.join(p for p in pilote)
         # Détection septièmes majeures
         lys_0, dic_pt, dic_neg, dico_neg = [], {}, {}, []
-        for c in poids_class.keys():  # Selection modes majeurs
+        h_bin[kit] = []
+        for c in poids_class.keys():  # Selection modes
+            lp = poids_class[c], c[0]
+            # print(lineno(), 'GGF C', c[0], kit)
             if c[1][-1] == '1':  # Mode Maj7
-                lp = poids_class[c], c[0]
                 lys_0.append(lp)
+            else:
+                h_bin[kit].append(lp)
         (lineno(), 'GGF Lys_0', lys_0)
         # 122 GGF Lys_0 [(('101010110101', 5), 66), (('101011010101', 0), 66)]
         mode_maj7[kit] = lys_0
@@ -162,15 +167,15 @@ def diatonic(topic):
         if f0 < 3:  # Select Max2 Signes
             # Gamme aval Des degrés simples et légers...
             gamme_avals[mini[1]] = gamme  # mini[1]: N°_Gam ou gamme[12:][0][0][0][1]
-            ('*', lineno(), 'MINI', mini[1], '_Gam8', gamme[12:][0][0][0][1])  # *164 MINI 66 _Gam8 66
+            ('*', lineno(), 'M', mini[1], '_G8', gamme[12:][0][0][0][1])  # *164 MINI 66 _Gam8 66
         magma[mini[1]] = gamme
         (lineno(), mini[1], 'Magma[][:12]', magma[mini[1]][:12])
         # 166 66 Magma[][:12] ['1', '0', '2', '0', '3', '4', '0', '5', '0', '6', '0', '7']
         if len(modes_modal) == 7:
             if len(mode_maj7) == 66:
-                glob_en.seption(modes_modal, kit, magma[kit], gamme_avals, mode_maj7)
+                glob_en.seption(modes_modal, kit, magma[kit], gamme_avals, mode_maj7, h_bin)
             else:
-                glob_en.seption(modes_modal, kit, magma[kit], gamme_avals, {})
+                glob_en.seption(modes_modal, kit, magma[kit], gamme_avals, {}, {})
     (lineno(), 'GGF gamme_avals', gamme_avals.keys())
     # 174 GGF gamme&avals dict_keys([21, 24, 38, 40, 45, 47, 48, 51, 55, 58, 61, 62, 64, 65, 66])
     # Long MagMa = Les modèles légers. Dictionnaire 66 éléments

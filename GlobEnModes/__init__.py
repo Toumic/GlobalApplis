@@ -41,6 +41,8 @@ gamme_poids = {1: [0, 0, 0, 0, 0, 0, 0], 2: [0, 0, -4, 0, 0, 0, -8],
                7: [0, -3, -4, 0, -6, -7, -8]}
 
 dic_analyse = {}  # :Dana initie dico
+dic_diatonic = {}  # :Seption initie dico
+dia_binaire = {}  # :Maj7_fonc initie binaires
 dic_pc, dic_gammes, tab_faible = {}, {}, {}
 # Les clefs de ces dictionnaires valent chacune une gamme
 tous_poi, tous_mod = {}, {}  # Poids division Modes diatonic's
@@ -72,14 +74,12 @@ Les priorités des traitements :
 signes = ['', '+', 'x', '^', '+^', 'x^', 'o*', '-*', '*', 'o', '-']
 
 
-def maj7_fonc(unic, fondre):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
+def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
     """Les gammes fondamentales enfin !
     Unic : Les quinze modèles légers renseignés. [Alpha. Binaire. Poids]
         **maj7(unic)** 253 66 unic[fix][-1][0][1] = 101011010101
         ... /**.| |. ** 137 ** PHOTO_temps réel:____ ['maj']
     Fondre : Les 66 gammes et leurs modes diatoniques binaires"""
-    stop = False
-    # print('\nµNIQ:', unic, '\n')
 
     def fond_gam(mode, fol):  # FOND Fonction
         """Développement diatonique du mode binaire
@@ -330,7 +330,7 @@ def maj7_fonc(unic, fondre):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                             t00 = tipi[:len(tipi) - 1]
                             if t00 in informatif[5:] and tipi in alteractif.keys():
                                 topos = envers.copy()
-                                print('TIPI sort', tipi, envers)
+                                # print('TIPI sort', tipi, envers)
                     for tipi in topos:  # Topo : Prise de vue binaire
                         if tipi[:len(tipi) - 1] == info:  # info = informatif[]
                             # ('TIPI sort', tipi[:len(tipi) - 1], topos, 'Info', info)
@@ -499,14 +499,11 @@ def maj7_fonc(unic, fondre):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                 (lineno(), ' Signature 1 Clé_keys()) == 1:', fol, 'ks', ks, 'KVal', kv, 'COU', cou)
             else:  # Signatures à clés multiples
                 cou = former(signatures, photo, '2')
-                print(lineno(), ' Signature clé multi Former.retour', '. COU ', cou, '\nµnit')
+                print(lineno(), ' Signature clé multi           ', '. COU ', cou, '\nµnit FONDRE')
                 # ('C c c c c c c c c c c c c Compteur', compteur)
                 break  # Traitement via formation
             noms_dic[kv[0]] = cou
-            if len(cou) == 1:
-                print(lineno(), ' §§§ §§§ §§§ §§§ §§§ §§§ Len', len(cou), cou)
-            else:
-                print(' *  ', lineno(), 'KV', kv, '\t\t COU _: ', cou, '')
+            print(' *  ', lineno(), 'KV', kv, '\t\t COU _: ', cou, '\nµnit UNIC')
         if 'maj' in photo:
             cou = photo[0]
             print(' *  ', lineno(), '\t\t\t\t     COU _: ', cou, '')
@@ -514,24 +511,41 @@ def maj7_fonc(unic, fondre):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
         # print('affirmatif[0]', affirmatif[0], "alteractif['x2']", alteractif['x2'])
 
     fix = 0  # Section maj7_fonc(..)
+    groupe = {}
     while fix < 66:  # dic_analyse: Infos gammes
         fix += 1
         tab_faible[fix] = []
+        dia_binaire[fix] = []
         print('\n', lineno(), '__________________________________________________________________')
         # (lineno(), 'Fix', fix, 'FF', ff[:len(ff) - 1])  # Moins retour chariot
         # 88 Fix 61 FF ['1', '0', '2', '-3', '0', '0', '+4', '5', '0', '6', '0', '7',
         # [((1, 61), '101100110101')]]
-        depuis = len(fondre[fix])
+        groupe[fix] = []
         if fix in unic.keys():  # Unic : Premières gammes faciles (Ligne 71)
+            for fo in fondre[fix]:
+                groupe[fix].append(fo)
+            # print('', 'fondre', fondre[fix])
+            for bi in binez[fix]:
+                groupe[fix].append(bi)
+            # print('', 'binez', binez[fix])
+            depuis = len(groupe[fix])
+            # print('FONDRE.GROUPE =', fix, groupe[fix])
+            # 530 FONDRE.GROUPE = ['101010110101', '101011010101'] . FIX = 66
             # Unic dict_keys([21, 24, 38, 40, 45, 47, 48, 51, 55, 58, 61, 62, 64, 65, 66])
+            dep = []
             while depuis:
-                for i in range(67):
-                    for ff in fondre[fix]:
-                        if i in ff[0]:
-                            print('\n >>>>', lineno(), fix, 'M22', ff[0][1], 'M23:', ff[0][0])
+                for i in range(0, 67):
+                    # print('I', i)
+                    for ff in groupe[fix]:
+                        # print('.. FF', ff[0][1], i)
+                        if i == ff[0][1] and ff[0][0] not in dep:
+                            dep.append(ff[0][0])
+                            # print('F F F F', ff[0], i, dep)
+                            print('\n >>>>', lineno(), fix, '\tM22', ff[0][1], '\tM23:', ff[0][0])
                             depuis -= 1
                             fond_gam(ff[0][0], fix)  # fond_gam: Fonction envoi(unic-fondre)
-            (lineno(), 'Fondre', fondre[fix], '\nUnic', unic.keys())
+
+            # print(lineno(), 'Fondre', fondre[fix], '\nUnic', unic.keys())
             # 529 Fondre [(('101101010101', 4), 65), (('101010101101', 11), 65)]
             # Unic dict_keys([21, 24, 38, 40, 45, 47, 48, 51, 55, 58, 61, 62, 64, 65, 66])
             #
@@ -540,12 +554,35 @@ def maj7_fonc(unic, fondre):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
         elif fix in fondre.keys():  # Fondre : Gammes secondaires (Ligne 72)
             # print('Fondre', fondre[fix])
             # print(lineno(), 'FIX', fix, 'Foule', len(fondre.keys()))
-            my2 = []  # my2: Créer liste des poids légers par gamme
+            for fo in fondre[fix]:
+                groupe[fix].append(fo)
+            # print('', 'fondre', fondre[fix])
+            for bi in binez[fix]:
+                groupe[fix].append(bi)
+            # print('', 'binez', binez[fix])
+            depuis = len(groupe[fix])
+            # print('FONDRE.GROUPE =', fix, groupe[fix])
+            # 530 FONDRE.GROUPE = ['101010110101', '101011010101'] . FIX = 66
+            # Unic dict_keys([21, 24, 38, 40, 45, 47, 48, 51, 55, 58, 61, 62, 64, 65, 66])
+            dep = []
+            while depuis:
+                for i in range(0, 67):
+                    # print('I', i)
+                    for ff in groupe[fix]:
+                        # print('.. FF', ff[0][1], i)
+                        if i == ff[0][1] and ff[0][0] not in dep:
+                            dep.append(ff[0][0])
+                            # print('F F F F', ff[0], i, dep)
+                            print('\n >>>>', lineno(), fix, '\tM22', ff[0][1], '\tM23:', ff[0][0])
+                            depuis -= 1
+                            fond_gam(ff[0][0], fix)  # fond_gam: Fonction envoi(unic-fondre)
+            '''my2 = []  # my2: Créer liste des poids légers par gamme
             for mz in fondre[fix]:
                 my = mz[0][1]
                 tab_faible[fix].append(my)
                 my2.append(my)
             my2.sort()  # my2: Trié
+            print('MY2', my2)
             double1 = []  # double1: Liste binaire lue
             double2 = []  # double2: Liste poids lue
             for m22 in my2:  # my2: Lecture liste Ordre croissant des pesants
@@ -556,15 +593,13 @@ def maj7_fonc(unic, fondre):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                         double2.append(m22)  # double2: Mesure primaire
                         (lineno(), 'M23', m23, 'M22', m22, 'M23²', m23[0][0])
                         (lineno(), '>> double1', double1)
-                        print('\n\n>>>>', lineno(), fix, 'my2:', my2, 'M22:', m22, 'M23', m23[0])
-                        print('Fondre', fondre[fix])
+                        # print('\n\n>>>>', lineno(), fix, 'my2:', my2, 'M22:', m22, 'M23', m23[0])
+                        # print('Fondre', fondre[fix])
                         (lineno(), '>> double2', double2)
                         # (fondre) 267 63 my2: [7, 10, 18] M22: 18 M23 100101101101
                         fond_gam(m23[0][0], fix)  # fond_gam: Fonction envoi(fondre)
                         break  # Stoppe quand binaire rencontré
-                    if stop is True:
-                        break
-            (lineno(), fix, 'MY2', my2, 'Fondre', fondre[fix][0], '\n')
+            (lineno(), fix, 'MY2', my2, 'Fondre', fondre[fix][0], '\n')'''
     (lineno(), 'GEM DicFondre', fondre[66], '\nUnic', unic.keys())
     # print('Unic', unic[21], '\n\nFondre', fondre[29])
 
@@ -726,25 +761,25 @@ def dana_fonc(dana):
     """Blague (science/musique)"""
 
 
-def seption(mode_poids, k1, pc1, gm1, maj7):
+def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
     """Réception des poids modaux standards à augmenter & Création 'globdic_Dana.txt'.
     L'argument 'maj7' est le dictionnaire des modes maj 7èmes et poids standards par gamme"""
     # Mode_poids = Sept modes diatoniques par gamme. Comprend les 66 gammes.
     ('\n', lineno(), 'K1=', k1, ' ¤ GEM M_P', mode_poids, '\nPC1=', pc1, '\nGm1=', gm1.keys())
-    # 238 K1= 66  ¤ GEM M_P [[0, 0, 0, 5, 0, 0, 0], [0, -3, -4, 0, 0, -7, -8], [0, 0, -4, 0, 0, 0, -8],
-    # [0, 0, 0, 0, 0, 0, 0], [0, -3, -4, 0, -6, -7, -8], [0, 0, -4, 0, 0, -7, -8], [0, 0, 0, 0, 0, 0, -8]]
+    # 238 K1= 66  ¤ GEM M_P [[0, 0, 0, 5, 0, 0, 0], [0, -3, -4, 0, 0, -7, -8],
+    # [0, 0, -4, 0, 0, 0, -8], [0, 0, 0, 0, 0, 0, 0], [0, -3, -4, 0, -6, -7, -8],
+    # [0, 0, -4, 0, 0, -7, -8], [0, 0, 0, 0, 0, 0, -8]]
     # PC1= ['1', '0', '2', '0', '3', '4', '0', '5', '0', '6', '0', '7', [((0, 66), '101011010101')]]
     # Gm1= dict_keys([21, 24, 38, 40, 45, 47, 48, 51, 55, 58, 61, 62, 64, 65, 66])
-    """if maj7:
-        for magie in maj7.keys():
-            print(lineno(), 'Quant', magie, 'Magic Majeur 7ème \n', maj7[magie])
-            # 245 Quant 66 Magic Majeur 7ème
-            # [(('101010110101', 5), 66), (('101011010101', 0), 66)]"""
     goo = []
     cumul = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []}
     dic_analyse[k1] = []  # :Dana initie table
-    dic_pc[k1] = []  #
-    dic_pc[k1].append(pc1)
+    dic_diatonic[k1] = []  # :Maj7_fonction initie 66 diatoniques
+    dic_diatonic[k1].append(mode_poids)
+    if pc1:
+        dic_pc[k1] = []  #
+        dic_pc[k1].append(pc1)
+        (lineno(), '.................', 'DIC PC', dic_pc)
     # Dico gamme_poids & Key_mode Majeur Comparer
     for gpk, gpv in gamme_poids.items():  # Mode_poids & Comparer Mode naturel
         """:gpv = [0,0,0,0,0,0,0],[0,0,-4,0,0,0,-8],"""
@@ -804,7 +839,7 @@ def seption(mode_poids, k1, pc1, gm1, maj7):
 
     if len(dic_analyse.keys()) == 66:
         dana_fonc(dic_analyse)
-        maj7_fonc(gm1, maj7)
+        maj7_fonc(gm1, maj7, h_b)
         # glob_in_acc.inv_acc(dic_pc)
 
 
@@ -833,4 +868,4 @@ if __name__ == '__main__':
                 5: [0, 0, 0, 0, 0, 0, -8], 6: [0, 0, -4, 0, 0, -7, -8],
                 7: [0, -3, -4, 0, -6, -7, -8]}
 
-    seption(mode_po, 1, {}, {}, {})
+    seption(mode_po, 1, {}, {}, {}, {})

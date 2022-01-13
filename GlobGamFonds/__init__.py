@@ -114,6 +114,7 @@ def diatonic(topic):
             while pilote[0] == '0':
                 pilote.insert(0, pilote.pop())
             top00 = ''.join(p for p in pilote)
+            ('GGF', lineno(), 'top00', top00)
         # Détection septièmes majeures
         lys_0, dic_pt, dic_neg, dico_neg = [], {}, {}, []
         h_bin[kit] = []

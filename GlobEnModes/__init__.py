@@ -989,23 +989,26 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
                         moule_bin = ''.join(rb for rb in roule_bin)
                         print(' * Moule_bin 2', moule_bin)
                         #
-                        mia = -1
+                        mia, grand = -1, []
+                        grand = grade_maj['ii'].copy()
+                        grain = len(grand)
                         for bof in groupe[index]:
                             mia += 1
-                            if st9 != 0:
+                            if st9 != 0:  # Transpose le signe à un unième degré
                                 st9 -= 1
                                 if st9 == 0:
                                     st9 = 7
-                                sto2 = st0 + str(st9)
-                                grand = grade_maj['ii'].copy()
-                                grand.append(sto2)
-                                grand.sort()
-                                print('if st9 != 0:......', sto2, grand)
+                                if len(grand) == grain:
+                                    sto2 = st0 + str(st9)
+                                    grand.append(sto2)
+                                    grand.sort()
+                                    print('if st9 != 0:......', sto2, grand)
                             if moule_bin == bof[0][0]:
                                 ambre = bof[0][0]
-                                ombre = signaux[index][mia][0]
-                                print('Ombre', ombre, 'Signaux =')
-                                if ombre == grade_maj['ii']:
+                                ombre = signaux[index][mia][0]  # Photo brute
+                                ombre.sort()
+                                print('Signaux Ombre', ombre, 'Grand', grand)
+                                if ombre == grand:
                                     cesse = False
                                     print('BEL Ombre', ombre, 'Ambre', ambre)
                                     # print('Mode tonique =', copie_bin)

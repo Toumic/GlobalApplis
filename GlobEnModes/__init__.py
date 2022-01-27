@@ -925,109 +925,154 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
             Puis la recherche du mode tonique (entier-léger)
             Le degré i_grade a un poids nul et point zéro absolu et majeur'''
         # Formatage diatonique des degrés majeurs
-        grade_maj = {'i': ['0'], 'ii': ['-3', '-7'], 'iii': ['-2', '-3', '-6', '-7'],
-                     'iv': ['+4'], 'v': ['-7'], 'vi': ['-3', '-6', '-7'],
-                     'vii': ['-2', '-3', '-5', '-6', '-7']}
-        index = 0
+        grade_maj = {'1': ['0'], '-2': ['+2', '+4', '+5', '+6'],
+                     '+2': ['-2', 'o3', '-4', '-5', '-6', 'o7'],
+                     '2': ['-3', '-7'], '3': ['-2', '-3', '-6', '-7'],
+                     '4': ['+4'], '5': ['-7'], '6': ['-3', '-6', '-7'],
+                     '7': ['-2', '-3', '-5', '-6', '-7']}
+        index = 0  # Mettre à zéro pour tout traiter
         while index < 66:  # Résolution des degrés
             index += 1
-            relax, polar = -1, 0
-            brouillon[index] = []
-            # Opération : Trier groupe[index]
             # print('\n. Groupe 66 avant', groupe[66])
+            # Opération : Trier groupe[index]
+            # Poids croissants comme l'original
             masse = []  # Copier les poids modaux
             for clef in groupe[index]:
                 if clef[0][1] in masse:
-                    print(lineno(), '... Alerte *** *** *** *** *** *** *** *** *** Polar')
+                    print(lineno(), '... Alerte *** *** *** *** *** *** Polar', clef)
                 masse.append(clef[0][1])  # Initialisation des poids
             masse.sort()  # Trier les poids modaux
+            brouillon[index] = []  # Trie groupe selon les masses
+            brouille_binaires = []
             for tri in masse:
                 for clef in groupe[index]:
-                    if clef[0][1] == tri:
+                    if clef[0][1] == tri and clef[0][0] not in brouille_binaires:
                         brouillon[index].append(clef)
-                # print('.. Tri', tri, '\t', index)
+                        brouille_binaires.append(clef[0][0])
+                        # print('Groupe', clef)
+                # print('.. Tri', tri, '\t', index, clef)
             groupe[index] = brouillon[index].copy()
             # print(lineno(), '. Mµ\n. Masse', masse, '\t', index)
             # print('. Groupe 66 après', groupe[66])
             poids_brut = groupe[index][0][0][1]  # Poids brut modal
             nom_long = signaux[index][0]  # Photo réelle
             nom_court = signaux[index][1][0]  # Nom final
-            cesse = True
-            st0, st1, st9 = '', '', 0
-            print('\n', lineno(), '----------------------------', index)
+
+            cesse, relax = False, -1
+            # st0, st1 = '', ''
+            print('\n', lineno(), '======================================', index)
             for s0 in signaux[index]:  # S0[0] = Photo. S0[1] = Nom
                 relax += 1
                 g0 = groupe[index][relax]
-                print(lineno(), 's0 in signaux[index]', s0[0], s0[1])
-                # stock_nom = ''
-                if g0[0][0][-1] == '1':
-                    if '.' not in s0[1] and len(s0[1]) < 5:
-                        print('s0[0][0]', s0[1])
-                        if len(s0[1]) < 3:
-                            sto1 = s0[1]
-                            st0 = sto1[:len(sto1) - 1]
-                            st1 = sto1[len(sto1) - 1:]
-                            print('St1', st1)
-                            st9 = int(st1)
-                            print('IF ST9', st9, type(st9), 'Sto1', sto1, st1)
-                        elif len(s0[1]) < 5:
-                            sto1 = s0[0][0]
-                            st0 = '0'
-                            st1 = '0'
-                            st9 = int(st1)
-                            print('ELSE ST9', st9, type(st9), 'Sto1', sto1)
-                        stock_nom = s0[1]
+                labo, st9, st10 = [], [], 0
+                # print(lineno(), 's0 in signaux[index]', s0[0], s0[1], g0[0][0])
+                # Sélection degré majeur sept
+                if g0[0][0][-1] == '1':  # Septième degré majeur
+                    for u1 in s0[1]:
+                        if u1 not in signes:
+                            st10 += 1
+                    # print(lineno(), 'S0[1]', s0[1], 'st10', st10)
+                    # Passage pour noms (2 signes + 2 chiffres)
+                    if '.' not in s0[1] and st10 < 3:
+                        # print(lineno(), 's0 in signaux[index]', s0[0], s0[1], g0[0][0])
+                        stock_nom = s0[1]  # Premier degré mémorisé
+                        print('***\n_ ^ ^ Zéro point, s0[1]', s0[1], g0[0][0], 'N', stock_nom)
+                        sgn1, deg1, deg2, sgn2 = None, None, None, None
+                        s0n, s0t, s0i = '', -1, True
+                        # Apprentissage Labo
+                        for s00 in s0[1]:
+                            s0t += 1
+                            # print(lineno(), 'S0N', s0n, 'S0T', s0[1][s0t])
+                            if s00 in signes:
+                                s0n += s00
+                                s0i = True
+                                if s0t + 1 < len(s0[1]) and s0[1][s0t + 1] in signes:
+                                    s0i = False
+                            else:
+                                s0n = s00
+                            if s0i:
+                                labo.append(s0n)
+                            s0n = ''
+                            # print(lineno(), 'labo', labo, 'S00', s00)
+                        # Labo Issue St9 = Degré(s) absolu(s) (non-altérés)
+                        if len(labo) == 1:  # Ici labo contient '0' ou majeur
+                            break
+                        elif len(labo) == 2:
+                            sgn1, deg1 = labo[0], int(labo[1])
+                            st9.append(deg1)
+                            print(' **Labo 2 :', st9)
+                        elif len(labo) == 3:
+                            sgn1, deg1, deg2 = labo[0], labo[1], labo[2]
+                            st9.append(deg1)
+                            st9.append(deg2)
+                            print('***Labo 3 :', st9)
+                        elif len(labo) == 4:
+                            sgn1, deg1, deg2, sgn2 = labo[0], labo[1], labo[2], labo[3]
+                            st9.append(deg1)
+                            st9.append(deg2)
+                            print('****Labo 4 :', st9)
+                        # Labo Issue St9 = Degré(s) absolu(s) (non-altérés)
+                        print('+*° LABO', labo, len(labo), 'LABO', sgn1, deg1, deg2, sgn2)
+                        # print(lineno(), 's0 in signaux[index]', s0[0], s0[1], 'st9', st9)
+                        # Trouver le degré voisin supérieur
                         roule_bin = list(g0[0][0])
-                        # copie_bin = roule_bin.copy()
-                        print(' * NOM 0', stock_nom, g0[0][0])
                         roule_bin.insert(-1, roule_bin.pop(0))
-                        # print(' * Roule_bin 1', roule_bin)
-                        # Trouver le deuxième degré voisin
                         while roule_bin[0] == '0':
                             roule_bin.pop(0)
                             roule_bin.append('0')
                         moule_bin = ''.join(rb for rb in roule_bin)
-                        print(' * Moule_bin 2', moule_bin)
+                        print(lineno(), ' * MOULE_BIN 2', moule_bin, '\n              ***')
                         #
-                        mia, grand = -1, []
-                        grand = grade_maj['ii'].copy()
-                        grain = len(grand)
-                        for bof in groupe[index]:
+                        mia, mod_origine, mod_cours = -1, [], []
+                        # Transpose 2ème degré majeur vers grand1
+                        for gr in grade_maj['2']:
+                            gr = gr[len(gr) - 1:]
+                            gr1 = int(gr)
+                            mod_origine.append(gr1)
+                        # print(lineno(), 'Grade Origine', mod_origine, 'Cours', mod_cours)
+                        for bof in range(7):
                             mia += 1
-                            if st9 != 0:  # Transpose le signe à un unième degré
-                                st9 -= 1
-                                if st9 == 0:
-                                    st9 = 7
-                                if len(grand) == grain:
-                                    sto2 = st0 + str(st9)
-                                    grand.append(sto2)
-                                    grand.sort()
-                                    print('if st9 != 0:......', sto2, grand)
-                            if moule_bin == bof[0][0]:
-                                ambre = bof[0][0]
-                                ombre = signaux[index][mia][0]  # Photo brute
-                                ombre.sort()
-                                print('Signaux Ombre', ombre, 'Grand', grand)
-                                if ombre == grand:
-                                    cesse = False
-                                    print('BEL Ombre', ombre, 'Ambre', ambre)
-                                    # print('Mode tonique =', copie_bin)
-                                else:
-                                    print(' ELSE MOULE BIN', moule_bin)
-                                    pass
-                                # print('BOF', bof[0], )
-                            if mia > 5 or cesse is False:
+                            # print('Mia', mia, 'Index', index, signaux[index][mia])
+                            sto = signaux[index][mia]
+                            gmo = groupe[index][mia]
+                            if moule_bin == gmo[0][0]:
+                                for so9 in st9:
+                                    # print(lineno(), 'ST9', st9, 'SO9', so9)
+                                    so1 = int(so9) - 1
+                                    # print(lineno(), 'SO1', so1)
+                                    # Ajouter à l'original le degré descendant (so1)
+                                    if so1 not in mod_origine and so1 != 1:
+                                        mod_origine.append(so1)
+                                        mod_origine.sort()
+                                    elif so1 == 1:  # À faire quand so1=1
+                                        pass
+                                        # print(lineno(), 'SO1 = 1 :', so1)
+                                    print('ST9', st9, 'SO9', so9, 'sto', sto, 'SO1', so1)
+                                for st in sto[0]:
+                                    st0 = st[len(st) - 1:]
+                                    sto1 = int(st0)
+                                    '''if sto1 not in mod_origine:
+                                        mod_origine.append(sto1)
+                                        mod_origine.sort()
+                                        print(lineno(), 'STO1 not in origine', sto1)'''
+                                    # print(lineno(), 'ST', st, 'Signaux sto', sto, 'sto1', sto1)
+                                    if sto1 not in mod_cours:
+                                        mod_cours.append(sto1)
+                                        mod_cours.sort()
+                                        # print('ST', st)
+                                print(lineno(), 'Origine', mod_origine, 'Cours', mod_cours)
+                                # print(lineno(), 'Origine', mod_origine, 'Cours', mod_cours)
+                            if mod_origine == mod_cours:
+                                print('***G1 = G2*** grand1', mod_origine, 'grand2', mod_cours)
+                                # print(lineno(), 'GMO', moule_bin, gmo[0][0], 'STO', sto)
+                                cesse = True
                                 break
-                        # print('----------------------------\nCopie_bin', copie_bin)
-                        '''# if moule_bin in
-                        print('Moule_bin', moule_bin)
-                        print('.', lineno(), '.. Not . s0[1]', s0[1], 'stock_nom', stock_nom)
-                        print('..', index, '\tgr g0[0]', g0[0][0], '\ts0[1]', s0[1])'''
-                    if cesse is False:
-                        break
-                elif cesse is False:
-                    print('.False.', index, '\tgr', g0[0], '\tS0', s0[1])
+                        else:
+                            print('***Else***G1 = G2***')
+                if cesse:
+                    print(lineno(), 'Cesse Break', cesse)
                     break
+
                 # p1 = picolo[index][0][relax]  # Forme neutre
                 # p2 = picolo[index][1][relax]  # Signature brute
             binaire = groupe[index][0][0][0]  # Forme binaire '101011010101'
@@ -1041,7 +1086,6 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
             # print(' **picolo', picolo[index][0][0])  # picolo[66][0][mode] = mode unaire
             # print(' **signaux', signaux[index][0])
             # print(' dia_binaire[', index, binaire, ']', dia_binaire[index, binaire])
-            # break
         modes = {
             '**dic_analyse': dic_analyse,
             '**groupe': groupe,
@@ -1049,8 +1093,8 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
             '**signaux': signaux}
         mots_clefs = list(modes.keys())
         print('\n Modes', mots_clefs)
-        print('signaux 66', signaux[66][5])
-        pass
+        print(lineno(), 'signaux 66', signaux[66][5])
+        # pass
 
 
 

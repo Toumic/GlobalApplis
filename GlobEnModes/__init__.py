@@ -73,18 +73,30 @@ Les priorités des traitements :
 # Signes = Matrice des altérations
 signes = ['', '+', 'x', '^', '+^', 'x^', 'o*', '-*', '*', 'o', '-']
 
+# Altéraction polyvalent
+alteractif = {
+    'x2': ['x2', '+3', '+4'], '^2': ['^2', 'x3', 'x4', '+5'], 'o3': ['-2'],
+    '+3': ['+3', '+4'], 'x3': ['x3', 'x4', '+5'], '-4': ['-4', '-3'],
+    'x4': ['x4', '+5'], 'o5': ['o5', '-4', '-3'], 'o6': ['o6', '-5'],
+    '*6': ['*6', 'o5', '-4', '-3'], 'o7': ['o7', '-6'],
+    '*7': ['*7', 'o6', '-5'], '-*7': ['-*7', '*6', 'o5', '-4', '-3']}
+
 '''Configuration des éléments :
     Entiers)                    Caractères)
     num = Numéro de gamme       binaire = 101011010101
     poids = Poids modal         unaire = 1o2o34o5o6o7
     typo = Type de gamme        nomme = Nom de gamme
     Liste) photos = Notes altérées (-2, x4, +5) telles qu'elles sont.'''
-groupe, picolo, signaux, brouillon = {}, {}, {}, {}
+groupe, picolo, signaux, brouillon, toniques = {}, {}, {}, {}, {}
 # Création dictionnaire picolo signaux[].append()
 for pi in range(1, 67):  # Clés + Table
     picolo[pi] = [], []
     signaux[pi] = []
     brouillon[pi] = []
+    toniques[pi] = []
+
+# Table des degrés
+table_deg = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII']
 
 
 def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
@@ -124,9 +136,7 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                 y = 0
             i_mod.append(y)
         picolo[fol][0].append(i_mod)
-        '''if fol == 66:
-            print('FOL 66', i_mod)'''
-        print('****', lineno(), 'I_mod', i_mod, '***********FOL', fol, 'n Picolo', 'fol')
+        # print('****', lineno(), 'I_mod', i_mod, '***********FOL', fol, 'n Picolo', 'fol')
         ''' Construction PHOTO d'où TOPO
             La photo est vue en ordre croissant du degré ou (1234567).
             *   L'ordre du degré numérique est donné par défaut = (1234567),
@@ -152,24 +162,19 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                 signatures[ist].append(hot)
         if not photo:
             photo.append('maj')
-        print('.../** .| |. **', lineno(), ' ** PHOTO_temps réel:____', photo)
+        # print('.../** .| |. **', lineno(), ' ** PHOTO_temps réel:____', photo)
         (lineno(), ' ** SIGNA_________', signatures, '..')
         informatif = ['x^', '+^', "^", 'x', '+', 'o*', '-*', '*', 'o', '-']
         infime, survole = informatif[5:], informatif[:5]
         (lineno(), 'INFOS', 'infime', infime, 'survole', survole)
         # 138 INFOS infime ['o*', '-*', '*', 'o', '-'] survole ['x^', '+^', '^', 'x', '+']
         # affirmatif = ['o*7', '-*6', '*5', 'o4', 'o3', '+^2', '^3', '^4', 'x5']
+        # Amplifier affirmatif
         amplifier = {
             'o3': ['-2'], 'o4': ['o3', '-2'], '*5': ['o4', 'o3', '-2'],
             '-*6': ['*5', 'o4', 'o3', '-2'], 'o*7': ['-*6', '*5', 'o4', 'o3', '-2'],
             '+^2': ['^3', '^4', 'x5', '+6'], '^3': ['^4', 'x5', '+6'],
             '^4': ['x5', '+6'], 'x5': ['+6']}
-        alteractif = {
-            'x2': ['x2', '+3', '+4'], '^2': ['^2', 'x3', 'x4', '+5'],
-            '+3': ['+3', '+4'], 'x3': ['x3', 'x4', '+5'], '-4': ['-4', '-3'],
-            'x4': ['x4', '+5'], 'o5': ['o5', '-4', '-3'], 'o6': ['o6', '-5'],
-            '*6': ['*6', 'o5', '-4', '-3'], 'o7': ['o7', '-6'],
-            '*7': ['*7', 'o6', '-5'], '-*7': ['-*7', '*6', 'o5', '-4', '-3']}
 
         def former(signal, topo, toc):  # FORMATAGE Fonction Origine
             """Passage par les signes invariants(affirmatif, amplifier, altéractif)
@@ -183,7 +188,6 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
             topos = topo.copy()
             envers = topo.copy()
             envers.reverse()
-            # ('TOPO', topo, 'Dévers', envers)
 
             def bil_riff(t10):
                 """Traitement des signatures complexes, quand plusieurs signes
@@ -213,14 +217,12 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                 lys0 = {'aug': [], 'dim': [], 'bis': []}
                 lise = list(dicter.keys())
                 biseau, biaise = {1: None, 2: None, 3: None}, None
-                # print(' __ B² BIL_Dicter', dicter, dicter.keys())
                 for kt in dicter.keys():
                     c10 = ''
                     if len(dicter.keys()) == 1:  # . . . . . ... 1er. 1 note signée
                         '''|56(26)[+2346]||54(24)[o73]||52(19)[+234]|...'''
                         # print('\n\n\n\n\n  REPÈRE 1 Clé. \n\n\n\n\n')
                         c10 = kt + dicter[kt][0]
-                        # (' __ L² DIC_1', dicter[kt][0], kt)
                     elif len(dicter.keys()) == 2:  # . . . . ... 2ème. 2 notes signées
                         '''|65(3)[+47-]||64(34)[o7.-542]||64(7)[+4.-73]|...'''
                         # print('\n\n\n\n\n  REPÈRE 2 Clés. \n\n\n\n\n')
@@ -236,7 +238,6 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                             c1 = lise[0] + dicter[lise[0]][0]
                             c2 = lise[1] + dicter[lise[1]][0]
                             c10 = c1 + '.' + c2
-                        # ('Les', c10)
                     elif len(dicter.keys()) == 3:  # . . . . ... 3ème. 3 notes à double-signe
                         # Exemple = B² BIL.dicter {'x': ['4'], '+': ['6'], '-': ['32']}
                         '''|60(11)[+43o.-7]||53(15)[x46+.-3]||43(5)[]|...'''
@@ -245,21 +246,15 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                         if les1 != 1 and not lys0['bis']:
                             you = lise[0], dicter[lise[0]][0]
                             lys0['bis'].append(you)
-                            # print('Les1', les1, 'you', you)
                         les2 = len(dicter[lise[1]][0])
                         if les2 != 1 and not lys0['bis']:
                             you = lise[1], dicter[lise[1]][0]
                             lys0['bis'].append(you)
-                            # print('Les2', les2, 'you', you)
                         les3 = len(dicter[lise[2]][0])
                         if les3 != 1 and not lys0['bis']:
                             you = lise[2], dicter[lise[2]][0]
                             lys0['bis'].append(you)
-                            # print('Les3', les3, 'you', you)
-                            # print(' LISE', dicter[lise[2]][0], dicter[lise[2]], lise[2])
-                            # print(' LYS', lys0['bis'][0])
-                        # print(' Lys 0', lys0['bis'], 'you')
-                        les4 = les1 + les2 + les3  # "les4" = (1, 1, 1)
+                        les4 = les1 + les2 + les3
                         if les4 == 4:
                             '''|43(5)[o37-.+45]||38(18)[]||43(5)[]|...'''
                             # print('\n\n\n\n\n REPÈRE Les4. \n\n\n\n\n')
@@ -269,10 +264,6 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                                 lys0['aug'].append(yo)
                             if yo in infime and yo not in lys0['dim']:
                                 lys0['dim'].append(yo)
-                        # print(' ¤¤ §§ Lys0', lys0, '\n lise', lise, '\nDicter', dicter)
-                        #
-                        #
-                        #
                         x2, x4 = '', ''
                         if lys0['bis']:
                             biaise = lys0['bis'].copy()
@@ -280,7 +271,6 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                             x2 = biaise[0] + biaise[1]
                             x4 = biaise[0]
                             biseau[3] = '.' + x2
-                            # print('BIAISE', biaise, 'X2 =', x2, 'X4 = ', x4)
                         x1, oxo, pensif1, pensif2 = '', 0, None, None
                         # Construction liste ordonnée des signes
                         for lys in lys0.keys():  # Initialiser famille signes
@@ -294,16 +284,13 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                                 # print('Pensif2', pensif2)
                         # Traitement familles des signes réunis
                         if lys0[pensif1]:
-                            # print('\n', 'lys0', '¤§ Ken ken :', ken, '\t\t biaise', biaise)
                             if x4 in lys0[pensif1]:
                                 ox0 = lys0[pensif1].index(x4)
                                 if ox0 > 0:
-                                    # print(' __ yes Ken 2 X4 :', dicter[lys0[pensif1][0]][0])
                                     ox1 = dicter[lys0[pensif1][0]][0] + lys0[pensif1][0]
                                 else:
                                     ox1 = dicter[lys0[pensif1][1]][0] + lys0[pensif1][1]
                                 biseau[2] = ox1
-                                # print(' __ yes LYS0 Ken 2 Li X4 :', ox0)
                             else:
                                 ox2 = 0
                                 for li in lys0[pensif1]:
@@ -314,30 +301,21 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                                         ox1 = dicter[li][0] + li
                                         biseau[2] = ox1
                                     ox2 += 1
-                                    # print(' __ non LYS0 Ken 2 :', None)
-                            # print(' __ ... LYS0 Ken 2 :', ken, lys0[pensif1], 'OXO', oxo)
-                        # print('.. Pensif2 :', lys0[pensif2][0], dicter[lys0[pensif2][0][0]][0])
                         if biaise is None:  # Valeur positive
                             ox1 = '.' + lys0[pensif2][0] + dicter[lys0[pensif2][0][0]][0]
                             if biseau[3] is None:
                                 biseau[3] = ox1
-                            # print('  ', lineno(), 'BIAISE None pensif2 :', lys0[pensif2][0], ox1)
                         elif not biseau[1]:  # Biseau[3] avec pensif1
                             o1, o2 = lys0[pensif2][0], dicter[lys0[pensif2][0][0]][0]
-                            # print('O1', o1, 'O2', o2)
                             ox1 = o1 + o2
                             biseau[1] = ox1
-                            # print('  ', lineno(), 'BISEAU Not pensif2 :', lys0[pensif2][0], ox1)
                         # Oxo = Groupement des candidatures
-                        # print(lineno(), 'BISEAU :', biseau)
                         # print('\n\n\n\n\n REPÈRE Zone en cours. \n\n\n\n\n')
                     break
                 if len(dicter.keys()) == 3:
                     ox1 = ''
                     for bof in biseau.keys():
                         ox1 += biseau[bof]
-                    # print(' ZZ Biseau', biseau)
-                    # print(' DD _ B² BIL.dicter', dicter, '_B²', '\n.. LYS0', lys0)
                     c10 = ox1
                 return c10
 
@@ -348,23 +326,15 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                 # print('\n\n\n\n\n REPÈRE Signature 1 clé. \n\n\n\n\n')
                 if signal[0][:1] in signes[6:]:
                     signal.reverse()
-                    # (lineno(), '*******def|FORMER__', '****** FORMER Sig', signal, signes[10:])
                 for si in signal:
                     if si in alteractif.keys():  # altéractif: Zones des altéractions
                         couler.append(si)
                         for acte in alteractif[si]:
                             box[0].append(acte)
-                        # ('  *******Altéractif', alteractif[si], 'Si', si, 'BOX', box)
-                        # *******Altéractif ['+3', '+4'] Si +3 BOX ['+3', '+4']
                     if si not in box[0]:
                         couler.append(si)
-                        # ('  *******NotBox', 'Si', si, box)
-                # ('  *******', lineno(), couler, 'COULER')
-                # ('  \t\t*******', lineno(), couler, 'COULER')
                 roule = signal[0][:1]
                 roule += ''.join(it[1:] for it in couler)
-                # (lineno(), '  ROULE **Signature simple*****:', couler, roule)
-                # 285   ROULE **Signature simple*****: ['+2', '+3', '+5'] +235
                 return roule
             else:  # FORMATAGE Signatures à clés multiples
                 ''' def former(signal, topo, toc('2')): FORME MULTIPLE
@@ -373,7 +343,6 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                 signée : La priorité va au nombre d'altérations dans le signe (###(^)),
                 donc au rang respectif de la table des signes. Ligne 70.'''
                 # donc = None
-                # informatif = ['o*', '-*', '*', 'o', '-', 'x^', '+^', "^", 'x', '+']
                 box[0] = []  # Box office.point
                 top, aff1, aff3, tap, tec = [], [], True, [], True  # top: Stocke, tip: Aussi
                 # (lineno(), ' topo', topo, 'envers', envers)
@@ -381,8 +350,6 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                 # informatif = ['o*', '-*', '*', 'o', '-', 'x^', '+^', "^", 'x', '+']
                 # Séparation des signatures opposées dans informatif['']
                 # infime = ['o*', '-*', '*', 'o', '-'], survole = ['x^', '+^', '^', 'x', '+']
-                # print(' infime', infime, 'survole', survole)
-                # print(' topo', topo, 'envers', envers)
                 for info in informatif:
                     # Lecture constructive sur un suivi informatif['']
                     # Une série ordonnée aux plus fortes altéractions.
@@ -399,20 +366,16 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                             |C|_|_|D|E|F|G|A|_|_|_|B|C|
                         RAPPEL ÉLÉMENT :
                             a = a - (a+1). Produit négatif'''
-                    # for toto in topo:):):)
                     if tec:
                         tec = False
                         for tipi in topo:
                             t00 = tipi[:len(tipi) - 1]
                             if t00 in informatif[5:] and tipi in alteractif.keys():
                                 topos = envers.copy()
-                                # print('TIPI sort', tipi, envers)
                     for tipi in topos:  # Topo : Prise de vue binaire
                         if tipi[:len(tipi) - 1] == info:  # info = informatif[]
-                            # ('TIPI sort', tipi[:len(tipi) - 1], topos, 'Info', info)
                             # Tipi diatonique.module
                             if tipi in alteractif.keys():  # Altéractive Keys()
-                                # print(lineno(), '*** Tipi:', tipi, '. Box', box)
                                 # Enregistre tipi.Keys() in original.Box[0] & Top[]
                                 # tic = tipi[:len(tipi) - 1]  # Tic égal signes.tipi
                                 if tipi not in box[0]:
@@ -420,17 +383,12 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                                     box[0].append(tipi)
                                     paris = tipi[len(tipi) - 1:]
                                     tap.append(paris)
-                                    # print('** Lecture altéractif **', tipi, box, 'TOP', top)
-                                # print(lineno(), tipi, '. TOP', top, '. BOX1', box, 'Tipi', bil)
                                 # L'altéraction a des valeurs altératives
                                 for ti in alteractif[tipi]:  # Tuteur des altéractions
-                                    # print(lineno(), '  alteractif[]', 'TI', ti, box, 'Tap', tap)
                                     if aff1:
                                         ta = ti[len(ti) - 1:]
-                                        # print('AMPLIFIER TIPI', aff1, )
                                         if ta in aff1[0]:
                                             aff3 = False
-                                            # print('AMPLIFIER TIPI', aff1)
                                     if ti not in box[0] and aff3 is True:
                                         # titi, tio = ti[len(ti) - 1:], ''
                                         box[0].append(ti)
@@ -440,7 +398,6 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                                             top.append(ti)
                                             tut, tot = {}, []
                                             if tap.count(paris) > 2:
-                                                # ww = 0
                                                 for tip in top:
                                                     tac1s = tip[:len(tip) - 1]
                                                     tac1n = tip[len(tip) - 1:]
@@ -450,15 +407,11 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                                                         tutu = informatif.index([tac1s][0])
                                                         tut[tac1s].append(tutu)
                                                         tot.append(tutu)
-                                                        # print('info', tut[tac1s])
                                                 for wkw, wvw in tut.items():
                                                     if wvw[1] == max(tot):
                                                         top.remove(wvw[0])
                                                         paris = wvw[0][len(wvw[0]) - 1:]
                                                         tap.remove(paris)
-                                                        # print('.', lineno(), ':', wvw, tap, top)
-                                                # print('.', lineno(), ':', 'T', tut, tot, max(tot))
-                                            # print(lineno(), '. NotTopo', ti, '. Top', top, tap)
                                         else:
                                             tic = ti[len(ti) - 1]
                                             for sig in informatif:
@@ -467,52 +420,37 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                                                     paris = tiens[len(tiens) - 1:]
                                                     tap.remove(paris)
                                                     top.remove(tiens)
-                                            # print(lineno(), 'YesTopo*', ti, '"T"', top, box, tap)
-                                # print('* * Altérer tipi0', tipi, 'Top', top, box, '"Tap"', tap)
                             elif tipi in amplifier.keys():  # L'amplification termine
-                                # print('= = Amplifier tipi0', tipi, 'Top', top, box, '"Tap"', tap)
                                 for tipi_val in amplifier[tipi]:
                                     tv1 = tipi_val[len(tipi_val) - 1:]
                                     if tv1 not in aff1:
                                         aff1.append(tv1)
-                                # print('AMPLIFIER TIPI', aff1)
                                 if tipi not in box[0]:
                                     paris = tipi[len(tipi) - 1:]
                                     tap.append(paris)
                                     top.append(tipi)
                                     box[0].append(tipi)
-                                    # print(lineno(), 'A_Tipi', tipi, 'Top', top, 'Box', box, tap)
                                 for tu in amplifier[tipi]:
-                                    # ('Amplifier tipi1', tipi)
                                     if tu not in box[0]:
                                         box[0].append(tu)
-                                        # print(lineno(), 'A.Box', '*T', tu, box, 'TOP', top, tap)
                                     if tu in topo:
                                         tee = tu[len(tu) - 1:]
-                                        # print('YesTopo ', tu, '"top"', top, 'Tee', tee, tap)
                                         for ton in top:
                                             toi = ton[len(ton) - 1:]
-                                            # print('YesTopo', tu, ton, 'Top', top, 'Toi', toi, tap)
                                             if toi == tee:
                                                 paris = toi[len(toi) - 1:]
                                                 tap.remove(paris)
                                                 top.remove(ton)
-                                                # (lineno(), '.A._* Ton', ton, 'TOP', top, tap)
-                                # (lineno(), 'TIPI', tipi, amplifier[tipi], box, 'TOP', top)
                             elif tipi not in box[0]:  # Cas extrême en traitement
-                                (lineno(), '*********ELIF', 'TIPI', tipi)
                                 paris = tipi[len(tipi) - 1:]
                                 tap.append(paris)
                                 top.append(tipi)
                                 box[0].append(tipi)
                                 big.append(tipi)
-                                # (lineno(), '****ELIF tipi', tipi, 'Top', top, 'Box', box)
-                # print('^\n^ >>>', '** TOP', top, '\n^ >>> ** TAP', tap, '\n^ >>> ** TOPO', topo)
                 bis, top_copy = {}, top.copy()
                 for tipi in top_copy:  # Déduire les doubles
                     ct2n = tipi[len(tipi) - 1:]
                     if tap.count(ct2n) == 1:
-                        # print('...*', lineno(), '  *  Tipi', tipi, top, 'Tap', tap)
                         continue
                     else:
                         for cop in top_copy:
@@ -532,9 +470,6 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                         top.remove(v_bis[0][1])
                         bon = signes[vb0] + k_bis
                         top.append(bon)
-                        # print('bis[k_bis] = ', bis[k_bis], bon)
-                        # print('Max', max(vb1, vb2), 'VB1&2&0', vb1, vb2, vb0, 'Min', min(vb1, vb2))
-                        # print('V_BIS[1].survole', k_bis, v_bis[1], 'Rang VB0', vb0, top)
                     elif v_bis[1][0] in infime:
                         vb1 = infime.index(v_bis[1][0])
                         vb2 = infime.index(v_bis[1][1])
@@ -543,18 +478,13 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                         top.remove(v_bis[0][1])
                         bon = signes[vb0] + k_bis
                         top.append(bon)
-                        # print('Max', max(vb1, vb2), 'VB1&2&0', vb1, vb2, vb0, 'Min', min(vb1, vb2))
-                        # print('V_BIS[1].infime', k_bis, v_bis[1], 'Rang VB0', vb0)
-                        # print('\n\n\n\n\n\n\n\n\n')
-                # print('_BIS :', lineno(), 'bis', bis, 'vb0', vb0)
                 cap = bil_riff(top)
-                # print(':', lineno(), 'ToP', top, 'Cap', cap, 'BiS', bis)
-                print(' ♥♦♣♠ Dicter', lineno(), dicter)
+                # print(' ♥♦♣♠ Dicter', lineno(), dicter)
                 return cap
             #
             #
         picolo[fol][1].append(signatures)
-        print(lineno(), ' §  Signatures', signatures)
+        # print(lineno(), ' §  Signatures', signatures)
         # 249 §  Signatures {'-': [63, '-3', '-5']}
         '''Détecte le nombre de signes dans la signature.'''
         for ks, kv in signatures.items():
@@ -563,18 +493,15 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                 '''Quand il y a un seul signe dans la signature:
                     Longueur kv Quant + Multi Notes. Q = numéro-gamme.
                     En soustrayant Qµ-unité. Reste Notes.'''
-                # ('..... ', lineno(), '|', len(kv), kv, 'KV_valeur')
                 if len(kv) == 2:  # Signature 1 signe(clé) + 1 note
                     '''|66(8)[-7]||66(5)[+4]|...'''
                     # print('#\n###\n###\n###\n###\n###\n###\n###\n#####\n#####\n#####')
                     cou = kv[1]
-                    # ('SK.1     *   len value = 2:', cou)
                 elif len(kv) == 3:  # Signature 1 signe(clé) + 2 notes
                     for kepi in kv:
                         if kepi in alteractif.keys():  # Les cas altéractifs sont uniques
                             '''|56(9)[-4]||40(9)[+3]|'''
                             cou = kepi
-                            # print('SK.1.altéractif     *   len value = 3:', cou)
                     if cou is None:
                         '''|66(12)[-73]||65(15)[-76]||65(11)[+45]||64(11)[-63]|...'''
                         # print('\n\n\n\n\nLigne de repérage\n\n\n\n\n')
@@ -589,35 +516,30 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                         else:
                             bloc = pot2[0] + pot2[1][1:]
                         cou = bloc
-                        # print('SK.1.None     *   len value = 3:', cou)
                 elif len(kv) > 3:  # Signature 1 signe(clé) + 3 notes
                     '''|66(28)[-76532]||66(2)[-7632]||66(19)[-763]||65(3)[-76542]|...'''
                     # print('\n\n\n\n\nLigne de repérage\n\n\n\n\n')
                     cou = former(kv[1:], [], '1')
-                    # (lineno(), 'SK.1.Sup(3)     *   len value > 3:', cou, 'cou')
-                (lineno(), ' Signature 1 Clé_keys()) == 1:', fol, 'ks', ks, 'KVal', kv, 'COU', cou)
             else:  # Signatures aux clés multiples
                 cou = former(signatures, photo, '2')
                 col = photo, cou
                 signaux[fol].append(col)
-                print(lineno(), ' Clé multi', 'COU ', cou, '\nµnit FONDRE')
-                # ('C c c c c c c c c c c c c Compteur', compteur)
+                # print(lineno(), ' Clé multi', 'COU ', cou, '\n µnit FONDRE')
                 break  # Traitement via formation
             cou = cou
             col = photo, cou
             signaux[fol].append(col)
-            print(' *  ', lineno(), '    COU _: ', cou, '\nµnit UNIC KS', ks)
+            # print(' *  ', lineno(), '    COU _: ', cou, '\n µnit UNIC KS', ks)
         if 'maj' in photo:
-            cou = photo[0]
+            # cou = photo[0]
             col = photo, '0'
             signaux[fol].append(col)
-            print(' *  ', lineno(), '     COU _: ', cou, '\nµnit MAJEUR')
-        # print('affirmatif[0]', affirmatif[0], "alteractif['x2']", alteractif['x2'])
+            # print(' *  ', lineno(), '     COU _: ', cou, '\n µnit MAJEUR')
 
     fix = 0  # Section maj7_fonc(..)
     while fix < 66:  # dic_analyse: Infos gammes
         fix += 1
-        print('\n', lineno(), '__________________________________________________________________')
+        # print('\n', lineno(), '__________________________TERMINAL MODES DIATONIQUES')
         # (lineno(), 'Fix', fix, 'FF', ff[:len(ff) - 1])  # Moins retour chariot
         # 88 Fix 61 FF ['1', '0', '2', '-3', '0', '0', '+4', '5', '0', '6', '0', '7',
         # [((1, 61), '101100110101')]]
@@ -626,10 +548,8 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
         if fix in unic.keys():  # Unic : Premières gammes faciles (Ligne 71)
             for fo in fondre[fix]:
                 groupe[fix].append(fo)
-            # print('', 'fondre', fondre[fix])
             for bi in binez[fix]:
                 groupe[fix].append(bi)
-            # print('', 'binez', binez[fix])
             depuis = len(groupe[fix])
             # print(lineno(), 'UNIC.GROUPE =', fix, groupe[fix])
             # 530 FONDRE.GROUPE = ['101010110101', '101011010101'] . FIX = 66
@@ -637,12 +557,10 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
             dep = []
             while depuis:
                 for i in range(0, 67):
-                    # print('I', i)
                     for ff in groupe[fix]:
-                        # print('.. FF', ff[0][1], i)
                         if i == ff[0][1] and ff[0][0] not in dep:
                             dep.append(ff[0][0])
-                            print('\n >>', lineno(), fix, '\tM22', ff[0][1], '\tM23:', ff[0][0])
+                            # print('\n >>', lineno(), fix, '\tM22', ff[0][1], '\tM23:', ff[0][0])
                             depuis -= 1
                             fond_gam(ff[0][0], fix)  # fond_gam: Fonction envoi(unic-fondre)
             # print(lineno(), 'Fondre', fondre[fix], '\nUnic', unic.keys(), '\n', len(groupe))
@@ -650,14 +568,10 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
             # Unic dict_keys([21, 24, 38, 40, 45, 47, 48, 51, 55, 58, 61, 62, 64, 65, 66])
         # Lecture du fichier entrant fondre
         elif fix in fondre.keys():  # Fondre : Gammes secondaires (Ligne 72)
-            # print('Fondre', fondre[fix])
-            # print(lineno(), 'FIX', fix, 'Foule', len(fondre.keys()))
             for fo in fondre[fix]:
                 groupe[fix].append(fo)
-            # print('', 'fondre', fondre[fix])
             for bi in binez[fix]:
                 groupe[fix].append(bi)
-            # print('', 'binez', binez[fix])
             depuis = len(groupe[fix])
             # print('FONDRE.GROUPE =', fix, groupe[fix])
             # 530 FONDRE.GROUPE = ['101010110101', '101011010101'] . FIX = 66
@@ -665,17 +579,12 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
             dep = []
             while depuis:
                 for i in range(0, 67):
-                    # print('I', i)
                     for ff in groupe[fix]:
-                        # print('.. FF', ff[0][1], i)
                         if i == ff[0][1] and ff[0][0] not in dep:
                             dep.append(ff[0][0])
-                            # print('F F F F', ff[0], i, dep)
-                            print('\n >', lineno(), fix, '\tM22', ff[0][1], '\tM23:', ff[0][0])
+                            # print('\n >', lineno(), fix, '\tM22', ff[0][1], '\tM23:', ff[0][0])
                             depuis -= 1
                             fond_gam(ff[0][0], fix)  # fond_gam: Fonction envoi(unic-fondre)
-            (lineno(), 'FONDRE.GROUPE =', groupe[fix])
-    (lineno(), 'GEM DicFondre', fondre[66], '\nUnic', unic.keys())
 
 
 def dana_fonc(dana):
@@ -705,13 +614,6 @@ def dana_fonc(dana):
             """Initialisation des tableaux majeurs du 66"""
             # Recherche Point Go & tonic [0, 0, 0, 0, 0, 0, 0] :maj_mode[66]
             # Enregistrement Poids modaux :maj_poids[66]
-            (lineno(), 'Dana', dana[dan], dan)
-            # 84 Dana [[[0, 0, 0, 5, 0, 0, 0], [588, 84.0, 12.0, 1.7142857142857142,
-            # 0.24489795918367346]], [[0, -3, -4, 0, 0, -7, -8], [0]], [[0, 0, -4, 0, 0, 0, -8],
-            # [490, 70.0, 10.0, 1.4285714285714286, 0.20408163265306123]], [[0, 0, 0, 0, 0, 0, 0],
-            # [833, 119.0, 17.0, 2.4285714285714284, 0.3469387755102041]], [[0, -3, -4, 0, -6, -7, -8],
-            # [196, 28.0, 4.0, 0.5714285714285714]], [[0, 0, -4, 0, 0, -7, -8], [343, 49.0, 7.0, 1.0]],
-            # [[0, 0, 0, 0, 0, 0, -8], [784, 112.0, 16.0, 2.2857142857142856, 0.32653061224489793]]] 66
             for dn in range(7):
                 tm = 0
                 dd = dana[dan][dn][0]  # 66.dd: = [0, 0, 0, 5, 0, 0, 0]
@@ -722,18 +624,10 @@ def dana_fonc(dana):
                     tempo = dn  # 66.Tempo: dana[dan][tempo]
                     maj_mode[66] = [dana[dan][dn][0]]  # Maj.Mode [0, 0, 0, 0, 0, 0, 0]
                     maj_mode[66].append(tempo)  # Maj.Mode [[0, 0, 0, 0, 0, 0, 0], 3]
-                (lineno(), dn, '     Dd', dd, '\tDan', dan)
-                # 101 3      Dd [0, 0, 0, 0, 0, 0, 0] 	Dan 66
             maj_lest = maj_poids[66].copy()
             maj_lest.sort()
             for mp in maj_poids[66]:
                 maj_rang[66].append(maj_lest.index(mp))
-            # ('* maj_poids:', maj_poids[66], '\n* maj_rang:', maj_rang[66])
-            # ('* maj_lest:', maj_lest, '\n* maj_mode:', maj_mode[66])
-            # * maj_poids: [588, 0, 490, 833, 196, 343, 784]
-            # * maj_rang: [4, 0, 3, 6, 1, 2, 5]
-            # * maj_lest: [0, 196, 343, 490, 588, 784, 833]
-            # * maj_mode: [[0, 0, 0, 0, 0, 0, 0], 3]
 
         """Cette boucle récupère les modes maj7
             Les gammes fondamentales ont une septième majeure"""
@@ -743,23 +637,10 @@ def dana_fonc(dana):
             if dana[dan][dn][0][-1] == 0:  # Filtre 7èmes majeures
                 vide = dana[dan][dn][0], dn
                 tous_mod[dan].append(vide)
-                (' ', lineno(), dan, 'Dn', dana[dan][dn][0])
-                # 122 66 Dn [0, 0, 0, 5, 0, 0, 0]
-                # 122 66 Dn [0, 0, 0, 0, 0, 0, 0]
         maj_lest = dan_poids[dan].copy()
         maj_lest.sort()
         for mp in dan_poids[dan]:
             dan_rang[dan].append(maj_lest.index(mp))
-        # (' Dan:', dan, 'Dana[dan][0] :', dana[dan][0])
-        # ('* DanPoi:', dan_poids[dan], '\n* DanRng:', dan_rang[dan])
-        # ('* MajMod:', dan_mode[dan], '* MajLes:', maj_lest, 'Dan:', dan)
-        # ('* TouMod:', len(tous_mod[dan]), '* TouPoi:', len(tous_poi[dan]))
-        # Dan: 66 Dana[dan][0] : [[0, 0, 0, 5, 0, 0, 0],
-        # [588, 84.0, 12.0, 1.7142857142857142, 0.24489795918367346]]
-        # * DanPoi: [588, 0, 490, 833, 196, 343, 784]
-        # * DanRng: [4, 0, 3, 6, 1, 2, 5]
-        # * MajMod: [] * MajLes: [0, 196, 343, 490, 588, 784, 833] Dan: 66
-        # * TouMod: 2 * TouPoi: 7
     # :iso_poids= Gammes de mêmes poids et rangs
     # :dif_poids= Mêmes rangées
     # :dat_rang= Tous les rangs
@@ -787,12 +668,6 @@ def dana_fonc(dana):
                             iso_poids[0][0].append(vide)
                 elif dan_rang[c1] == dan_rang[c2]:
                     dif_poids.append(c2)
-        # ('_C1', c1, ' Dan_poids[c1]', dan_poids[c1])
-        # ('_C1', c1, ' ego_rang[memo]', ego_rang[memo], 'Ranger', memo)
-        # (f'_ ****** Clé 1:{c1}  LenIso:{len(iso_poids)}|{iso_poids}')
-        # _C1 66  Dan_poids[c1] [588, 0, 490, 833, 196, 343, 784]
-        # _C1 66  ego_rang[memo] [47, 65, 66] Ranger 4036125
-        # _ ****** Clé 1:66  LenIso:1|[([66, 65], [588, 0, 490, 833, 196, 343, 784])]
         if iso_poids:  # iso_poids: Construit :ego_poids
             for ip in iso_poids[0][0]:
                 if ip not in ego_poids[dan_poids[c1][0]]:
@@ -813,48 +688,26 @@ def dana_fonc(dana):
                 vii = vi, kilo
                 if vii not in filer:
                     filer.append(vii)
-    ('Nombre Filer', len(filer), 'Long ego_poids', len(ego_poids), '** ego_poids', ego_poids)
-    # Nombre Filer 66 Long ego_poids 26 ** ego_poids {147: [1], 266: [18, 2, 5, 6],
-    # 315: [33, 3, 4, 29], 378: [38, 7, 13, 22, 31], 413: [21, 8], 350: [20, 9],
-    # 224: [19, 10], 308: [15, 11], 406: [54, 12, 28, 32, 34, 37], 238: [17, 14],
-    # 343: [43, 16, 27, 35, 36], 329: [26, 23], 455: [25, 24], 301: [30], 476: [55, 39, 40, 41],
-    # 371: [42], 427: [49, 44], 518: [58, 45], 392: [60, 46], 567: [47], 469: [57, 48, 50, 52, 56],
-    # 462: [59, 51], 385: [53], 539: [64, 61], 497: [63, 62], 588: [66, 65]}
     # Lecture Ego Rangs
     filet = []
     for nom, rng in ego_rang.items():
         for rn in rng:
             if rn not in filet:
                 filet.append(rn)
-    ('Nombre Filet', len(filet), 'Long ego_rang', len(ego_rang), '** ego_rang', ego_rang)
-    # Nombre Filet 66 Long ego_rang 10 ** ego_rang {'0352146': [1], '1253046': [2, 10, 14, 17, 19, 5, 6, 18],
-    # '2153046': [3, 11, 15, 23, 26, 30, 4, 29, 33], '2154036': [7, 8, 9, 12, 20, 21, 28, 32, 34, 37, 42, 46,
-    # 53, 54, 60, 13, 22, 31, 38], '2153036': [16, 27, 35, 36, 43], '2145036': [24, 44, 49, 51, 59, 25],
-    # '3145026': [39, 48, 50, 52, 56, 57, 40, 41, 55], '3045126': [45, 62, 63, 58], '4036125': [47, 65, 66],
-    # '3035126': [61, 64]}
-    """Blague (science/musique)"""
 
 
 def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
     """Réception des poids modaux standards à augmenter & Création 'globdic_Dana.txt'.
     L'argument 'maj7' est le dictionnaire des modes maj 7èmes et poids standards par gamme"""
     # Mode_poids = Sept modes diatoniques par gamme. Comprend les 66 gammes.
-    ('\n', lineno(), 'K1=', k1, ' ¤ GEM M_P', mode_poids, '\nPC1=', pc1, '\nGm1=', gm1.keys())
-    # 238 K1= 66  ¤ GEM M_P [[0, 0, 0, 5, 0, 0, 0], [0, -3, -4, 0, 0, -7, -8],
-    # [0, 0, -4, 0, 0, 0, -8], [0, 0, 0, 0, 0, 0, 0], [0, -3, -4, 0, -6, -7, -8],
-    # [0, 0, -4, 0, 0, -7, -8], [0, 0, 0, 0, 0, 0, -8]]
-    # PC1= ['1', '0', '2', '0', '3', '4', '0', '5', '0', '6', '0', '7', [((0, 66), '101011010101')]]
-    # Gm1= dict_keys([21, 24, 38, 40, 45, 47, 48, 51, 55, 58, 61, 62, 64, 65, 66])
     goo = []
     cumul = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []}
     dic_analyse[k1] = []  # :Dana initie table
     dic_diatonic[k1] = []  # :Maj7_fonction initie 66 diatoniques
     dic_diatonic[k1].append(mode_poids)
-    # ('dic_diatonic[k1] = [] ', dic_diatonic[k1])
     if pc1:
         dic_pc[k1] = []  #
         dic_pc[k1].append(pc1)
-        (lineno(), '.................', 'DIC PC', dic_pc)
     # Dico gamme_poids & Key_mode Majeur Comparer
     for gpk, gpv in gamme_poids.items():  # Mode_poids & Comparer Mode naturel
         """:gpv = [0,0,0,0,0,0,0],[0,0,-4,0,0,0,-8],"""
@@ -889,8 +742,6 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
         """Échappement Fichier Notes Analyses TXT :mana2 (|) Util True
             Démultiplication Facteur 7 :
                 Constituant à partir :mana2 (|) Util True. Série(centaines à zéro)"""
-        (lineno(), moi, 'For moi in...  M_P', mode_poids[moi], 'M:', moyen[moi + 1])
-        # 269 6 For moi in...  M_P [0, 0, 0, 0, 0, 0, -8], M:[784]
         # Fonction de démultiplication facteur 7
         while accroc > 1:  # Gammes Log.7
             accroc /= 7
@@ -900,9 +751,6 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
                     contre = accroc, mode_poids[moi]
                     if contre[1][-1] == 0:
                         goo.append(contre)
-    (lineno(), 'Plouc', k1, type(k1), 'Dic_analyse', dic_analyse[k1][0])
-    #  280 Plouc:66 <class 'int'> Dic_analyse:[[0, 0, 0, 5, 0, 0, 0],
-    #  [588, 84.0, 12.0, 1.7142857142857142, 0.24489795918367346]]
 
     """GlobEnModes = Gammes"""
     fil_analyse = open('GlobalTexte/globdic_Dana.txt', 'w')
@@ -915,12 +763,9 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
     if len(dic_analyse.keys()) == 66:
         dana_fonc(dic_analyse)
         maj7_fonc(gm1, maj7, h_b)
-        # glob_in_acc.inv_acc(dic_pc)
 
 
     if groupe:  # Seption accessibilités
-        # print, seption/(dic_analyse, groupe, picolo, signaux)
-        (lineno(), '♥ picolo', )
         '''num, poidsB/F, typoB/U/N, signetsU/F/M, unaire, nommeC/P
             Puis la recherche du mode tonique (entier-léger)
             Le degré i_grade a un poids nul et point zéro absolu et majeur'''
@@ -933,13 +778,32 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
         index = 0  # Mettre à zéro pour tout traiter
         while index < 66:  # Résolution des degrés
             index += 1
-            # print('\n. Groupe 66 avant', groupe[66])
+            # print('\n', lineno(), '=====================CHOIX TONIQUE POSITION', index)
+            #
+            # Détecter les noms entiers majeurs sept
+            # Et quand il n'y en a qu'un seul, il devient le choix unique
+            inutile, calme, utile = [], 0, False
+            for si in signaux[index]:
+                inuit = 0
+                for noe in si[1]:
+                    if noe not in signes:
+                        inuit += 1
+                if '.' not in si[1] and inuit < 3 and '7' not in si[1]:
+                    calme += 1
+                    inutile.append(si[1])
+            if calme == 1:
+                utile = True
+                # print(lineno(), 'CALME INUTILE', inutile)
+            else:
+                pass
+                # print(lineno(), 'CALME UTILE', inutile)
             # Opération : Trier groupe[index]
             # Poids croissants comme l'original
             masse = []  # Copier les poids modaux
             for clef in groupe[index]:
                 if clef[0][1] in masse:
-                    print(lineno(), '... Alerte *** *** *** *** *** *** Polar', clef)
+                    pass
+                    # print(lineno(), '... Alerte *** *** *** *** *** *** Polar', clef)
                 masse.append(clef[0][1])  # Initialisation des poids
             masse.sort()  # Trier les poids modaux
             brouillon[index] = []  # Trie groupe selon les masses
@@ -949,40 +813,29 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
                     if clef[0][1] == tri and clef[0][0] not in brouille_binaires:
                         brouillon[index].append(clef)
                         brouille_binaires.append(clef[0][0])
-                        # print('Groupe', clef)
-                # print('.. Tri', tri, '\t', index, clef)
             groupe[index] = brouillon[index].copy()
-            # print(lineno(), '. Mµ\n. Masse', masse, '\t', index)
-            # print('. Groupe 66 après', groupe[66])
-            poids_brut = groupe[index][0][0][1]  # Poids brut modal
-            nom_long = signaux[index][0]  # Photo réelle
-            nom_court = signaux[index][1][0]  # Nom final
-
-            cesse, relax = False, -1
-            # st0, st1 = '', ''
-            print('\n', lineno(), '======================================', index)
+            '''Cette section trouve le mode tonique ou le nom de gamme fondamentale,
+            l'algorithme n'est pas parfait quand le choix n'est pas unique.'''
+            cesse, relax, stock_nom, stock_bin = False, -1, [], []
             for s0 in signaux[index]:  # S0[0] = Photo. S0[1] = Nom
                 relax += 1
                 g0 = groupe[index][relax]
                 labo, st9, st10 = [], [], 0
-                # print(lineno(), 's0 in signaux[index]', s0[0], s0[1], g0[0][0])
                 # Sélection degré majeur sept
                 if g0[0][0][-1] == '1':  # Septième degré majeur
                     for u1 in s0[1]:
                         if u1 not in signes:
                             st10 += 1
-                    # print(lineno(), 'S0[1]', s0[1], 'st10', st10)
                     # Passage pour noms (2 signes + 2 chiffres)
                     if '.' not in s0[1] and st10 < 3:
-                        # print(lineno(), 's0 in signaux[index]', s0[0], s0[1], g0[0][0])
-                        stock_nom = s0[1]  # Premier degré mémorisé
-                        print('***\n_ ^ ^ Zéro point, s0[1]', s0[1], g0[0][0], 'N', stock_nom)
+                        stock_nom = s0[1]  # Premier degré mémorisé NOM ENTIER
+                        stock_bin = g0[0][0]  # Premier degré mémorisé NOM BINAIRE
+                        # print('***\n_ ^ ^ Zéro point', s0[0], s0[1], g0[0][0], 'N', stock_nom)
                         sgn1, deg1, deg2, sgn2 = None, None, None, None
                         s0n, s0t, s0i = '', -1, True
                         # Apprentissage Labo
                         for s00 in s0[1]:
                             s0t += 1
-                            # print(lineno(), 'S0N', s0n, 'S0T', s0[1][s0t])
                             if s00 in signes:
                                 s0n += s00
                                 s0i = True
@@ -993,27 +846,25 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
                             if s0i:
                                 labo.append(s0n)
                             s0n = ''
-                            # print(lineno(), 'labo', labo, 'S00', s00)
                         # Labo Issue St9 = Degré(s) absolu(s) (non-altérés)
                         if len(labo) == 1:  # Ici labo contient '0' ou majeur
+                            source = [stock_nom, stock_bin]
+                            toniques[index] = source
+                            # print(lineno(), 'Majeur Break', toniques[index], 'Index', index)
                             break
                         elif len(labo) == 2:
                             sgn1, deg1 = labo[0], int(labo[1])
                             st9.append(deg1)
-                            print(' **Labo 2 :', st9)
                         elif len(labo) == 3:
                             sgn1, deg1, deg2 = labo[0], labo[1], labo[2]
                             st9.append(deg1)
                             st9.append(deg2)
-                            print('***Labo 3 :', st9)
                         elif len(labo) == 4:
                             sgn1, deg1, deg2, sgn2 = labo[0], labo[1], labo[2], labo[3]
                             st9.append(deg1)
                             st9.append(deg2)
-                            print('****Labo 4 :', st9)
                         # Labo Issue St9 = Degré(s) absolu(s) (non-altérés)
-                        print('+*° LABO', labo, len(labo), 'LABO', sgn1, deg1, deg2, sgn2)
-                        # print(lineno(), 's0 in signaux[index]', s0[0], s0[1], 'st9', st9)
+                        # print('+*° LABO', labo, 'LABO', sgn1, deg1, deg2, sgn2)
                         # Trouver le degré voisin supérieur
                         roule_bin = list(g0[0][0])
                         roule_bin.insert(-1, roule_bin.pop(0))
@@ -1021,81 +872,259 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
                             roule_bin.pop(0)
                             roule_bin.append('0')
                         moule_bin = ''.join(rb for rb in roule_bin)
-                        print(lineno(), ' * MOULE_BIN 2', moule_bin, '\n              ***')
-                        #
-                        mia, mod_origine, mod_cours = -1, [], []
+                        # print(lineno(), ' * MOULE_BIN 2ème degré', moule_bin, '        ***')
+                        mia, mod_origine, mod_cours, mod_so9, mod_1 = -1, [], [], [], False
                         # Transpose 2ème degré majeur vers grand1
                         for gr in grade_maj['2']:
                             gr = gr[len(gr) - 1:]
                             gr1 = int(gr)
                             mod_origine.append(gr1)
-                        # print(lineno(), 'Grade Origine', mod_origine, 'Cours', mod_cours)
                         for bof in range(7):
                             mia += 1
-                            # print('Mia', mia, 'Index', index, signaux[index][mia])
                             sto = signaux[index][mia]
                             gmo = groupe[index][mia]
                             if moule_bin == gmo[0][0]:
+                                fsn = ''
                                 for so9 in st9:
-                                    # print(lineno(), 'ST9', st9, 'SO9', so9)
                                     so1 = int(so9) - 1
-                                    # print(lineno(), 'SO1', so1)
+                                    fss = st9.index(so9)
+                                    if fss == 0:
+                                        fsn = sgn1 + str(so1)
+                                    elif fss == 1:
+                                        if sgn2:
+                                            fsn = sgn2 + str(so1)
+                                        else:
+                                            fsn = sgn1 + str(so1)
+                                    mod_so9.append(fsn)
                                     # Ajouter à l'original le degré descendant (so1)
                                     if so1 not in mod_origine and so1 != 1:
                                         mod_origine.append(so1)
                                         mod_origine.sort()
                                     elif so1 == 1:  # À faire quand so1=1
-                                        pass
-                                        # print(lineno(), 'SO1 = 1 :', so1)
-                                    print('ST9', st9, 'SO9', so9, 'sto', sto, 'SO1', so1)
+                                        mod_1 = True
+                                    # print(lineno(), 'St', sto, 'SO', so1, 'F', fsn, 'm', mod_1)
                                 for st in sto[0]:
                                     st0 = st[len(st) - 1:]
                                     sto1 = int(st0)
-                                    '''if sto1 not in mod_origine:
-                                        mod_origine.append(sto1)
-                                        mod_origine.sort()
-                                        print(lineno(), 'STO1 not in origine', sto1)'''
-                                    # print(lineno(), 'ST', st, 'Signaux sto', sto, 'sto1', sto1)
+                                    # Suite altéractive ?
+                                    if sto1 not in mod_origine:  # Degré descendant signé
+                                        for fsn_alt in mod_so9:
+                                            if fsn_alt in alteractif.keys():
+                                                for f0 in alteractif[fsn_alt]:
+                                                    f1 = f0[len(f0) - 1:]
+                                                    # print('F1', f1, )
+                                                    if int(f1) == sto1 and sto1 not in mod_origine:
+                                                        mod_origine.append(sto1)
+                                                        mod_origine.sort()
+                                    # Selon la non-altéraction
+                                    if sto1 not in mod_origine:  # Contenu
+                                        for fsn_sto in sto[0]:
+                                            if fsn_sto in alteractif.keys():
+                                                for f0 in alteractif[fsn_sto]:
+                                                    f1 = f0[len(f0) - 1:]
+                                                    if int(f1) == sto1 and sto1 not in mod_origine:
+                                                        mod_origine.append(sto1)
+                                                        mod_origine.sort()
                                     if sto1 not in mod_cours:
                                         mod_cours.append(sto1)
                                         mod_cours.sort()
-                                        # print('ST', st)
-                                print(lineno(), 'Origine', mod_origine, 'Cours', mod_cours)
+                                # Traitement so1= '-1' ou '+1'
+                                if mod_1:
+                                    mod_origine = []
+                                    for ms9 in mod_so9:
+                                        ms0 = ms9[len(ms9) - 1]
+                                        if int(ms0) not in mod_cours and ms0 != '1':
+                                            mod_cours.append(int(ms0))
+                                            mod_cours.sort()
+                                            # print(lineno(), '.    Courses', mod_cours)
+                                        # Secteur '-1'
+                                        if ms9 in ('-1', 'o1', '*1'):
+                                            # Origine grade_maj['-2']
+                                            for gm2 in grade_maj['-2']:
+                                                gm0 = gm2[len(gm2) - 1:]
+                                                mod_origine.append(int(gm0))
+                                            # Quand '-3' = '+2'
+                                            for ms8 in mod_so9:
+                                                if 2 in mod_origine:
+                                                    if ms8 in ['-3', 'o4']:
+                                                        mod_origine.remove(2)
+                                                        mod_origine.append(3)
+                                                        mod_origine.sort()
+                                                    elif ms8 == '^3':
+                                                        ms7 = ms8[len(ms8) - 1:]
+                                                        if ms7 not in mod_origine:
+                                                            mod_origine.append(3)
+                                                            mod_origine.sort()
+                                        # Secteur '+1'
+                                        if ms9 in ('+1', 'x1', '^1'):
+                                            # Origine grade_maj['+2']
+                                            for gm2 in grade_maj['+2']:
+                                                gm0 = gm2[len(gm2) - 1:]
+                                                mod_origine.append(int(gm0))
+                                            # Quand '+2' = '-3' et '-4'
+                                            for ms8 in mod_so9:
+                                                if ms8 == 'x2':
+                                                    if 3 in mod_origine and 4 in mod_origine:
+                                                        mod_origine.remove(3)
+                                                        mod_origine.remove(4)
+                                                        mod_origine.sort()
+                                    # print(lineno(), 'grade_maj-- SO1', mod_so9)
                                 # print(lineno(), 'Origine', mod_origine, 'Cours', mod_cours)
-                            if mod_origine == mod_cours:
-                                print('***G1 = G2*** grand1', mod_origine, 'grand2', mod_cours)
-                                # print(lineno(), 'GMO', moule_bin, gmo[0][0], 'STO', sto)
+                            if mod_origine == mod_cours or utile:
                                 cesse = True
+                                # print('Origine = Cours', mod_origine, mod_cours, 'Utile:', utile)
                                 break
                         else:
-                            print('***Else***G1 = G2***')
+                            pass
+                            # print('***Else***M_origine != M_cours***')
                 if cesse:
-                    print(lineno(), 'Cesse Break', cesse)
+                    source = [stock_nom, stock_bin]
+                    toniques[index] = source
+                    # print(lineno(), 'Cesse Break', cesse, toniques[index], 'Index', index)
                     break
-
-                # p1 = picolo[index][0][relax]  # Forme neutre
-                # p2 = picolo[index][1][relax]  # Signature brute
-            binaire = groupe[index][0][0][0]  # Forme binaire '101011010101'
-            dia_binaire[index, binaire] = []
-            lot_globe = poids_brut, nom_long, nom_court
-            dia_binaire[index, binaire].append(lot_globe)
-            # print(' **dic_analyse', dic_analyse[index][0])
-            '''Dic_Analyse Consultant Poids Fins exemple (Photo/Nom +4)
-            [[0,0,0,5,0,0,0], [588,84.0,12.0,1.7142857142857142,0.24489795918367346]]'''
-            # print(' **groupe', groupe[index][0][0][0], groupe[index][0][0][1])
-            # print(' **picolo', picolo[index][0][0])  # picolo[66][0][mode] = mode unaire
-            # print(' **signaux', signaux[index][0])
-            # print(' dia_binaire[', index, binaire, ']', dia_binaire[index, binaire])
+        # Mise en ordre des degrés via transfert dictionnaires respectifs
+        # print('\n', lineno(), '******* ******* ******* ******* ******* ORDRE DIATONIQUE')
+        trans_dic, trans_groupe, trans_picolo, trans_signaux = {}, {}, {}, {}
+        clefs_toniques = list(toniques.keys())
+        clefs_toniques.reverse()
+        couche = 0
+        # Mise en ordre diatonique du GROUPE
+        for tonice in clefs_toniques:
+            # print('\n o ooo o o  ooo o  ooo o o oo oo o oo oo MODÈLES RAPPORTÉS     ', tonice)
+            couche += 1
+            ton = 0
+            rang_deg = list(toniques[tonice][1])
+            while ton < 7:  # Développement des binaires diatoniques
+                # Modulations diatoniques : Mode 1 à Mode 7
+                if ton == 0:
+                    ton += 1
+                elif rang_deg[0] == '1':
+                    rang_deg.pop(0)
+                    rang_deg.append('1')
+                    if rang_deg[0] == '1':
+                        ton += 1
+                else:
+                    while rang_deg[0] == '0':
+                        rang_deg.pop(0)
+                        rang_deg.append('0')
+                    ton += 1
+                if rang_deg[0] == '1':  # Définition des 7 modes diatoniques
+                    ton0 = table_deg[ton]
+                    # print('     DEGRÉ', ton0)
+                    '''diC_AnaLySe 66[[0,-3,-4,0,-6,-7,-8],[196,28.0,4.0,0.5714285714285714]]'''
+                    trans_dic[tonice, table_deg[ton]] = []
+                    '''*. TraNs_GRouPe .* [(('101011010101', 0), 66)]'''
+                    trans_groupe[tonice, table_deg[ton]] = []
+                    '''picolo 66 [1, 0, 2, 0, 3, 4, 0, 5, 0, 6, 0, 7]'''
+                    trans_picolo[tonice, table_deg[ton]] = []
+                    '''signaux 66 (['maj'], '0') : Photo. Nom.'''
+                    trans_signaux[tonice, table_deg[ton]] = []
+                    deg_txt = ''.join(rd for rd in rang_deg)
+                    for t_grp in groupe[tonice]:  # Trans_Groupe OK
+                        if t_grp[0][0] == deg_txt:  # Enregistrer Groupe
+                            trans_groupe[tonice, ton0].append(t_grp)
+                            # print(lineno(), 'T_t_grp', t_grp[0][0], t_grp, ton0)
+                            break
+                        # break # Coupure développement diatonique
+                    s_tab1, s_tab2 = [], []
+                    for pic in range(len(picolo[tonice][0])):
+                        stop_pic = False
+                        for pt0 in picolo[tonice][0]:  # Forme neutre
+                            d = 1  # De 1 à 7. De binaire à numéral
+                            mod_txt = []
+                            # Construction Forme neutre Photo
+                            # Final = [1, 0, 2, 0, 3, 4, 0, 5, 0, 6, 0, 7]
+                            for dxt in deg_txt:  # Photo Négatif Deg_Txt
+                                if dxt == '1':
+                                    mod_txt.append(d)
+                                    d += 1
+                                else:
+                                    mod_txt.append(0)
+                            s_num = {'2': [], '3': [], '4': [], '5': [], '6': []}
+                            if mod_txt == pt0:  # Photo deg_txt = Forme neutre
+                                tm = picolo[tonice][0].index(pt0)
+                                trans_picolo[tonice, ton0].append(picolo[tonice][0][tm])
+                                trans_picolo[tonice, ton0].append(picolo[tonice][1][tm])
+                                stop_pic = True
+                                # print(lineno(), '*..* tag_mod 0', trans_picolo[tonice, ton0][0])
+                                # print(lineno(), '*..* tag_mod 1', trans_picolo[tonice, ton0][1])
+                                for v_tp in trans_picolo[tonice, ton0][1].values():
+                                    # Construction table pour signaux
+                                    for vt in v_tp:
+                                        if type(vt) is str:
+                                            v1 = vt[len(vt) - 1:]
+                                            s_num[v1] = vt
+                                # Rapport table pour signaux et analyse
+                                for vs in s_num.values():
+                                    s_tab2.append(vs)  # s_tab2 pour trans_dic ([]=0)
+                                    if vs:
+                                        s_tab1.append(vs)  # s_tab1 pour signaux (!=[])
+                                for sig0 in signaux[tonice]:
+                                    if sig0[0] == s_tab1:
+                                        trans_signaux[tonice, table_deg[ton]].append(sig0)
+                                        # print(lineno(), '. Signaux', trans_signaux[tonice, ton0])
+                                        break
+                                tab, sur = [0], ''  # Rapport tab trans_dic
+                                # Table convertie pour dic_analyse (trans_dic)
+                                for st_dic in s_tab2:
+                                    if st_dic:
+                                        sd0 = st_dic[:len(st_dic) - 1]
+                                        ss0 = ''
+                                        sd1 = st_dic[len(st_dic) - 1:]
+                                        sig = signes.index(sd0)
+                                        if signes.index(sd0) > 5:
+                                            sig = signes.index(sd0) - 11
+                                            ss0 = '-'
+                                        aug = str(abs(sig) + int(sd1[0]))
+                                        sur = int(ss0 + aug)
+                                    else:
+                                        sur = 0
+                                    tab.append(sur)
+                                if len(tab) < 7:
+                                    while len(tab) != 7:
+                                        tab.append(0)
+                                for ta0 in dic_analyse[tonice]:
+                                    if tab == ta0[0]:
+                                        trans_dic[tonice, ton0] = ta0
+                                # print(lineno(), 'TA0', trans_dic[tonice, table_deg[ton]])
+                                break
+                        if stop_pic:
+                            break  # Coupure développement diatonique
+            # break # Coupure développement des toniques (66 gammes)
         modes = {
-            '**dic_analyse': dic_analyse,
-            '**groupe': groupe,
-            '**picolo': picolo,
-            '**signaux': signaux}
-        mots_clefs = list(modes.keys())
-        print('\n Modes', mots_clefs)
-        print(lineno(), 'signaux 66', signaux[66][5])
-        # pass
-
+            'analyse': trans_dic,
+            'groupe': trans_groupe,
+            'picolo': trans_picolo,
+            'signaux': trans_signaux}
+        # table_deg = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII']
+        """Glob_DataGams = Gammes données fondamentales"""
+        m_ana = modes['analyse']
+        m_grp = modes['groupe']
+        m_pic = modes['picolo']
+        m_sgn = modes['signaux']
+        data_gammes = open('GlobalTexte/glob_datagams.txt', 'w')
+        fun = 0
+        while fun <= 65:
+            fun += 1
+            dan, t_dan = 0, []
+            while dan < 7:
+                dan += 1
+                don = table_deg[dan]
+                din = [fun, don]
+                t_dan.append(din)
+                t_dan.append(m_ana[fun, don])
+                t_dan.append(m_grp[fun, don])
+                t_dan.append(m_pic[fun, don])
+                t_dan.append(m_sgn[fun, don])
+            for nrj in t_dan:
+                maj = str(nrj)
+                for mm in maj:
+                    data_gammes.write(mm)
+                mm = '\n'
+                data_gammes.write(mm)
+            t_dan.clear()
+        data_gammes.close()
+        glob_in_acc.inv_acc(modes, ego_poids, ego_rang)
 
 
 if __name__ == '__main__':
@@ -1126,7 +1155,7 @@ if __name__ == '__main__':
     seption(mode_po, 1, {}, {}, {}, {})
 
 """ 
-        *   *   *
+        *   *   * HORS NOTION RANGEMENT
 Signaux.dic66: 
 [['maj'], ['+4'], ['-7'], ['-3', '-7'], ['-3', '-6', '-7'], 
 ['-2', '-3', '-6', '-7'], ['-2', '-3', '-5', '-6', '-7']]}

@@ -180,7 +180,7 @@ def diatonic(topic):
     (lineno(), 'GGF gamme_avals', gamme_avals.keys())
     # 174 GGF gamme&avals dict_keys([21, 24, 38, 40, 45, 47, 48, 51, 55, 58, 61, 62, 64, 65, 66])
     # Long MagMa = Les modèles légers. Dictionnaire 66 éléments
-    (lineno(), 'GGF Long MagMa', len(magma), magma)
+    # print(lineno(), 'GGF Long MagMa', len(magma), magma)
 
     """GlobDicTGams = Gammes fondamentales"""
     fil_gammes = open('GlobalTexte/globdicTgams.txt', 'w')

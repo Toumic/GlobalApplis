@@ -9,8 +9,8 @@
 
 import inspect
 import os
-from typing import Callable
 import GlobInverseAcc
+from typing import Callable
 
 glob_in_acc = GlobInverseAcc
 inspect.getsource(os)
@@ -28,8 +28,8 @@ Tableaux modèles supposés fondamentaux (Toniques)
     2: Signature binaire correspondante
         :mode_biner = ['111000001111','111100000111','111110000011',,,
 Plonger dans le code à l'aide des 'print':
-    Une ligne de code faite ainsi fonctionne: (choses à printer),
-    print(1) = (1) = OK. Copier print à (1) = print(1)."""
+    Une ligne de code faite ainsi, fonctionne: (choses à printer),
+    print(1) <=> (1) = OK. Copier print à (1) => print(1)."""
 
 mages_biner = ['101011010101', '101101010110', '110101011010',
                '101010110101', '101011010110', '101101011010',
@@ -603,9 +603,12 @@ def dana_fonc(dana):
             La signature modale [[0,-3,-5,,,]_ Tonalité
             La démultiplication modale _[147,21.0,3.0,,,]]
                 Divise Poids par 7 jusqu'à zéro entier
-    Union : 1- Les tonalités aux mêmes poids. 2- Les poids aux mêmes rangs. 3- Les tonalités aux mêmes degrés
-        1) Les gammes à masses égales. 2) Les reliefs des pesants. 3) Les fondements réguliers."""
-
+    Union : 1- Les tonalités aux mêmes poids.
+        2- Les poids aux mêmes rangs.
+        3- Les tonalités aux mêmes degrés
+        1) Les masses égales. 2) Les reliefs pesants. 3) Les fondements réguliers."""
+    (lineno(), ' GEM DANA', dana[1][0])  # Vision du 1er mode (il y a 7 modes)
+    # 610  GEM DANA [[0, -3, -5, 7, 7, 7, 0], [147, 21.0, 3.0, 0.42857142857142855]]
     maj_poids[66], maj_rang[66], maj_mode[66] = [], [], []
     for dan in range(1, len(dana) + 1):  # Épisode Dana
         tous_poi[dan], tous_mod[dan] = [], []
@@ -697,7 +700,7 @@ def dana_fonc(dana):
 
 
 def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
-    """Réception des poids modaux standards à augmenter & Création 'globdic_Dana.txt'.
+    """Réception des poids modaux standards à augmenter & Création 'GlobalTexte/globdic_Dana.txt'.
     L'argument 'maj7' est le dictionnaire des modes maj 7èmes et poids standards par gamme"""
     # Mode_poids = Sept modes diatoniques par gamme. Comprend les 66 gammes.
     goo = []
@@ -711,7 +714,7 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
     # Dico gamme_poids & Key_mode Majeur Comparer
     for gpk, gpv in gamme_poids.items():  # Mode_poids & Comparer Mode naturel
         """:gpv = [0,0,0,0,0,0,0],[0,0,-4,0,0,0,-8],"""
-        for com in gpv:  # :gpv= Valeur Majeure
+        for com in gpv:  # :gpv= Valeur Majeure et mode dico gamme_poids
             """:com = [0,0,0,0,0,0,0]"""
             """:mode_poids = [[0,-3, -5, 7, 7, 7,0],[0,-3, -5, -6, 7, 7,0],"""
             for mod in mode_poids:  # :mod= Section modale Non-Majeure
@@ -752,15 +755,14 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
                     if contre[1][-1] == 0:
                         goo.append(contre)
 
-    """GlobEnModes = Gammes"""
-    fil_analyse = open('GlobalTexte/globdic_Dana.txt', 'w')
-    for ky1, va1 in dic_analyse.items():  # dic_analyse: Infos Dana
-        mm = str(ky1) + str(va1)  # ky1: Numéro gamme
-        mm += '\n'  # va1: Modes poids augmentés
-        fil_analyse.write(mm)
-    fil_analyse.close()  # Écriture fichier globdic_Dana.txt
-
     if len(dic_analyse.keys()) == 66:
+        """GlobEnModes = Gammes"""
+        fil_analyse = open('GlobalTexte/globdic_Dana.txt', 'w')
+        for ky1, va1 in dic_analyse.items():  # dic_analyse: Infos Dana
+            mm = str(ky1) + str(va1)  # ky1: Numéro gamme
+            mm += '\n'  # va1: Modes poids augmentés
+            fil_analyse.write(mm)
+        fil_analyse.close()  # Écriture fichier globdic_Dana.txt
         dana_fonc(dic_analyse)
         maj7_fonc(gm1, maj7, h_b)
 

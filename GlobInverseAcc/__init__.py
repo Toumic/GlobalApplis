@@ -107,7 +107,7 @@ def inv_acc(pc, ego_p, ego_r):
     f10 = 0
     for gl in glob:
         f10 += 1
-        print('GLOBE', f10, gl, '\n')
+        # #print('GLOBE', f10, gl, '\n')
         break
     '''
     Traitement données DANA(fonction) :
@@ -121,7 +121,7 @@ def inv_acc(pc, ego_p, ego_r):
         Classic = De 1 à 7. DANA = De 7 à 1
     Le précédent module GlobEnModes a détecté les modulations toniques
     Il faut par conséquent refaire même si c'est identique, bien-qu'inversé'''
-    print('GIA EGO_poids', ego_p.keys(), '\nGIA EGO_rang', ego_r.keys(), '.keys()\n')
+    # #print('GIA EGO_poids', ego_p.keys(), '\nGIA EGO_rang', ego_r.keys(), '.keys()\n')
     dic_rng, dic_dic = {}, {}
     tab_rng_fins, tab_rng_forts, cop_rng_fins, ind_cop_f1 = [], [], [], []
     nbr_org = 0
@@ -162,7 +162,7 @@ def inv_acc(pc, ego_p, ego_r):
             nbr_org = 0
     '''Le dictionnaire dic_dic '''
     # Consultation dictionnaire dic_dic
-    print('dic_dic', dic_dic[1], '\n', dic_dic.keys(), 'Quant. :', len(dic_dic.keys()))
+    # #print('dic_dic', dic_dic[1], '\n', dic_dic.keys(), 'Quant. :', len(dic_dic.keys()))
     ego_f11, ego_f12 = {}, {}  # Pour les poids maximums
     ego_f01, ego_f02 = {}, {}  # Pour les rangs
     val_fax_f1, val_fax_f2 = {}, {}  # Dico des valeurs en ordre original (corps) (fins/forts)
@@ -210,13 +210,13 @@ def inv_acc(pc, ego_p, ego_r):
             val_fax_f3[d_val[2]].append(d_val[0])  # d_val[3] = Liste des poids forts
     # print('\nego_f11 Mêmes maximums fins:\n', ego_f11.keys(), 'Quant. :', len(ego_f11))
     # print('ego_f12 Mêmes maximums forts:\n', ego_f12.keys(), 'Quant. :', len(ego_f12))
-    print('\nval_fax_f1 Mêmes poids&rangs fins:\n', val_fax_f1.keys(), 'Quant. :', len(val_fax_f1))
-    print('val_fax_f2 Mêmes poids&rangs forts:\n', val_fax_f2.keys(), 'Quant. :', len(val_fax_f2))
-    print('val_fax_f3 Rangs forts&fins:\n', val_fax_f3.keys(), 'Quant. :', len(val_fax_f3))
+    # #print('\n val_fax_f1 Mêmes poids&rangs fins:\n', val_fax_f1.keys(), 'Quant. :', len(val_fax_f1))
+    # #print('val_fax_f2 Mêmes poids&rangs forts:\n', val_fax_f2.keys(), 'Quant. :', len(val_fax_f2))
+    # #print('val_fax_f3 Rangs forts&fins:\n', val_fax_f3.keys(), 'Quant. :', len(val_fax_f3))
     # print('\nego_f01 Mêmes rangs fins:\n', ego_f01.keys(), 'Quant. :', len(ego_f01))
     # print('ego_f02 Mêmes rangs forts:\n', ego_f02.keys(), 'Quant. :', len(ego_f02))
 
 
 if __name__ == '__main__':
-    print(f' GEM Quelle seption !')
+    # #print(f' GEM Quelle seption !')
     inv_acc({}, {}, {})

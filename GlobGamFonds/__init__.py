@@ -67,7 +67,7 @@ poids_avals, gamme_avals, magma, gam_tonique, mode_maj7 = {}, {}, {}, {}, {}
 h_bin = {}
 
 
-def diatonic(topic):
+def diatonic(table, topic):
     """Fonction de détection des gammes fondamentales & Écriture fichier 'globdicTgams.txt',
     basée sur le poids le plus faible donné par les degrés modaux."""
     kit = 0
@@ -78,7 +78,8 @@ def diatonic(topic):
         modes_modal.clear()
         top00 = ''.join(t for t in top01)
         retour, poids_gen, dio = 0, 0, 0
-        # (f'\n {lineno()} : {top00} {kit}')  # Notes Analyses.txt : Affichage mode binaire
+        if '1' in table:
+            print(f'\n {lineno()} : {top00} {kit}')  # Analyses.txt : Affichage mode binaire
         #  80 : 101010110101 66
 
         """Passe: Séquence Diatonie"""
@@ -88,7 +89,7 @@ def diatonic(topic):
             poids_modal.clear()
             grader, regard, lacune, pesant, poids = 0, -1, 0, [0], 0
             """Traitement d'Un Mode Fondamental |Pesant|"""
-            # print(top00)
+            # (top00)
             for t00 in top00:
                 regard += 1
                 """Passe: Poids du Uème mode"""
@@ -120,12 +121,13 @@ def diatonic(topic):
         h_bin[kit] = []
         for c in poids_class.keys():  # Selection modes
             lp = poids_class[c], c[0]
-            # print(lineno(), 'GGF C', c[0], kit)
+            # (lineno(), 'GGF C', c[0], kit)
             if c[1][-1] == '1':  # Mode Maj7
                 lys_0.append(lp)
             else:
                 h_bin[kit].append(lp)
-        (lineno(), 'GGF Lys_0', lys_0)
+        if '1' in table:
+            print(lineno(), 'GGF Lys_0', lys_0)
         # 122 GGF Lys_0 [(('101010110101', 5), 66), (('101011010101', 0), 66)]
         mode_maj7[kit] = lys_0
         for io in lys_0:  # lys_0: Issue Select Modes Majeurs
@@ -139,7 +141,7 @@ def diatonic(topic):
         """ GGF'135*DicoNeg[0][0]/mini(Poids_Faible.N°_Gam)
          GGF'135*DicoNeg[0][1]/binaire_Gam: 1010110101018)
           GGF'153*Standard_Gam >> 1020340506078 >> 102-3040506078"""
-        ('\n', lineno(), 'GGF*DicoNeg', dico_neg)  # 135 GGF*DicoNeg [((0, 66), '101011010101')]
+        # ('\n', lineno(), 'GGF*DicoNeg', dico_neg)  # 135 GGF*DicoNeg [((0, 66), '101011010101')]
 
         gamme, ga = [], ''
         pm, pp = 0, -1
@@ -158,7 +160,8 @@ def diatonic(topic):
             gamme.append(ga)
         gamme.append(dico_neg)
         # ...
-        ('\n', lineno(), '_Gam:12', gamme[:12], '\n', lineno(), '_Gam12:', gamme[12:])
+        if '1' in table:
+            print(lineno(), '_Gam:12', gamme[:12], '\n', lineno(), '_Gam12:', gamme[12:])
         #  153 _Gam:12 ['1', '0', '2', '0', '3', '4', '0', '5', '0', '6', '0', '7']
         #  153 _Gam12: [[((0, 66), '101011010101')]]
         f0 = 0
@@ -170,17 +173,17 @@ def diatonic(topic):
             gamme_avals[mini[1]] = gamme  # mini[1]: N°_Gam ou gamme[12:][0][0][0][1]
             ('*', lineno(), 'M', mini[1], '_G8', gamme[12:][0][0][0][1])  # *164 MINI 66 _Gam8 66
         magma[mini[1]] = gamme
-        (lineno(), mini[1], 'Magma[][:12]', magma[mini[1]][:12])
+        # (lineno(), mini[1], 'Magma[][:12]', magma[mini[1]][:12])
         # 166 66 Magma[][:12] ['1', '0', '2', '0', '3', '4', '0', '5', '0', '6', '0', '7']
         if len(modes_modal) == 7:
             if len(mode_maj7) == 66:
-                glob_en.seption(modes_modal, kit, magma[kit], gamme_avals, mode_maj7, h_bin)
+                glob_en.seption(table, modes_modal, kit, magma[kit], gamme_avals, mode_maj7, h_bin)
             else:
-                glob_en.seption(modes_modal, kit, magma[kit], gamme_avals, {}, {})
+                glob_en.seption(table, modes_modal, kit, magma[kit], gamme_avals, {}, {})
     (lineno(), 'GGF gamme_avals', gamme_avals.keys())
     # 174 GGF gamme&avals dict_keys([21, 24, 38, 40, 45, 47, 48, 51, 55, 58, 61, 62, 64, 65, 66])
     # Long MagMa = Les modèles légers. Dictionnaire 66 éléments
-    # print(lineno(), 'GGF Long MagMa', len(magma), magma)
+    # (lineno(), 'GGF Long MagMa', len(magma), magma)
 
     """GlobDicTGams = Gammes fondamentales"""
     fil_gammes = open('GlobalTexte/globdicTgams.txt', 'w')
@@ -190,7 +193,7 @@ def diatonic(topic):
         mm += '\n'
         fil_gammes.write(mm)
         gam_tonique[f] = magma[f]  # gam_tonique: Création
-        # print(lineno(), 'GGF MagMa', magma[f][12:])
+        # (lineno(), 'GGF MagMa', magma[f][12:])
         f += 1
     fil_gammes.close()
     (lineno(), 'GGF GamTon', gam_tonique)

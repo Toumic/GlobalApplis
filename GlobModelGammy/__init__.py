@@ -26,7 +26,7 @@ glob_fond = GlobGamFonds
 fonder_tetra, fonder_gamme = [], []
 
 
-def gammy():
+def gammy(table):
     cluster, coupler, recoder = [], [], []
     diatonic_tetra = {4: [], 5: [], 6: [], 7: [], 8: [], 9: []}
     diatonic_gamme = {12: []}
@@ -129,7 +129,7 @@ def gammy():
         transpose(tr1[:12])
 
     # Envoi 66 Modes Binarisées
-    glob_fond.diatonic(fonder_gamme)
+    glob_fond.diatonic(table, fonder_gamme)
 
     # Tétracorde binaire recoder[]
     """L'alternative tétracordique 1234=#/b(1234)#/b(5678)"""

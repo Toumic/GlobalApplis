@@ -99,7 +99,7 @@ for pi in range(1, 67):  # Clés + Table
 table_deg = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII']
 
 
-def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
+def maj7_fonc(table, unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
     """Les gammes fondamentales enfin !
     Unic : Les quinze modèles légers renseignés. [Alpha. Binaire. Poids]
         **maj7(unic)** 253 66 unic[fix][-1][0][1] = 101011010101
@@ -136,7 +136,8 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                 y = 0
             i_mod.append(y)
         picolo[fol][0].append(i_mod)
-        # print('****', lineno(), 'I_mod', i_mod, '***********FOL', fol, 'n Picolo', 'fol')
+        if '2' in table:
+            print('****', lineno(), 'I_mod', i_mod, '***********FOL', fol, 'n Picolo', 'fol')
         ''' Construction PHOTO d'où TOPO
             La photo est vue en ordre croissant du degré ou (1234567).
             *   L'ordre du degré numérique est donné par défaut = (1234567),
@@ -162,8 +163,8 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                 signatures[ist].append(hot)
         if not photo:
             photo.append('maj')
-        # print('.../** .| |. **', lineno(), ' ** PHOTO_temps réel:____', photo)
-        (lineno(), ' ** SIGNA_________', signatures, '..')
+        # ('.../** .| |. **', lineno(), ' ** PHOTO_temps réel:____', photo)
+        # (lineno(), ' ** SIGNA_________', signatures, '..')
         informatif = ['x^', '+^', "^", 'x', '+', 'o*', '-*', '*', 'o', '-']
         infime, survole = informatif[5:], informatif[:5]
         (lineno(), 'INFOS', 'infime', infime, 'survole', survole)
@@ -221,11 +222,11 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                     c10 = ''
                     if len(dicter.keys()) == 1:  # . . . . . ... 1er. 1 note signée
                         '''|56(26)[+2346]||54(24)[o73]||52(19)[+234]|...'''
-                        # print('\n\n\n\n\n  REPÈRE 1 Clé. \n\n\n\n\n')
+                        # ('\n\n\n\n\n  REPÈRE 1 Clé. \n\n\n\n\n')
                         c10 = kt + dicter[kt][0]
                     elif len(dicter.keys()) == 2:  # . . . . ... 2ème. 2 notes signées
                         '''|65(3)[+47-]||64(34)[o7.-542]||64(7)[+4.-73]|...'''
-                        # print('\n\n\n\n\n  REPÈRE 2 Clés. \n\n\n\n\n')
+                        # ('\n\n\n\n\n  REPÈRE 2 Clés. \n\n\n\n\n')
                         lise = list(dicter.keys())
                         les1 = len(dicter[lise[0]][0])
                         les2 = len(dicter[lise[1]][0])
@@ -241,7 +242,7 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                     elif len(dicter.keys()) == 3:  # . . . . ... 3ème. 3 notes à double-signe
                         # Exemple = B² BIL.dicter {'x': ['4'], '+': ['6'], '-': ['32']}
                         '''|60(11)[+43o.-7]||53(15)[x46+.-3]||43(5)[]|...'''
-                        # print('\n\n\n\n\n  REPÈRE 3 Clés. \n\n\n\n\n')
+                        # ('\n\n\n\n\n  REPÈRE 3 Clés. \n\n\n\n\n')
                         les1 = len(dicter[lise[0]][0])
                         if les1 != 1 and not lys0['bis']:
                             you = lise[0], dicter[lise[0]][0]
@@ -257,7 +258,7 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                         les4 = les1 + les2 + les3
                         if les4 == 4:
                             '''|43(5)[o37-.+45]||38(18)[]||43(5)[]|...'''
-                            # print('\n\n\n\n\n REPÈRE Les4. \n\n\n\n\n')
+                            # ('\n\n\n\n\n REPÈRE Les4. \n\n\n\n\n')
                         # Il n'y a pas de 'les4' supérieur à 4
                         for yo in lise:
                             if yo in survole and yo not in lys0['aug']:
@@ -278,10 +279,10 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                                 break
                             elif len(lys0[lys]) > 1:  # Famille 2 signes
                                 pensif1 = lys
-                                # print('Pension1', pensif1)
+                                # ('Pension1', pensif1)
                             elif len(lys0[lys]) == 1:  # Signe orphelin
                                 pensif2 = lys
-                                # print('Pensif2', pensif2)
+                                # ('Pensif2', pensif2)
                         # Traitement familles des signes réunis
                         if lys0[pensif1]:
                             if x4 in lys0[pensif1]:
@@ -310,7 +311,7 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                             ox1 = o1 + o2
                             biseau[1] = ox1
                         # Oxo = Groupement des candidatures
-                        # print('\n\n\n\n\n REPÈRE Zone en cours. \n\n\n\n\n')
+                        # ('\n\n\n\n\n REPÈRE Zone en cours. \n\n\n\n\n')
                     break
                 if len(dicter.keys()) == 3:
                     ox1 = ''
@@ -323,7 +324,7 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                 '''def former(signal, topo, toc('1')): FORME SIMPLE
                 Nous avons là un signal simple de la tonalité
                 len(signatures.keys()) == 1: Une clé(key) unique dans la signature.'''
-                # print('\n\n\n\n\n REPÈRE Signature 1 clé. \n\n\n\n\n')
+                # ('\n\n\n\n\n REPÈRE Signature 1 clé. \n\n\n\n\n')
                 if signal[0][:1] in signes[6:]:
                     signal.reverse()
                 for si in signal:
@@ -479,12 +480,12 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                         bon = signes[vb0] + k_bis
                         top.append(bon)
                 cap = bil_riff(top)
-                # print(' ♥♦♣♠ Dicter', lineno(), dicter)
+                # (' ♥♦♣♠ Dicter', lineno(), dicter)
                 return cap
             #
             #
         picolo[fol][1].append(signatures)
-        # print(lineno(), ' §  Signatures', signatures)
+        # (lineno(), ' §  Signatures', signatures)
         # 249 §  Signatures {'-': [63, '-3', '-5']}
         '''Détecte le nombre de signes dans la signature.'''
         for ks, kv in signatures.items():
@@ -495,7 +496,7 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                     En soustrayant Qµ-unité. Reste Notes.'''
                 if len(kv) == 2:  # Signature 1 signe(clé) + 1 note
                     '''|66(8)[-7]||66(5)[+4]|...'''
-                    # print('#\n###\n###\n###\n###\n###\n###\n###\n#####\n#####\n#####')
+                    # ('#\n###\n###\n###\n###\n###\n###\n###\n#####\n#####\n#####')
                     cou = kv[1]
                 elif len(kv) == 3:  # Signature 1 signe(clé) + 2 notes
                     for kepi in kv:
@@ -504,7 +505,7 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                             cou = kepi
                     if cou is None:
                         '''|66(12)[-73]||65(15)[-76]||65(11)[+45]||64(11)[-63]|...'''
-                        # print('\n\n\n\n\nLigne de repérage\n\n\n\n\n')
+                        # ('\n\n\n\n\nLigne de repérage\n\n\n\n\n')
                         pot1, pot2, bloc = [], [], None
                         for im2 in kv:
                             if type(im2) is str:
@@ -518,28 +519,31 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                         cou = bloc
                 elif len(kv) > 3:  # Signature 1 signe(clé) + 3 notes
                     '''|66(28)[-76532]||66(2)[-7632]||66(19)[-763]||65(3)[-76542]|...'''
-                    # print('\n\n\n\n\nLigne de repérage\n\n\n\n\n')
+                    # ('\n\n\n\n\nLigne de repérage\n\n\n\n\n')
                     cou = former(kv[1:], [], '1')
             else:  # Signatures aux clés multiples
                 cou = former(signatures, photo, '2')
                 col = photo, cou
                 signaux[fol].append(col)
-                # print(lineno(), ' Clé multi', 'COU ', cou, '\n µnit FONDRE')
+                if '2' in table:
+                    print(lineno(), ' Clé multi', 'COU ', cou, ' µnit FONDRE')
                 break  # Traitement via formation
             cou = cou
             col = photo, cou
             signaux[fol].append(col)
-            # print(' *  ', lineno(), '    COU _: ', cou, '\n µnit UNIC KS', ks)
+            if '2' in table:
+                print(' *  ', lineno(), '    COU _: ', cou, ' µnit UNIC KS', ks)
         if 'maj' in photo:
-            # cou = photo[0]
             col = photo, '0'
             signaux[fol].append(col)
-            # print(' *  ', lineno(), '     COU _: ', cou, '\n µnit MAJEUR')
+            if '2' in table:
+                print(' *  ', lineno(), '     COL _: ', col[0][0], ' µnit MAJEUR')
 
     fix = 0  # Section maj7_fonc(..)
     while fix < 66:  # dic_analyse: Infos gammes
         fix += 1
-        # print('\n', lineno(), '__________________________TERMINAL MODES DIATONIQUES')
+        if '2' in table:
+            print('\n', lineno(), '__________________________TERMINAL MODES DIATONIQUES')
         # (lineno(), 'Fix', fix, 'FF', ff[:len(ff) - 1])  # Moins retour chariot
         # 88 Fix 61 FF ['1', '0', '2', '-3', '0', '0', '+4', '5', '0', '6', '0', '7',
         # [((1, 61), '101100110101')]]
@@ -551,7 +555,8 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
             for bi in binez[fix]:
                 groupe[fix].append(bi)
             depuis = len(groupe[fix])
-            # print(lineno(), 'UNIC.GROUPE =', fix, groupe[fix])
+            if '2' in table:
+                print(lineno(), 'UNIC.GROUPE =', fix, groupe[fix])
             # 530 FONDRE.GROUPE = ['101010110101', '101011010101'] . FIX = 66
             # Unic dict_keys([21, 24, 38, 40, 45, 47, 48, 51, 55, 58, 61, 62, 64, 65, 66])
             dep = []
@@ -560,10 +565,10 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                     for ff in groupe[fix]:
                         if i == ff[0][1] and ff[0][0] not in dep:
                             dep.append(ff[0][0])
-                            # print('\n >>', lineno(), fix, '\tM22', ff[0][1], '\tM23:', ff[0][0])
+                            # ('\n >>', lineno(), fix, '\tM22', ff[0][1], '\tM23:', ff[0][0])
                             depuis -= 1
                             fond_gam(ff[0][0], fix)  # fond_gam: Fonction envoi(unic-fondre)
-            # print(lineno(), 'Fondre', fondre[fix], '\nUnic', unic.keys(), '\n', len(groupe))
+            # (lineno(), 'Fondre', fondre[fix], '\nUnic', unic.keys(), '\n', len(groupe))
             # 529 Fondre [(('101101010101', 4), 65), (('101010101101', 11), 65)]
             # Unic dict_keys([21, 24, 38, 40, 45, 47, 48, 51, 55, 58, 61, 62, 64, 65, 66])
         # Lecture du fichier entrant fondre
@@ -573,7 +578,8 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
             for bi in binez[fix]:
                 groupe[fix].append(bi)
             depuis = len(groupe[fix])
-            # print('FONDRE.GROUPE =', fix, groupe[fix])
+            if '2' in table:
+                print(lineno(), 'FONDRE.GROUPE =', fix, groupe[fix])
             # 530 FONDRE.GROUPE = ['101010110101', '101011010101'] . FIX = 66
             # Unic dict_keys([21, 24, 38, 40, 45, 47, 48, 51, 55, 58, 61, 62, 64, 65, 66])
             dep = []
@@ -582,12 +588,12 @@ def maj7_fonc(unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC/FONDRE
                     for ff in groupe[fix]:
                         if i == ff[0][1] and ff[0][0] not in dep:
                             dep.append(ff[0][0])
-                            # print('\n >', lineno(), fix, '\tM22', ff[0][1], '\tM23:', ff[0][0])
+                            # ('\n >', lineno(), fix, '\tM22', ff[0][1], '\tM23:', ff[0][0])
                             depuis -= 1
                             fond_gam(ff[0][0], fix)  # fond_gam: Fonction envoi(unic-fondre)
 
 
-def dana_fonc(dana):
+def dana_fonc(table, dana):
     """
     Les dictionnaires {dan/ego/maj} :
         Tous. Intégrales_Poids/Modes
@@ -607,7 +613,7 @@ def dana_fonc(dana):
         2- Les poids aux mêmes rangs.
         3- Les tonalités aux mêmes degrés
         1) Les masses égales. 2) Les reliefs pesants. 3) Les fondements réguliers."""
-    (lineno(), ' GEM DANA', dana[1][0])  # Vision du 1er mode (il y a 7 modes)
+    # (lineno(), ' GEM DANA', dana[1][0])  # Vision du 1er mode (il y a 7 modes)
     # 610  GEM DANA [[0, -3, -5, 7, 7, 7, 0], [147, 21.0, 3.0, 0.42857142857142855]]
     maj_poids[66], maj_rang[66], maj_mode[66] = [], [], []
     for dan in range(1, len(dana) + 1):  # Épisode Dana
@@ -697,9 +703,11 @@ def dana_fonc(dana):
         for rn in rng:
             if rn not in filet:
                 filet.append(rn)
+    if '3' in table:
+        print(lineno(), 'EGO poids: ', ego_poids, '\n EGO rang: ', ego_rang)
 
 
-def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
+def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
     """Réception des poids modaux standards à augmenter & Création 'GlobalTexte/globdic_Dana.txt'.
     L'argument 'maj7' est le dictionnaire des modes maj 7èmes et poids standards par gamme"""
     # Mode_poids = Sept modes diatoniques par gamme. Comprend les 66 gammes.
@@ -763,8 +771,8 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
             mm += '\n'  # va1: Modes poids augmentés
             fil_analyse.write(mm)
         fil_analyse.close()  # Écriture fichier globdic_Dana.txt
-        dana_fonc(dic_analyse)
-        maj7_fonc(gm1, maj7, h_b)
+        dana_fonc(table, dic_analyse)
+        maj7_fonc(table, gm1, maj7, h_b)
 
 
     if groupe:  # Seption accessibilités
@@ -780,7 +788,8 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
         index = 0  # Mettre à zéro pour tout traiter
         while index < 66:  # Résolution des degrés
             index += 1
-            # print('\n', lineno(), '=====================CHOIX TONIQUE POSITION', index)
+            if '4' in table:
+                print('\n', lineno(), '=====================CHOIX TONIQUE POSITION', index)
             #
             # Détecter les noms entiers majeurs sept
             # Et quand il n'y en a qu'un seul, il devient le choix unique
@@ -795,17 +804,19 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
                     inutile.append(si[1])
             if calme == 1:
                 utile = True
-                # print(lineno(), 'CALME INUTILE', inutile)
+                if '4' in table:
+                    print(lineno(), 'CALME INUTILE', inutile)
             else:
+                if '4' in table:
+                    print(lineno(), 'CALME UTILE', inutile)
                 pass
-                # print(lineno(), 'CALME UTILE', inutile)
             # Opération : Trier groupe[index]
             # Poids croissants comme l'original
             masse = []  # Copier les poids modaux
             for clef in groupe[index]:
                 if clef[0][1] in masse:
+                    # (lineno(), '... Alerte *** *** *** *** *** *** Polar', clef)
                     pass
-                    # print(lineno(), '... Alerte *** *** *** *** *** *** Polar', clef)
                 masse.append(clef[0][1])  # Initialisation des poids
             masse.sort()  # Trier les poids modaux
             brouillon[index] = []  # Trie groupe selon les masses
@@ -832,7 +843,7 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
                     if '.' not in s0[1] and st10 < 3:
                         stock_nom = s0[1]  # Premier degré mémorisé NOM ENTIER
                         stock_bin = g0[0][0]  # Premier degré mémorisé NOM BINAIRE
-                        # print('***\n_ ^ ^ Zéro point', s0[0], s0[1], g0[0][0], 'N', stock_nom)
+                        # ('***\n_ ^ ^ Zéro point', s0[0], s0[1], g0[0][0], 'N', stock_nom)
                         sgn1, deg1, deg2, sgn2 = None, None, None, None
                         s0n, s0t, s0i = '', -1, True
                         # Apprentissage Labo
@@ -852,7 +863,7 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
                         if len(labo) == 1:  # Ici labo contient '0' ou majeur
                             source = [stock_nom, stock_bin]
                             toniques[index] = source
-                            # print(lineno(), 'Majeur Break', toniques[index], 'Index', index)
+                            # (lineno(), 'Majeur Break', toniques[index], 'Index', index)
                             break
                         elif len(labo) == 2:
                             sgn1, deg1 = labo[0], int(labo[1])
@@ -866,7 +877,7 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
                             st9.append(deg1)
                             st9.append(deg2)
                         # Labo Issue St9 = Degré(s) absolu(s) (non-altérés)
-                        # print('+*° LABO', labo, 'LABO', sgn1, deg1, deg2, sgn2)
+                        # (lineno(), '+*° LABO', labo, 'LABO', sgn1, deg1, deg2, sgn2)
                         # Trouver le degré voisin supérieur
                         roule_bin = list(g0[0][0])
                         roule_bin.insert(-1, roule_bin.pop(0))
@@ -874,7 +885,7 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
                             roule_bin.pop(0)
                             roule_bin.append('0')
                         moule_bin = ''.join(rb for rb in roule_bin)
-                        # print(lineno(), ' * MOULE_BIN 2ème degré', moule_bin, '        ***')
+                        # (lineno(), ' * MOULE_BIN 2ème degré', moule_bin, '        ***')
                         mia, mod_origine, mod_cours, mod_so9, mod_1 = -1, [], [], [], False
                         # Transpose 2ème degré majeur vers grand1
                         for gr in grade_maj['2']:
@@ -904,7 +915,7 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
                                         mod_origine.sort()
                                     elif so1 == 1:  # À faire quand so1=1
                                         mod_1 = True
-                                    # print(lineno(), 'St', sto, 'SO', so1, 'F', fsn, 'm', mod_1)
+                                    # (lineno(), 'St', sto, 'SO', so1, 'F', fsn, 'm', mod_1)
                                 for st in sto[0]:
                                     st0 = st[len(st) - 1:]
                                     sto1 = int(st0)
@@ -914,7 +925,7 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
                                             if fsn_alt in alteractif.keys():
                                                 for f0 in alteractif[fsn_alt]:
                                                     f1 = f0[len(f0) - 1:]
-                                                    # print('F1', f1, )
+                                                    # ('F1', f1, )
                                                     if int(f1) == sto1 and sto1 not in mod_origine:
                                                         mod_origine.append(sto1)
                                                         mod_origine.sort()
@@ -938,7 +949,7 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
                                         if int(ms0) not in mod_cours and ms0 != '1':
                                             mod_cours.append(int(ms0))
                                             mod_cours.sort()
-                                            # print(lineno(), '.    Courses', mod_cours)
+                                            # (lineno(), '.    Courses', mod_cours)
                                         # Secteur '-1'
                                         if ms9 in ('-1', 'o1', '*1'):
                                             # Origine grade_maj['-2']
@@ -970,29 +981,31 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
                                                         mod_origine.remove(3)
                                                         mod_origine.remove(4)
                                                         mod_origine.sort()
-                                    # print(lineno(), 'grade_maj-- SO1', mod_so9)
-                                # print(lineno(), 'Origine', mod_origine, 'Cours', mod_cours)
+                                    # (lineno(), 'grade_maj-- SO1', mod_so9)
+                                # (lineno(), 'Origine', mod_origine, 'Cours', mod_cours)
                             if mod_origine == mod_cours or utile:
                                 cesse = True
-                                # print('Origine = Cours', mod_origine, mod_cours, 'Utile:', utile)
+                                # ('Origine = Cours', mod_origine, mod_cours, 'Utile:', utile)
                                 break
                         else:
                             pass
-                            # print('***Else***M_origine != M_cours***')
+                            # ('***Else***M_origine != M_cours***')
                 if cesse:
                     source = [stock_nom, stock_bin]
                     toniques[index] = source
-                    # print(lineno(), 'Cesse Break', cesse, toniques[index], 'Index', index)
+                    # (lineno(), 'Cesse Break', cesse, toniques[index], 'Index', index)
                     break
         # Mise en ordre des degrés via transfert dictionnaires respectifs
-        # print('\n', lineno(), '******* ******* ******* ******* ******* ORDRE DIATONIQUE')
+        # ('\n', lineno(), '******* ******* ******* ******* ******* ORDRE DIATONIQUE')
         trans_dic, trans_groupe, trans_picolo, trans_signaux = {}, {}, {}, {}
         clefs_toniques = list(toniques.keys())
         clefs_toniques.reverse()
         couche = 0
         # Mise en ordre diatonique du GROUPE
         for tonice in clefs_toniques:
-            # print('\n o ooo o o  ooo o  ooo o o oo oo o oo oo MODÈLES RAPPORTÉS     ', tonice)
+            if '5' in table:
+                t = tonice
+                print('\n', lineno(), 'OO__OOO_O_OOOO_______', '\n _____o ooo o o o  ooo MODÈLES RAPPORTÉS   ', t)
             couche += 1
             ton = 0
             rang_deg = list(toniques[tonice][1])
@@ -1012,7 +1025,8 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
                     ton += 1
                 if rang_deg[0] == '1':  # Définition des 7 modes diatoniques
                     ton0 = table_deg[ton]
-                    # print('     DEGRÉ', ton0)
+                    if '5' in table:
+                        print(lineno(), '     DEGRÉ', ton0)
                     '''diC_AnaLySe 66[[0,-3,-4,0,-6,-7,-8],[196,28.0,4.0,0.5714285714285714]]'''
                     trans_dic[tonice, table_deg[ton]] = []
                     '''*. TraNs_GRouPe .* [(('101011010101', 0), 66)]'''
@@ -1025,7 +1039,8 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
                     for t_grp in groupe[tonice]:  # Trans_Groupe OK
                         if t_grp[0][0] == deg_txt:  # Enregistrer Groupe
                             trans_groupe[tonice, ton0].append(t_grp)
-                            # print(lineno(), 'T_t_grp', t_grp[0][0], t_grp, ton0)
+                            if '5' in table:
+                                print(lineno(), 'T_t_grp', t_grp[0][0], t_grp, ton0)
                             break
                         # break # Coupure développement diatonique
                     s_tab1, s_tab2 = [], []
@@ -1048,8 +1063,9 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
                                 trans_picolo[tonice, ton0].append(picolo[tonice][0][tm])
                                 trans_picolo[tonice, ton0].append(picolo[tonice][1][tm])
                                 stop_pic = True
-                                # print(lineno(), '*..* tag_mod 0', trans_picolo[tonice, ton0][0])
-                                # print(lineno(), '*..* tag_mod 1', trans_picolo[tonice, ton0][1])
+                                if '5' in table:
+                                    print(lineno(), '*..* tag_mod 0', trans_picolo[tonice, ton0][0])
+                                    (lineno(), '*..* tag_mod 1', trans_picolo[tonice, ton0][1])
                                 for v_tp in trans_picolo[tonice, ton0][1].values():
                                     # Construction table pour signaux
                                     for vt in v_tp:
@@ -1064,7 +1080,8 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
                                 for sig0 in signaux[tonice]:
                                     if sig0[0] == s_tab1:
                                         trans_signaux[tonice, table_deg[ton]].append(sig0)
-                                        # print(lineno(), '. Signaux', trans_signaux[tonice, ton0])
+                                        if '5' in table:
+                                            print(lineno(), '. Signaux', trans_signaux[tonice, ton0])
                                         break
                                 tab, sur = [0], ''  # Rapport tab trans_dic
                                 # Table convertie pour dic_analyse (trans_dic)
@@ -1088,7 +1105,8 @@ def seption(mode_poids, k1, pc1, gm1, maj7, h_b):
                                 for ta0 in dic_analyse[tonice]:
                                     if tab == ta0[0]:
                                         trans_dic[tonice, ton0] = ta0
-                                # print(lineno(), 'TA0', trans_dic[tonice, table_deg[ton]])
+                                if '5' in table:
+                                    print(lineno(), 'TA0', trans_dic[tonice, table_deg[ton]])
                                 break
                         if stop_pic:
                             break  # Coupure développement diatonique
@@ -1154,7 +1172,7 @@ if __name__ == '__main__':
                 5: [0, 0, 0, 0, 0, 0, -8], 6: [0, 0, -4, 0, 0, -7, -8],
                 7: [0, -3, -4, 0, -6, -7, -8]}
 
-    seption(mode_po, 1, {}, {}, {}, {})
+    seption('0', mode_po, 1, {}, {}, {}, {})
 
 """ 
         *   *   * HORS NOTION RANGEMENT

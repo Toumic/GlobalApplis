@@ -249,8 +249,25 @@ while f < len(t_bas):
     ee = str(t_bas[f] + t_haut[f])
     ee += '\n'
     fil_codage.write(ee)
-    f += 1
+    f += 15
 fil_codage.close()
 
+'''Section des choix d'affichage (print)'''
+table = []
+# GlobGamFonds : Modes binaires
+print('Modes binaires.      Tapez 1')
+# GlobEnModes : Fonction majeur 7
+print('Modes majeurs 7.     Tapez 2 ')
+# GlobEnModes : Fonction dana
+print('Modes poids.         Tapez 3')
+# GlobEnModes : Fonction seption
+print('Modes utile/inutile. Tapez 4')
+# GlobEnModes : Fonction groupe
+print('Modes détaillés.     Tapez 5')
+choix = input('Saisissez votre choix multiple :  ')
+if choix.isnumeric():
+    table = list(choix)
+    # print('Choix ', table)
+
 # Direction GlobModelGammy
-globgamy.gammy()
+globgamy.gammy(table)

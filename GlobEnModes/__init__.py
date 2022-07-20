@@ -1,4 +1,4 @@
-# Python utf8
+# Python3 utf8
 # En cours de finalisation
 # mardi 27 juillet 2021
 
@@ -920,7 +920,7 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                                     st0 = st[len(st) - 1:]
                                     sto1 = int(st0)
                                     # Suite altéractive ?
-                                    if sto1 not in mod_origine:  # Degré descendant signé
+                                    if sto1 not in mod_origine:  # Degré descendant et signé
                                         for fsn_alt in mod_so9:
                                             if fsn_alt in alteractif.keys():
                                                 for f0 in alteractif[fsn_alt]:

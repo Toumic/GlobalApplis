@@ -1,4 +1,4 @@
-# Python 3.9 UTF-8
+# Python3 UTF-8
 # dimanche 28 mars 2021 à 19 h 45 mn (premières lignes)
 # mardi 13 avril 2021 (Développement des tétracordes)
 # mardi 27 juillet 2021
@@ -256,7 +256,7 @@ fil_codage.close()
 table = []
 # GlobGamFonds : Modes binaires
 print('Modes binaires.      Tapez 1')
-# GlobEnModes : Fonction majeur 7
+# GlobEnModes : Fonction majeure 7
 print('Modes majeurs 7.     Tapez 2 ')
 # GlobEnModes : Fonction dana
 print('Modes poids.         Tapez 3')

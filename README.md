@@ -44,13 +44,13 @@ Et si cette limite faisait l'occasion à l'apprentissage d'une organisation clus
 _L'application a des modules sobres en fonction_
 #### `GlobalApplis.GlobModelGammy.GlobGamFonds.GlobEnModes.`
 ### _GlobalApplis ***_
-**Le module des initiales, ** 'GA' est chargé de transformer le cluster en une entité recevable. Modifier par la voie des incrémentations dans un jeu de priorités rangées aux extrémités libres. C'est dire que lorsque l'extrémité parvient à l'extrême, l'élément clustérien précédant l'extrémité incrémentée avance d'un cran en rappelant l'extrémité à son côté. L'unité clustérienne propage son extrémité jusqu'à l'extrême, puis avance l'unité inférieure et Relance l'extrémisme. Selon que les libertés des unités inférieures ne soient limitées, l'avancée intérieure avance à chaque relance à une aide orientée vers le bas pour le cas.
+**Le module des initiales,** 'GA' est chargé de transformer le cluster en une entité recevable. Modifier par la voie des incrémentations dans un jeu de priorités rangées aux extrémités libres. C'est dire que lorsque l'extrémité parvient à l'extrême, l'élément clustérien précédant l'extrémité incrémentée avance d'un cran en rappelant l'extrémité à son côté. L'unité clustérienne propage son extrémité jusqu'à l'extrême, puis avance l'unité inférieure et Relance l'extrémisme. Selon que les libertés des unités inférieures ne soient limitées, l'avancée intérieure avance à chaque relance à une aide orientée vers le bas pour le cas.
 #### Glob Apply `Édition Fichiers [(Tétras.µ)(Tétras.µ©)(Tétras.Qµ)]`µ: 1234. µ©: 1234. .5678. Q©: 1,b2, .,7,8.
 ### _GlobModelGammy ***_
-**Le module des premiers, ** 'GMG' service de triage des modèles (Tetra/Couple). Obtention des modèles uniques débarrassés de leurs modes diatoniques. Modélisations parfaites protagonistes du rôle fondamental : `Réductions Analytiques`. Une gamme a plusieurs descriptions, un exemple lettré "**123045670000**", et sa binarisation "**111011110000**". Binariser les notes à une finalité de comparaison entre modèles, methode de calcul se dispensant des degrés chiffrés.
+**Le module des premiers,** 'GMG' service de triage des modèles (Tetra/Couple). Obtention des modèles uniques débarrassés de leurs modes diatoniques. Modélisations parfaites protagonistes du rôle fondamental : `Réductions Analytiques`. Une gamme a plusieurs descriptions, un exemple lettré "**123045670000**", et sa binarisation "**111011110000**". Binariser les notes à une finalité de comparaison entre modèles, methode de calcul se dispensant des degrés chiffrés.
 #### Glob Gammy `Édition Tableaux [(Tétras)(Gammes)(Lettres/Chiffres/Binaires)]`
 ### _GlobGamFonds ***_
-**Le module des pesées, ** 'GGF' a pour fonction de donner un poids aux éléments modaux, ainsi chaque mode diatonique a sa propre charge. Cette réponse est nécessaire à l'appréciation du choix fondamental, puisque la gamme naturelle est de poids zéro car elle ne comporte pas de signature. Autrement les degrés qui lui sont diatoniques ont chacun un poids `calcul_tare_gam Ligne 13 & 14 Séquence: F, C, G, D, A, E, B || #4, 0, b7, b3b7, b3b6b7, b2b3b6b7, b2b3b5b6b7`. Mais les résultats sont nombreux, et ils ne répondent pas tous au critère de légèreté des signes. C'est aussi dire que l'algorithme ne répond pas à nos attentes, et que cette partie est à rehausser. Création du fichier `globdicTgams.txt` contenant ce premier résultat. Transmission du dictionnaire `mode_maj7` conteneur des modes diatoniques ayants les septièmes majeures.
+**Le module des pesées,** 'GGF' a pour fonction de donner un poids aux éléments modaux, ainsi chaque mode diatonique a sa propre charge. Cette réponse est nécessaire à l'appréciation du choix fondamental, puisque la gamme naturelle est de poids zéro car elle ne comporte pas de signature. Autrement les degrés qui lui sont diatoniques ont chacun un poids `calcul_tare_gam Ligne 13 & 14 Séquence: F, C, G, D, A, E, B || #4, 0, b7, b3b7, b3b6b7, b2b3b6b7, b2b3b5b6b7`. Mais les résultats sont nombreux, et ils ne répondent pas tous au critère de légèreté des signes. C'est aussi dire que l'algorithme ne répond pas à nos attentes, et que cette partie est à rehausser. Création du fichier `globdicTgams.txt` contenant ce premier résultat. Transmission du dictionnaire `mode_maj7` conteneur des modes diatoniques ayants les septièmes majeures.
 #### Glob Fondy `Sort Léger [(GlobGamFonds Ligne 117)(glob_en.seption(modes_modal))]`
 ### _GlobEnModes ***_
 **Le module des précis.** 'GEM' Dans ce module arrivent les gammes légères envoyées par `GlobGamFonds`. Elles deviennent opérationnelles avec le modèle majeur naturel, comme ceci : Chaque mode léger est opérationnel à tous les niveaux diatoniques, finalement chaque mode a sa définition de masse. En un 1er temps les modes sont représentés par des nombres assez conséquents, qui peuvent être rendus plus faciles à comprendre. Ainsi chaque donnée modale va être démultipliée par un facteur 7, jusqu'à zéro. Le résultat est absolu malgré qu'il soit décimal, certains affichent des valeurs entières à 1.
@@ -66,24 +66,28 @@ _L'application a des modules sobres en fonction_
 
 ###### Brièvement ; Augmenter les mesures entrantes. Capter les 7èmes majeures. Trier les gammes selon leurs masses : Mêmes poids signifient également mêmes rangs. Mêmes rangs possibilité de poids différents. Préciser les différentes natures gammales, soit que l'issue fonctionnelle produise un ensemble fondamental basé sur la légèreté des gammes à noms entiers.
 
-Les gammes fondamentales sont les 1ers modes diatoniques, ces modes fondamentaux ont leurs importances et aussi leurs exactitudes est primordiale. En un premier temps, nous avons déterminé selon deux vecteurs : Les poids modaux. Les noms entiers. Et dans une deuxième mesure pouvant être décisive, nous avons décidés de réaliser une seconde expertise avec la même méthode que celle appliquée dans le développement diatonique. Et ainsi saisir l'occasion de valider ou pas la 1ère déduction fondamentale :
+Les gammes fondamentales sont les 1ers modes diatoniques, ces modes fondamentaux ont leurs importances et aussi leurs exactitudes est primordiale. En un premier temps, nous avons déterminé selon deux vecteurs : Les poids modaux. Les noms entiers. Et dans une deuxième mesure pouvant être décisive, nous avons décidé de réaliser une seconde expertise avec la même méthode que celle appliquée dans le développement diatonique. Et ainsi saisir l'occasion de valider ou pas la 1ère déduction fondamentale :
 
 Le premier degré modal naturel est majeur à toutes les tonalités, ainsi que touts les autres modes incorporés dans la diatonie. Afin la lecture s'améliore sans les mots inutiles, et en sriptant l'écriture explicative : `I. Mode tonique. Tonalité modale/majeure. |. II. Mode tonal. Tonalité (b3, b7) plus la valeur du mode tonique. |. III. Mode mélodique. Tonalité (b2, b3, b6, b7) plus la valeur du mode tonique. |. IV. Mode médian. (#4)... |. Mode dominant. (b7)... |. Mode harmonique. (b3, b6, b7)... |. Mode sensible. (b2, b3, b5, b6, b7)... |` Chaque modulation diatonique a sa propre définition, elle est chargée de s'appliquer au modèle fondamental. Si, `I. Tonique harmonique. Tonie(b6). |. II. (b3, b7)+(b5). |. III. (b3, b6, b7)+(b4). |. IV. (#4)+(b3). |. V. (b7)+(b2). |. VI. (b3, b6, b7)+(b1). |. VII. VII. (b2, b3, b5, b6, b7)+(b7).`. À bonne lecture bon entendeur, il y a une présence modale qui présente une improbable qualité modale : `|. VI. (b3, b6, b7)+(b1). |`
 
 #### Glob Modely `Program Test & Actif [(Test.Précis)(Acte.Effet)]`
 
+### _GlobInverseAcc ***_
+**Le module des inverses.**'GIA' Le but est qu'à chacun des modèles modaux on puisse y trouver son inverse, soit que le modèle inversé ressemble en tout les points au modèle original comme à son image devant un miroir. Il est évident, que chacune des révélations soient renseignées par le nom de la gamme ainsi que celui du degré modal diatonique.
 
+`Pour plus de détails voir : Ligne 48 -Notions basiques du module GlobInverseAcc`
 
+### _GlobGamChrom ***_
+**Le module des chromatismes,** 'GGC' les gammes chromatiques sont aussi importantes que les gammes diatoniques, puisque chaque gamme a sa définition chromatique. La gamme chromatique fait l'usage d'une trilogie, car elle est composée de la gamme originale et de deux chromatismes altérés. Alors, et selon la mise en place du chromatisme augmenté ou diminué, le développement diatonique produit un cycle ouvert ou fermé.
+* Lorsque le cycle est ouvert : Les modes voisins n'ont pas les mêmes formules numériques
+* Et quand le cycle est fermé : Les modes voisins ont les mêmes formules numériques
 
+Les gammes chromatiques sont à l'origine des gammes à micro-intervalles ou les gammes commatiques, qui font le sujet d'un autre module puisqu'elles sont fort complexes. Ce module est destiné à la compréhension de l'évènement chromatique, puis chaque phase est commentée afin d'en appréhender la technique dans son intégrité.
 
+Celles qui sont développées dans ce module 'GGC' ne sont pas utilisées dans le programme qui constitue le module 'pv6e', en effet progamV6encore a son propre développement chromatique.
 
+### _GlobGamMicro ***_
+**Le module des commatismes.** 'GGM'
 
-
-
-
-
-
-
-
-
-P0o
+### _progamV6encore ***_
+**Le module interface,** 'pv6e'

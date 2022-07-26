@@ -135,7 +135,8 @@ class Gammique(Tk):
                 value=value,
                 command=command,
             ))
-        for i in self.rad: i.pack()
+        for i in self.rad:
+            i.pack()
         self.rad[1].select()
 
         # Bouton sélection diatonique
@@ -178,7 +179,8 @@ class Gammique(Tk):
                 tickinterval=1,
                 command=command,
             ))
-        for x in self.sca: x.pack()
+        for x in self.sca:
+            x.pack()
 
         # Case à cocher de conversion scanote8(CDEFGAB) vers l'octave majeure
         # Car, la gamme de bCmaj(scanote8) = Bmaj à l'octave principale
@@ -1213,7 +1215,8 @@ class Gammique(Tk):
         for x in range(7):
             bon_ok = bob = bon = 0
             z = (self.tablenotes[x] // 10) - 28
-            if s_deg > 6: s_deg = 0
+            if s_deg > 6:
+                s_deg = 0
             for bz in self.gen_bz:
                 if z == bz and bon_ok == 0:
                     bts[bob].configure(bg="lightblue")
@@ -1316,7 +1319,8 @@ class Gammique(Tk):
             chr_trans.append(cy_trans)  # Transformé élémentaire
             chr_curs.append(self.cursifs[cy_zer])
             cy_zer += 1
-            if cy_zer > 6: cy_zer = 0
+            if cy_zer > 6:
+                cy_zer = 0
         # print('chr_trans', chr_trans)  # Contenu graphique diatonique
         # Génération élémentaire du tableau chromatique
         #  Formation chromatique
@@ -2223,8 +2227,10 @@ class Gammique(Tk):
         do = int(xc)
         xsi = self.sca[6].get()
         xre = self.sca[1].get()
-        if do < xsi: self.sca[6].set(do)
-        if do > xre + 1: self.sca[1].set(do - 1)
+        if do < xsi:
+            self.sca[6].set(do)
+        if do > xre + 1:
+            self.sca[1].set(do - 1)
         # Initialise sca[7](from_)
         xxrad = self.variable.get()
         if xxrad == "YOI":
@@ -2239,43 +2245,55 @@ class Gammique(Tk):
         ren = int(xd)
         xdo = self.sca[0].get()
         xmi = self.sca[2].get()
-        if ren < xdo - 1: self.sca[0].set(ren + 1)
-        if ren > xmi + 1: self.sca[2].set(ren - 1)
+        if ren < xdo - 1:
+            self.sca[0].set(ren + 1)
+        if ren > xmi + 1:
+            self.sca[2].set(ren - 1)
 
     def scanote3(self, xe):
         mi = int(xe)
         xre = self.sca[1].get()
         xfa = self.sca[3].get()
-        if mi < xre - 1: self.sca[1].set(mi + 1)
-        if mi > xfa: self.sca[3].set(mi)
+        if mi < xre - 1:
+            self.sca[1].set(mi + 1)
+        if mi > xfa:
+            self.sca[3].set(mi)
 
     def scanote4(self, xf):
         fa = int(xf)
         xmi = self.sca[2].get()
         xsol = self.sca[4].get()
-        if fa < xmi: self.sca[2].set(fa)
-        if fa > xsol + 1: self.sca[4].set(fa - 1)
+        if fa < xmi:
+            self.sca[2].set(fa)
+        if fa > xsol + 1:
+            self.sca[4].set(fa - 1)
 
     def scanote5(self, xg):
         sol = int(xg)
         xfa = self.sca[3].get()
         xla = self.sca[5].get()
-        if sol < xfa - 1: self.sca[3].set(sol + 1)
-        if sol > xla + 1: self.sca[5].set(sol - 1)
+        if sol < xfa - 1:
+            self.sca[3].set(sol + 1)
+        if sol > xla + 1:
+            self.sca[5].set(sol - 1)
 
     def scanote6(self, xa):
         la = int(xa)
         xsol = self.sca[4].get()
         xsi = self.sca[6].get()
-        if la < xsol - 1: self.sca[4].set(la + 1)
-        if la > xsi + 1: self.sca[6].set(la - 1)
+        if la < xsol - 1:
+            self.sca[4].set(la + 1)
+        if la > xsi + 1:
+            self.sca[6].set(la - 1)
 
     def scanote7(self, xb):
         si = int(xb)
         xla = self.sca[5].get()
         xdo = self.sca[0].get()
-        if si < xla - 1: self.sca[5].set(si + 1)
-        if si > xdo: self.sca[0].set(si)
+        if si < xla - 1:
+            self.sca[5].set(si + 1)
+        if si > xdo:
+            self.sca[0].set(si)
         # Initialise sca[7](from_)
         xxxrad = self.variable.get()
         if xxxrad == "YOI":
@@ -2290,7 +2308,8 @@ class Gammique(Tk):
         f_t = 0
         xsi = self.sca[6].get()
         t_si = self.sca[6].cget("to")
-        if xsi + sch > t_si: f_t = -1
+        if xsi + sch > t_si:
+            f_t = -1
         xdo = self.sca[0].get()
         fromdo = f_do = self.sca[0].cget("from")
         todo = t_do = self.sca[0].cget("to")
@@ -2412,7 +2431,10 @@ class Gammique(Tk):
         self.gammescopie = gammes
         # Tonice(0). Tonale(1:3). Mélode(4:14). Médiane(15:18). Domine(19:42). Harmone(43:65)
         gamnoms = ['0', '-2', '+2', '^2', '-3', '-23', '-34x', '+34', '+23x', '-34', 'x3', 'o3', '+34x', 'o34x',
-                   '^3', '-4', '-24', '^4', 'o4', '-5', '-25', '-25+', '+25-', '-35', '-35+', '+45x', '+25x', 'o35-', '+35x', '-45+', '-45', 'x5', 'x45+', '-25o', '-35o', '-45o', 'o45-', 'o5', 'o35+', '*5', 'o35x', '-45x', '°45x', '-6', '+6', '-26', '-26+', '+26-', '+26', '-36', '-36+', '-56', '-56+', '+56', 'x46+', '-26o', '-46+', '-46o', 'x36+', '-56o', 'o46-', 'o36+', '*6', 'o46+', 'o6', 'x26-']
+                   '^3', '-4', '-24', '^4', 'o4', '-5', '-25', '-25+', '+25-', '-35', '-35+', '+45x', '+25x', 'o35-',
+                   '+35x', '-45+', '-45', 'x5', 'x45+', '-25o', '-35o', '-45o', 'o45-', 'o5', 'o35+', '*5', 'o35x',
+                   '-45x', '°45x', '-6', '+6', '-26', '-26+', '+26-', '+26', '-36', '-36+', '-56', '-56+', '+56',
+                   'x46+', '-26o', '-46+', '-46o', 'x36+', '-56o', 'o46-', 'o36+', '*6', 'o46+', 'o6', 'x26-']
         self.gamnomscopie = gamnoms
 
         # Récupération des notes cursives
@@ -2521,7 +2543,8 @@ class Gammique(Tk):
                 diata2[y] = diata[m]
                 y += 1
                 m += 1
-                if m > 6: m = 0
+                if m > 6:
+                    m = 0
             myx = myx2 = 0
             for my in gammes:  # Comparaison tonale / table gammes
                 if diata2 == my:
@@ -2540,7 +2563,8 @@ class Gammique(Tk):
         cnat = ['', '', '', '', '', '', '']
         # Niveaux d'altérations
         self.nordiese = ['', '+', 'x', '^', '+^', 'x^', '^^', '+^^', 'x^^', '^^^', '+^^^', 'x^^^', '^^^^',
-                         '13(#)', '14(#)', '15(#)', '16(#)', '17(#)', '18(#)', '19(#)', '20(#)', '21(#)', '22(#)', '23(#)', '24(#)', '25(#)', '26(#)', '27(#)', '28(#)', '29(#)', '30(#)', '31(#)', '32(#)']
+                         '13(#)', '14(#)', '15(#)', '16(#)', '17(#)', '18(#)', '19(#)', '20(#)', '21(#)', '22(#)',
+                         '23(#)', '24(#)', '25(#)', '26(#)', '27(#)', '28(#)', '29(#)', '30(#)', '31(#)', '32(#)']
         self.subemol = ['', '32(b)', '31(b)', '30(b)', '29(b)', '28(b)', '27(b)', '26(b)', '25(b)', '24(b)',
                         '23(b)', '22(b)',
                         '21(b)', '20(b)', '19(b)', '18(b)', '17(b)', '16(b)', '15(b)', '14(b)', '13(b)',

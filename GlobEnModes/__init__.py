@@ -40,6 +40,31 @@ gamme_poids = {1: [0, 0, 0, 0, 0, 0, 0], 2: [0, 0, -4, 0, 0, 0, -8],
                5: [0, 0, 0, 0, 0, 0, -8], 6: [0, 0, -4, 0, 0, -7, -8],
                7: [0, -3, -4, 0, -6, -7, -8]}
 
+# Nombres d'intervalles des gammes et les diatoniques surnommées dans progamV6encore
+intros = [[1, 1, 0, 1, 1, 1, 0], [0, 2, 0, 1, 1, 1, 0], [2, 0, 0, 1, 1, 1, 0], [4, 0, 0, 0, 0, 1, 0],
+          [1, 0, 1, 1, 1, 1, 0], [0, 1, 1, 1, 1, 1, 0], [1, 0, 3, 0, 0, 1, 0], [1, 2, 1, 0, 0, 1, 0],
+          [2, 2, 0, 0, 0, 1, 0], [0, 0, 1, 2, 1, 1, 0], [1, 3, 0, 0, 0, 1, 0], [0, 0, 2, 1, 1, 1, 0],
+          [1, 2, 2, 0, 0, 0, 0], [0, 0, 4, 0, 0, 1, 0], [1, 4, 0, 0, 0, 0, 0], [1, 0, 0, 2, 1, 1, 0],
+          [0, 1, 0, 2, 1, 1, 0], [1, 1, 3, 0, 0, 0, 0], [0, 0, 0, 3, 1, 1, 0], [1, 1, 0, 0, 2, 1, 0],
+          [0, 2, 0, 0, 2, 1, 0], [0, 2, 0, 2, 0, 1, 0], [2, 0, 0, 0, 2, 1, 0], [1, 0, 1, 0, 2, 1, 0],
+          [1, 0, 1, 2, 0, 1, 0], [1, 1, 1, 2, 0, 0, 0], [2, 0, 0, 3, 0, 0, 0], [0, 0, 2, 0, 2, 1, 0],
+          [1, 2, 0, 2, 0, 0, 0], [1, 0, 0, 3, 0, 1, 0], [1, 0, 0, 1, 2, 1, 0], [1, 1, 0, 3, 0, 0, 0],
+          [1, 1, 2, 1, 0, 0, 0], [0, 1, 0, 0, 3, 1, 0], [0, 0, 1, 0, 3, 1, 0], [0, 0, 0, 1, 3, 1, 0],
+          [0, 0, 0, 2, 2, 1, 0], [1, 0, 0, 0, 3, 1, 0], [0, 0, 2, 2, 0, 1, 0], [0, 0, 0, 0, 4, 1, 0],
+          [0, 0, 2, 3, 0, 0, 0], [1, 0, 0, 4, 0, 0, 0], [0, 0, 0, 5, 0, 0, 0], [1, 1, 0, 1, 0, 2, 0],
+          [1, 1, 0, 1, 2, 0, 0], [0, 2, 0, 1, 0, 2, 0], [0, 2, 0, 1, 2, 0, 0], [2, 0, 0, 1, 0, 2, 0],
+          [2, 0, 0, 1, 2, 0, 0], [1, 0, 1, 1, 0, 2, 0], [1, 0, 1, 1, 2, 0, 0], [1, 1, 0, 0, 1, 2, 0],
+          [1, 1, 0, 0, 3, 0, 0], [1, 1, 0, 2, 1, 0, 0], [1, 1, 2, 0, 1, 0, 0], [0, 2, 0, 0, 0, 3, 0],
+          [1, 0, 0, 2, 2, 0, 0], [1, 0, 0, 1, 0, 3, 0], [1, 3, 0, 0, 1, 0, 0], [1, 0, 0, 0, 1, 3, 0],
+          [0, 0, 0, 3, 0, 2, 0], [0, 0, 2, 1, 2, 0, 0], [1, 0, 0, 0, 0, 4, 0], [0, 0, 0, 3, 2, 0, 0],
+          [1, 1, 0, 0, 0, 3, 0], [3, 0, 0, 0, 0, 2, 0]]
+nominal = ['0', '-2', '+2', '^2', '-3', '-32', 'x43-', '+34', 'x32+', '-43', 'x3', 'o3', '+34x', 'x43o',
+           '^3', '-4', '-42', '^4', 'o4', '-5', '-52', '+52-', '+25-', '-53', '+53-', 'x54+', 'x52+', 'o35-',
+           'x53+', '+54-', '-54', 'x5', 'x45+', 'o52-', 'o53-', 'o54-', 'o45-', 'o5', '+53o', '*5', 'x53o',
+           'x54-', 'x54o', '-6', '+6', '-62', '+62-', '+26-', '+26', '-63', '+63-', '-65', '+65-', '+56',
+           'x46+', 'o62-', '+64-', 'o64-', 'x36+', 'o65-', 'o46-', '+63o', '*6', '+64o', 'o6', 'x26-']
+pratique = {'maj': '101011010101'}
+
 dic_analyse = {}  # :Dana initie dico
 dic_diatonic = {}  # :Seption initie dico
 dia_binaire = {}  # :Maj7_fonc initie binaires
@@ -259,7 +284,7 @@ def maj7_fonc(table, unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC
                         if les4 == 4:
                             '''|43(5)[o37-.+45]||38(18)[]||43(5)[]|...'''
                             # ('\n\n\n\n\n REPÈRE Les4. \n\n\n\n\n')
-                        # Il n'y a pas de 'les4' supérieur à 4
+                        # Il n'y a pas de 'les4' supérieur à quatre
                         for yo in lise:
                             if yo in survole and yo not in lys0['aug']:
                                 lys0['aug'].append(yo)
@@ -650,9 +675,9 @@ def dana_fonc(table, dana):
         maj_lest.sort()
         for mp in dan_poids[dan]:
             dan_rang[dan].append(maj_lest.index(mp))
-    # :iso_poids= Gammes de mêmes poids et rangs
-    # :dif_poids= Mêmes rangées
-    # :dat_rang= Tous les rangs
+    # : iso_poids= Gammes de mêmes poids et rangs
+    # : dif_poids= Mêmes rangées
+    # : dat_rang= Tous les rangs
     vide, iso_poids, dif_poids, dat_rang = [], [], [], []
     for dr in dan_rang.values():  # Construction Data Rangs
         if dr not in dat_rang:
@@ -704,7 +729,7 @@ def dana_fonc(table, dana):
             if rn not in filet:
                 filet.append(rn)
     if '3' in table:
-        print(lineno(), 'EGO poids: ', ego_poids, '\n EGO rang: ', ego_rang)
+        print(lineno(), ' .EGO poids: ', ego_poids, '\n .EGO rang: ', ego_rang)
 
 
 def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
@@ -713,8 +738,8 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
     # Mode_poids = Sept modes diatoniques par gamme. Comprend les 66 gammes.
     goo = []
     cumul = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []}
-    dic_analyse[k1] = []  # :Dana initie table
-    dic_diatonic[k1] = []  # :Maj7_fonction initie 66 diatoniques
+    dic_analyse[k1] = []  # : Dana initie table
+    dic_diatonic[k1] = []  # : Maj7_fonction initie 66 diatoniques
     dic_diatonic[k1].append(mode_poids)
     if pc1:
         dic_pc[k1] = []  #
@@ -728,8 +753,8 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
             for mod in mode_poids:  # :mod= Section modale Non-Majeure
                 modal, cc = [], 0
                 """:mod = [0,-3, -5, 7, 7, 7,0]"""
-                for mo in mod:  # :mo= Signature Non Majeure
-                    diff = mo - com  # :com= Unité valeur Majeure
+                for mo in mod:  # : mo= Signature Non Majeure
+                    diff = mo - com  # : com= Unité valeur Majeure
                     cc += diff  #
                 modal.append(cc)  # Cumul cc Entre Maj ou pas
                 cumul[gpk].append(modal)
@@ -786,6 +811,7 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                      '4': ['+4'], '5': ['-7'], '6': ['-3', '-6', '-7'],
                      '7': ['-2', '-3', '-5', '-6', '-7']}
         index = 0  # Mettre à zéro pour tout traiter
+        inutile = {}
         while index < 66:  # Résolution des degrés
             index += 1
             if '4' in table:
@@ -793,7 +819,8 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
             #
             # Détecter les noms entiers majeurs sept
             # Et quand il n'y en a qu'un seul, il devient le choix unique
-            inutile, calme, utile = [], 0, False
+            inutile[index] = []
+            calme, utile = 0, False
             for si in signaux[index]:
                 inuit = 0
                 for noe in si[1]:
@@ -801,15 +828,14 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                         inuit += 1
                 if '.' not in si[1] and inuit < 3 and '7' not in si[1]:
                     calme += 1
-                    inutile.append(si[1])
+                    inutile[index].append(si[1])
             if calme == 1:
                 utile = True
                 if '4' in table:
-                    print(lineno(), 'CALME INUTILE', inutile)
+                    print(lineno(), 'CALME INUTILE', inutile[index])
             else:
                 if '4' in table:
-                    print(lineno(), 'CALME UTILE', inutile)
-                pass
+                    print(lineno(), 'CALME UTILE', inutile[index])
             # Opération : Trier groupe[index]
             # Poids croissants comme l'original
             masse = []  # Copier les poids modaux
@@ -993,7 +1019,8 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                 if cesse:
                     source = [stock_nom, stock_bin]
                     toniques[index] = source
-                    # (lineno(), 'Cesse Break', cesse, toniques[index], 'Index', index)
+                    # Liste les noms des gammes retenues, qui sont ordonnées plus bas
+                    # (lineno(), 'Cesse Break', cesse, toniques[index], 'Index', index, 'Source ', source[0])
                     break
         # Mise en ordre des degrés via transfert dictionnaires respectifs
         # ('\n', lineno(), '******* ******* ******* ******* ******* ORDRE DIATONIQUE')
@@ -1026,7 +1053,7 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                 if rang_deg[0] == '1':  # Définition des 7 modes diatoniques
                     ton0 = table_deg[ton]
                     if '5' in table:
-                        print(lineno(), '     DEGRÉ', ton0)
+                        print(lineno(), 'DEGRÉ', ton0)
                     '''diC_AnaLySe 66[[0,-3,-4,0,-6,-7,-8],[196,28.0,4.0,0.5714285714285714]]'''
                     trans_dic[tonice, table_deg[ton]] = []
                     '''*. TraNs_GRouPe .* [(('101011010101', 0), 66)]'''
@@ -1039,8 +1066,9 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                     for t_grp in groupe[tonice]:  # Trans_Groupe OK
                         if t_grp[0][0] == deg_txt:  # Enregistrer Groupe
                             trans_groupe[tonice, ton0].append(t_grp)
+                            # Pour enregistrer la forme binaire
                             if '5' in table:
-                                print(lineno(), 'T_t_grp', t_grp[0][0], t_grp, ton0)
+                                print(lineno(), '   T_t_grp', t_grp[0][0], t_grp, ton0)
                             break
                         # break # Coupure développement diatonique
                     s_tab1, s_tab2 = [], []
@@ -1064,7 +1092,7 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                                 trans_picolo[tonice, ton0].append(picolo[tonice][1][tm])
                                 stop_pic = True
                                 if '5' in table:
-                                    print(lineno(), '*..* tag_mod 0', trans_picolo[tonice, ton0][0])
+                                    print(lineno(), '   *..* tag_mod 0', trans_picolo[tonice, ton0][0])
                                     (lineno(), '*..* tag_mod 1', trans_picolo[tonice, ton0][1])
                                 for v_tp in trans_picolo[tonice, ton0][1].values():
                                     # Construction table pour signaux
@@ -1080,8 +1108,17 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                                 for sig0 in signaux[tonice]:
                                     if sig0[0] == s_tab1:
                                         trans_signaux[tonice, table_deg[ton]].append(sig0)
+                                        # Pour traiter le nom de gamme
+                                        if ton0 == 'I':  # Relevé GlobalApplis Tonique binaire
+                                            pratique[sig0[1]] = deg_txt
+                                            if '5' in table:
+                                                print(lineno(), 'GlobalApplis_   ', sig0[1], ' _De_ ', inutile[tonice])
+                                        if sig0[1] in nominal:  # Indique les gammes de progamV6encore
+                                            if '5' in table:
+                                                print(lineno(), 'ProgamV6encore_ ', sig0[1], ' _De_ ', inutile[tonice])
                                         if '5' in table:
-                                            print(lineno(), '. Signaux', trans_signaux[tonice, ton0])
+                                            # Noms des tonalités modales dans sig0[1]
+                                            print(lineno(), '   . Signaux', trans_signaux[tonice, ton0], sig0[1])
                                         break
                                 tab, sur = [0], ''  # Rapport tab trans_dic
                                 # Table convertie pour dic_analyse (trans_dic)
@@ -1106,11 +1143,12 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                                     if tab == ta0[0]:
                                         trans_dic[tonice, ton0] = ta0
                                 if '5' in table:
-                                    print(lineno(), 'TA0', trans_dic[tonice, table_deg[ton]])
+                                    print(lineno(), '   TA0', trans_dic[tonice, table_deg[ton]])
                                 break
                         if stop_pic:
                             break  # Coupure développement diatonique
             # break # Coupure développement des toniques (66 gammes)
+        # print(lineno(), 'pratique', pratique, len(pratique))
         modes = {
             'analyse': trans_dic,
             'groupe': trans_groupe,

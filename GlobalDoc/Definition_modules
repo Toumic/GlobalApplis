@@ -24,3 +24,13 @@ GlobEnModes module du poids:
     2- Démultiplication par un rapport de sept
     3- Ajouter un tableau de mise en altéraction
     Mémoriser les modélisations analytiques clones
+
+GlobInverseAcc module du miroir:
+    Chaque mode tonique a son image inversée
+    Le compte-rendu des modèles renversants
+
+GlobGamChrom module du chromatisme:
+
+GloGamMicro module du commatisme:
+
+progamV6encore module utilisateur:

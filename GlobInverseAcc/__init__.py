@@ -8,11 +8,15 @@
 
 import inspect
 from typing import Callable
+import GlobGamVers6
+# progam = GlobGamVers6
+
 # lineno() Pour consulter le programme grâce au suivi des print's
 lineno: Callable[[], int] = lambda: inspect.currentframe().f_back.f_lineno
 
 # Table des degrés
 table_deg = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII']
+
 
 # dict_keys(['analyse', 'groupe', 'picolo', 'signaux'])
 
@@ -21,7 +25,7 @@ def inv_acc(pc, ego_p, ego_r):
     """Traitement pc clone dictionnaire global
     Synchronisation des modes diatoniques Formes classic et leurs inverses
     Approfondissement des mouvements des poids modaux, inversions incluses,
-    ainsi que les types de résolution des poids (brut et fins)"""
+    ainsi que les types de résolution des poids (bruts et fins)"""
     ('\n§ GIA GlobInverseAcc  binaires \n', pc.keys(), pc['groupe'][66, 'I'], '\n')
     compare = []
     # Traiter les premiers degrés à chaque fois
@@ -107,7 +111,7 @@ def inv_acc(pc, ego_p, ego_r):
     f10 = 0
     for gl in glob:
         f10 += 1
-        # #print('GLOBE', f10, gl, '\n')
+        print('GLOBE', f10, gl, '\n')
         break
     '''
     Traitement données DANA(fonction) :
@@ -126,8 +130,8 @@ def inv_acc(pc, ego_p, ego_r):
     tab_rng_fins, tab_rng_forts, cop_rng_fins, ind_cop_f1 = [], [], [], []
     nbr_org = 0
     for val in pc['groupe']:
-        ana = pc['analyse'][val][1][0]      # Poids fins majeurs
-        gro = pc['groupe'][val][0][0][1]    # Poids forts majeurs
+        ana = pc['analyse'][val][1][0]  # Poids fins majeurs
+        gro = pc['groupe'][val][0][0][1]  # Poids forts majeurs
         tab_rng_fins.append(ana)  # Tab_rng_fins = Tableau : Poids fins
         tab_rng_forts.append(gro)  # tab_rng_forts = Tableau : Poids forts
         cop_cop = ana, gro  # Cop_cop = Clé (Fin, Fort)
@@ -216,6 +220,8 @@ def inv_acc(pc, ego_p, ego_r):
     # print('\nego_f01 Mêmes rangs fins:\n', ego_f01.keys(), 'Quant. :', len(ego_f01))
     # print('ego_f02 Mêmes rangs forts:\n', ego_f02.keys(), 'Quant. :', len(ego_f02))
 
+
+# progam.Gammique()
 
 if __name__ == '__main__':
     # #print(f' GEM Quelle seption !')

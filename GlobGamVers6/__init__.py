@@ -6,11 +6,13 @@
 # ProgamV6encore 1.0
 # Approche commatique (Empreinte chromatique)
 
+import binascii
+from math import *
+from wave import *
+from struct import *
 from tkinter import *
 from tkinter.font import Font
-from wave import struct, open
-from pyaudio import PyAudio
-from math import sin, pi
+from pyaudio import *
 
 
 class Gammique(Tk):
@@ -212,6 +214,7 @@ class Gammique(Tk):
         self.dechire = {}  # Base avec l'indice adapté aux tableaux(b/#)
         self.btgama = Button(self, text='gamme', width=25, command=self.gama)
         self.btgama.pack_forget()  # Pantomime
+        self.btgama.invoke()
 
     # Section com
     def comma(self):
@@ -644,10 +647,10 @@ class Gammique(Tk):
                 self.fr_sup.pack(side=RIGHT)
                 self.fr_inf = Frame(self.ttt, width=3, height=1)
                 self.fr_inf.pack(side=RIGHT)
-                tu = x_01i = x_01s = 0  # x_01:Jeux de marges du texte
-                for tt in tgam_util:  # tt:clone(tt)=[1, 1, 1, 1]
-                    t_is = tet_is[tu]  # t_is:"inf/sup"/nom(tu):"L'horizontale(x)":=('Inf', '0')
-                    t_tt = tet_tt[tu]  # t_tt:ordre(tu):La verticale(y):=zéro à 66
+                tu = x_01i = x_01s = 0  # x_01: Jeux de marges du texte
+                for tt in tgam_util:  # tt: clone(tt)=[1, 1, 1, 1]
+                    t_is = tet_is[tu]  # t_is: "inf/sup"/nom(tu):"L'horizontale(x)":=('Inf', '0')
+                    t_tt = tet_tt[tu]  # t_tt: ordre(tu):La verticale(y):=zéro à 66
                     t_ut = tt
                     th = 0
                     tis0i = tis0s = 0  # Compteurs des tétras(inf/sup)
@@ -1450,7 +1453,7 @@ class Gammique(Tk):
         for c in range(5):
             ch_c = chr_chrom[c]
             c_ch = ch_c - (ch_c * 2)
-            if ch_chrdies[c] is '0':
+            if ch_chrdies[c] == '0':
                 c20 = c2_o = -1
                 for c_a2 in chnat_aug:
                     if c20 < 0:
@@ -1482,7 +1485,7 @@ class Gammique(Tk):
                 c3_0 = c_noe1
                 # c4_0 = c_mj
                 ch_chrdies[c] = c_ch, c_a, c2_0, c3_0, 'plum', c_mj
-            if ch_chrbem[c] is '0':
+            if ch_chrbem[c] == '0':
                 c20 = c2_o = -1
                 for c_a2 in chnat_min:
                     if c20 < 0:
@@ -1687,10 +1690,10 @@ class Gammique(Tk):
         freq3 = vacc[2] * 2
         freq4 = vacc[3] * 2
         for i in range(0, nbech):
-            val1 = struct.pack('B', int(128.0 + amp * sin(2.0 * pi * freq1 * i / fech)))
-            val2 = struct.pack('B', int(128.0 + amp * sin(2.0 * pi * freq2 * i / fech)))
-            val3 = struct.pack('B', int(128.0 + amp * sin(2.0 * pi * freq3 * i / fech)))
-            val4 = struct.pack('B', int(128.0 + amp * sin(2.0 * pi * freq4 * i / fech)))
+            val1 = pack('B', int(128.0 + amp * sin(2.0 * pi * freq1 * i / fech)))
+            val2 = pack('B', int(128.0 + amp * sin(2.0 * pi * freq2 * i / fech)))
+            val3 = pack('B', int(128.0 + amp * sin(2.0 * pi * freq3 * i / fech)))
+            val4 = pack('B', int(128.0 + amp * sin(2.0 * pi * freq4 * i / fech)))
             monac.writeframes(val1 + val2 + val3 + val4)
         monac.close()
         p = PyAudio()
@@ -1846,7 +1849,7 @@ class Gammique(Tk):
                     if tbsign[1] and tbsign[2] < 0:
                         pass
                     else:
-                        # L'accord est septième mineur (7)
+                        # L'accord est septième mineur (7).
                         for t_ in range(4):
                             txsg = ''
                             zone = 0
@@ -1939,7 +1942,7 @@ class Gammique(Tk):
                     caaacc.create_text(xtt + 20, ydd, text=accnote, font=fonot,
                                        fill='black')
             if tbsign[3] < -1:
-                # L'accord est diminué 7(°7)
+                # L'accord est diminué 7(°7).
                 for t_ in range(4):
                     txsg = ''
                     zone = 0
@@ -2017,7 +2020,7 @@ class Gammique(Tk):
             manote.setparams(param)
             amp = 127.5 * niveau
             for i in range(0, nbech):
-                val = struct.pack('B', int(128.0 + amp * sin(2.0 * pi * freqhtz * i / fech)))
+                val = pack('B', int(128.0 + amp * sin(2.0 * pi * freqhtz * i / fech)))
                 manote.writeframes(val)
             manote.close()
             p = PyAudio()
@@ -2106,7 +2109,7 @@ class Gammique(Tk):
             self.framno[fy] = freq
             amp = 127.5 * niveau
             for i in range(0, nbech):
-                val = struct.pack('B', int(128.0 + amp * sin(2.0 * pi * freq * i / fech)))
+                val = pack('B', int(128.0 + amp * sin(2.0 * pi * freq * i / fech)))
                 manote.writeframes(val)
             manote.close()
             if self.presaudio == 0:
@@ -2249,6 +2252,7 @@ class Gammique(Tk):
             self.sca[0].set(ren + 1)
         if ren > xmi + 1:
             self.sca[2].set(ren - 1)
+        self.btgama.invoke()
 
     def scanote3(self, xe):
         mi = int(xe)
@@ -2258,6 +2262,7 @@ class Gammique(Tk):
             self.sca[1].set(mi + 1)
         if mi > xfa:
             self.sca[3].set(mi)
+        self.btgama.invoke()
 
     def scanote4(self, xf):
         fa = int(xf)
@@ -2267,6 +2272,7 @@ class Gammique(Tk):
             self.sca[2].set(fa)
         if fa > xsol + 1:
             self.sca[4].set(fa - 1)
+        self.btgama.invoke()
 
     def scanote5(self, xg):
         sol = int(xg)
@@ -2276,6 +2282,7 @@ class Gammique(Tk):
             self.sca[3].set(sol + 1)
         if sol > xla + 1:
             self.sca[5].set(sol - 1)
+        self.btgama.invoke()
 
     def scanote6(self, xa):
         la = int(xa)
@@ -2285,6 +2292,7 @@ class Gammique(Tk):
             self.sca[4].set(la + 1)
         if la > xsi + 1:
             self.sca[6].set(la - 1)
+        self.btgama.invoke()
 
     def scanote7(self, xb):
         si = int(xb)
@@ -2302,6 +2310,7 @@ class Gammique(Tk):
             self.sca[7].configure(from_=-12 - xdo, to=12 - si)
         elif xxxrad == "IOY":
             self.sca[7].configure(from_=-24 - xdo, to=0 - si)
+        self.btgama.invoke()
 
     def scanote8(self, xh):
         sch = int(xh)

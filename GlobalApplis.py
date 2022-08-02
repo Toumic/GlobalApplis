@@ -63,7 +63,7 @@ def couple():
                 ctt = []
                 for t1f in tab:
                     if t1f != '0':
-                        t2f = str(int(t1f) + 4)  # Vide zéro dans tétra
+                        t2f = str(int(t1f) + 4)  # Vide zéro dans le tétra
                     else:
                         t2f = '0'
                     ctt.append(t2f)

@@ -8,8 +8,8 @@
 
 import inspect
 from typing import Callable
-import GlobGamVers6
-# progam = GlobGamVers6
+# import GlobGamVers6  # Ouvre GlobGamVers6
+# progam = GlobGamVers6  # Passage de paramètres
 
 # lineno() Pour consulter le programme grâce au suivi des print's
 lineno: Callable[[], int] = lambda: inspect.currentframe().f_back.f_lineno
@@ -125,7 +125,7 @@ def inv_acc(pc, ego_p, ego_r):
         Classic = De 1 à 7. DANA = De 7 à 1
     Le précédent module GlobEnModes a détecté les modulations toniques
     Il faut par conséquent refaire même si c'est identique, bien-qu'inversé'''
-    # #print('GIA EGO_poids', ego_p.keys(), '\nGIA EGO_rang', ego_r.keys(), '.keys()\n')
+    print('GIA EGO_poids', ego_p.keys(), '\nGIA EGO_rang', ego_r.keys(), '.keys()\n')
     dic_rng, dic_dic = {}, {}
     tab_rng_fins, tab_rng_forts, cop_rng_fins, ind_cop_f1 = [], [], [], []
     nbr_org = 0

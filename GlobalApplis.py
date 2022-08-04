@@ -58,8 +58,10 @@ def couple():
             if octave >= l_ct:
                 o_ct = octave - l_ct  # Différence
                 if l_ct < octave and o_ct > 0:
-                    for o in range(o_ct):
-                        cyt.append('0')  # Vide zéro entre tétra
+                    o = 0
+                    while o < o_ct:
+                        o += 1
+                        cyt.append('0')  # Remplir les vides par des zéros entre les tétras
                 ctt = []
                 for t1f in tab:
                     if t1f != '0':

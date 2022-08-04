@@ -14,9 +14,9 @@ Il y a autant de notes que de modulations diatoniques et
 les ensembles fondamentaux n'ont pas les mêmes modulations
 Ce module trie les diatoniques afin d'un rassemblement fondamental
 sans exécuter le traitement des tonalités avec les signes (b/#)
-Afin de faciliter le traitement, chaque entrée [1,2,3,4] devient [1,1,1,1]
+Pour faciliter le traitement, chaque entrée [1,2,3,4] devient [1,1,1,1]
     Rajouté : Pour plusieurs tétracordes de même longueur
-        Une suite consécutive de zéros tient de famille diatonique
+        Une suite consécutive de zéros tient de famille diatonique.
 """
 
 import GlobGamFonds
@@ -66,7 +66,9 @@ def gammy(table):
         modes, binez1, binez2 = [], '', []
         ozo, ooo = len(module), list(module)
         if ozo < 12:
-            for o in range(ozo):
+            o = -1
+            while o < ozo-1:
+                o += 1
                 ooo.insert(0, ooo.pop())
                 mirez = ''.join(i for i in ooo)
                 modes.append(mirez)
@@ -85,10 +87,11 @@ def gammy(table):
                 else:
                     binez00 += '1'
             bins = list(binez00)
-            stop = False
-            for j in range(len(bins)):
+            stop, j = False, -1
+            while j < len(bins)-1:
+                j += 1
                 if bins not in fonder_gamme:
-                    for i in range(len(bins)):
+                    while 1:
                         bins.insert(0, bins.pop())
                         while bins[0] == '0':
                             bins.insert(0, bins.pop())

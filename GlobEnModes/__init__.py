@@ -40,7 +40,7 @@ gamme_poids = {1: [0, 0, 0, 0, 0, 0, 0], 2: [0, 0, -4, 0, 0, 0, -8],
                5: [0, 0, 0, 0, 0, 0, -8], 6: [0, 0, -4, 0, 0, -7, -8],
                7: [0, -3, -4, 0, -6, -7, -8]}
 
-# Nombres d'intervalles des gammes et les diatoniques surnommées dans progamV6encore
+# Nombres d'intervalles des gammes et les diatoniques surnommées dans GlobGamVers6
 intros = [[1, 1, 0, 1, 1, 1, 0], [0, 2, 0, 1, 1, 1, 0], [2, 0, 0, 1, 1, 1, 0], [4, 0, 0, 0, 0, 1, 0],
           [1, 0, 1, 1, 1, 1, 0], [0, 1, 1, 1, 1, 1, 0], [1, 0, 3, 0, 0, 1, 0], [1, 2, 1, 0, 0, 1, 0],
           [2, 2, 0, 0, 0, 1, 0], [0, 0, 1, 2, 1, 1, 0], [1, 3, 0, 0, 0, 1, 0], [0, 0, 2, 1, 1, 1, 0],
@@ -912,14 +912,13 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                             roule_bin.append('0')
                         moule_bin = ''.join(rb for rb in roule_bin)
                         # (lineno(), ' * MOULE_BIN 2ème degré', moule_bin, '        ***')
-                        mia, mod_origine, mod_cours, mod_so9, mod_1 = -1, [], [], [], False
+                        mod_origine, mod_cours, mod_so9, mod_1 = [], [], [], False
                         # Transpose 2ème degré majeur vers grand1
                         for gr in grade_maj['2']:
                             gr = gr[len(gr) - 1:]
                             gr1 = int(gr)
                             mod_origine.append(gr1)
-                        for bof in range(7):
-                            mia += 1
+                        for mia in range(7):
                             sto = signaux[index][mia]
                             gmo = groupe[index][mia]
                             if moule_bin == gmo[0][0]:
@@ -1072,7 +1071,8 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                             break
                         # break # Coupure développement diatonique
                     s_tab1, s_tab2 = [], []
-                    for pic in range(len(picolo[tonice][0])):
+                    # for pic in range(len(picolo[tonice][0])):
+                    while 1:
                         stop_pic = False
                         for pt0 in picolo[tonice][0]:  # Forme neutre
                             d = 1  # De 1 à 7. De binaire à numéral

@@ -8,25 +8,26 @@
 
 import inspect
 from typing import Callable
-# import GlobGamVers6  # Ouvre GlobGamVers6
-# progam = GlobGamVers6  # Passage de paramètres
+import GlobGamVers6  # Ouvre GlobGamVers6
 
 # lineno() Pour consulter le programme grâce au suivi des print's
 lineno: Callable[[], int] = lambda: inspect.currentframe().f_back.f_lineno
 
 # Table des degrés
 table_deg = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII']
-
+# Cas pratique vers le type global
+pratic = {}
 
 # dict_keys(['analyse', 'groupe', 'picolo', 'signaux'])
 
 
-def inv_acc(pc, ego_p, ego_r):
+def inv_acc(pc, ego_p, ego_r, pratic_k):
     """Traitement pc clone dictionnaire global
     Synchronisation des modes diatoniques Formes classic et leurs inverses
     Approfondissement des mouvements des poids modaux, inversions incluses,
     ainsi que les types de résolution des poids (bruts et fins)"""
     ('\n§ GIA GlobInverseAcc  binaires \n', pc.keys(), pc['groupe'][66, 'I'], '\n')
+    print(lineno(), 'GIA pratique', pratic_k.keys())
     compare = []
     # Traiter les premiers degrés à chaque fois
     for g1 in range(1, 67):  # g1 = Numéro gamme-indice
@@ -113,6 +114,7 @@ def inv_acc(pc, ego_p, ego_r):
         f10 += 1
         print('GLOBE', f10, gl, '\n')
         break
+    print('PRATIC', pratic_k, '\n')
     '''
     Traitement données DANA(fonction) :
         - (Car DANA a traité les données avant le calcul des toniques)
@@ -220,9 +222,6 @@ def inv_acc(pc, ego_p, ego_r):
     # print('\nego_f01 Mêmes rangs fins:\n', ego_f01.keys(), 'Quant. :', len(ego_f01))
     # print('ego_f02 Mêmes rangs forts:\n', ego_f02.keys(), 'Quant. :', len(ego_f02))
 
-
-# progam.Gammique()
-
 if __name__ == '__main__':
     # #print(f' GEM Quelle seption !')
-    inv_acc({}, {}, {})
+    inv_acc({}, {}, {}, {})

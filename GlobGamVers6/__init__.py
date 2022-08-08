@@ -374,8 +374,9 @@ class Gammique(Tk):
         # ('compro',compro[0])  # Forme d'écriture et de lecture
         # Composition du modèle chrome diatonique
         for ci in range(12):
-            count = ci
-            for co in range(12):
+            count, cow = ci, -1
+            while cow < 11:
+                cow += 1
                 self.comgen[ci].append(compro[0][count])
                 count += 1
                 if count > 11:
@@ -615,8 +616,10 @@ class Gammique(Tk):
                                                fill='yellow')
                             th += 1
                     if td > 0:
-                        th1 = th
-                        for td_ in range(td):
+                        th1, td_ = th, -1
+                        while td_ < td - 1:
+                            td_ += 1
+                            # for td_ in range(td):
                             tetcan.create_oval(xh + th1 * 20 - r1, yh + tv * 6 - r1,
                                                xh + th1 * 20 + r1, yh + tv * 6 + r1,
                                                fill='white')
@@ -2083,8 +2086,9 @@ class Gammique(Tk):
         aw2 = self.tbdegre[0]
         diato = []
         opoto = []
-        ax = '0'
-        for aw in range(7):  # Construction tableau TR-tonique
+        ax, aw = '0', -1
+        while aw < 6:  # Construction tableau TR-tonique
+            aw += 1
             freqhtz = freula[aw2]
             if ax == '0':
                 diato.append(freqhtz)

@@ -63,7 +63,7 @@ nominal = ['0', '-2', '+2', '^2', '-3', '-32', 'x43-', '+34', 'x32+', '-43', 'x3
            'x53+', '+54-', '-54', 'x5', 'x45+', 'o52-', 'o53-', 'o54-', 'o45-', 'o5', '+53o', '*5', 'x53o',
            'x54-', 'x54o', '-6', '+6', '-62', '+62-', '+26-', '+26', '-63', '+63-', '-65', '+65-', '+56',
            'x46+', 'o62-', '+64-', 'o64-', 'x36+', 'o65-', 'o46-', '+63o', '*6', '+64o', 'o6', 'x26-']
-pratique = {'maj': '101011010101'}
+pratique = {'0': '101011010101'}
 
 dic_analyse = {}  # :Dana initie dico
 dic_diatonic = {}  # :Seption initie dico
@@ -1148,6 +1148,32 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                         if stop_pic:
                             break  # Coupure développement diatonique
             # break # Coupure développement des toniques (66 gammes)
+        '''Formatter dico.pratique(binaires[0]) vers  cumuls[1]'''
+        # Exemple binaire et forme cumulée :
+        # 101011010101 = 1, 1, 0, 1, 1, 1, 0
+        pratique['0'] = [1, 1, 0, 1, 1, 1, 0]
+        for k_pratic in pratique.keys():
+            k0, kn, k_cumul = 0, -1, []
+            k_forme1 = pratique[k_pratic]
+            for k_cas in k_forme1:
+                kn += 1  # Valeur cyclique de k_cas
+                # print(lineno(), 'k_cas', k_cas)
+                if k_cas == '1':  # '1' = Note à traiter
+                    if  kn < len(k_forme1) - 1 and k_forme1[kn + 1] == '1':
+                        k_cumul.append(0)
+                        continue
+                    elif len(k_cumul) == 6:
+                        k_cumul.append(0)
+                    else:  # '0' Intervalle vide dans la valeur binaire
+                        for x in range(kn + 1, len(k_forme1)):
+                            if k_forme1[x] == '0':
+                                k0 += 1  # Compter les zéros
+                            if k_forme1[x] == '1':
+                                k_cumul.append(k0)  # Écriture forme cumulative
+                                k0 = 0
+                                break
+            pratique[k_pratic] = k_cumul
+            # print(lineno(), ' | k_cumul', k_cumul, 'Binaire', k_forme1, '\n')
         # print(lineno(), 'pratique', pratique, len(pratique))
         modes = {
             'analyse': trans_dic,
@@ -1182,7 +1208,7 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                 data_gammes.write(mm)
             t_dan.clear()
         data_gammes.close()
-        glob_in_acc.inv_acc(modes, ego_poids, ego_rang)
+        glob_in_acc.inv_acc(modes, ego_poids, ego_rang, pratique)
 
 
 if __name__ == '__main__':

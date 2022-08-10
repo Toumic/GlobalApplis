@@ -15,8 +15,26 @@ from tkinter.font import Font
 from pyaudio import *
 
 
+def progam(pratic, glob, ego_p, ego_r):
+    # print('Pratique', pratic['0'])
+    # print('Globe', glob[0], '\n', ego_p.keys(), '\n', ego_r.keys())
+    # Initialisation des mémoires globales
+    gamme0 = pratic.copy()
+    globe0 = glob.copy()
+    galop = ego_p.copy()
+    essor = ego_r.copy()
+    print('gamme0', gamme0['0'])
+    print('Globe0', globe0[0], '\n', galop.keys(), '\n', essor.keys())
+    # class Gammique
+    Gammique.gamdata(gamme0, globe0, galop, essor)
+    Gammique().mainloop()
+
+
 class Gammique(Tk):
     """ Ramification Gammique """
+
+    def gamdata (gam, glob, gala, sos):
+        print('GamData', gam['0'], '\nGLOB', glob[0], gala.keys(), sos.keys())
 
     def __init__(self):
         Tk.__init__(self)
@@ -2665,6 +2683,9 @@ class Gammique(Tk):
                 nat2 = 0
             deg += 1
         self.tbdegre[0] = degre
+    gamme0 = {}
+    globe0, galop, essor = [], {}, {}
+    print('gamme0', gamme0)
 
 
 class Commatique(Frame):
@@ -2813,4 +2834,4 @@ class Commatique(Frame):
 
 
 # class Gammique
-Gammique().mainloop()
+# Gammique().mainloop()

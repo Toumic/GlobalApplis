@@ -1162,12 +1162,16 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                     if  kn < len(k_forme1) - 1 and k_forme1[kn + 1] == '1':
                         k_cumul.append(0)
                         continue
-                    elif len(k_cumul) == 6:
+                    elif len(k_cumul) == 6 and kn == 11:
                         k_cumul.append(0)
                     else:  # '0' Intervalle vide dans la valeur binaire
+                        kg = kn
                         for x in range(kn + 1, len(k_forme1)):
+                            kg += 1
                             if k_forme1[x] == '0':
                                 k0 += 1  # Compter les zéros
+                                if kg == 11:
+                                    k_cumul.append(k0)  # Les derniers zéros
                             if k_forme1[x] == '1':
                                 k_cumul.append(k0)  # Écriture forme cumulative
                                 k0 = 0

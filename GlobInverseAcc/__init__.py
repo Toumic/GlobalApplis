@@ -10,13 +10,13 @@ import inspect
 from typing import Callable
 import GlobGamVers6  # Ouvre GlobGamVers6
 
+progam = GlobGamVers6
+
 # lineno() Pour consulter le programme grâce au suivi des print's
 lineno: Callable[[], int] = lambda: inspect.currentframe().f_back.f_lineno
 
 # Table des degrés
 table_deg = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII']
-# Cas pratique vers le type global
-pratic = {}
 
 # dict_keys(['analyse', 'groupe', 'picolo', 'signaux'])
 
@@ -27,7 +27,8 @@ def inv_acc(pc, ego_p, ego_r, pratic_k):
     Approfondissement des mouvements des poids modaux, inversions incluses,
     ainsi que les types de résolution des poids (bruts et fins)"""
     ('\n§ GIA GlobInverseAcc  binaires \n', pc.keys(), pc['groupe'][66, 'I'], '\n')
-    print(lineno(), 'GIA pratique', pratic_k.keys())
+    # (lineno(), 'GIA pratique', pratic_k.keys())
+    pratic = pratic_k.copy()
     compare = []
     # Traiter les premiers degrés à chaque fois
     for g1 in range(1, 67):  # g1 = Numéro gamme-indice
@@ -109,12 +110,11 @@ def inv_acc(pc, ego_p, ego_r, pratic_k):
             glob.append(cas4)
             # print(cas, '... DUO', com[0], nom0, '|!=|', com[1], nom1)
     # Glob = Tables des degrés miroirs (ISO/DUO)
-    f10 = 0
-    for gl in glob:
+    '''f10 = 0
+    for gl in glob:  # glob[tableau]
         f10 += 1
         print('GLOBE', f10, gl, '\n')
-        break
-    print('PRATIC', pratic_k, '\n')
+        break'''
     '''
     Traitement données DANA(fonction) :
         - (Car DANA a traité les données avant le calcul des toniques)
@@ -127,7 +127,7 @@ def inv_acc(pc, ego_p, ego_r, pratic_k):
         Classic = De 1 à 7. DANA = De 7 à 1
     Le précédent module GlobEnModes a détecté les modulations toniques
     Il faut par conséquent refaire même si c'est identique, bien-qu'inversé'''
-    print('GIA EGO_poids', ego_p.keys(), '\nGIA EGO_rang', ego_r.keys(), '.keys()\n')
+    # print('GIA EGO_poids', ego_p.keys(), '\nGIA EGO_rang', ego_r.keys(), '.keys()\n')
     dic_rng, dic_dic = {}, {}
     tab_rng_fins, tab_rng_forts, cop_rng_fins, ind_cop_f1 = [], [], [], []
     nbr_org = 0
@@ -221,6 +221,8 @@ def inv_acc(pc, ego_p, ego_r, pratic_k):
     # #print('val_fax_f3 Rangs forts&fins:\n', val_fax_f3.keys(), 'Quant. :', len(val_fax_f3))
     # print('\nego_f01 Mêmes rangs fins:\n', ego_f01.keys(), 'Quant. :', len(ego_f01))
     # print('ego_f02 Mêmes rangs forts:\n', ego_f02.keys(), 'Quant. :', len(ego_f02))
+
+    progam.progam(pratic, glob, ego_p, ego_r)
 
 if __name__ == '__main__':
     # #print(f' GEM Quelle seption !')

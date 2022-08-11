@@ -2671,7 +2671,6 @@ class Gammique(Tk):
         self.tbdegre[0] = degre
     gamme0 = {}
     globe0, galop, essor = [], {}, {}
-    print('gamme0', gamme0)
 
 
 class Commatique(Frame):
@@ -2765,7 +2764,7 @@ class Commatique(Frame):
             c_valo = self.coo_valone[i], self.coo_valpos[i][0][0]
             self.ctb_finv[i].append(c_valo)  # 0 0 self.ctb_finv[i] [([(0, 'C')], 'g')]
             c_formi2n = self.ctb_form[i2n]  # 0 0 c_form ('', 1) | 0 1 c_form ('+', 1)...
-            print('2724-i2n', i2n, 'i ', i)
+            # print('2724-i2n', i2n, 'i ', i)
             for j in range(12):
                 c_form[0] = c_formi2n[0][j]
                 c_finv[0] = self.ctb_finv[i]
@@ -2775,7 +2774,7 @@ class Commatique(Frame):
                     if i == 0:
                         # Enregistrement self.coo_gym[]
                         cfi_org.append(c_formi2n)  # "i" = "j" = nul
-                        print('2734-cfi_org', cfi_org, i2n)
+                        # print('2734-cfi_org', cfi_org, i2n)
                         cfi_y = c_finv[0][0][0][0][1]  # cfi_not 0 0 C (cfi_not[0])
                         c_cfy = -1
                         c_yy = 0
@@ -2792,11 +2791,11 @@ class Commatique(Frame):
                                         c_cfy += 1
                                         self.coo_gym[c_cfy] = self.coo_gam[cy_]
                     if cfi_ggg == 'g':
-                        print('2751-*****1', cfi_org[0][0][i], i)
+                        # print('2751-*****1', cfi_org[0][0][i], i)
                         cfi_ng0 = cfi_org[0][0][i]
                         cfi_alt[0] = c_finv[0][0][0][0][0]  # cfi_alt 0 0 [(0, 'C')]
                         cfi_not[0] = cfi_ng0, c_finv[0][0][0][0][1]  # cfi_not 0 0 C
-                        print('*****1')
+                        # print('*****1')
                     else:
                         cfi_n10 = c_finv[0][0][0][0][1][1]  # cfi_n10 0 0 D
                         cfi_n20 = c_finv[0][0][0][0][0][1]  # cfi_n20 0 0 C
@@ -2812,7 +2811,7 @@ class Commatique(Frame):
                         cfi_n2 = c_finv[0][0][0][0][0][1]
                         cfi_not[0] = c_yn1, cfi_n1, c_yn2, cfi_n2
                         print('*****2')
-                    print('cy', '/', i, j, "c_finv's ", cfi_ggg, '/', cfi_alt[0], '/', cfi_not[0])
+                    # print('cy', '/', i, j, "c_finv's ", cfi_ggg, '/', cfi_alt[0], '/', cfi_not[0])
                     # print('ctb_form', i, self.ctb_form[i])
                 else:
                     pass

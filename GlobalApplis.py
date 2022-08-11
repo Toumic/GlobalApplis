@@ -256,7 +256,7 @@ fil_codage.close()
 
 '''Section des choix d'affichage (print)'''
 table = []
-# GlobGamFonds : Modes binaires
+"""# GlobGamFonds : Modes binaires
 print('Modes binaires.      Tapez 1')
 # GlobEnModes : Fonction majeure 7
 print('Modes majeurs 7.     Tapez 2 ')
@@ -269,7 +269,7 @@ print('Modes détaillés.     Tapez 5')
 choix = input('Saisissez votre choix multiple :  ')
 if choix.isnumeric():
     table = list(choix)
-    # print('Choix ', table)
+    # print('Choix ', table)"""
 
 # Direction GlobModelGammy
 globgamy.gammy(table)

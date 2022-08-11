@@ -8,7 +8,7 @@
 
 import inspect
 from typing import Callable
-import GlobGamVers6  # Ouvre GlobGamVers6
+import GlobGamVers6
 
 progam = GlobGamVers6
 

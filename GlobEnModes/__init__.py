@@ -5,7 +5,7 @@
 # Conçu par Vicenté Llavata Abreu|Vicenté Quantic|Toumic
 # GlobEnModes
 # Moulin modal à comparaisons majeures
-#
+
 
 import inspect
 import os
@@ -1151,7 +1151,6 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
         '''Formatter dico.pratique(binaires[0]) vers  cumuls[1]'''
         # Exemple binaire et forme cumulée :
         # 101011010101 = 1, 1, 0, 1, 1, 1, 0
-        pratique['0'] = [1, 1, 0, 1, 1, 1, 0]
         for k_pratic in pratique.keys():
             k0, kn, k_cumul = 0, -1, []
             k_forme1 = pratique[k_pratic]

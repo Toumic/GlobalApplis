@@ -1,4 +1,5 @@
-# Python3 utf8
+# !/usr/bin/env python 3.10
+# -*- coding: utf-8 -*-
 # En construction
 # Mercredi 8 septembre 2021 2021
 

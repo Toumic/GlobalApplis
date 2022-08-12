@@ -1,4 +1,5 @@
-# Python3 UTF-8
+# !/usr/bin/env python 3.10
+# -*- coding: utf-8 -*-
 # Lundi 19 avril 2021 à 13h 57m (premières lignes)
 # Lundi 3 mai 2021 (Développements diatoniques)
 # Mardi 27 juillet 2021

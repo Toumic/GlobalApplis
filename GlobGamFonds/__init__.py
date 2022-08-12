@@ -1,4 +1,5 @@
-# Python3 UTF-8
+# !/usr/bin/env python 3.10
+# -*- coding: utf-8 -*-
 # mercredi 12 mai 2021 à 20 h 32 mn (premières lignes)
 # Cabviva.fr Cab.Rich.Int.Music.Quant
 # Mardi 27 juillet 2021

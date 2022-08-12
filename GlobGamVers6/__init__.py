@@ -15,14 +15,6 @@ from tkinter.font import Font
 from pyaudio import *
 
 
-def progam(pratic, glob, ego_p, ego_r):
-    # print('Pratique', pratic['0'])
-    # print('Globe', glob[0], '\n', ego_p.keys(), '\n', ego_r.keys())
-    # class Gammique
-    data_gam = {1: pratic, 2: glob, 3: ego_p, 4: ego_r}
-    Gammique(data_gam).mainloop()
-
-
 class Gammique(Tk):
     """ Ramification Gammique """
 
@@ -2418,6 +2410,8 @@ class Gammique(Tk):
 
     # Motorisation Gammique
     def gama(self):
+        # print(2421, 'GGV6 def gama : \n', self.data.keys())
+        # print(2421, 'GGV6 DATA 2 : \n', self.data[5])
         imod = None
         self.decore.clear()  # Remise au zéro tonique des accords
         self.can.delete(ALL)
@@ -2816,6 +2810,14 @@ class Commatique(Frame):
                 else:
                     pass
                 print('1er mode ctb_finv', self.ctb_finv)
+
+
+def progam(pratic, glob, ego_p, ego_r, utile):
+    # print('Pratique', pratic['0'])
+    # print('Globe', glob[0], '\n', ego_p.keys(), '\n', ego_r.keys())
+    # class Gammique
+    data_gam = {1: pratic, 2: glob, 3: ego_p, 4: ego_r, 5: utile}
+    Gammique(data_gam).mainloop()
 
 
 # class Gammique

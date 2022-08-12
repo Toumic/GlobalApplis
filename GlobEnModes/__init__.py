@@ -1212,7 +1212,7 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                 data_gammes.write(mm)
             t_dan.clear()
         data_gammes.close()
-        glob_in_acc.inv_acc(modes, ego_poids, ego_rang, pratique)
+        glob_in_acc.inv_acc(modes, ego_poids, ego_rang, pratique, inutile)
 
 
 if __name__ == '__main__':

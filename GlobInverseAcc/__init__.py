@@ -22,7 +22,7 @@ table_deg = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII']
 # dict_keys(['analyse', 'groupe', 'picolo', 'signaux'])
 
 
-def inv_acc(pc, ego_p, ego_r, pratic_k):
+def inv_acc(pc, ego_p, ego_r, pratic_k, inutile_k):
     """Traitement pc clone dictionnaire global
     Synchronisation des modes diatoniques Formes classic et leurs inverses
     Approfondissement des mouvements des poids modaux, inversions incluses,
@@ -223,9 +223,9 @@ def inv_acc(pc, ego_p, ego_r, pratic_k):
     # print('\nego_f01 Mêmes rangs fins:\n', ego_f01.keys(), 'Quant. :', len(ego_f01))
     # print('ego_f02 Mêmes rangs forts:\n', ego_f02.keys(), 'Quant. :', len(ego_f02))
 
-    progam.progam(pratic, glob, ego_p, ego_r)
+    progam.progam(pratic, glob, ego_p, ego_r, inutile_k)
 
 
 if __name__ == '__main__':
     # #print(f' GEM Quelle seption !')
-    inv_acc({}, {}, {}, {})
+    inv_acc({}, {}, {}, {}, {})

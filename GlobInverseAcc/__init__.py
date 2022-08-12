@@ -224,6 +224,7 @@ def inv_acc(pc, ego_p, ego_r, pratic_k):
 
     progam.progam(pratic, glob, ego_p, ego_r)
 
+
 if __name__ == '__main__':
     # #print(f' GEM Quelle seption !')
     inv_acc({}, {}, {}, {})

@@ -1158,7 +1158,7 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                 kn += 1  # Valeur cyclique de k_cas
                 # print(lineno(), 'k_cas', k_cas)
                 if k_cas == '1':  # '1' = Note à traiter
-                    if  kn < len(k_forme1) - 1 and k_forme1[kn + 1] == '1':
+                    if kn < len(k_forme1) - 1 and k_forme1[kn + 1] == '1':
                         k_cumul.append(0)
                         continue
                     elif len(k_cumul) == 6 and kn == 11:

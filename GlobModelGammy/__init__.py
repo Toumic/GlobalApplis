@@ -1,5 +1,6 @@
-# !/usr/bin/env python 3.10
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+# flake8: noqa
 # Lundi 19 avril 2021 à 13h 57m (premières lignes)
 # Lundi 3 mai 2021 (Développements diatoniques)
 # Mardi 27 juillet 2021

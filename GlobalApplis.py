@@ -1,5 +1,6 @@
-# !/usr/bin/env python 3.10
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+# flake8: noqa
 # dimanche 28 mars 2021 à 19 h 45 mn (premières lignes)
 # mardi 13 avril 2021 (Développement des tétracordes)
 # mardi 27 juillet 2021

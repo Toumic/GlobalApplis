@@ -1,6 +1,7 @@
-# !/usr/bin/env python 3.10
-# * Mercredi 18 mai 2022.
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+# flake8: noqa
+# * Mercredi 18 mai 2022.
 # Application gammique évolutive
 # Operate Envol sysTM
 # ProgamV6encore 1.0

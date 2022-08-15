@@ -206,7 +206,8 @@ class Gammique(Tk):
 
         # Bouton gamme_calculée
         self.data = data_gam
-        self.nordiese = []
+        self.nordiese = []  #
+        print(0.384, '.........Nordiese', self.nordiese)
         self.subemol = []
         self.cursifs = []
         self.gammescopie = []
@@ -232,6 +233,7 @@ class Gammique(Tk):
         c_oo = []
         c_pp = []
         c_ii = []
+        print(0.0, '....Nordiese', self.nordiese)
         # Traitement d'accrochage de la gamme (nom et type)
         # self.tbdegre : Première note du mode tonique en cours
         # self.gamula = ['C','D','E','F','G','A','B']
@@ -368,8 +370,7 @@ class Gammique(Tk):
                 cochr = 'gam', self.chrgen[ci][2], self.chrgen[ci][3]
                 self.comchr[0].append(cochr)
             else:
-                cochr = 'com', self.chrgen[ci][2], self.chrgen[ci][3], self.chrgen[ci][5], \
-                        self.chrgen[ci][6]
+                cochr = 'com', self.chrgen[ci][2], self.chrgen[ci][3], self.chrgen[ci][5], self.chrgen[ci][6]
                 self.comchr[0].append(cochr)
         # print('comchr', self.comchr[0])
         compro[0] = self.comchr[0]
@@ -460,15 +461,17 @@ class Gammique(Tk):
                                     co_res = self.nordiese[co_s2]
                                 else:
                                     co_res = self.subemol[co_s2]
-                                co_s1 = "{0}{1}".format(co_res, co_tbnat[c_dif])
+                                co_s1 = "{0}{1}".format(co_res, co_tbnat[c_dif])  # co_s1 = Signe + Numéric
+                                # print(464, '..co_s2 ', co_s2, co_s1)  # Suivre chrome numéric
                                 # Selon l'activité demandée
                                 if self.comfdb[0] != 0 or self.comfcb[0] == 3:
                                     pass
                                 else:
                                     comcan_1.create_text(12 + co * 25, (30 + ci * 49) + 22,
                                                          font=fontchr, text=co_s1, fill='magenta')
-                                    co_s12 = 'c', co, co_s1
+                                    co_s12 = 'c', co, co_s1  # c. co = Note analogic. co_s1 = Signe + Numéric
                                     co_tbdif[co].append(co_s12)
+                                    # print(472, 'co_s12 ', co_s12, )  # (co_s12) Voir ci-dessus
                             co_n0 += 1
                     co_tbgam = co_sign0[0], co_note0[0][0]
                     co_tbmod[co].append(co_tbgam)
@@ -1420,6 +1423,7 @@ class Gammique(Tk):
                     c3_0 = c_noe1
                     # c4_0 = c2_0
                     ch_chrdies[c_] = ch_o, ch_dx, c2_0, c3_0, 'plum', ch_wdx
+                    print(1425, 'ch_chrdies ', ch_chrdies)
             for ch_b in chr_bem:
                 ch_yb = ch_b[0]
                 if ch_yb == ch_o:
@@ -2442,11 +2446,12 @@ class Gammique(Tk):
                   [1, 1, 0, 0, 0, 3, 0], [3, 0, 0, 0, 0, 2, 0]]
         self.gammescopie = gammes
         # Tonice(0). Tonale(1:3). Mélode(4:14). Médiane(15:18). Domine(19:42). Harmone(43:65)
-        gamnoms = ['0', '-2', '+2', '^2', '-3', '-32', 'x43-', '+34', 'x32+', '-43', 'x3', 'o3', '+34x', 'x43o',
-                   '^3', '-4', '-42', '^4', 'o4', '-5', '-52', '+52-', '+25-', '-53', '+53-', 'x54+', 'x52+', 'o35-',
-                   'x53+', '+54-', '-54', 'x5', 'x45+', 'o52-', 'o53-', 'o54-', 'o45-', 'o5', '+53o', '*5', 'x53o',
-                   'x54-', 'x54o', '-6', '+6', '-62', '+62-', '+26-', '+26', '-63', '+63-', '-65', '+65-', '+56',
-                   'x46+', 'o62-', '+64-', 'o64-', 'x36+', 'o65-', 'o46-', '+63o', '*6', '+64o', 'o6', 'x26-']
+        gamnoms = ['0', '-2', '+2', '^2', '-3', '-32', 'x43-', '+34', 'x32+', '-43', 'x3', 'o3', '+34x',
+                   'x43o', '^3', '-4', '-42', '^4', 'o4', '-5', '-52', '+52-', '+25-', '-53', '+53-',
+                   'x54+', 'x52+', 'o35-', 'x53+', '+54-', '-54', 'x5', 'x45+', 'o52-', 'o53-', 'o54-',
+                   'o45-', 'o5', '+53o', '*5', 'x53o', 'x54-', 'x54o', '-6', '+6', '-62', '+62-', '+26-',
+                   '+26', '-63', '+63-', '-65', '+65-', '+56', 'x46+', 'o62-', '+64-', 'o64-', 'x36+',
+                   'o65-', 'o46-', '+63o', '*6', '+64o', 'o6', 'x26-']
         self.gamnomscopie = gamnoms
 
         # Récupération des notes cursives
@@ -2575,12 +2580,13 @@ class Gammique(Tk):
         cnat = ['', '', '', '', '', '', '']
         # Niveaux d'altérations
         self.nordiese = ['', '+', 'x', '^', '+^', 'x^', '^^', '+^^', 'x^^', '^^^', '+^^^', 'x^^^', '^^^^',
-                         '13(#)', '14(#)', '15(#)', '16(#)', '17(#)', '18(#)', '19(#)', '20(#)', '21(#)', '22(#)',
-                         '23(#)', '24(#)', '25(#)', '26(#)', '27(#)', '28(#)', '29(#)', '30(#)', '31(#)', '32(#)']
+                         '13(#)', '14(#)', '15(#)', '16(#)', '17(#)', '18(#)', '19(#)', '20(#)', '21(#)',
+                         '22(#)', '23(#)', '24(#)', '25(#)', '26(#)', '27(#)', '28(#)', '29(#)', '30(#)',
+                         '31(#)', '32(#)']
         self.subemol = ['', '32(b)', '31(b)', '30(b)', '29(b)', '28(b)', '27(b)', '26(b)', '25(b)', '24(b)',
-                        '23(b)', '22(b)',
-                        '21(b)', '20(b)', '19(b)', '18(b)', '17(b)', '16(b)', '15(b)', '14(b)', '13(b)',
-                        '****', 'o***', '-***', '***', 'o**', '-**', '**', 'o*', '-*', '*', 'o', '-']
+                        '23(b)', '22(b)', '21(b)', '20(b)', '19(b)', '18(b)', '17(b)', '16(b)', '15(b)',
+                        '14(b)', '13(b)', '****', 'o***', '-***', '***', 'o**', '-**', '**', 'o*', '-*', '*',
+                        'o', '-']
         # Configuration modale
         gdeg = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII']
         # Définition du style d'écriture
@@ -2599,6 +2605,7 @@ class Gammique(Tk):
                 ymod = self.subemol[ycurs]
             cnat[ynat] = ymod
             ynat += 1
+        print(2608, 'cnat ', cnat)
 
         # Une tournée produit une tonalité modale de 7 notes
         nat2 = degre
@@ -2656,7 +2663,8 @@ class Gammique(Tk):
                 nom = 1
                 self.declare[(deg, maj)] = imod
                 self.dechire[(deg, maj)] = cmod  # Utilisation chromatique
-                # print('dechire', deg, maj, self.dechire[(deg, maj)])
+            # print('declare imod ', self.declare)
+            # print('dechire cmod ', self.dechire)
             ynote += 60
             ytone += 60
             nat2 += 1
@@ -2688,14 +2696,14 @@ class Commatique(Frame):
 
     def brnch_1(self, c_oo, c_pp, c_ii):
         """Réception des gammes calculées :
-            c_oo = Modes diatoniques calculés + Chromes (sup/inf)
-            c_pp =
-            c_ii =
+            c_oo = Modes diatoniques calculés + Chromes analogues (sup/inf)
+            c_pp = Modes diatoniques calculés + Chromes numériques (sup/inf)
+            c_ii = Nom de la gamme 'Note + Valeur'
         """
         # c_oo c_pp c_cc de class Gammique.comma.co_tbval()..
-        # print('2664-brnch_1-c_oo', c_oo[0], '\n\n\nc_pp', c_pp[0], '\n\n\nc_ii', c_ii[0])
-        # print('2665-brnch_1-c_oo', type(c_oo), c_oo[0][0][0][0])
-        # print('2665-brnch_1-c_pp', type(c_pp), c_pp[0][0][0])
+        # print('2665-brnch_1-c_oo', type(c_oo), c_oo)
+        # print('2665-brnch_1-c_pp', type(c_pp), c_pp)
+        print('2665-brnch_1-c_ii', type(c_ii), c_ii)
         if self.ctpier is not None:
             self.ctpier.destroy()
         self.ctpier = Toplevel(self)
@@ -2731,20 +2739,15 @@ class Commatique(Frame):
                 if c_riplen == 1:
                     c_rip0 = self.c_bb[i][j][0][0]  # Signal
                     c_rip1 = c_ripmin  # Note
-                    self.ccnbase.create_text(c_x + c_j, c_y + c_i - 10, font=self.f_bu, text=c_rip0,
-                                             fill='black')
-                    self.ccnbase.create_text(c_x + c_j, c_y + c_i, font=self.f_bs, text=c_rip1,
-                                             fill='black')
+                    self.ccnbase.create_text(c_x + c_j, c_y + c_i - 10, font=self.f_bu, text=c_rip0, fill='black')
+                    self.ccnbase.create_text(c_x + c_j, c_y + c_i, font=self.f_bs, text=c_rip1, fill='black')
                 else:
                     c_rip1 = c_ripmin
-                    self.ccnbase.create_text(c_x + c_j, c_y + c_i - 5, font=self.f_bv, text=c_rip1,
-                                             fill='red')
+                    self.ccnbase.create_text(c_x + c_j, c_y + c_i - 5, font=self.f_bv, text=c_rip1, fill='red')
                     c_rip2 = c_ripaug
-                    self.ccnbase.create_text(c_x + c_j, c_y + c_i + 5, font=self.f_bv, text=c_rip2,
-                                             fill='blue')
+                    self.ccnbase.create_text(c_x + c_j, c_y + c_i + 5, font=self.f_bv, text=c_rip2, fill='blue')
                 c_rop2 = self.c_cc[i][j][0][2]  # Formule inter modale : ('', 1). ('+', 1)...
-                self.ccnbase.create_text(c_x + c_j, c_y + c_i + 20, font=self.f_bt, text=c_rop2,
-                                         fill='olive')
+                self.ccnbase.create_text(c_x + c_j, c_y + c_i + 20, font=self.f_bt, text=c_rop2, fill='olive')
                 c_rop.append(c_rop2)
             self.ctb_form[i].append(c_rop)
         # Inversion du sens de lecture pour une écriture classique
@@ -2759,12 +2762,12 @@ class Commatique(Frame):
             c_valo = self.coo_valone[i], self.coo_valpos[i][0][0]
             self.ctb_finv[i].append(c_valo)  # 0 0 self.ctb_finv[i] [([(0, 'C')], 'g')]
             c_formi2n = self.ctb_form[i2n]  # 0 0 c_form ('', 1) | 0 1 c_form ('+', 1)...
-            # print('2724-i2n', i2n, 'i ', i)
+            print('2724-i2n', i2n, 'i ', i, c_formi2n, ':(+/-)')
             for j in range(12):
                 c_form[0] = c_formi2n[0][j]
                 c_finv[0] = self.ctb_finv[i]
                 cfi_ggg = c_finv[0][0][1]
-                print('2729-cfi_ggg', cfi_ggg)
+                # print('2729-cfi_ggg', cfi_ggg)
                 if j == 0:
                     if i == 0:
                         # Enregistrement self.coo_gym[]
@@ -2810,7 +2813,8 @@ class Commatique(Frame):
                     # print('ctb_form', i, self.ctb_form[i])
                 else:
                     pass
-                print('1er mode ctb_finv', self.ctb_finv)
+                # print('1er mode ctb_finv', self.ctb_finv)
+        print('1er mode ctb_finv', self.ctb_finv, ': Mode tonique chrome analogique')
 
 
 def progam(pratic, glob, ego_p, ego_r, utile):

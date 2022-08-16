@@ -207,7 +207,6 @@ class Gammique(Tk):
         # Bouton gamme_calculée
         self.data = data_gam
         self.nordiese = []  #
-        print(0.384, '.........Nordiese', self.nordiese)
         self.subemol = []
         self.cursifs = []
         self.gammescopie = []
@@ -233,7 +232,6 @@ class Gammique(Tk):
         c_oo = []
         c_pp = []
         c_ii = []
-        print(0.0, '....Nordiese', self.nordiese)
         # Traitement d'accrochage de la gamme (nom et type)
         # self.tbdegre : Première note du mode tonique en cours
         # self.gamula = ['C','D','E','F','G','A','B']
@@ -456,13 +454,13 @@ class Gammique(Tk):
                                     c_dif = co_n0 - c_deg0
                                 c_ree = int(commaj_gam[co_tbnat[c_dif] - 1])
                                 co_s2 = co - c_ree  # (+1/-1)
-                                # ('ci',ci,'co',co,'co_s2',co_s2)         # (+1/-1)
                                 if co_s2 >= 0:
                                     co_res = self.nordiese[co_s2]
                                 else:
                                     co_res = self.subemol[co_s2]
                                 co_s1 = "{0}{1}".format(co_res, co_tbnat[c_dif])  # co_s1 = Signe + Numéric
-                                # print(464, '..co_s2 ', co_s2, co_s1)  # Suivre chrome numéric
+                                if abs(co_s2) > 5:
+                                    print(464, 'co_s1 ', co_s1)  # Suivre chrome numéric
                                 # Selon l'activité demandée
                                 if self.comfdb[0] != 0 or self.comfcb[0] == 3:
                                     pass
@@ -472,6 +470,7 @@ class Gammique(Tk):
                                     co_s12 = 'c', co, co_s1  # c. co = Note analogic. co_s1 = Signe + Numéric
                                     co_tbdif[co].append(co_s12)
                                     # print(472, 'co_s12 ', co_s12, )  # (co_s12) Voir ci-dessus
+                            # print(474, 'co_tbdif ', co_tbdif)  # (co_tbdif) Voir ci-dessus
                             co_n0 += 1
                     co_tbgam = co_sign0[0], co_note0[0][0]
                     co_tbmod[co].append(co_tbgam)
@@ -502,12 +501,13 @@ class Gammique(Tk):
                                     c_dif = co_n0 - c_deg0
                                 c_ree = int(commaj_gam[co_tbnat[c_dif] - 1])
                                 co_s2 = co - c_ree  # (+1/-1)
-                                # ('ci',ci,'co',co,'co_s2',co_s2)         # (+1/-1)
                                 if co_s2 >= 0:
                                     co_res = self.nordiese[co_s2]
                                 else:
                                     co_res = self.subemol[co_s2]
                                 co_s1 = "{}{}".format(co_res, co_tbnat[c_dif])
+                                if abs(co_s2) > 5:
+                                    print(511, 'co_s1', co_s1)
                                 # Selon l'activité demandée
                                 if c_zer[0] == 'on' and self.comfct[0] == 0:
                                     if self.comfdb[0] == 1 or self.comfcb[0] != 0:
@@ -533,8 +533,8 @@ class Gammique(Tk):
         c_pp.append(self.co_tbval)
         # cob2 = self.co_tbval
         # Self.co_tbgen, self.co_tbval: Utilisation au rapport commatique
-        # (ci,co,self.co_tbgen[ci][co]) # Remplacer "#" par "print" pour la forme
-        # (ci,co,self.co_tbval[ci][co])
+        # print(ci, co, self.co_tbgen[ci][co]) # Remplacer "#" par "print" pour la forme
+        # print(ci, co, self.co_tbval[ci][co])
 
     # Panoplie tétracordique
     def tetra(self):
@@ -1423,7 +1423,6 @@ class Gammique(Tk):
                     c3_0 = c_noe1
                     # c4_0 = c2_0
                     ch_chrdies[c_] = ch_o, ch_dx, c2_0, c3_0, 'plum', ch_wdx
-                    print(1425, 'ch_chrdies ', ch_chrdies)
             for ch_b in chr_bem:
                 ch_yb = ch_b[0]
                 if ch_yb == ch_o:
@@ -2605,7 +2604,7 @@ class Gammique(Tk):
                 ymod = self.subemol[ycurs]
             cnat[ynat] = ymod
             ynat += 1
-        print(2608, 'cnat ', cnat)
+        # print(2608, 'cnat ', cnat)
 
         # Une tournée produit une tonalité modale de 7 notes
         nat2 = degre

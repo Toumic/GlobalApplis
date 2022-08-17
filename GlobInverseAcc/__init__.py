@@ -1,6 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 3.10
 # -*- coding: utf-8 -*-
-# flake8: noqa
 # En construction
 # Mercredi 8 septembre 2021 2021
 

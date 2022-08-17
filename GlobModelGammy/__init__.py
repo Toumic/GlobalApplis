@@ -1,9 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/env python 3.10
 # -*- coding: utf-8 -*-
-# flake8: noqa
-# Lundi 19 avril 2021 à 13h 57m (premières lignes)
-# Lundi 3 mai 2021 (Développements diatoniques)
-# Mardi 27 juillet 2021
+# Le lundi 19 avril 2021 à 13 h 57 m (premières lignes)
+# Le lundi 3 mai 2021 (Développements diatoniques)
+# Le mardi 27 juillet 2021
 #
 # Conçu par Vicenté Llavata Abreu | Vicenté Quantic | Toumic
 # Module GlobModelGammy.py

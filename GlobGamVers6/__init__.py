@@ -459,7 +459,7 @@ class Gammique(Tk):
                                     co_res = self.subemol[co_s2]
                                 co_s1 = "{0}{1}".format(co_res, co_tbnat[c_dif])  # co_s1 = Signe + Numéric
                                 if abs(co_s2) > 5:
-                                    print(464, 'co_s1 ', co_s1)  # Suivre chrome numéric
+                                    print(464, 'GAM|co_s1 ', co_s1, 'self.nordiese')  # Suivre chrome numéric
                                 # Selon l'activité demandée
                                 if self.comfdb[0] != 0 or self.comfcb[0] == 3:
                                     pass
@@ -473,7 +473,15 @@ class Gammique(Tk):
                             co_n0 += 1
                     co_tbgam = co_sign0[0], co_note0[0][0]
                     co_tbmod[co].append(co_tbgam)
-                if compris == 'com':
+                if compris == 'com':  # Définition d'usage des grands volumes altérés
+                    '''
+                    1. Plages des degrés : +1 ~ ^^1
+                        -2 ~ x^2, o3 ~ +^3, o4 ~ +^4, *5 ~ ^5, -*6 ~ x6, o*7 ~ +7 
+                    2. Plages des extensions : -8 ~ o*8
+                        +^^^9 & **9 ~ o9, x^^10 ~ ^^^10 & -**10   -*10, +^^11 ~ ^^^11 & -**11 ~ o*11,
+                        x^12 ~ x^^12 & o**12 ~ -**12, ^13 ~ +^^13 & ***13, +14 ~ ^^ 14
+                    3. Volumes des altérations : ^^1 = **8
+                        **9 = ^^2, **10 = ^^3, **11 = ^^4, ^^12 = **5, ^^13 = **6, ^^14 = **7'''
                     co_sign1 = self.comgen[ci][co][1]  # augmentation chromatique (signe)
                     co_note1 = self.comgen[ci][co][2]  # augmentation chromatique (note)
                     co_sign2 = self.comgen[ci][co][3:4]  # diminution chromatique (signe)
@@ -506,7 +514,7 @@ class Gammique(Tk):
                                     co_res = self.subemol[co_s2]
                                 co_s1 = "{}{}".format(co_res, co_tbnat[c_dif])
                                 if abs(co_s2) > 5:
-                                    print(511, 'co_s1', co_s1)
+                                    print(511, 'COM|co_s1', co_s1, 'self.subemol')
                                 # Selon l'activité demandée
                                 if c_zer[0] == 'on' and self.comfct[0] == 0:
                                     if self.comfdb[0] == 1 or self.comfcb[0] != 0:

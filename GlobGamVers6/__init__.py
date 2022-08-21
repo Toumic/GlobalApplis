@@ -1,6 +1,6 @@
 #!/usr/bin/env python 3.10
 # -*- coding: utf-8 -*-
-# * Mercredi 18 mai 2022.
+# * samedi 20 août 2022.
 # Application gammique évolutive
 # Operate Envol sysTM
 # ProgamV6encore 1.0
@@ -13,6 +13,14 @@ from struct import *
 from tkinter import *
 from tkinter.font import Font
 from pyaudio import *
+
+
+def progam(pratic, glob, ego_p, ego_r, utile):
+    # print('Pratique', pratic['0'])
+    # print('Globe', glob[0], '\n', ego_p.keys(), '\n', ego_r.keys())
+    # class Gammique
+    data_gam = {1: pratic, 2: glob, 3: ego_p, 4: ego_r, 5: utile}
+    Gammique(data_gam).mainloop()
 
 
 class Gammique(Tk):
@@ -31,6 +39,16 @@ class Gammique(Tk):
         # Fenêtre des utilités
         self.cad = Frame(self, width=30, height=80)
         self.cad.pack(side=LEFT)
+
+        # Bouton type de fondamentaux
+        self.gamclas = True
+        self.gamcalc = None
+        self.btclas = Button(self.cad, text='Gammes classiques', width=15, bg='light blue',
+                             command=lambda: self.typgam(1))
+        self.btclas.pack()
+        self.btfond = Button(self.cad, text='Gammes calculées', width=15, bg='light blue',
+                             command=lambda: self.typgam(2))
+        self.btfond.pack()
 
         # Bouton gamme_radio
         tab_do = tab_re = tab_mi = tab_fa = tab_so = tab_la = tab_si = 0
@@ -94,6 +112,24 @@ class Gammique(Tk):
         self.bttet.pack()
 
         # Bouton tables commatiques
+        # self.notespace = Dico degrés limités aux compressions
+        self.com, self.pal = '', ''  # Caractères d'adressage ponctuel
+        self.notespace = {180: ['', '+', 'x', '^', '+^', 'x^', '^^'],
+                          290: ['-', '', '+', 'x', '^', '+^', 'x^'],
+                          310: ['o', '-', '', '+', 'x', '^', '+^'],
+                          411: ['o', '-', '', '+', 'x', '^', '+^'],
+                          512: ['*', 'o', '-', '', '+', 'x', '^'],
+                          613: ['-*', '*', 'o', '-', '', '+', 'x'],
+                          714: ['o*', '-*', '*', 'o', '-', '', '+'],
+                          888: [self.com, self.pal]}
+        # self.notespec6 = Dico degrés limités aux signes cumulés à six
+        self.notespec6 = {1: [['+^^', 'o*'], ['x^^', '-*'], ['^^^', '*'], ['+^^^', 'o'], ['x^^^', '-']],
+                          2: [['o'], ['^^'], ['+^^', 'o*'], ['x^^', '-*'], ['^^^', '*'], ['+^^^', 'o']],
+                          3: [['-*'], ['*'], ['x^'], ['^^'], ['+^^', 'o*'], ['x^^', '-*']],
+                          4: [['o*'], ['-*'], ['*'], ['x^'], ['^^'], ['+^^', 'o*']],
+                          5: [['-**', 'x^'], ['**'], ['o*'], ['-*'], ['+^'], ['x^']],
+                          6: [['***', '^'], ['o**', '-**'], ['**'], ['o*'], ['^']],
+                          7: [['o***', '+'], ['-***', 'x'], ['***', '^'], ['o**', '+^'], ['-**', 'x^'], ['**']]}
         self.ccc = None
         self.btcom = Button(self.cad, text='Commatisme', width=15, bg='ivory', command=self.comma)
         self.btcom.pack()
@@ -215,6 +251,17 @@ class Gammique(Tk):
         self.dechire = {}  # Base avec l'indice adapté aux tableaux(b/#)
         self.btgama = Button(self, text='gamme', width=25, command=self.gama)
         self.btgama.pack_forget()  # Pantomime
+        self.btgama.invoke()
+
+    def typgam(self, typ):
+        if typ == 1:
+            self.gamclas = True
+            if self.gamcalc:
+                self.gamcalc = None
+        if typ == 2:
+            self.gamcalc = True
+            if self.gamclas:
+                self.gamclas = None
         self.btgama.invoke()
 
     # Section com
@@ -390,6 +437,9 @@ class Gammique(Tk):
         co_tbnat = [1, 2, 3, 4, 5, 6, 7]
         self.co_tbgen = [], [], [], [], [], [], [], [], [], [], [], []  # Table des notes altérées
         self.co_tbval = [], [], [], [], [], [], [], [], [], [], [], []  # Table des valeurs tonales
+        # self.nordiese(#) self.subemol(b) Rappel pour indices signatures
+        # self.nordiese = ['', '+', 'x', '^', '+^', 'x^', '^^', '+^^', 'x^^', '^^^', '+^^^', 'x^^^', '^^^^',...]
+        # self.subemol = [..., '****', 'o***', '-***', '***', 'o**', '-**', '**', 'o*', '-*', '*', 'o', '-']
         for ci in range(12):
             co_d2i = co_d2 = co_d3 = 0
             c_zer = [0]
@@ -458,8 +508,28 @@ class Gammique(Tk):
                                 else:
                                     co_res = self.subemol[co_s2]
                                 co_s1 = "{0}{1}".format(co_res, co_tbnat[c_dif])  # co_s1 = Signe + Numéric
-                                if abs(co_s2) > 5:
-                                    print(464, 'GAM|co_s1 ', co_s1, 'self.nordiese')  # Suivre chrome numéric
+                                # str(co_tbnat[c_dif]) = Uniquement l'unité-degré
+                                # Mise en œuvre des extensions
+                                space = 0
+                                for kys in self.notespace.keys():
+                                    kit = list(str(kys))
+                                    if str(str(co_tbnat[c_dif])) == kit[0]:
+                                        for x in range(len(self.notespace[kys])):
+                                            compo = self.notespace[kys][x] + kit[0]
+                                            if compo == co_s1:
+                                                space += 1
+                                                break
+                                self.notespace[888] = [co_res, str(co_tbnat[c_dif])]  # Mémo entier et unité
+                                if not space:
+                                    for kys6 in self.notespec6[co_tbnat[c_dif]]:
+                                        if co_res in kys6:
+                                            if len(kys6) > 1:
+                                                ext = str(co_tbnat[c_dif] + 7)
+                                                coin = kys6[1] + ext
+                                                co_s1 = coin
+                                                break
+                                    # Suivre chrome numéric
+                                    # print(499, 'GAM|co_s1 ', co_s1, self.notespace[888], 'Space', space)
                                 # Selon l'activité demandée
                                 if self.comfdb[0] != 0 or self.comfcb[0] == 3:
                                     pass
@@ -469,18 +539,15 @@ class Gammique(Tk):
                                     co_s12 = 'c', co, co_s1  # c. co = Note analogic. co_s1 = Signe + Numéric
                                     co_tbdif[co].append(co_s12)
                                     # print(472, 'co_s12 ', co_s12, )  # (co_s12) Voir ci-dessus
-                            # print(474, 'co_tbdif ', co_tbdif)  # (co_tbdif) Voir ci-dessus
                             co_n0 += 1
                     co_tbgam = co_sign0[0], co_note0[0][0]
                     co_tbmod[co].append(co_tbgam)
                 if compris == 'com':  # Définition d'usage des grands volumes altérés
-                    '''
-                    1. Plages des degrés : +1 ~ ^^1
-                        -2 ~ x^2, o3 ~ +^3, o4 ~ +^4, *5 ~ ^5, -*6 ~ x6, o*7 ~ +7 
-                    2. Plages des extensions : -8 ~ o*8
+                    '''1. Degrés : +1 ~ ^^1, -2 ~ x^2, o3 ~ +^3, o4 ~ +^4, *5 ~ ^5, -*6 ~ x6, o*7 ~ +7 
+                    2. Extensions : -8 ~ o*8
                         +^^^9 & **9 ~ o9, x^^10 ~ ^^^10 & -**10   -*10, +^^11 ~ ^^^11 & -**11 ~ o*11,
                         x^12 ~ x^^12 & o**12 ~ -**12, ^13 ~ +^^13 & ***13, +14 ~ ^^ 14
-                    3. Volumes des altérations : ^^1 = **8
+                    3. Volumes : ^^1 = **8
                         **9 = ^^2, **10 = ^^3, **11 = ^^4, ^^12 = **5, ^^13 = **6, ^^14 = **7'''
                     co_sign1 = self.comgen[ci][co][1]  # augmentation chromatique (signe)
                     co_note1 = self.comgen[ci][co][2]  # augmentation chromatique (note)
@@ -513,8 +580,27 @@ class Gammique(Tk):
                                 else:
                                     co_res = self.subemol[co_s2]
                                 co_s1 = "{}{}".format(co_res, co_tbnat[c_dif])
-                                if abs(co_s2) > 5:
-                                    print(511, 'COM|co_s1', co_s1, 'self.subemol')
+                                # Mise en œuvre des extensions
+                                space = 0
+                                for kys in self.notespace.keys():
+                                    kit = list(str(kys))
+                                    if str(str(co_tbnat[c_dif])) == kit[0]:
+                                        for x in range(len(self.notespace[kys])):
+                                            compo = self.notespace[kys][x] + kit[0]
+                                            if compo == co_s1:
+                                                space += 1
+                                                break
+                                self.notespace[888] = [co_res, str(co_tbnat[c_dif])]  # Mémo entier et unité
+                                if not space:
+                                    for kys6 in self.notespec6[co_tbnat[c_dif]]:
+                                        if co_res in kys6:
+                                            if len(kys6) > 1:
+                                                ext = str(co_tbnat[c_dif] + 7)
+                                                coin = kys6[1] + ext
+                                                co_s1 = coin
+                                                break
+                                    # Suivre chrome numéric
+                                    # print(499, 'GAM|co_s1 ', co_s1, self.notespace[888], 'Space', space)
                                 # Selon l'activité demandée
                                 if c_zer[0] == 'on' and self.comfct[0] == 0:
                                     if self.comfdb[0] == 1 or self.comfcb[0] != 0:
@@ -1339,7 +1425,7 @@ class Gammique(Tk):
             cy_zer += 1
             if cy_zer > 6:
                 cy_zer = 0
-        # print('chr_trans', chr_trans)  # Contenu graphique diatonique
+        # print('chr_trans', chr_trans) # Contenu graphique diatonique
         # Génération élémentaire du tableau chromatique
         #  Formation chromatique
         chr_chrom = []
@@ -2421,9 +2507,9 @@ class Gammique(Tk):
 
     # Motorisation Gammique
     def gama(self):
-        # print(2421, 'GGV6 def gama : \n', self.data.keys())
-        # print(2421, 'GGV6 DATA 2 : \n', self.data[5])
+        # print(2500, 'GGV6 def gama : \n', self.data.keys())
         imod = None
+        gammes, gamnoms = [], []
         self.decore.clear()  # Remise au zéro tonique des accords
         self.can.delete(ALL)
         # Tracé d'encadrement
@@ -2432,32 +2518,38 @@ class Gammique(Tk):
         self.can.create_line(390, 220, 520, 220, fill='green')
         self.can.create_line(270, 340, 400, 340, fill='red')
         self.can.create_line(510, 100, 640, 100, fill='blue')
-        # Nombres d'intervalles des gammes et les diatoniques surnommées
-        gammes = [[1, 1, 0, 1, 1, 1, 0], [0, 2, 0, 1, 1, 1, 0], [2, 0, 0, 1, 1, 1, 0], [4, 0, 0, 0, 0, 1, 0],
-                  [1, 0, 1, 1, 1, 1, 0], [0, 1, 1, 1, 1, 1, 0], [1, 0, 3, 0, 0, 1, 0], [1, 2, 1, 0, 0, 1, 0],
-                  [2, 2, 0, 0, 0, 1, 0], [0, 0, 1, 2, 1, 1, 0], [1, 3, 0, 0, 0, 1, 0], [0, 0, 2, 1, 1, 1, 0],
-                  [1, 2, 2, 0, 0, 0, 0], [0, 0, 4, 0, 0, 1, 0], [1, 4, 0, 0, 0, 0, 0], [1, 0, 0, 2, 1, 1, 0],
-                  [0, 1, 0, 2, 1, 1, 0], [1, 1, 3, 0, 0, 0, 0], [0, 0, 0, 3, 1, 1, 0], [1, 1, 0, 0, 2, 1, 0],
-                  [0, 2, 0, 0, 2, 1, 0], [0, 2, 0, 2, 0, 1, 0], [2, 0, 0, 0, 2, 1, 0], [1, 0, 1, 0, 2, 1, 0],
-                  [1, 0, 1, 2, 0, 1, 0], [1, 1, 1, 2, 0, 0, 0], [2, 0, 0, 3, 0, 0, 0], [0, 0, 2, 0, 2, 1, 0],
-                  [1, 2, 0, 2, 0, 0, 0], [1, 0, 0, 3, 0, 1, 0], [1, 0, 0, 1, 2, 1, 0], [1, 1, 0, 3, 0, 0, 0],
-                  [1, 1, 2, 1, 0, 0, 0], [0, 1, 0, 0, 3, 1, 0], [0, 0, 1, 0, 3, 1, 0], [0, 0, 0, 1, 3, 1, 0],
-                  [0, 0, 0, 2, 2, 1, 0], [1, 0, 0, 0, 3, 1, 0], [0, 0, 2, 2, 0, 1, 0], [0, 0, 0, 0, 4, 1, 0],
-                  [0, 0, 2, 3, 0, 0, 0], [1, 0, 0, 4, 0, 0, 0], [0, 0, 0, 5, 0, 0, 0], [1, 1, 0, 1, 0, 2, 0],
-                  [1, 1, 0, 1, 2, 0, 0], [0, 2, 0, 1, 0, 2, 0], [0, 2, 0, 1, 2, 0, 0], [2, 0, 0, 1, 0, 2, 0],
-                  [2, 0, 0, 1, 2, 0, 0], [1, 0, 1, 1, 0, 2, 0], [1, 0, 1, 1, 2, 0, 0], [1, 1, 0, 0, 1, 2, 0],
-                  [1, 1, 0, 0, 3, 0, 0], [1, 1, 0, 2, 1, 0, 0], [1, 1, 2, 0, 1, 0, 0], [0, 2, 0, 0, 0, 3, 0],
-                  [1, 0, 0, 2, 2, 0, 0], [1, 0, 0, 1, 0, 3, 0], [1, 3, 0, 0, 1, 0, 0], [1, 0, 0, 0, 1, 3, 0],
-                  [0, 0, 0, 3, 0, 2, 0], [0, 0, 2, 1, 2, 0, 0], [1, 0, 0, 0, 0, 4, 0], [0, 0, 0, 3, 2, 0, 0],
-                  [1, 1, 0, 0, 0, 3, 0], [3, 0, 0, 0, 0, 2, 0]]
+        if self.gamclas or not self.gamcalc and not self.gamclas:
+            # Nombres d'intervalles des gammes et les diatoniques surnommées
+            gammes = [[1, 1, 0, 1, 1, 1, 0], [0, 2, 0, 1, 1, 1, 0], [2, 0, 0, 1, 1, 1, 0], [4, 0, 0, 0, 0, 1, 0],
+                      [1, 0, 1, 1, 1, 1, 0], [0, 1, 1, 1, 1, 1, 0], [1, 0, 3, 0, 0, 1, 0], [1, 2, 1, 0, 0, 1, 0],
+                      [2, 2, 0, 0, 0, 1, 0], [0, 0, 1, 2, 1, 1, 0], [1, 3, 0, 0, 0, 1, 0], [0, 0, 2, 1, 1, 1, 0],
+                      [1, 2, 2, 0, 0, 0, 0], [0, 0, 4, 0, 0, 1, 0], [1, 4, 0, 0, 0, 0, 0], [1, 0, 0, 2, 1, 1, 0],
+                      [0, 1, 0, 2, 1, 1, 0], [1, 1, 3, 0, 0, 0, 0], [0, 0, 0, 3, 1, 1, 0], [1, 1, 0, 0, 2, 1, 0],
+                      [0, 2, 0, 0, 2, 1, 0], [0, 2, 0, 2, 0, 1, 0], [2, 0, 0, 0, 2, 1, 0], [1, 0, 1, 0, 2, 1, 0],
+                      [1, 0, 1, 2, 0, 1, 0], [1, 1, 1, 2, 0, 0, 0], [2, 0, 0, 3, 0, 0, 0], [0, 0, 2, 0, 2, 1, 0],
+                      [1, 2, 0, 2, 0, 0, 0], [1, 0, 0, 3, 0, 1, 0], [1, 0, 0, 1, 2, 1, 0], [1, 1, 0, 3, 0, 0, 0],
+                      [1, 1, 2, 1, 0, 0, 0], [0, 1, 0, 0, 3, 1, 0], [0, 0, 1, 0, 3, 1, 0], [0, 0, 0, 1, 3, 1, 0],
+                      [0, 0, 0, 2, 2, 1, 0], [1, 0, 0, 0, 3, 1, 0], [0, 0, 2, 2, 0, 1, 0], [0, 0, 0, 0, 4, 1, 0],
+                      [0, 0, 2, 3, 0, 0, 0], [1, 0, 0, 4, 0, 0, 0], [0, 0, 0, 5, 0, 0, 0], [1, 1, 0, 1, 0, 2, 0],
+                      [1, 1, 0, 1, 2, 0, 0], [0, 2, 0, 1, 0, 2, 0], [0, 2, 0, 1, 2, 0, 0], [2, 0, 0, 1, 0, 2, 0],
+                      [2, 0, 0, 1, 2, 0, 0], [1, 0, 1, 1, 0, 2, 0], [1, 0, 1, 1, 2, 0, 0], [1, 1, 0, 0, 1, 2, 0],
+                      [1, 1, 0, 0, 3, 0, 0], [1, 1, 0, 2, 1, 0, 0], [1, 1, 2, 0, 1, 0, 0], [0, 2, 0, 0, 0, 3, 0],
+                      [1, 0, 0, 2, 2, 0, 0], [1, 0, 0, 1, 0, 3, 0], [1, 3, 0, 0, 1, 0, 0], [1, 0, 0, 0, 1, 3, 0],
+                      [0, 0, 0, 3, 0, 2, 0], [0, 0, 2, 1, 2, 0, 0], [1, 0, 0, 0, 0, 4, 0], [0, 0, 0, 3, 2, 0, 0],
+                      [1, 1, 0, 0, 0, 3, 0], [3, 0, 0, 0, 0, 2, 0]]
+            # Tonice(0). Tonale(1:3). Mélode(4:14). Médiane(15:18). Domine(19:42). Harmone(43:65)
+            gamnoms = ['0', '-2', '+2', '^2', '-3', '-32', 'x43-', '+34', 'x32+', '-43', 'x3', 'o3', '+34x',
+                       'x43o', '^3', '-4', '-42', '^4', 'o4', '-5', '-52', '+52-', '+25-', '-53', '+53-',
+                       'x54+', 'x52+', 'o35-', 'x53+', '+54-', '-54', 'x5', 'x45+', 'o52-', 'o53-', 'o54-',
+                       'o45-', 'o5', '+53o', '*5', 'x53o', 'x54-', 'x54o', '-6', '+6', '-62', '+62-', '+26-',
+                       '+26', '-63', '+63-', '-65', '+65-', '+56', 'x46+', 'o62-', '+64-', 'o64-', 'x36+',
+                       'o65-', 'o46-', '+63o', '*6', '+64o', 'o6', 'x26-']
+        if self.gamcalc:
+            gammes = list(self.data[1].values())
+            gamnoms = list(self.data[1].keys())
+            # print(2535, 'GGV6 DATA 2 : \n', self.data[1])
+        # print(2551, 'self.gamcalc', gamnoms)
         self.gammescopie = gammes
-        # Tonice(0). Tonale(1:3). Mélode(4:14). Médiane(15:18). Domine(19:42). Harmone(43:65)
-        gamnoms = ['0', '-2', '+2', '^2', '-3', '-32', 'x43-', '+34', 'x32+', '-43', 'x3', 'o3', '+34x',
-                   'x43o', '^3', '-4', '-42', '^4', 'o4', '-5', '-52', '+52-', '+25-', '-53', '+53-',
-                   'x54+', 'x52+', 'o35-', 'x53+', '+54-', '-54', 'x5', 'x45+', 'o52-', 'o53-', 'o54-',
-                   'o45-', 'o5', '+53o', '*5', 'x53o', 'x54-', 'x54o', '-6', '+6', '-62', '+62-', '+26-',
-                   '+26', '-63', '+63-', '-65', '+65-', '+56', 'x46+', 'o62-', '+64-', 'o64-', 'x36+',
-                   'o65-', 'o46-', '+63o', '*6', '+64o', 'o6', 'x26-']
         self.gamnomscopie = gamnoms
 
         # Récupération des notes cursives
@@ -2678,6 +2770,7 @@ class Gammique(Tk):
                 nat2 = 0
             deg += 1
         self.tbdegre[0] = degre
+
     gamme0 = {}
     globe0, galop, essor = [], {}, {}
 
@@ -2821,15 +2914,6 @@ class Commatique(Frame):
                     pass
                 # print('1er mode ctb_finv', self.ctb_finv)
         print('1er mode ctb_finv', self.ctb_finv, ': Mode tonique chrome analogique')
-
-
-def progam(pratic, glob, ego_p, ego_r, utile):
-    # print('Pratique', pratic['0'])
-    # print('Globe', glob[0], '\n', ego_p.keys(), '\n', ego_r.keys())
-    # class Gammique
-    data_gam = {1: pratic, 2: glob, 3: ego_p, 4: ego_r, 5: utile}
-    Gammique(data_gam).mainloop()
-
 
 # class Gammique
 # Gammique().mainloop()

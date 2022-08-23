@@ -41,7 +41,7 @@ class Gammique(Tk):
         self.cad.pack(side=LEFT)
 
         # Bouton type de fondamentaux
-        self.gamclas = True
+        self.gamclas = None
         self.gamcalc = None
         self.btclas = Button(self.cad, text='Gammes classiques', width=15, bg='light blue',
                              command=lambda: self.typgam(1))
@@ -2547,7 +2547,7 @@ class Gammique(Tk):
         if self.gamcalc:
             gammes = list(self.data[1].values())
             gamnoms = list(self.data[1].keys())
-            # print(2535, 'GGV6 DATA 2 : \n', self.data[1])
+            # print(2550, 'GGV6 DATA 2 : \n', self.data[1])
         # print(2551, 'self.gamcalc', gamnoms)
         self.gammescopie = gammes
         self.gamnomscopie = gamnoms
@@ -2802,7 +2802,7 @@ class Commatique(Frame):
         # c_oo c_pp c_cc de class Gammique.comma.co_tbval()..
         # print('2665-brnch_1-c_oo', type(c_oo), c_oo)
         # print('2665-brnch_1-c_pp', type(c_pp), c_pp)
-        print('2665-brnch_1-c_ii', type(c_ii), c_ii)
+        print('2805-brnch_1-c_ii', type(c_ii), c_ii)
         if self.ctpier is not None:
             self.ctpier.destroy()
         self.ctpier = Toplevel(self)
@@ -2861,7 +2861,7 @@ class Commatique(Frame):
             c_valo = self.coo_valone[i], self.coo_valpos[i][0][0]
             self.ctb_finv[i].append(c_valo)  # 0 0 self.ctb_finv[i] [([(0, 'C')], 'g')]
             c_formi2n = self.ctb_form[i2n]  # 0 0 c_form ('', 1) | 0 1 c_form ('+', 1)...
-            print('2724-i2n', i2n, 'i ', i, c_formi2n, ':(+/-)')
+            # print('2864-i2n', i2n, 'i ', i, c_formi2n, ':(+/-)')
             for j in range(12):
                 c_form[0] = c_formi2n[0][j]
                 c_finv[0] = self.ctb_finv[i]
@@ -2888,11 +2888,12 @@ class Commatique(Frame):
                                         c_cfy += 1
                                         self.coo_gym[c_cfy] = self.coo_gam[cy_]
                     if cfi_ggg == 'g':
-                        # print('2751-*****1', cfi_org[0][0][i], i)
+                        print('2891-*****1', cfi_org[0][0][i], i)
                         cfi_ng0 = cfi_org[0][0][i]
                         cfi_alt[0] = c_finv[0][0][0][0][0]  # cfi_alt 0 0 [(0, 'C')]
                         cfi_not[0] = cfi_ng0, c_finv[0][0][0][0][1]  # cfi_not 0 0 C
-                        # print('*****1')
+                        # print('*****1 cfi_alt[0]', cfi_alt[0])
+                        print('*****1 cfi_not[0]', cfi_not[0])
                     else:
                         cfi_n10 = c_finv[0][0][0][0][1][1]  # cfi_n10 0 0 D
                         cfi_n20 = c_finv[0][0][0][0][0][1]  # cfi_n20 0 0 C
@@ -2907,7 +2908,8 @@ class Commatique(Frame):
                         cfi_n1 = c_finv[0][0][0][0][1][1]
                         cfi_n2 = c_finv[0][0][0][0][0][1]
                         cfi_not[0] = c_yn1, cfi_n1, c_yn2, cfi_n2
-                        print('*****2')
+                        print('..*****2 cfi_alt[0]', cfi_alt[0])
+                        print('..*****2 cfi_alt[0]', cfi_alt[0])
                     # print('cy', '/', i, j, "c_finv's ", cfi_ggg, '/', cfi_alt[0], '/', cfi_not[0])
                     # print('ctb_form', i, self.ctb_form[i])
                 else:

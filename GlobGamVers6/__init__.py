@@ -263,6 +263,46 @@ class Gammique(Tk):
             if self.gamclas:
                 self.gamclas = None
         self.btgama.invoke()
+        '''Usage Toplevel
+            deiconify()         = Utilisé pour afficher la fenêtre
+            iconify()           = Pour convertir la fenêtre en icône
+            state()             = Utilisé pour obtenir l’état actuel d’une fenêtre.
+            withdraw()          = Utilisé pour se retirer de la fenêtre mais pas pour la supprimer.'''
+        if self.chm:
+            try:  # Ouvert
+                # print('self.chm', self.chm, self.chm.state())
+                self.btchr.invoke()
+            except TclError:  # Fermé
+                self.chm = None
+                # print('self.chm', self.chm)
+        if self.tur:
+            try:  # Ouvert
+                # print('self.tur', self.tur, self.tur.state())
+                self.bttab.invoke()
+            except TclError:  # Fermé
+                self.tur = None
+                # print('self.tur', self.tur)
+        if self.acc:
+            try:  # Ouvert
+                #print('self.acc', self.acc, self.acc.state())
+                self.btacc.invoke()
+            except TclError:  # Fermé
+                self.acc = None
+                # print('self.acc', self.acc)
+        if self.ccc:
+            try:  # Ouvert
+                # print('self.ccc', self.ccc, ' : ', self.ccc.state())
+                self.btcom.invoke()
+            except TclError:  # Fermé
+                self.ccc = None
+                # print('self.ccc', self.ccc)
+        if self.ttt:
+            try:  # Ouvert
+                # print('self.ttt', self.ttt, ' : ', self.ttt.state())
+                self.bttet.invoke()
+            except TclError:  # Fermé
+                self.ttt = None
+                # print('self.ttt', self.ttt)
 
     # Section com
     def comma(self):

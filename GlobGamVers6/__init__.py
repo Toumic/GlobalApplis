@@ -263,11 +263,6 @@ class Gammique(Tk):
             if self.gamclas:
                 self.gamclas = None
         self.btgama.invoke()
-        '''Usage Toplevel
-            deiconify()         = Utilisé pour afficher la fenêtre
-            iconify()           = Pour convertir la fenêtre en icône
-            state()             = Utilisé pour obtenir l’état actuel d’une fenêtre.
-            withdraw()          = Utilisé pour se retirer de la fenêtre mais pas pour la supprimer.'''
         if self.chm:
             try:  # Ouvert
                 # print('self.chm', self.chm, self.chm.state())
@@ -284,7 +279,7 @@ class Gammique(Tk):
                 # print('self.tur', self.tur)
         if self.acc:
             try:  # Ouvert
-                #print('self.acc', self.acc, self.acc.state())
+                # print('self.acc', self.acc, self.acc.state())
                 self.btacc.invoke()
             except TclError:  # Fermé
                 self.acc = None
@@ -1576,8 +1571,6 @@ class Gammique(Tk):
                     c5_0 = c_sdb[0]
                     c6_0 = c_noe1
                     ch_chrbem[c_] = ch_o, ch_bz, c5_0, c6_0, 'pink', ch_ybz
-        # print('ch_chrdies0', ch_chrdies)
-        # print('ch_chrbem0', ch_chrbem)
         c_aug = []
         for ci_ in ch_chrdies:
             if ci_ != '0':
@@ -1658,8 +1651,6 @@ class Gammique(Tk):
                 c3_0 = c_noe1
                 # c4_0 = c2_0
                 ch_chrbem[c] = c_ch, c_a, c2_0, c3_0, 'pink', c_mj
-        # print('ch_chrdies1', ch_chrdies)
-        # print('ch_chrbem1', ch_chrbem)
         c_chaug = [0]
         c_chmin = [0]
         c_doube = [0]
@@ -1678,6 +1669,10 @@ class Gammique(Tk):
             if cx_ == 0:
                 c1_ = chr_trans[cx_tr]  # Incrustation diatonique
                 c2_ = chr_curs[cx_tr]  # Hauteur tonale
+                if c2_ > -1:
+                    c2_ = self.nordiese[c2_]
+                else:
+                    c2_ = self.subemol[c2_]
                 c3_ = self.decore[cx_tr][1:]  # Note naturelle
                 c4_ = self.dechire[(0, cx_uu)]  # Valeur tonale
                 cx_tr += 1
@@ -1686,14 +1681,18 @@ class Gammique(Tk):
                 chposyn = c4_
                 xb_ = xcpos_ + (chposx * 30)
                 ybn_ = ycpos_ - (chposyn * 30)
-                chvow_n = "{}{}".format(c2_, c3_)
+                chvow_n = "{}{}".format(c2_, c3_[0])
                 chrcan.create_oval(xb_ - rb_, ybn_ - rb_, xb_ + rb_, ybn_ + rb_, fill=coltyp)
                 chrcan.create_text(xb_, ybn_, text=chvow_n, font=fontchr, fill='black')
             else:
                 if chr_trans[cx_tr] == cx_ * 10:
                     c1_ = chr_trans[cx_tr]
-                    c2_ = chr_curs[cx_tr]
-                    c3_ = self.decore[cx_tr][1:]
+                    c2_ = chr_curs[cx_tr]  # c2_ = Altération de la note (gamme*)
+                    if c2_ > -1:
+                        c2_ = self.nordiese[c2_]
+                    else:
+                        c2_ = self.subemol[c2_]
+                    c3_ = self.decore[cx_tr][1:]  # c3_ = Note de la gamme* (7 notes)
                     c4_ = self.dechire[(0, cx_uu)]
                     cx_tr += 1
                     cx_uu += 1
@@ -1701,7 +1700,7 @@ class Gammique(Tk):
                     chposyn = c4_
                     xb_ = xcpos_ + (chposx * 30)
                     ybn_ = ycpos_ - (chposyn * 30)
-                    chvow_n = "{}{}".format(c2_, c3_)
+                    chvow_n = "{}{}".format(c2_, c3_[0])
                     chrcan.create_oval(xb_ - rb_, ybn_ - rb_, xb_ + rb_, ybn_ + rb_, fill=coltyp)
                     chrcan.create_text(xb_, ybn_, text=chvow_n, font=fontchr, fill='black')
                 else:
@@ -1782,7 +1781,7 @@ class Gammique(Tk):
                     chrcan.create_oval(xb_ - rb_, yb1_ - rb_, xb_ + rb_, yb1_ + rb_, fill=coltyp1[0])
                     chrcan.create_text(xb_, yb1_, text=chvow_a, font=fontchr, fill='black')
                     yb2_ = ycpos_ - (chposym * 30)
-                    chvow_m = "{}{}".format(c6_, c5_)
+                    chvow_m = "{}{}".format(c6_, c5_)  # Les notes chromatiques
                     chrcan.create_oval(xb_ - rb_, yb2_ - rb_, xb_ + rb_, yb2_ + rb_, fill=coltyp2[0])
                     chrcan.create_text(xb_, yb2_, text=chvow_m, font=fontchr, fill='black')
             self.chrgen[cx_] = [cz_], [c1_], [c2_], [c3_], [c4_], [c5_], [c6_], [c7_]
@@ -1792,7 +1791,6 @@ class Gammique(Tk):
             chvow = "{}{}".format('Gamme chromatique :', chrselect)
             chrcan.create_line(5, 15, 5, 5, fill='black')
             chrcan.create_text(120, 10, text=chvow, fill='red')
-            # print('chrgen', cx_, self.chrgen[cx_])  # Tableau chromatique sélectionné (nature/atone)
         if self.prescomma == 1:
             self.chm.destroy()
             self.prescomma = 0
@@ -2587,7 +2585,8 @@ class Gammique(Tk):
         if self.gamcalc:
             gammes = list(self.data[1].values())
             gamnoms = list(self.data[1].keys())
-            # print(2550, 'GGV6 DATA 2 : \n', self.data[1])
+            # print(gammes)
+            # print(2586, 'GGV6 DATA 2 : \n', self.data[1])
         # print(2551, 'self.gamcalc', gamnoms)
         self.gammescopie = gammes
         self.gamnomscopie = gamnoms
@@ -2902,6 +2901,7 @@ class Commatique(Frame):
             self.ctb_finv[i].append(c_valo)  # 0 0 self.ctb_finv[i] [([(0, 'C')], 'g')]
             c_formi2n = self.ctb_form[i2n]  # 0 0 c_form ('', 1) | 0 1 c_form ('+', 1)...
             # print('2864-i2n', i2n, 'i ', i, c_formi2n, ':(+/-)')
+            print('2864-i2n ctb_finv', i2n, 'i ', i, self.ctb_finv[i], ':(+/-)')
             for j in range(12):
                 c_form[0] = c_formi2n[0][j]
                 c_finv[0] = self.ctb_finv[i]
@@ -2928,12 +2928,12 @@ class Commatique(Frame):
                                         c_cfy += 1
                                         self.coo_gym[c_cfy] = self.coo_gam[cy_]
                     if cfi_ggg == 'g':
-                        print('2891-*****1', cfi_org[0][0][i], i)
+                        # print('2891-*****1', cfi_org[0][0][i], i)
                         cfi_ng0 = cfi_org[0][0][i]
                         cfi_alt[0] = c_finv[0][0][0][0][0]  # cfi_alt 0 0 [(0, 'C')]
                         cfi_not[0] = cfi_ng0, c_finv[0][0][0][0][1]  # cfi_not 0 0 C
                         # print('*****1 cfi_alt[0]', cfi_alt[0])
-                        print('*****1 cfi_not[0]', cfi_not[0])
+                        # print('*****1 cfi_not[0]', cfi_not[0])
                     else:
                         cfi_n10 = c_finv[0][0][0][0][1][1]  # cfi_n10 0 0 D
                         cfi_n20 = c_finv[0][0][0][0][0][1]  # cfi_n20 0 0 C
@@ -2948,7 +2948,7 @@ class Commatique(Frame):
                         cfi_n1 = c_finv[0][0][0][0][1][1]
                         cfi_n2 = c_finv[0][0][0][0][0][1]
                         cfi_not[0] = c_yn1, cfi_n1, c_yn2, cfi_n2
-                        print('..*****2 cfi_alt[0]', cfi_alt[0])
+                        # print('..*****2 cfi_alt[0]', cfi_alt[0])
                         print('..*****2 cfi_alt[0]', cfi_alt[0])
                     # print('cy', '/', i, j, "c_finv's ", cfi_ggg, '/', cfi_alt[0], '/', cfi_not[0])
                     # print('ctb_form', i, self.ctb_form[i])

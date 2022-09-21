@@ -13,6 +13,11 @@ from struct import *
 from tkinter import *
 from tkinter.font import Font
 from pyaudio import *
+import GlobGamChrom
+import GlobGamMicro
+
+progam_chrom = GlobGamChrom
+progam_micro = GlobGamMicro
 
 
 def progam(pratic, glob, ego_p, ego_r, utile):
@@ -31,13 +36,13 @@ class Gammique(Tk):
         "Tableau de bord"
         # Titre principal
         self.title('Entité Gammique :')
-        self.geometry('1200x700+77+7')
+        self.geometry('1200x700+7+7')
 
         # Fenêtre écran_résultat
         self.can = Canvas(self, bg='white', height=550, width=700)
         self.can.pack(side=RIGHT)
         # Fenêtre des utilités
-        self.cad = Frame(self, width=30, height=80)
+        self.cad = Frame(self, bg='white', width=30, height=80)
         self.cad.pack(side=LEFT)
 
         # Bouton type de fondamentaux
@@ -254,22 +259,25 @@ class Gammique(Tk):
         self.btgama.invoke()
 
     def typgam(self, typ):
-        if typ == 1:
+        """Modification du type de gamme
+            1 : Les noms habituels
+            2 : Les modes légers"""
+        if typ == 1:  # Les gammes classiques
             self.gamclas = True
             if self.gamcalc:
                 self.gamcalc = None
-        if typ == 2:
+        if typ == 2:  # Les gammes calculées
             self.gamcalc = True
             if self.gamclas:
                 self.gamclas = None
         self.btgama.invoke()
-        if self.chm:
+        if self.chm is not None:
             try:  # Ouvert
-                # print('self.chm', self.chm, self.chm.state())
+                print('self.chm', self.chm, self.chm.state())
                 self.btchr.invoke()
             except TclError:  # Fermé
                 self.chm = None
-                # print('self.chm', self.chm)
+                print('self.chm', self.chm)
         if self.tur:
             try:  # Ouvert
                 # print('self.tur', self.tur, self.tur.state())
@@ -307,7 +315,7 @@ class Gammique(Tk):
             self.ccc.destroy()
         self.ccc = Toplevel(self)
         self.ccc.title('Entité Gammique : Chromatisme')
-        self.ccc.geometry('600x666+300+30')
+        self.ccc.geometry('600x666+800+80')
         frcom_up = Frame(self.ccc, width=30, height=3)  # Partie haute
         frcom_up.pack()
         c_oo = []
@@ -480,7 +488,8 @@ class Gammique(Tk):
             c_zer = [0]
             c_zof = 0
             co_tbmod = [], [], [], [], [], [], [], [], [], [], [], []  # Passe les notes altérées
-            co_tbdif = [], [], [], [], [], [], [], [], [], [], [], []  # Passe les valeurs tonales
+            co_tbdif = [], [], [], [], [], [], [], [], [], [], [], []  # Passe les valeurs tonales modifiées
+            co_tbdif0 = [], [], [], [], [], [], [], [], [], [], [], []  # Passe les valeurs tonales inchangées
             for co in range(12):
                 compris = self.comgen[ci][co][0]
                 if co == 0 and compris == 'gam':
@@ -527,6 +536,8 @@ class Gammique(Tk):
                                                  font=fontval, text=co_d01, fill='magenta')
                             co_d012 = 'g', co, co_d01
                             co_tbdif[co].append(co_d012)
+                            co_tbdif0[co].append(co_d012)
+                            # print(538, 'CO', co, 'co_tbdif[co]', co_tbdif[co], 'co_tbdif0[co]', co_tbdif0[co])
                     elif co_d2i < 7 and c_zer[0] == 'of':  # Ligne chromatique : dia
                         co_d2i += 1  # co_d2i = degré
                         co_n0 = 0
@@ -543,16 +554,17 @@ class Gammique(Tk):
                                 else:
                                     co_res = self.subemol[co_s2]
                                 co_s1 = "{0}{1}".format(co_res, co_tbnat[c_dif])  # co_s1 = Signe + Numéric
+                                co_s11 = co_s1
                                 # str(co_tbnat[c_dif]) = Uniquement l'unité-degré
                                 # Mise en œuvre des extensions
-                                space = 0
+                                space = False
                                 for kys in self.notespace.keys():
                                     kit = list(str(kys))
                                     if str(str(co_tbnat[c_dif])) == kit[0]:
                                         for x in range(len(self.notespace[kys])):
                                             compo = self.notespace[kys][x] + kit[0]
                                             if compo == co_s1:
-                                                space += 1
+                                                space = True
                                                 break
                                 self.notespace[888] = [co_res, str(co_tbnat[c_dif])]  # Mémo entier et unité
                                 if not space:
@@ -564,7 +576,7 @@ class Gammique(Tk):
                                                 co_s1 = coin
                                                 break
                                     # Suivre chrome numéric
-                                    # print(499, 'GAM|co_s1 ', co_s1, self.notespace[888], 'Space', space)
+                                    # print(572, 'GAM|co_s1 ', co_s1, self.notespace[888], 'Space', space)
                                 # Selon l'activité demandée
                                 if self.comfdb[0] != 0 or self.comfcb[0] == 3:
                                     pass
@@ -572,11 +584,19 @@ class Gammique(Tk):
                                     comcan_1.create_text(12 + co * 25, (30 + ci * 49) + 22,
                                                          font=fontchr, text=co_s1, fill='magenta')
                                     co_s12 = 'c', co, co_s1  # c. co = Note analogic. co_s1 = Signe + Numéric
+                                    co_s13 = 'c', co, co_s11  # c. co = Note analogic. co_s11 = Signe + Numéric
                                     co_tbdif[co].append(co_s12)
-                                    # print(472, 'co_s12 ', co_s12, )  # (co_s12) Voir ci-dessus
+                                    co_tbdif0[co].append(co_s13)
+                                    # print(588, 'co_s12 ', co_s12, )  # (co_s12) Voir ci-dessus
+                                    # print(591, 'co_s12', co_s12, 'co_s13', co_s13, 'CO', co)
                             co_n0 += 1
                     co_tbgam = co_sign0[0], co_note0[0][0]
                     co_tbmod[co].append(co_tbgam)
+                if co == 11:  # Écriture Tonalité/Signature
+                    # print('592', co_tbmod, co)  # Tonalité analogique inchangée
+                    # print('593 co_tbdif :', co_tbdif, co)  # Seule la signature numérique change
+                    # print('594 co_tbdif0:', co_tbdif0, co)  # Signature numérique inchangée
+                    progam_chrom.chromatic(co_tbmod, co_tbdif, co_tbdif0)  # Transfert de données à GlobGamChrom
                 if compris == 'com':  # Définition d'usage des grands volumes altérés
                     '''1. Degrés : +1 ~ ^^1, -2 ~ x^2, o3 ~ +^3, o4 ~ +^4, *5 ~ ^5, -*6 ~ x6, o*7 ~ +7 
                     2. Extensions : -8 ~ o*8
@@ -648,6 +668,7 @@ class Gammique(Tk):
                                                          font=fontchr, text=co_s1, fill='green')
                                     co_s12 = '', co, co_s1
                                     co_tbdif[co].append(co_s12)
+                                    co_tbdif0[co].append(co_s12)
                             co_n0 += 1
                     co_tbplus = co_sign1[0], co_note1[0][0]
                     co_tbmoins = co_sign2[0][0], co_note2[0][0][0]
@@ -671,7 +692,7 @@ class Gammique(Tk):
             self.ttt.destroy()
         self.ttt = Toplevel(self)
         self.ttt.title('Entité Gammique : Tétracorde')
-        self.ttt.geometry('600x666+300+50')
+        self.ttt.geometry('600x666+1210+140')
         fonttt = Font(size=7)
         frtet = Frame(self.ttt, width=30, height=3, bg='green')
         frtet.pack(side=RIGHT)
@@ -1152,7 +1173,7 @@ class Gammique(Tk):
         # self.sel_myx[0] : Contient l'indice de la table gammenoms[myx2] (gamme en cours)
         self.tur = Toplevel(self)
         self.tur.title('Entité Gammique : Tablature')
-        self.tur.geometry('700x300+300+50')
+        self.tur.geometry('710x300+500+565')
         Label(self.tur, text=self.sel_yes, font='bold', fg='black').pack()
         # Cadre de visualisation : Tablatures
         frtur = Frame(self.tur, width=30, height=1)
@@ -1414,7 +1435,7 @@ class Gammique(Tk):
             self.chm.destroy()
         self.chm = Toplevel(self)
         self.chm.title('Entité Gammique : Chromatisme')
-        self.chm.geometry('700x600+300+50')
+        self.chm.geometry('700x400+800+40')
         # Sélection du mode chromatique (naturel) ou (atonal)
         frchm = Frame(self.chm, width=200, height=10)
         frchm.pack(side=BOTTOM)
@@ -1857,7 +1878,7 @@ class Gammique(Tk):
             self.btaud2.invoke()
         self.acc = Toplevel(self)
         self.acc.title('Entité Gammique : Harmonie')
-        self.acc.geometry('700x300+300+50')
+        self.acc.geometry('600x300+800+90')
         if self.presaudio == 0:
             self.presaudio = 1
         self.btaud2.invoke()
@@ -2896,12 +2917,14 @@ class Commatique(Frame):
         cfi_org = []
         c_yn1 = c_yn2 = 0
         for i in range(12):
-            i2n = i - (i * 2)
+            # self.ctb_form = Sens normal des tonalités numériques
+            i2n = i - (i + (11 - i))  # Méthode : Lire le fichier à l'envers
+            print('2901-i2n', i2n, 'i ', i, self.ctb_form[i], 'ctb_form[i]')
             c_valo = self.coo_valone[i], self.coo_valpos[i][0][0]
             self.ctb_finv[i].append(c_valo)  # 0 0 self.ctb_finv[i] [([(0, 'C')], 'g')]
             c_formi2n = self.ctb_form[i2n]  # 0 0 c_form ('', 1) | 0 1 c_form ('+', 1)...
-            # print('2864-i2n', i2n, 'i ', i, c_formi2n, ':(+/-)')
-            print('2864-i2n ctb_finv', i2n, 'i ', i, self.ctb_finv[i], ':(+/-)')
+            print('2904-i2n', i2n, 'i ', i, c_formi2n, 'ctb_form[i2n]')
+            # print('2905-i2n ctb_finv', i2n, 'i ', i, self.ctb_finv[i], ':(+/-)')
             for j in range(12):
                 c_form[0] = c_formi2n[0][j]
                 c_finv[0] = self.ctb_finv[i]
@@ -2949,13 +2972,13 @@ class Commatique(Frame):
                         cfi_n2 = c_finv[0][0][0][0][0][1]
                         cfi_not[0] = c_yn1, cfi_n1, c_yn2, cfi_n2
                         # print('..*****2 cfi_alt[0]', cfi_alt[0])
-                        print('..*****2 cfi_alt[0]', cfi_alt[0])
                     # print('cy', '/', i, j, "c_finv's ", cfi_ggg, '/', cfi_alt[0], '/', cfi_not[0])
                     # print('ctb_form', i, self.ctb_form[i])
                 else:
                     pass
-                # print('1er mode ctb_finv', self.ctb_finv)
-        print('1er mode ctb_finv', self.ctb_finv, ': Mode tonique chrome analogique')
+            # print('1er mode c_formi2n inversé', c_formi2n, i, i2n)
+            # print('1er mode ctb_form normal', self.ctb_form[i])
+        print('..1er mode ctb_finv', self.ctb_finv, ': Mode tonique chrome analogique')
 
 # class Gammique
 # Gammique().mainloop()

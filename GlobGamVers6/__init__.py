@@ -6,13 +6,14 @@
 # ProgamV6encore 1.0
 # Approche commatique (Empreinte chromatique)
 
+import atexit
 import binascii
 from math import *
-from wave import *
+from pyaudio import *
 from struct import *
 from tkinter import *
 from tkinter.font import Font
-from pyaudio import *
+from wave import *
 import GlobGamChrom
 import GlobGamMicro
 
@@ -146,7 +147,6 @@ class Gammique(Tk):
         self.comfcb = [0]  # Ligne chrome, forme : com ou/et dia
         self.comfct = [0]  # -1: formulé chromatique total
         self.compy_ = [0]  # Les 2 niveaux chromatiques
-        self.prescomma = 0
         self.btcom3color = self.btcom4color = 'light grey'
         self.com2 = Commatique()
 
@@ -258,6 +258,36 @@ class Gammique(Tk):
         self.btgama.pack_forget()  # Pantomime
         self.btgama.invoke()
 
+
+    def fermeture(self, fff=None):
+        """Fermeture des fenêtres() :
+            comma[ccc], tetra[ttt], tabla[tur], chrome[chm], accords[acc]"""
+        # print(' Quoi ?', fff)
+        if fff == 'comma':
+            # print('Fermeture fenêtre :', fff)
+            self.ccc.destroy()
+            self.ccc = None
+        elif fff == 'tetra':
+            # print('Fermeture fenêtre :', fff)
+            self.ttt.destroy()
+            self.ttt = None
+        elif fff == 'tabla':
+            # print('Fermeture fenêtre :', fff)
+            self.tur.destroy()
+            self.tur = None
+        elif fff == 'chrome':
+            # print('Fermeture fenêtre :', fff)
+            self.chm.destroy()
+            self.chm = None
+        elif fff == 'accord':
+            # print('Fermeture fenêtre :', fff)
+            self.acc.destroy()
+            self.acc = None
+        elif fff == 'ferme':
+            self.ccc.destroy()
+            self.chm.destroy()
+
+
     def typgam(self, typ):
         """Modification du type de gamme
             1 : Les noms habituels
@@ -271,41 +301,50 @@ class Gammique(Tk):
             if self.gamclas:
                 self.gamclas = None
         self.btgama.invoke()
-        if self.chm is not None:
+        '''import tkinter as tk
+        root = tk.Tk()
+        root.protocol("WM_DELETE_WINDOW", lambda: #fermeture('')# print('clic fermeture root'))
+        root.mainloop()
+        # ... OU ... #
+        import atexit
+        def doSomethingOnExit():
+            pass
+        atexit.register(doSomethingOnExit)'''
+        if self.chm:
             try:  # Ouvert
-                print('self.chm', self.chm, self.chm.state())
+                print('typgam.self.chm', self.chm, self.chm.state())
                 self.btchr.invoke()
             except TclError:  # Fermé
                 self.chm = None
-                print('self.chm', self.chm)
+                print('typgam.self.chm', self.chm)
         if self.tur:
             try:  # Ouvert
-                # print('self.tur', self.tur, self.tur.state())
+                # print('typgam.self.tur', self.tur, self.tur.state())
                 self.bttab.invoke()
             except TclError:  # Fermé
                 self.tur = None
-                # print('self.tur', self.tur)
+                print('typgam.self.tur', self.tur)
         if self.acc:
             try:  # Ouvert
-                # print('self.acc', self.acc, self.acc.state())
+                # print('typgam.self.acc', self.acc, self.acc.state())
                 self.btacc.invoke()
             except TclError:  # Fermé
                 self.acc = None
-                # print('self.acc', self.acc)
+                print('typgam.self.acc', self.acc)
         if self.ccc:
             try:  # Ouvert
-                # print('self.ccc', self.ccc, ' : ', self.ccc.state())
+                # print('typgam.self.ccc', self.ccc, ' : ', self.ccc.state())
                 self.btcom.invoke()
             except TclError:  # Fermé
                 self.ccc = None
-                # print('self.ccc', self.ccc)
+                print('typgam.self.ccc', self.ccc)
         if self.ttt:
             try:  # Ouvert
-                # print('self.ttt', self.ttt, ' : ', self.ttt.state())
+                # print('typgam.self.ttt', self.ttt, ' : ', self.ttt.state())
                 self.bttet.invoke()
             except TclError:  # Fermé
                 self.ttt = None
-                # print('self.ttt', self.ttt)
+                print('typgam.self.ttt', self.ttt)
 
     # Section com
     def comma(self):
@@ -316,6 +355,7 @@ class Gammique(Tk):
         self.ccc = Toplevel(self)
         self.ccc.title('Entité Gammique : Chromatisme')
         self.ccc.geometry('600x666+800+80')
+        self.ccc.protocol("WM_DELETE_WINDOW", lambda: Gammique.fermeture(self, 'comma'))
         frcom_up = Frame(self.ccc, width=30, height=3)  # Partie haute
         frcom_up.pack()
         c_oo = []
@@ -435,7 +475,7 @@ class Gammique(Tk):
         frcom_bo = Frame(self.ccc, width=30, height=3)  # Partie basse
         frcom_bo.pack(side=BOTTOM)
         btcom_bo = Button(frcom_bo, text='Changer', height=1, width=15, bg='light grey',
-                          command=self.ccc.destroy)
+                          command=lambda: Gammique.fermeture(self, 'ferme'))
         btcom_bo.pack()
         fontval = Font(family='Liberation Serif', size=8)
         fontchr = Font(family='Liberation Serif', size=7)
@@ -445,7 +485,6 @@ class Gammique(Tk):
         # self.comchr : Premier mode chromatique indexé
         commaj_gam = [0, 2, 4, 5, 7, 9, 11]  # Forme majeure
         # self.commaj_com = [1, 3, 6, 8, 10]  # Forme de l'indice chrome
-        self.prescomma = 1
         self.btchr.invoke()
         self.comchr = [], []
         self.comgen = [], [], [], [], [], [], [], [], [], [], [], []
@@ -693,6 +732,7 @@ class Gammique(Tk):
         self.ttt = Toplevel(self)
         self.ttt.title('Entité Gammique : Tétracorde')
         self.ttt.geometry('600x666+1210+140')
+        self.ttt.protocol("WM_DELETE_WINDOW", lambda: Gammique.fermeture(self, 'tetra'))
         fonttt = Font(size=7)
         frtet = Frame(self.ttt, width=30, height=3, bg='green')
         frtet.pack(side=RIGHT)
@@ -1174,6 +1214,7 @@ class Gammique(Tk):
         self.tur = Toplevel(self)
         self.tur.title('Entité Gammique : Tablature')
         self.tur.geometry('710x300+500+565')
+        self.tur.protocol("WM_DELETE_WINDOW", lambda: Gammique.fermeture(self, 'tabla'))
         Label(self.tur, text=self.sel_yes, font='bold', fg='black').pack()
         # Cadre de visualisation : Tablatures
         frtur = Frame(self.tur, width=30, height=1)
@@ -1431,11 +1472,13 @@ class Gammique(Tk):
 
     # Prémices chromatiques
     def chrome(self):
+        """root.protocol("WM_DELETE_WINDOW",lambda: print('clic fermeture root') )"""
         if self.chm is not None:
             self.chm.destroy()
         self.chm = Toplevel(self)
         self.chm.title('Entité Gammique : Chromatisme')
         self.chm.geometry('700x400+800+40')
+        self.chm.protocol("WM_DELETE_WINDOW", lambda: Gammique.fermeture(self, 'chrome'))
         # Sélection du mode chromatique (naturel) ou (atonal)
         frchm = Frame(self.chm, width=200, height=10)
         frchm.pack(side=BOTTOM)
@@ -1812,9 +1855,6 @@ class Gammique(Tk):
             chvow = "{}{}".format('Gamme chromatique :', chrselect)
             chrcan.create_line(5, 15, 5, 5, fill='black')
             chrcan.create_text(120, 10, text=chvow, fill='red')
-        if self.prescomma == 1:
-            self.chm.destroy()
-            self.prescomma = 0
 
     # Les accords acoustiques
     def wavacc(self, w):
@@ -1879,6 +1919,7 @@ class Gammique(Tk):
         self.acc = Toplevel(self)
         self.acc.title('Entité Gammique : Harmonie')
         self.acc.geometry('600x300+800+90')
+        self.acc.protocol("WM_DELETE_WINDOW", lambda: Gammique.fermeture(self, 'accord'))
         if self.presaudio == 0:
             self.presaudio = 1
         self.btaud2.invoke()

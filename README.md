@@ -64,25 +64,41 @@ _L'application a des modules sobres en fonction_
 `def fond_gam(mode, fol): A la charge signer les gammes(notes et signes)+ Modes diatoniques.`
 
 
-###### Brièvement ; Augmenter les mesures entrantes. Capter les 7èmes majeures. Trier les gammes selon leurs masses : Mêmes poids signifient également mêmes rangs. Mêmes rangs possibilité de poids différents. Préciser les différentes natures gammales, soit que l'issue fonctionnelle produise un ensemble fondamental basé sur la légèreté des gammes à noms entiers.
+###### Brièvement ; Augmenter les mesures entrantes. Capter les septièmes majeures. Trier les gammes selon leurs masses : Mêmes poids signifient également mêmes rangs. Mêmes rangs possibilité de poids différents. Préciser les différentes natures gammales, soit que l'issue fonctionnelle produise un ensemble fondamental basé sur la légèreté des gammes à noms entiers.
 
 Les gammes fondamentales sont les 1ers modes diatoniques, ces modes fondamentaux ont leurs importances et aussi leurs exactitudes est primordiale. En un premier temps, nous avons déterminé selon deux vecteurs : Les poids modaux. Les noms entiers. Et dans une deuxième mesure pouvant être décisive, nous avons décidé de réaliser une seconde expertise avec la même méthode que celle appliquée dans le développement diatonique. Et ainsi saisir l'occasion de valider ou pas la 1ʳᵉ déduction fondamentale :
 
-Le premier degré modal naturel est majeur à toutes les tonalités, ainsi que tous les autres modes incorporés dans la diatonie. Afin la lecture s'améliore sans les mots inutiles, et en sriptant l'écriture explicative : `I. Mode tonique. Tonalité modale/majeure. |. II. Mode tonal. Tonalité (b3, b7) plus la valeur du mode tonique. |. III. Mode mélodique. Tonalité (b2, b3, b6, b7) plus la valeur du mode tonique. |. IV. Mode médian. (#4)... |. Mode dominant. (b7)... |. Mode harmonique. (b3, b6, b7)... |. Mode sensible. (b2, b3, b5, b6, b7)... |` Chaque modulation diatonique a sa propre définition, elle est chargée de s'appliquer au modèle fondamental. Si, `I. Tonique harmonique. Tonie(b6). |. II. (b3, b7)+(b5). |. III. (b3, b6, b7)+(b4). |. IV. (#4)+(b3). |. V. (b7)+(b2). |. VI. (b3, b6, b7)+(b1). |. VII. VII. (b2, b3, b5, b6, b7)+(b7).`. À bonne lecture bon entendeur, il y a une présence modale qui présente une improbable qualité modale : `|. VI. (b3, b6, b7)+(b1). |`
+Le premier degré modal naturel est majeur à toutes les tonalités, ainsi que tous les autres modes diatoniques.
+Afin la lecture s'améliore sans les mots inutiles, et en scriptant l'écriture explicative : 
+`I. Mode tonique. Tonalité modale/majeure. 
+|. II. Mode tonal. Tonalité (b3, b7) plus la valeur du mode tonique. 
+|. III. Mode mélodique. Tonalité (b2, b3, b6, b7) plus la valeur du mode tonique. 
+|. IV. Mode médian. (#4)... |. Mode dominant. (b7)... |. Mode harmonique. (b3, b6, b7)... 
+|. Mode sensible. (b2, b3, b5, b6, b7)... |`. 
+Chaque modulation diatonique a sa propre définition, elle est chargée de s'appliquer au modèle fondamental. 
+Si, `I. Tonique harmonique. Tonie(b6). |. II. (b3, b7)+(b5). |. III. (b3, b6, b7)+(b4). |. IV. (#4)+(b3). 
+|. V. (b7)+(b2). |. VI. (b3, b6, b7)+(b1). |. VII. VII. (b2, b3, b5, b6, b7)+(b7).`. 
+À bonne lecture bon entendeur, il y a une présence modale qui présente une improbable qualité modale : 
+`|. VI. (b3, b6, b7)+(b1). |`
 
 #### Glob Modely `Program Test & Actif [(Test.Précis)(Acte.Effet)]`
 
 ### _GlobInverseAcc ***_
-**Le module des inverses.**'GIA' Le but est qu'à chacun des modèles modaux on puisse y trouver son inverse, soit que le modèle inversé ressemble en tout les points au modèle original comme à son image devant un miroir. Il est évident, que chacune des révélations soient renseignées par le nom de la gamme ainsi que celui du degré modal diatonique.
+**Le module des inverses.**'GIA' Le but est qu'à chacun des modèles modaux on puisse y trouver son inverse, 
+soit que le modèle inversé ressemble en tout les points au modèle original comme à son image devant un miroir. 
+Il est évident, que chacune des révélations soient renseignées par le nom de la gamme ainsi que celui du degré diatonique.
 
 `Pour plus de détails voir : Ligne 48 -Notions basiques du module GlobInverseAcc`
 
 ### _GlobGamChrom ***_
-**Le module des chromatismes,** 'GGC' les gammes chromatiques sont aussi importantes que les gammes diatoniques, puisque chaque gamme a sa définition chromatique. La gamme chromatique fait l'usage d'une trilogie, car elle est composée de la gamme originale et de deux chromatismes altérés. Alors, et selon la mise en place du chromatisme augmenté ou diminué, le développement diatonique produit un cycle ouvert ou fermé.
+**Le module des chromatismes,** 'GGC' les gammes chromatiques sont aussi importantes que les gammes diatoniques, 
+puisque chaque gamme a sa définition chromatique. La gamme chromatique fait l'usage d'une trilogie, car elle est composée de la gamme originale et de deux chromatismes altérés. Alors, et selon la mise en place du chromatisme augmenté ou diminué, le développement diatonique produit un cycle ouvert ou fermé.
 * Lorsque le cycle est ouvert : Les modes voisins n'ont pas les mêmes formules numériques
 * Et quand le cycle est fermé : Les modes voisins ont les mêmes formules numériques<br>
 
-Ce module est consacré à la mise en forme du dictionnaire à l'aide des tables reçues de GlobGamVers6. Le dictionnaire est donc renvoyé, sa forme est simplifiée par rapport aux tables reçues.
+Ce module est consacré à la mise en forme du dictionnaire à l'aide des tables reçues de GlobGamVers6. 
+Le dictionnaire est donc renvoyé, sa forme est simplifiée par rapport aux tables reçues.
+
 
 ### _GlobGamMicro ***_
 **Le module des commatismes.** 'GGM'

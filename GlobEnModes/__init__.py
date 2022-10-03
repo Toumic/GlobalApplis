@@ -59,12 +59,12 @@ intros = [[1, 1, 0, 1, 1, 1, 0], [0, 2, 0, 1, 1, 1, 0], [2, 0, 0, 1, 1, 1, 0], [
           [1, 0, 0, 2, 2, 0, 0], [1, 0, 0, 1, 0, 3, 0], [1, 3, 0, 0, 1, 0, 0], [1, 0, 0, 0, 1, 3, 0],
           [0, 0, 0, 3, 0, 2, 0], [0, 0, 2, 1, 2, 0, 0], [1, 0, 0, 0, 0, 4, 0], [0, 0, 0, 3, 2, 0, 0],
           [1, 1, 0, 0, 0, 3, 0], [3, 0, 0, 0, 0, 2, 0]]
-nominal = ['0', '-2', '+2', '^2', '-3', '-32', 'x43-', '+34', 'x32+', '-43', 'x3', 'o3', '+34x', 'x43o',
+nominal = ['Maj', '-2', '+2', '^2', '-3', '-32', 'x43-', '+34', 'x32+', '-43', 'x3', 'o3', '+34x', 'x43o',
            '^3', '-4', '-42', '^4', 'o4', '-5', '-52', '+52-', '+25-', '-53', '+53-', 'x54+', 'x52+', 'o35-',
            'x53+', '+54-', '-54', 'x5', 'x45+', 'o52-', 'o53-', 'o54-', 'o45-', 'o5', '+53o', '*5', 'x53o',
            'x54-', 'x54o', '-6', '+6', '-62', '+62-', '+26-', '+26', '-63', '+63-', '-65', '+65-', '+56',
            'x46+', 'o62-', '+64-', 'o64-', 'x36+', 'o65-', 'o46-', '+63o', '*6', '+64o', 'o6', 'x26-']
-pratique = {'0': '101011010101'}
+pratique = {'Maj': '101011010101'}
 
 dic_analyse = {}  # :Dana initie dico
 dic_diatonic = {}  # :Seption initie dico
@@ -173,7 +173,7 @@ def maj7_fonc(table, unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC
             if im > 0:
                 pro1 = i_mod.index(im)  # Exemple : I_mod = [1, 0, 2, 3, 0, 0, 4, 0, 5, 6, 0, 7]
                 pro2 = g_maj.index(im)  # Majeur : g_maj = [1, 0, 2, 0, 3, 4, 0, 5, 0, 6, 0, 7]
-                prout = pro1 - pro2     # Prout : Niveau d'altération réel
+                prout = pro1 - pro2  # Prout : Niveau d'altération réel
                 if prout != 0:
                     ph = signes[prout] + str(im)  # Affectation signe sur degré
                     photo.append(ph)
@@ -510,6 +510,7 @@ def maj7_fonc(table, unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC
                 return cap
             #
             #
+
         picolo[fol][1].append(signatures)
         # (lineno(), ' §  Signatures', signatures)
         # 249 §  Signatures {'-': [63, '-3', '-5']}
@@ -669,7 +670,7 @@ def dana_fonc(table, dana):
         for dn in range(7):  # Séquence les modes diatoniques (Mj7 & Non maj7)
             tous_poi[dan].append(dana[dan][dn][1])
             dan_poids[dan].append(dana[dan][dn][1][0])  # Poids Tonalité
-            if dana[dan][dn][0][-1] == 0:  # Filtre 7èmes majeures
+            if dana[dan][dn][0][-1] == 0:  # Filtre septièmes majeures
                 vide = dana[dan][dn][0], dn
                 tous_mod[dan].append(vide)
         maj_lest = dan_poids[dan].copy()
@@ -735,7 +736,7 @@ def dana_fonc(table, dana):
 
 def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
     """Réception des poids modaux standards à augmenter & Création 'GlobalTexte/globdic_Dana.txt'.
-    L'argument 'maj7' est le dictionnaire des modes maj 7èmes et poids standards par gamme"""
+    L'argument 'maj7' est le dictionnaire des modes maj septièmes et poids standards par gamme"""
     # Mode_poids = Sept modes diatoniques par gamme. Comprend les 66 gammes.
     goo = []
     cumul = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []}
@@ -799,7 +800,6 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
         fil_analyse.close()  # Écriture fichier globdic_Dana.txt
         dana_fonc(table, dic_analyse)
         maj7_fonc(table, gm1, maj7, h_b)
-
 
     if groupe:  # Seption accessibilités
         '''num, poidsB/F, typoB/U/N, signetsU/F/M, unaire, nommeC/P
@@ -914,7 +914,7 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                         moule_bin = ''.join(rb for rb in roule_bin)
                         # (lineno(), ' * MOULE_BIN 2ème degré', moule_bin, '        ***')
                         mod_origine, mod_cours, mod_so9, mod_1 = [], [], [], False
-                        # Transpose 2ème degré majeur vers grand1
+                        # Transpose deuxième degré majeur vers grand1
                         for gr in grade_maj['2']:
                             gr = gr[len(gr) - 1:]
                             gr1 = int(gr)
@@ -1176,8 +1176,9 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                                 k_cumul.append(k0)  # Écriture forme cumulative
                                 k0 = 0
                                 break
+            # noinspection PyTypeChecker
             pratique[k_pratic] = k_cumul
-            # print(lineno(), ' | k_cumul', k_cumul, 'Binaire', k_forme1, '\n')
+            # print(lineno(), pratique[k_pratic], '= k_cumul', k_pratic, '| Binaire', k_forme1, '\n')
         # print(lineno(), 'pratique', pratique, len(pratique))
         modes = {
             'analyse': trans_dic,

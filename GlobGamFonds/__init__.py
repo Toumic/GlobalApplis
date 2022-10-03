@@ -1,7 +1,7 @@
 #!/usr/bin/env python 3.10
 # -*- coding: utf-8 -*-
 # mercredi 12 mai 2021 à 20 h 32 mn (premières lignes)
-# Cabviva.fr Cab.Rich.Int.Music.Quant
+# Cabviva.fr Cab.Rich.Int.Music.Quant.
 # Mardi 27 juillet 2021
 
 # Conçu par Vicenté Llavata Abreu|Vicenté Quantic|Toumic
@@ -93,7 +93,7 @@ def diatonic(table, topic):
             # (top00)
             for t00 in top00:
                 regard += 1
-                """Passe: Poids du Uème mode"""
+                """Passe: Poids du Unième mode"""
                 if t00 == '1':
                     grader += 1
                     extra = gamme_majeure.index(str(grader))  # :extra= Position Degré

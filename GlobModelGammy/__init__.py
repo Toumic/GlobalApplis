@@ -115,7 +115,6 @@ def gammy(table):
             module_gamme.append(modes)          # Diatonic groupe Gammes
             bineur_gamme.append(binez2)         # Fin 2 Service Interne
 
-
     # Origine tétra cluster[]
     """Les tétras uniques: 1234"""
     col = [0]

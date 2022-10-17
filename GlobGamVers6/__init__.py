@@ -12,17 +12,20 @@ from pyaudio import *
 from struct import *
 from tkinter import *
 from tkinter.font import Font
+from tkinter import messagebox
 from typing import Callable
 from wave import *
 
 import GlobGamChrom
 import GlobGamMicro
+import GlobTetraCord
 
 # lineno() Pour consulter le programme grâce au suivi des print's
 lineno: Callable[[], int] = lambda: inspect.currentframe().f_back.f_lineno
 
 progam_chrom = GlobGamChrom
 progam_micro = GlobGamMicro
+progam_tetra = GlobTetraCord
 
 
 def progam(pratic, glob, ego_p, ego_r, utile):
@@ -32,7 +35,7 @@ def progam(pratic, glob, ego_p, ego_r, utile):
         Ego_r = Gammes mêmes rangs.
         Utile = ."""
     # print('Pratique', pratic['Maj'])
-    print(lineno(), 'Globe', glob[0], '\n*', ego_p.keys(), '\n*', ego_r.keys())
+    # print(lineno(), 'Globe', glob[0], '\n*', ego_p.keys(), '\n*', ego_r.keys())
     # class Gammique
     data_gam = {1: pratic, 2: glob, 3: ego_p, 4: ego_r, 5: utile}
     Gammique(data_gam).mainloop()
@@ -742,14 +745,14 @@ class Gammique(Tk):
         fonttt = Font(size=7)
         frtet = Frame(self.ttt, width=30, height=3, bg='green')
         frtet.pack(side=RIGHT)
+        bttet0 = Button(frtet, text='Intro', height=1, width=10, bg='orange', command=lambda: Gammique.tetra(self))
+        bttet0.pack()
         bttet1 = Button(frtet, text='Tétras', height=1, width=10, bg='orange', command=lambda: ttractuac(1))
         bttet1.pack()
         bttet2 = Button(frtet, text='Utiles', height=1, width=10, bg='orange', command=lambda: ttractuac(2))
         bttet2.pack()
         bttet3 = Button(frtet, text='Clones', height=1, width=10, bg='orange', command=lambda: ttractuac(3))
         bttet3.pack()
-        bttet4 = Button(frtet, text='Origine', height=1, width=10, bg='orange', command=lambda: Gammique.tetra(self))
-        bttet4.pack()  # ttractuac(4)
         frtet_ = Frame(self.ttt, width=30, height=1)
         frtet_.pack(side=BOTTOM)
         bttet_ = Button(frtet_, text='Quitter', height=1, width=15, bg='lightgrey',
@@ -783,7 +786,12 @@ class Gammique(Tk):
         tetcan.create_text(66, 15, text='Système tétracordique', fill='black')
         self.pretetutil = 0
 
-        def ttractuac(t1):
+        def ttractuac(t1):  # Actions des boutons (tétras, utiles, clones)
+            """ Axe horizontal(x)/vertical(y)
+                Bouton intro (Remise grille à vide. Affichage primitif).
+                Bouton tétras (Dessine les tétras fondamentaux (classic ou calculé)
+                Bouton utiles (tet_is:inf/sup/nom,tet_tt:ordre,tgam_util: clone)
+                Bouton clones (ts_simil[0] = [('Inf', 'Inf', 0, '0'),])[Brouillon]"""
             tetcan.delete(ALL)
             tetcan.create_line(50, 30, 250, 30, fill='blue')  # Ligne de soulignement
             for i1 in range(66):
@@ -794,19 +802,22 @@ class Gammique(Tk):
                 self.fr_sup.destroy()
                 self.fr_inf.destroy()
                 self.btpont.destroy()
-            xh = 46  # xh=30
+            xh = 46  # Départ Axe vertical
             yh = 60  # Départ Axe horizontal
             if t1 == 0:
                 pass
+                '''Dessiner les tétras fondamentaux principaux. Choix 1'''
             elif t1 == 1:  # Bouton tétras (tgam_tet = [])
-                # xh= 30; yh= 60        # Départ Axe horizontal(x)/vertical(y)
+                # xh= 46; yh= 60        # Départ Axe horizontal(x)/vertical(y)
                 tetcan.create_text(150, 15, text='Système tétracordique ordonné', fill='grey')
-                tv = 0
-                for tt in tgam_tet:
+                tv = x_01i = 0
+                for tt in tgam_tet:  # tgam_tet : Table tétra's fondamentaux
                     th = 0
+                    t_is = self.gamnomscopie[tv]
                     tt_inf = tt[0]
                     tt_sup = tt[1]
                     td = 13 - len(tt_inf + tt_sup)
+                    (lineno(), 'tt', tt, '\t tv:', tv, 't_is', t_is)
                     for tti in tt_inf:
                         if tti == 1:
                             tetcan.create_oval(xh + th * 20 - r1, yh + tv * 6 - r1,
@@ -816,7 +827,7 @@ class Gammique(Tk):
                         else:
                             tetcan.create_oval(xh + th * 20 - r2, yh + tv * 6 - r2,
                                                xh + th * 20 + r2, yh + tv * 6 + r2,
-                                               fill='yellow')
+                                               fill='salmon')
                             th += 1
                     if td > 0:
                         th1, td_ = th, -1
@@ -837,11 +848,19 @@ class Gammique(Tk):
                         else:
                             tetcan.create_oval(xh + th * 20 - r2, yh + tv * 6 - r2,
                                                xh + th * 20 + r2, yh + tv * 6 + r2,
-                                               fill='yellow')
+                                               fill='skyblue')
                             th += 1
+                    if x_01i == 1:
+                        x10 = 13  # Marges de principe(x)
+                        x_01i = 0
+                    else:
+                        x10 = 33  # Marges de principe(x)
+                        x_01i = 1
+                    tetcan.create_text(x10, yh + tv * 6, text=t_is, font=fonttt, fill='red')
                     tv += 1
+                '''Bouton utiles (tet_is:inf/sup/nom,tet_tt:ordre,tgam_util:clone). Choix 2'''
             elif t1 == 2:  # Bouton utiles (tet_is:inf/sup/nom,tet_tt:ordre,tgam_util:clone)
-                # xh= 30; yh= 60        # Départ Axe horizontal(x)/vertical(y)
+                # xh= 46; yh= 60        # Départ Axe horizontal(x)/vertical(y)
                 tetcan.create_text(150, 15, text='Système tétracordique utilisé', fill='grey')
                 if self.pretetutil == 1:
                     self.fr_sup.destroy()
@@ -849,70 +868,119 @@ class Gammique(Tk):
                     self.btpont.destroy()
                 self.btpont = Button(self.ttt, text='Pont', height=1, width=5, bg='ivory')
                 self.btpont.pack(side=RIGHT)
-                self.fr_sup = Frame(self.ttt, width=3, height=1, )
+                self.fr_sup = Frame(self.ttt, width=3, height=1, bg='blue')
                 self.fr_sup.pack(side=RIGHT)
-                self.fr_inf = Frame(self.ttt, width=3, height=1)
+                self.fr_inf = Frame(self.ttt, width=3, height=1, bg='blue')
                 self.fr_inf.pack(side=RIGHT)
-                tu = x_01i = x_01s = 0  # x_01: Jeux de marges du texte
-                for tt in tgam_util:  # tt: clone(tt)=[1, 1, 1, 1]
+
+                # actifbout = Activation d'un bouton
+                def actifbout(actif):
+                    actinf = None
+                    for tgb in tgam_bin:
+                        if actif in tgb:
+                            actinf = ''.join(str(tgb0) for tgb0 in tgb[0]) + '.'
+                            actinf += ''.join(str(tgb0) for tgb0 in tgb[1])
+                            messagebox.showinfo('actinf', actinf + '\n' + 'Gamme = ' + tgb[3])
+                            (lineno(), 'tgb', tgb, tgb[3])
+                            break
+                    (lineno(), 'actif:', actif, 'actinf', actinf)
+
+                tu = tg = x_01i = x_01s = 0  # x_01: Jeux de marges du texte
+                plus, u_inf, u_sup = False, [], []
+                for tt in tgam_util:  # tt: clone(tt)=[1, 1, 1, 1] (classic ou calcul)
+                    (lineno(), 'tt:', tt, '\t tu:', tu, 'tet_is[tu]:', tet_is[tu], 'tet_tt[tu]:', tet_tt[tu])
+                    # 877 tt: [1, 0, 1, 0, 1, 1] 	 tu: 0 tet_is[tu]: ('Inf', 'Maj') tet_tt[tu]: 0 (classic ou calcul)
                     t_is = tet_is[tu]  # t_is: "inf/sup"/nom(tu):"L'horizontale(x)":=('Inf', '0')
                     t_tt = tet_tt[tu]  # t_tt: ordre(tu):La verticale(y):=zéro à 66
                     t_ut = tt
+                    if t_ut == tin_f:
+                        couleur0 = 'red'
+                        couleur1 = 'salmon'
+                    else:
+                        couleur0 = 'blue'
+                        couleur1 = 'skyblue'
+                    (lineno(), 't_ut', t_ut, 'tin_f', tin_f, 'tsu_p', tsu_p)
                     th = 0
                     tis0i = tis0s = 0  # Compteurs des tétras(inf/sup)
-                    if t_is[0] == 'Inf':  # Texte du tétra inférieur
-                        tis0i += 1
-                        if x_01i == 1:
-                            x10 = 13  # Marges de principe(x), x10=7
-                            x_01i = 0
-                        else:
-                            x10 = 33  # Marges de principe(x) x10=17
-                            x_01i = 1
-                        for t2 in t_ut:
-                            if t2 == 1:
-                                tetcan.create_oval(xh + th * 20 - r1,
-                                                   yh + t_tt * 6 - r1,
-                                                   xh + th * 20 + r1,
-                                                   yh + t_tt * 6 + r1, fill='red')
+                    if not plus:
+                        ('*', lineno(), 't_is:', t_is, 't_tt:', t_tt, 't_ut:', t_ut)
+                        # * 893 t_is: ('Inf', 'Maj') t_tt: 0 t_ut: [1, 0, 1, 0, 1, 1]
+                        if t_is[0] == 'Inf':  # Texte du tétra inférieur
+                            tis0i += 1
+                            if x_01i == 1:
+                                x10 = 13  # Marges de principe(x)
+                                x_01i = 0
                             else:
-                                tetcan.create_oval(xh + th * 20 - r2,
-                                                   yh + t_tt * 6 - r2,
-                                                   xh + th * 20 + r2,
-                                                   yh + t_tt * 6 + r2, fill='yellow')
-                            th += 1
-                        tetcan.create_text(x10, yh + t_tt * 6, text=t_is[1], font=fonttt, fill='red')
-                        Button(self.fr_inf, text=t_is[1], height=1, width=5, bg='lightblue').pack()
-                    elif t_is[0] == 'Sup':  # Texte du tétra supérieur
-                        tis0s += 1
-                        if x_01s == 1:
-                            x290 = 303  # Marges de principe(x) x290=284
-                            x_01s = 0
-                        else:
-                            x290 = 315  # Marges de principe(x) x290=292
-                            x_01s = 1
-                        t_len = 13 - len(tt)
-                        th += t_len
-                        for t3 in t_ut:
-                            if t3 == 1:
-                                tetcan.create_oval(xh + th * 20 - r1,
-                                                   yh + t_tt * 6 - r1,
-                                                   xh + th * 20 + r1,
-                                                   yh + t_tt * 6 + r1, fill='blue')
+                                x10 = 33  # Marges de principe(x)
+                                x_01i = 1
+                            # for t2 in t_ut = Inférieur : Création ovale(note) + texte(nom)
+                            for t2 in t_ut:
+                                if t2 == 1:
+                                    tetcan.create_oval(xh + th * 20 - r1,
+                                                       yh + tg * 6 - r1,
+                                                       xh + th * 20 + r1,
+                                                       yh + tg * 6 + r1, fill=couleur0)
+                                else:
+                                    tetcan.create_oval(xh + th * 20 - r2,
+                                                       yh + tg * 6 - r2,
+                                                       xh + th * 20 + r2,
+                                                       yh + tg * 6 + r2, fill=couleur1)
+                                th += 1
+                            u_inf.append(t_is[1])
+                            tetcan.create_text(x10, yh + tg * 6, text=t_is[1], font=fonttt, fill='red')
+                            '''Button(self.fr_inf, text=t_is[1], height=1, width=5, bg='lightblue',
+                                   command=lambda: print(lineno(), t_is[1])).pack()'''
+                        elif t_is[0] == 'Sup':  # Texte du tétra supérieur
+                            tis0s += 1
+                            if x_01s == 1:
+                                x290 = 303  # Marges de principe(x)
+                                x_01s = 0
                             else:
-                                tetcan.create_oval(xh + th * 20 - r2,
-                                                   yh + t_tt * 6 - r2,
-                                                   xh + th * 20 + r2,
-                                                   yh + t_tt * 6 + r2, fill='yellow')
-                            th += 1
-                        tetcan.create_text(x290, yh + t_tt * 6, text=t_is[1], font=fonttt, fill='blue')
-                        Button(self.fr_sup, text=t_is[1], height=1, width=5, bg='pink').pack()
+                                x290 = 315  # Marges de principe(x)
+                                x_01s = 1
+                            t_len = 13 - len(tt)
+                            th += t_len
+                            # for t3 in t_ut = Supérieur : Création ovale(note) + texte(nom)
+                            for t3 in t_ut:
+                                if t3 == 1:
+                                    tetcan.create_oval(xh + th * 20 - r1,
+                                                       yh + tg * 6 - r1,
+                                                       xh + th * 20 + r1,
+                                                       yh + tg * 6 + r1, fill=couleur0)
+                                else:
+                                    tetcan.create_oval(xh + th * 20 - r2,
+                                                       yh + tg * 6 - r2,
+                                                       xh + th * 20 + r2,
+                                                       yh + tg * 6 + r2, fill=couleur1)
+                                th += 1
+                            u_sup.append(t_is[1])
+                            tetcan.create_text(x290, yh + tg * 6, text=t_is[1], font=fonttt, fill='blue')
+                    if tu + 1 < len(tet_is) and tet_is[tu + 1][1] == tet_is[tu][1]:
+                        plus = True
+                        (lineno(), 'True t_is:', t_is, 'tet_is', tet_is[tu], tet_is[tu + 1])
+                    else:
+                        if tu + 1 < len(tet_is):
+                            plus = False
+                            (lineno(), 'False t_is:', t_is, 'tet_is', tet_is[tu], tet_is[tu + 1])
+                    if tu + 1 < len(tet_tt) and tet_tt[tu + 1] != tet_tt[tu]:
+                        tg += 1
                     tu += 1
+                # u_inf[ix] et u_sup[yx] = Texte du bouton vers fonction : actifbout(m)
+                for ix in range(len(u_inf)):
+                    u_inf[ix] = Button(self.fr_inf, text=u_inf[ix], height=1, width=5, bg='lightblue',
+                                       command=lambda m=u_inf[ix]: actifbout(m))
+                    u_inf[ix].pack()
+                for yx in range(len(u_sup)):
+                    u_sup[yx] = Button(self.fr_sup, text=u_sup[yx], height=1, width=5, bg='pink',
+                                       command=lambda m=u_sup[yx]: actifbout(m))
+                    u_sup[yx].pack()
                 self.pretetutil = 1
+                '''Bouton clones (ts_simil[0] = [('Inf', 'Inf', 0, '0'),]). Choix3'''
             elif t1 == 3:  # Bouton clones (ts_simil = [])
                 # ts_simil[0] = [('Inf', 'Inf', 0, '0'),]
                 # tg_tra[0] = [([1, 0, 1, 0, 1, 1], [1, 0, 1, 0, 1, 1])] gamme en cours
                 # self.sel_myx[0] : Est l'indice [i] en cours, dans self.gamnomscopie[i]
-                # xh= 30; yh= 60        # Départ Axe horizontal(x)/vertical(y)
+                # xh= 46; yh= 60        # Départ Axe horizontal(x)/vertical(y)
                 tetcan.create_text(150, 15, text='Système tétracordique cloné', fill='grey')
                 if self.pretetutil == 1:
                     self.fr_sup.destroy()
@@ -921,15 +989,13 @@ class Gammique(Tk):
                 teg = te_ts = 0
                 te = -1
                 te_pos = self.sel_myx[0]
-                # tetcan.create_line(30, tylgh + te_pos * 6, 270, tyldh + te_pos * 6, fill='black')
                 x_01i = x_01s = 0
-                te_ego = self.gamnomscopie[self.sel_myx[0]]  # Nom en cours
-                tetcan.create_text(50, 44, text=te_ego, font='bold', fill='black')
                 tg_in = tgam_tet[te_pos][0]
                 tg_su = tgam_tet[te_pos][1]
                 t_colinf = [0]
                 t_colsup = [0]
-                for te_ in tgam_tet:
+                print(lineno(), 'tgam_nom:', tgam_nom, len(tgam_nom))
+                for te_ in tgam_tet:  # tgam_tet : Table tétra's fondamentaux
                     te += 1
                     th = te_one = 0
                     teg_in = []
@@ -937,28 +1003,32 @@ class Gammique(Tk):
                     te_fix = 0
                     teg_inf = ''
                     teg_sup = ''
-                    te_in = te_[0]
-                    te_su = te_[1]
+                    te_in = te_[0]  # Tétra inférieur(lecture)
+                    te_su = te_[1]  # Tétra supérieur(lecture)
                     t_tt = te
-                    if tg_in == te_in:
+                    if self.gamnomscopie[te] in tgam_nom:
+                        ind_nom = tgam_nom.index(self.gamnomscopie[te])
+                        (lineno(), ' tgam_tet te_:', te_, self.gamnomscopie[te])
+                        (lineno(), '.. tet_is te:', te, tet_is[ind_nom])
+                    if tg_in == te_in:  # tg_in = tgam_tet[te_pos][0]
                         teg += 1  # Compteur teg inutilisé
                         te_one += 1  # Recherche diatonique
                         teg_in = te_in  # L'égalité rentrante(te_in)
                         teg_inf = 'inf'  # Le côté sortant (position)
                         t_colinf[0] = 'red'
-                    if tg_in == te_su:
+                    if tg_in == te_su:  # tg_in = tgam_tet[te_pos][0]
                         teg += 1
                         te_one += 1
                         teg_su = te_su
                         teg_sup = 'sup'  # Le côté sortant
                         t_colsup[0] = 'red'
-                    if tg_su == te_in:
+                    if tg_su == te_in:  # tg_su = tgam_tet[te_pos][1]
                         teg += 1
                         te_one += 1
                         teg_in = te_in
                         teg_inf = 'inf'  # Le côté sortant
                         t_colinf[0] = 'blue'
-                    if tg_su == te_su:
+                    if tg_su == te_su:  # tg_su = tgam_tet[te_pos][1]
                         teg += 1
                         te_one += 1
                         teg_su = te_su
@@ -971,10 +1041,10 @@ class Gammique(Tk):
                         te_fix = te_ninf + te_nsup
                     if teg_inf == 'inf':
                         if x_01i == 1:
-                            x10 = 13  # Marges de principe(x) x=7
+                            x10 = 13  # Marges de principe(x)
                             x_01i = 0
                         else:
-                            x10 = 33  # Marges de principe(x) x=17
+                            x10 = 33  # Marges de principe(x)
                             x_01i = 1
                         for t4 in teg_in:
                             if t4 == 1:
@@ -994,10 +1064,10 @@ class Gammique(Tk):
                         nel = 13 - te_fix
                         th += nel
                         if x_01s == 1:
-                            x290 = 303  # Marges de principe(x) x290=284
+                            x290 = 303  # Marges de principe(x)
                             x_01s = 0
                         else:
-                            x290 = 351  # Marges de principe(x) x290=292
+                            x290 = 351  # Marges de principe(x)
                             x_01s = 1
                         for t5 in teg_su:
                             if t5 == 1:
@@ -1014,6 +1084,9 @@ class Gammique(Tk):
                         tetcan.create_text(x290, yh + t_tt * 6, text=te_ts, font=fonttt,
                                            fill='blue')
 
+        ''' Choix 1 : Dessine tous les tétras fondamentaux (classic ou calcul)
+            Choix 2 : Dessine tous les tétras utilisés communs (tgam_util) (classic ou calcul)
+            Choix 3 : [Brouillon] Dessine tous les tétras inutilisés (classic ou calcul)'''
         # La gamme en cours comme élément - système de définition tétracordique
         # Développé tétra similaire diatonique : TETRA/CLONE/DIATONE
         # self.gamnomscopie[]:(noms[+2])gammes - signatures(int)
@@ -1022,17 +1095,23 @@ class Gammique(Tk):
         # self.accbemol[(de -1 à -6)]: Table des altérations/str(-)
         # self.sel_myx[0] : Est l'indice [i] en cours, dans self.gamnomscopie[i]
         # La transition modifie [1,1,0,1,1,1,0] en ([1,0,1,0,1,1],[1,0,1,0,1,1])
-        tginf_tra = []
-        tgsup_tra = []  # Tables transitives (inf/sup)
+        tginf_tra = []  # Table transitive (inf)
+        tgsup_tra = []  # Table transitive (sup)
         tgam_tet = []  # tgam_tet : Table tétra's complète
+        tgam_nom = []  # tgam_nom : Table des noms[index] relatifs (tgam_tet[index])
+        tgam_bin = []  # tgam_bin : Table des tétras couplés relatifs (tgam_tet[index])
         tg_tra = [0]  # tg_tra[0] : Table tétra en cours
         ts_simil = []  # Table des similaires
+        in_sim = []  # N° gamme originale
         tgam_util = []  # Tables des utilités
         tginf_nbr = tgsup_nbr = 0
         t_gam = self.gammescopie[self.sel_myx[0]]
         tgam_inf = t_gam[:4]
         tgam_sup = t_gam[4:]
-        # print(lineno(), 'tgam_inf', tgam_inf, tgam_sup, 'T_GAM', t_gam)
+        in_sim.append(self.gammescopie.index(t_gam))  # Index gamme originale
+        (lineno(), 'tgam_inf', tgam_inf, tgam_sup, 'T_GAM', t_gam, self.c_ii)
+        # 1049 tgam_inf [1, 1, 0, 2] [0, 1, 0] T_GAM [1, 1, 0, 2, 0, 1, 0] C +5
+        '''Transformer les parties (cumuls intervalles) en tétras binarisés'''
         for tg_i in tgam_inf:
             if tg_i > 0:
                 for tg_ii in range(tg_i + 1):
@@ -1061,10 +1140,13 @@ class Gammique(Tk):
         tgsup_tra.append(1)
         tgsup_nbr += 1
         tg_tra[0] = tginf_tra, tgsup_tra  # Conception des deux tétracordes
-        print(lineno(), tg_tra, 'Gamme en cours')
+        (lineno(), tg_tra, 'Gamme en cours:', self.c_ii)
+        # 1079 [([1, 0, 1, 0, 1, 1], [1, 1, 0, 1, 1])] Gamme en cours: C +5
         # Bouton tétras : L'ensemble tétracordique
-        t = 0
-        for t_ in self.gammescopie:  # Les toniques fondamentales
+        t, w = 0, 0
+        '''Les toniques fondamentales. self.gammescopie(Inf/Sup) (version cumul intervalles)
+        Construction tgam_tet : Table tétra's fondamentaux (classic ou calcul)'''
+        for t_ in self.gammescopie:  # Les toniques fondamentales (version cumul intervalles)
             tinf_tra = []
             tsup_tra = []
             tinf_nbr = tsup_nbr = 0
@@ -1100,77 +1182,84 @@ class Gammique(Tk):
             tsup_tra.append(1)
             tsup_nbr += 1
             t_tra[0] = tinf_tra, tsup_tra
-            # print(lineno(), 'tinf_tra', tinf_tra, tsup_tra)
-            tgam_tet.append(t_tra[0])  # tgam_tet : Table tétra's fondamentaux
-        # print(lineno(), t, tgam_tet)
+            (lineno(), 'tinf_tra:', tinf_tra, tsup_tra, 't_:', t_, 't_ = (version cumul intervalles)')
+            tgam_tet.append(t_tra[0])  # tgam_tet : Table tétra's fondamentaux (classic ou calculé)
+            (lineno(), 't_tra[0]:', t_tra[0], '\tN°:', w, 'Nom:', self.gamnomscopie[w])
+            # 1123 t_tra[0]: ([1, 0, 0, 1, 1, 1], [1, 0, 1, 0, 1, 1]) 	N°: 2 Nom: +2 (classic)
+            # 1123 t_tra[0]: ([1, 0, 1, 0, 1, 1], [1, 1, 0, 1, 1]) 	    N°: 2 Nom: +5 (calculé)
+            w += 1  # Utilisé pour obtenir chaque nom de gamme du tétracorde
         # Bouton clones : Les clones dans le système
-        tin_f = tg_tra[0][0]
-        tsu_p = tg_tra[0][1]
-        print(lineno(), 'tin_f', tin_f, 'tsu_p', tsu_p)
-        ts = ts_t = 0  # ts = Quantité de similitudes
-        for t_ in tgam_tet:
-            ts_eti = t_[0]
-            ts_ets = t_[1]
-            if tin_f == ts_eti:
-                tin_nom = 'Inf', 'Inf', ts_t, self.gamnomscopie[ts_t]
-                ts_simil.append(tin_nom)
+        tin_f = tg_tra[0][0]  # Tétra inf Original
+        tsu_p = tg_tra[0][1]  # Tétra sup Original
+        print(lineno(), 'Gam_origine', 'inf', tin_f, 'sup', tsu_p, 'c_ii:', self.c_ii, in_sim)
+        # 1135 Gamme origine tin_f [1, 0, 1, 0, 1, 1] tsu_p [1, 1, 0, 1, 1] c_ii: C +5 [2]
+        ts = ts_t = tn = 0  # ts = Quantité de similitudes
+        '''Lecture parmi les fondamentales : ts_simil.append(tin_nom)'''
+        for t_ in tgam_tet:  # tgam_tet : Table tétra's fondamentaux (classic ou calcul)
+            ts_eti = t_[0]  # Tétra inf en lecture
+            ts_ets = t_[1]  # Tétra sup en lecture
+            tin_nom = None
+            if tin_f == ts_eti:  # Inf = Inf
+                tin_nom = ['Inf', 'Inf', ts_t, self.gamnomscopie[ts_t]]
+                if ts_eti == tin_f and ts_ets == tsu_p:
+                    ts_simil.insert(0, tin_nom)
+                else:
+                    ts_simil.append(tin_nom)
                 ts += 1
-            if tin_f == ts_ets:
-                tin_nom = 'Inf', 'Sup', ts_t, self.gamnomscopie[ts_t]
-                ts_simil.append(tin_nom)
+            if tin_f == ts_ets:  # Inf = Sup
+                tin_nom = ['Inf', 'Sup', ts_t, self.gamnomscopie[ts_t]]
+                if ts_eti == tin_f and ts_ets == tsu_p:
+                    ts_simil.insert(0, tin_nom)
+                else:
+                    ts_simil.append(tin_nom)
                 ts += 1
-            if tsu_p == ts_ets:
-                tin_nom = 'Sup', 'Sup', ts_t, self.gamnomscopie[ts_t]
-                ts_simil.append(tin_nom)
+            if tsu_p == ts_ets:  # Sup = Sup
+                tin_nom = ['Sup', 'Sup', ts_t, self.gamnomscopie[ts_t]]
+                if ts_eti == tin_f and ts_ets == tsu_p:
+                    ts_simil.insert(0, tin_nom)
+                else:
+                    ts_simil.append(tin_nom)
                 ts += 1
-            if tsu_p == ts_eti:
-                tin_nom = 'Sup', 'Inf', ts_t, self.gamnomscopie[ts_t]
-                ts_simil.append(tin_nom)
+            if tsu_p == ts_eti:  # Sup = Inf
+                tin_nom = ['Sup', 'Inf', ts_t, self.gamnomscopie[ts_t]]
+                if ts_eti == tin_f and ts_ets == tsu_p:
+                    ts_simil.insert(0, tin_nom)
+                else:
+                    ts_simil.append(tin_nom)
                 ts += 1
+            if tin_nom:
+                tn += 1
+                si10 = ts_eti, ts_ets, ts_t, self.gamnomscopie[ts_t]
+                tgam_bin.append(si10)
+                ('*', lineno(), 'infOr:', tin_f, 'supOr:', tsu_p, 'Nom', self.c_ii, tn)
+                ('*', lineno(), 'infCo:', ts_eti, 'supCo:', ts_ets, 'N°', ts_t, 'No', self.gamnomscopie[ts_t], tn)
             ts_t += 1
-        print(lineno(), ts, ts_simil)                          # Remplacer "#" par "print" pour la forme
+        (lineno(), self.c_ii, in_sim, 'ts_simil[:2]:', ts_simil[:2], 'len', len(ts_simil))
+        # 1208 C Maj [0] ts_simil[:2]: [['Sup', 'Inf', 0, 'Maj'], ['Sup', 'Sup', 0, 'Maj']] len 38
         # Boutons utiles : Sans les clones de l'ensemble tétracordique
-        tet_is = []
-        tet_tt = []
-        t = t_t = 0  # t = compteur pouvant être utilisé
-        for t_ in tgam_tet:
-            ti_egal = ts_egal = 0
-            if t == 0:
-                ti_nom = 'Inf', self.gamnomscopie[t_t]
-                tet_is.append(ti_nom)
-                tet_tt.append(t_t)
-                tet_i = t_[0]
-                tgam_util.append(tet_i)
-                t += 1
-                tet_s = t_[1]
-                if tet_i != tet_s:
-                    ts_nom = 'Sup', self.gamnomscopie[t_t]
-                    tet_is.append(ts_nom)
-                    tet_tt.append(t_t)
-                    tgam_util.append(tet_s)
-                    t += 1
+        tgam_util, tet_is, tet_tt = [], [], []
+        '''tgam_tet = Table tétras fondamentaux'''
+        for si in ts_simil:
+            tet_tt.append(si[2])
+            tetis = si[1], si[3]
+            tet_is.append(tetis)
+            if si[1] == 'Sup':
+                tgam_util.append(tgam_tet[si[2]][1])
+                (lineno(), '..si[1]:', si[1], tgam_tet[si[2]][1], si[-1])
             else:
-                tet_i = t_[0]
-                tet_s = t_[1]
-                for t_u in tgam_util:
-                    if t_u == tet_i:
-                        ti_egal = 1
-                    if t_u == tet_s:
-                        ts_egal = 1
-                if ti_egal == 0:
-                    ti_nom = 'Inf', self.gamnomscopie[t_t]
-                    tet_is.append(ti_nom)
-                    tet_tt.append(t_t)
-                    tgam_util.append(tet_i)
-                    t += 1
-                if ts_egal == 0:
-                    ts_nom = 'Sup', self.gamnomscopie[t_t]
-                    tet_is.append(ts_nom)
-                    tet_tt.append(t_t)
-                    tgam_util.append(tet_s)
-                    t += 1
-            t_t += 1
-            # (t,tet_is,tet_tt,tgam_util)            # Remplacer "#" par "print" pour la forme
+                tgam_util.append(tgam_tet[si[2]][0])
+                (lineno(), '...si[1]:', si[1], tgam_tet[si[2]][0], si[-1])
+            tgam_nom.append(si[-1])
+            (lineno(), 'Si:', si, 'tgam_tet:', tgam_tet[si[2]])  # si[2] = indice gamme. tgam_tet[:6] = 66 unités
+            # 1224 Si: ['Inf', 'Sup', 1, '-2'] tgam_tet: ([1, 1, 0, 0, 1, 1], [1, 0, 1, 0, 1, 1])
+        (lineno(), 'tet_is[:4]:', tet_is[:4], len(tet_is))
+        ('     tet_tt[:16]:', tet_tt[:16], len(tet_tt))
+        ('     tgam_nom[:10]:', tgam_nom[:10], len(tgam_nom))
+        ('     tgam_bin[:1]:', tgam_bin[:1], len(tgam_bin))
+        '''1226 tet_is[:4]: [('Inf', 'Maj'), ('Sup', 'Maj'), ('Sup', 'Maj'), ('Inf', 'Maj')] 38 
+                tet_tt[:16]: [0, 0, 0, 0, 1, 1, 2, 2, 4, 4, 5, 5, 9, 9, 11, 11] 38 
+                tgam_nom[:10]: ['Maj', 'Maj', 'Maj', 'Maj', '-2', '-2', '+2', '+2', '-3', '-3'] 38
+                tgam_bin[:1]: [([1, 0, 1, 0, 1, 1], [1, 0, 1, 0, 1, 1], 0, 'Maj')] 18'''
 
     # Version con
     def convers(self):
@@ -2884,7 +2973,7 @@ class Gammique(Tk):
                 if maj == 0:
                     yntgnt = ynt, gnt
                     self.decore[deg] = yntgnt
-                    # print('decore', deg, self.decore[deg])
+                    # print(lineno(), 'decore', deg, self.decore[deg])
                 if gmod > 0:  # Forme altérative des tonalités
                     imod = self.nordiese[cmod]
                 if gmod < 0:
@@ -2912,7 +3001,7 @@ class Gammique(Tk):
                     self.sel_yes = ynom, tnom  # Report nom vers sélection
                     self.sel_myx[0] = myx2  # Report type vers sélection
                     self.can.create_text(40, 12, text=cnom, font=font2, fill='black')
-                    # print(lineno(), 'Analise Général Texte', self.sel_yes, ynom, tnom)
+                    # print(lineno(), 'Analise Général Texte', self.sel_yes, '|:', nom, ':Y|nom|T:', tnom)
                 nat += 1
                 nat2 += 1
                 if nat > 6:

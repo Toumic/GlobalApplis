@@ -751,14 +751,14 @@ class Gammique(Tk):
         bttet1.pack()
         bttet2 = Button(frtet, text='Utiles', height=1, width=10, bg='orange', command=lambda: ttractuac(2))
         bttet2.pack()
-        bttet3 = Button(frtet, text='Clones', height=1, width=10, bg='orange', command=lambda: ttractuac(3))
+        bttet3 = Button(frtet, text='Autres', height=1, width=10, bg='orange', command=lambda: ttractuac(3))
         bttet3.pack()
         frtet_ = Frame(self.ttt, width=30, height=1)
         frtet_.pack(side=BOTTOM)
         bttet_ = Button(frtet_, text='Quitter', height=1, width=15, bg='lightgrey',
                         command=lambda: Gammique.fermeture(self, 'tetra'))
         bttet_.pack()
-        tetcan = Canvas(self.ttt, bg='ivory', height=500, width=330)  # width=300
+        tetcan = Canvas(self.ttt, bg='ivory', height=500, width=333)  # width=300
         tetcan.place(x=10, y=30, anchor='nw')  # x=30
         tetcan_ = Canvas(self.ttt, bg='pink', height=500, width=150)
         tetcan_.place(x=350, y=30, anchor='nw')
@@ -986,103 +986,87 @@ class Gammique(Tk):
                     self.fr_sup.destroy()
                     self.fr_inf.destroy()
                     self.btpont.destroy()
-                teg = te_ts = 0
+                # te_pos = self.sel_myx[0]
+                # tg_in = tgam_tet[te_pos][0]  # Gamme choisie eu départ
+                # tg_su = tgam_tet[te_pos][1]  # Gamme choisie eu départ
+                te_ts = 0
                 te = -1
-                te_pos = self.sel_myx[0]
                 x_01i = x_01s = 0
-                tg_in = tgam_tet[te_pos][0]
-                tg_su = tgam_tet[te_pos][1]
                 t_colinf = [0]
                 t_colsup = [0]
-                print(lineno(), 'tgam_nom:', tgam_nom, len(tgam_nom))
+                (lineno(), 'tgam_nom[:10]:', tgam_nom[:10], len(tgam_nom))
+                # 997 tgam_nom[:10]: ['Maj', 'Maj', 'Maj', 'Maj', '-2', '-2', '+2', '+2', '-3', '-3'] 38
                 for te_ in tgam_tet:  # tgam_tet : Table tétra's fondamentaux
                     te += 1
                     th = te_one = 0
-                    teg_in = []
-                    teg_su = []
+                    teg_in = []  # Tétra en écriture(ovale, texte)
+                    teg_su = []  # Tétra en écriture(ovale, texte)
                     te_fix = 0
                     teg_inf = ''
                     teg_sup = ''
                     te_in = te_[0]  # Tétra inférieur(lecture)
                     te_su = te_[1]  # Tétra supérieur(lecture)
                     t_tt = te
-                    if self.gamnomscopie[te] in tgam_nom:
-                        ind_nom = tgam_nom.index(self.gamnomscopie[te])
-                        (lineno(), ' tgam_tet te_:', te_, self.gamnomscopie[te])
-                        (lineno(), '.. tet_is te:', te, tet_is[ind_nom])
-                    if tg_in == te_in:  # tg_in = tgam_tet[te_pos][0]
-                        teg += 1  # Compteur teg inutilisé
-                        te_one += 1  # Recherche diatonique
-                        teg_in = te_in  # L'égalité rentrante(te_in)
-                        teg_inf = 'inf'  # Le côté sortant (position)
-                        t_colinf[0] = 'red'
-                    if tg_in == te_su:  # tg_in = tgam_tet[te_pos][0]
-                        teg += 1
-                        te_one += 1
-                        teg_su = te_su
-                        teg_sup = 'sup'  # Le côté sortant
-                        t_colsup[0] = 'red'
-                    if tg_su == te_in:  # tg_su = tgam_tet[te_pos][1]
-                        teg += 1
-                        te_one += 1
-                        teg_in = te_in
-                        teg_inf = 'inf'  # Le côté sortant
-                        t_colinf[0] = 'blue'
-                    if tg_su == te_su:  # tg_su = tgam_tet[te_pos][1]
-                        teg += 1
-                        te_one += 1
-                        teg_su = te_su
-                        teg_sup = 'sup'  # Le côté sortant
-                        t_colsup[0] = 'blue'
-                    if 0 < te_one:
-                        te_ts = self.gamnomscopie[te]
-                        te_ninf = len(teg_in)
-                        te_nsup = len(teg_su)
-                        te_fix = te_ninf + te_nsup
-                    if teg_inf == 'inf':
-                        if x_01i == 1:
-                            x10 = 13  # Marges de principe(x)
-                            x_01i = 0
-                        else:
-                            x10 = 33  # Marges de principe(x)
-                            x_01i = 1
-                        for t4 in teg_in:
-                            if t4 == 1:
-                                tetcan.create_oval(xh + th * 20 - r1,
-                                                   yh + t_tt * 6 - r1,
-                                                   xh + th * 20 + r1,
-                                                   yh + t_tt * 6 + r1, fill=t_colinf[0])
+                    if self.gamnomscopie[te] not in tgam_nom:
+                        if te_in:  # Tétra inférieur(lecture)
+                            te_one += 1  # Recherche diatonique
+                            teg_in = te_in
+                            teg_inf = 'inf'  # Le côté sortant (position)
+                            t_colinf[0] = 'red'
+                        if te_su:  # Tétra supérieur(lecture)
+                            te_one += 1
+                            teg_su = te_su
+                            teg_sup = 'sup'  # Le côté sortant
+                            t_colsup[0] = 'blue'
+                        if 0 < te_one:
+                            te_ts = self.gamnomscopie[te]
+                            te_ninf = len(teg_in)
+                            te_nsup = len(teg_su)
+                            te_fix = te_ninf + te_nsup
+                        if teg_inf == 'inf':
+                            if x_01i == 1:
+                                x10 = 13  # Marges de principe(x)
+                                x_01i = 0
                             else:
-                                tetcan.create_oval(xh + th * 20 - r2,
-                                                   yh + t_tt * 6 - r2,
-                                                   xh + th * 20 + r2,
-                                                   yh + t_tt * 6 + r2, fill='yellow')
-                            th += 1
-                        tetcan.create_text(x10, yh + t_tt * 6, text=te_ts, font=fonttt, fill='red')
-                    if teg_sup == 'sup':
-                        # nel = 0
-                        nel = 13 - te_fix
-                        th += nel
-                        if x_01s == 1:
-                            x290 = 303  # Marges de principe(x)
-                            x_01s = 0
-                        else:
-                            x290 = 351  # Marges de principe(x)
-                            x_01s = 1
-                        for t5 in teg_su:
-                            if t5 == 1:
-                                tetcan.create_oval(xh + th * 20 - r1,
-                                                   yh + t_tt * 6 - r1,
-                                                   xh + th * 20 + r1,
-                                                   yh + t_tt * 6 + r1, fill=t_colsup[0])
+                                x10 = 33  # Marges de principe(x)
+                                x_01i = 1
+                            for t4 in teg_in:
+                                if t4 == 1:
+                                    tetcan.create_oval(xh + th * 20 - r1,
+                                                       yh + t_tt * 6 - r1,
+                                                       xh + th * 20 + r1,
+                                                       yh + t_tt * 6 + r1, fill=t_colinf[0])
+                                else:
+                                    tetcan.create_oval(xh + th * 20 - r2,
+                                                       yh + t_tt * 6 - r2,
+                                                       xh + th * 20 + r2,
+                                                       yh + t_tt * 6 + r2, fill='yellow')
+                                th += 1
+                            tetcan.create_text(x10, yh + t_tt * 6, text=te_ts, font=fonttt, fill='red')
+                        if teg_sup == 'sup':
+                            # nel = 0
+                            nel = 13 - te_fix
+                            th += nel
+                            if x_01s == 1:
+                                x290 = 303  # Marges de principe(x)
+                                x_01s = 0
                             else:
-                                tetcan.create_oval(xh + th * 20 - r2,
-                                                   yh + t_tt * 6 - r2,
-                                                   xh + th * 20 + r2,
-                                                   yh + t_tt * 6 + r2, fill='yellow')
-                            th += 1
-                        tetcan.create_text(x290, yh + t_tt * 6, text=te_ts, font=fonttt,
-                                           fill='blue')
+                                x290 = 323  # Marges de principe(x)
+                                x_01s = 1
+                            for t5 in teg_su:
+                                if t5 == 1:
+                                    tetcan.create_oval(xh + th * 20 - r1,
+                                                       yh + t_tt * 6 - r1,
+                                                       xh + th * 20 + r1,
+                                                       yh + t_tt * 6 + r1, fill=t_colsup[0])
+                                else:
+                                    tetcan.create_oval(xh + th * 20 - r2,
+                                                       yh + t_tt * 6 - r2,
+                                                       xh + th * 20 + r2,
+                                                       yh + t_tt * 6 + r2, fill='yellow')
+                                th += 1
+                            tetcan.create_text(x290, yh + t_tt * 6, text=te_ts, font=fonttt,
+                                               fill='blue')
 
         ''' Choix 1 : Dessine tous les tétras fondamentaux (classic ou calcul)
             Choix 2 : Dessine tous les tétras utilisés communs (tgam_util) (classic ou calcul)

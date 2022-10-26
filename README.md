@@ -1,5 +1,4 @@
-####{ GlobalApplis
-`Cette application }`
+{ GlobalApplis `Cette application`}
 
 README.md
 
@@ -91,7 +90,7 @@ Il est évident, que chacune des révélations soient renseignées par le nom de
 `Pour plus de détails voir : Ligne 48 -Notions basiques du module GlobInverseAcc`
 
 ### _GlobGamChrom ***_
-**Le module des chromatismes,** 'GGC' les gammes chromatiques sont aussi importantes que les gammes diatoniques, 
+**Le module des chromatismes.** 'GGC' les gammes chromatiques sont aussi importantes que les gammes diatoniques, 
 puisque chaque gamme a sa définition chromatique. La gamme chromatique fait l'usage d'une trilogie, car elle est composée de la gamme originale et de deux chromatismes altérés. Alors, et selon la mise en place du chromatisme augmenté ou diminué, le développement diatonique produit un cycle ouvert ou fermé.
 * Lorsque le cycle est ouvert : Les modes voisins n'ont pas les mêmes formules numériques
 * Et quand le cycle est fermé : Les modes voisins ont les mêmes formules numériques<br>
@@ -104,4 +103,4 @@ Le dictionnaire est donc renvoyé, sa forme est simplifiée par rapport aux tabl
 **Le module des commatismes.** 'GGM'
 
 ### _progamV6encore ***_
-**Le module interface,** 'pv6e'
+**Le module interface.** 'pv6e' Rassemble le résumé gammologique et est destiné à approfondir les systèmes tétras et commatiques.

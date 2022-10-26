@@ -12,7 +12,7 @@ from pyaudio import *
 from struct import *
 from tkinter import *
 from tkinter.font import Font
-from tkinter import messagebox
+from tkinter import messagebox, simpledialog
 from typing import Callable
 from wave import *
 
@@ -131,7 +131,7 @@ class Gammique(Tk):
         self.bttet = Button(self.cad, text='Tétracorde', width=15, bg='ivory', command=self.tetra)
         self.bttet.pack()
 
-        # Bouton tables commatiques
+        # # Bouton tables commatiques :
         # self.notespace = Dico degrés limités aux compressions
         self.com, self.pal = '', ''  # Caractères d'adressage ponctuel
         self.notespace = {180: ['', '+', 'x', '^', '+^', 'x^', '^^'],
@@ -163,6 +163,7 @@ class Gammique(Tk):
         self.compy_ = [0]  # Les 2 niveaux chromatiques
         self.btcom3color = self.btcom4color = 'light grey'
         self.com2 = Commatique()
+        self.scalair = 0  # Indice taux d'inversion
 
         # Bouton quitter
         self.btquit = Button(self.cad, text='Quitter', bg='light grey', width=15, command=self.destroy)
@@ -294,6 +295,7 @@ class Gammique(Tk):
         elif fff == 'chrome':
             # print('Fermeture fenêtre :', fff)
             self.chm.destroy()
+            self.ccc.destroy()
             self.chm = None
         elif fff == 'accord':
             # print('Fermeture fenêtre :', fff)
@@ -321,39 +323,34 @@ class Gammique(Tk):
         self.btgama.invoke()
         if self.chm:
             try:  # Ouvert
-                print('typgam.self.chm', self.chm, self.chm.state())
+                ('typgam.self.chm', self.chm, self.chm.state())
                 self.btchr.invoke()
             except TclError:  # Fermé
                 self.chm = None
-                print('typgam.self.chm', self.chm)
         if self.tur:
             try:  # Ouvert
-                # print('typgam.self.tur', self.tur, self.tur.state())
+                ('typgam.self.tur', self.tur, self.tur.state())
                 self.bttab.invoke()
             except TclError:  # Fermé
                 self.tur = None
-                print('typgam.self.tur', self.tur)
         if self.acc:
             try:  # Ouvert
-                # print('typgam.self.acc', self.acc, self.acc.state())
+                ('typgam.self.acc', self.acc, self.acc.state())
                 self.btacc.invoke()
             except TclError:  # Fermé
                 self.acc = None
-                print('typgam.self.acc', self.acc)
         if self.ccc:
             try:  # Ouvert
-                # print('typgam.self.ccc', self.ccc, ' : ', self.ccc.state())
+                ('typgam.self.ccc', self.ccc, ' : ', self.ccc.state())
                 self.btcom.invoke()
             except TclError:  # Fermé
                 self.ccc = None
-                print('typgam.self.ccc', self.ccc)
         if self.ttt:
             try:  # Ouvert
-                # print('typgam.self.ttt', self.ttt, ' : ', self.ttt.state())
+                ('typgam.self.ttt', self.ttt, ' : ', self.ttt.state())
                 self.bttet.invoke()
             except TclError:  # Fermé
                 self.ttt = None
-                print('typgam.self.ttt', self.ttt)
 
     # Section com
     def comma(self):
@@ -384,7 +381,7 @@ class Gammique(Tk):
         btcom_id = Button(frcom_up, text=c_ide, height=1, width=15, bg='light green')
         btcom_id.pack(side=RIGHT)
         btcom_up = Button(frcom_up, text='Commane', height=1, width=15, bg='pink',
-                          command=lambda: self.com2.brnch_1(c_oo, c_pp, self.c_ii))
+                          command=lambda: self.com2.brnch_1(c_oo, c_pp, self.c_ii, self.scalair))
         btcom_up.pack(side=LEFT)
         frcom_gaup = Frame(self.ccc, width=30, height=3)  # Partie gauche
         frcom_gaup.place(x=20, y=10, anchor='nw')
@@ -426,9 +423,18 @@ class Gammique(Tk):
             self.ccc.destroy()
             self.btcom.invoke()
 
+        def scaler():
+            while self.scalair > 12 or self.scalair in (0, ''):
+                self.scalair = simpledialog.askinteger('Inversion', 'Entrez un nombre entier de 1 à 12' +
+                                                       '. Pour le traitement commatique')
+                if self.scalair is None:
+                    self.scalair = 12
+            btcom_up.invoke()
+
         frcom_drup2 = Frame(self.ccc, width=20, height=3)  # Partie droite
         frcom_drup2.place(x=468, y=10, anchor='nw')
-        btcom_dr0up = Button(frcom_drup2, text='Scalaire', height=1, width=15, bg='yellow')
+        btcom_dr0up = Button(frcom_drup2, text='Scalaire', height=1, width=15, bg='yellow',
+                             command=lambda: scaler())
         btcom_dr0up.pack()
         frcom_dr = Frame(self.ccc, width=30, height=3)  # Partie droite
         frcom_dr.pack(side=RIGHT)
@@ -640,11 +646,6 @@ class Gammique(Tk):
                             co_n0 += 1
                     co_tbgam = co_sign0[0], co_note0[0][0]
                     co_tbmod[co].append(co_tbgam)
-                if co == 11:  # Écriture Tonalité/Signature
-                    # print(lineno(), '592', co_tbmod, co, c_ii)  # Tonalité analogique inchangée
-                    # print('593 co_tbdif :', co_tbdif, co)  # Seule la signature numérique change
-                    # print('594 co_tbdif0:', co_tbdif0, co)  # Signature numérique inchangée
-                    progam_chrom.chromatic(co_tbmod, co_tbdif, co_tbdif0, c_ii)  # Transfert de données à GlobGamChrom
                 if compris == 'com':  # Définition d'usage des grands volumes altérés
                     '''1. Degrés : +1 ~ ^^1, -2 ~ x^2, o3 ~ +^3, o4 ~ +^4, *5 ~ ^5, -*6 ~ x6, o*7 ~ +7 
                     2. Extensions : -8 ~ o*8
@@ -1175,7 +1176,7 @@ class Gammique(Tk):
         # Bouton clones : Les clones dans le système
         tin_f = tg_tra[0][0]  # Tétra inf Original
         tsu_p = tg_tra[0][1]  # Tétra sup Original
-        print(lineno(), 'Gam_origine', 'inf', tin_f, 'sup', tsu_p, 'c_ii:', self.c_ii, in_sim)
+        (lineno(), 'Gam_origine', 'inf', tin_f, 'sup', tsu_p, 'c_ii:', self.c_ii, in_sim)
         # 1135 Gamme origine tin_f [1, 0, 1, 0, 1, 1] tsu_p [1, 1, 0, 1, 1] c_ii: C +5 [2]
         ts = ts_t = tn = 0  # ts = Quantité de similitudes
         '''Lecture parmi les fondamentales : ts_simil.append(tin_nom)'''
@@ -3036,27 +3037,24 @@ class Commatique(Frame):
         Frame.__init__(self)
         self.c_bb = []
         self.c_cc = []
-        self.coo_valone = self.coo_valpos = self.coo_valneg = None
-        self.coo_gym = ['', '', '', '', '', '', '']
         self.coo_gam = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
         self.ctpier = self.ccnbase = None
         self.ctb_form = None  # Table originale
-        self.ctb_finv = None  # Originale inversée
         self.f_bs = Font(family='Arial', size=8)
         self.f_bt = Font(family='Arial', size=7)
         self.f_bu = Font(family='Arial', size=6)
         self.f_bv = Font(family='Arial', size=6)
+        # Dictionnarisation de l'ordre chromatique ascendant.
+        self.normal = {}  # Dictionnaire des tonalités chromatiques en ordre ascendant(normal).
 
-    def brnch_1(self, c_oo, c_pp, c_iii):
+    def brnch_1(self, c_oo, c_pp, c_iii, s_cal):
         """Réception des gammes calculées :
             c_oo = Modes diatoniques calculés + Chromes analogues (sup/inf)
             c_pp = Modes diatoniques calculés + Chromes numériques (sup/inf)
-            c_ii = Nom de la gamme 'Note + Valeur'
-        """
-        # c_oo c_pp c_cc de class Gammique.comma.co_tbval()..
-        # print('2665-brnch_1-c_oo', type(c_oo), c_oo)
-        # print('2665-brnch_1-c_pp', type(c_pp), c_pp)
-        print(lineno(), '-brnch_1-c_ii', c_iii)
+            c_iii = Nom de la gamme 'Note + Valeur'
+            s_cal = Taux de dénivellation des degrés pour commatisme"""
+        (lineno(), '2665-brnch_1-c_oo', type(c_oo), c_oo)
+        (lineno(), '2665-brnch_1-c_pp', type(c_pp), c_pp)
         if self.ctpier is not None:
             self.ctpier.destroy()
         self.ctpier = Toplevel(self)
@@ -3065,25 +3063,31 @@ class Commatique(Frame):
         self.c_bb = []
         self.c_cc = []
         self.ctb_form = [], [], [], [], [], [], [], [], [], [], [], []
-        self.ctb_finv = [], [], [], [], [], [], [], [], [], [], [], []
         for i in range(12):
             self.c_bb.append(c_oo[0][i][0][:12])
             self.c_cc.append(c_pp[0][i][0][:12])
-            if i == 0:
-                self.coo_valone = self.c_bb[i]  # c_vo ([(0, 'C')], [(('+', 'C'), ('-', 'D'))],
-                self.coo_valpos = self.c_cc[i]  # c_vp ([('g', 0, ('', 1))], [('', 1, ('+', 1))],
-            if i == 11:
-                self.coo_valneg = self.c_cc[i]  # c_vn ([('g', 0, ('', 1))], [('g', 1, ('-', 2))],
         # Première écriture chromatique de la gamme en cours
         self.ccnbase = Canvas(self.ctpier, bg='Ivory', height=600, width=400)
         self.ccnbase.pack()  # ccnbase = Premier Canvas original (pack_forget ou pas)
         self.ccnbase.delete(ALL)
-        c_x, c_y, c_z = 30, 60, 0
         c_ii2 = "{}{}".format('Chrome en cours ', str(c_iii))
         self.ccnbase.create_text(112, 8, font=self.f_bt, text=c_ii2, fill='blue')
+        # Formation self.ctb_form pour self.normal
+        for i in range(12):
+            c_rop = []
+            for j in range(12):
+                c_rop2 = self.c_cc[i][j][0][2]  # Formule inter modale : ('', 1). ('+', 1)...
+                c_rop.append(c_rop2)
+            self.ctb_form[i].append(c_rop)
+            print(lineno(), 'GGC/ self.ctb_form[i]:', self.ctb_form[i])
+        # Dictionnaire des tonalités chromatiques en ordre ascendant(self.normal).
+        for i in range(12):
+            self.normal[i] = self.ctb_form[i][0]
+            (lineno(), 'i    \t', i, self.ctb_form[i][0])  # , 'ctb_form[i]')
+        # Écriture sur canvas ccnbase
+        c_x, c_y = 30, 60
         for i in range(12):
             c_i = i * 40
-            c_rop = []
             for j in range(12):
                 c_j = j * 30
                 c_ripaug = self.c_bb[i][j][0][0]  # Signal augmenté : 0. ('+', 'C')...
@@ -3099,83 +3103,14 @@ class Commatique(Frame):
                     self.ccnbase.create_text(c_x + c_j, c_y + c_i - 5, font=self.f_bv, text=c_rip1, fill='red')
                     c_rip2 = c_ripaug
                     self.ccnbase.create_text(c_x + c_j, c_y + c_i + 5, font=self.f_bv, text=c_rip2, fill='blue')
-                c_rop2 = self.c_cc[i][j][0][2]  # Formule inter modale : ('', 1). ('+', 1)...
+                c_rop2 = self.ctb_form[i][0][j]
                 self.ccnbase.create_text(c_x + c_j, c_y + c_i + 20, font=self.f_bt, text=c_rop2, fill='olive')
-                c_rop.append(c_rop2)
-            self.ctb_form[i].append(c_rop)
-        # Inversion du sens de lecture pour une écriture classique
-        c_finv = [0]
-        cfi_alt = [0]
-        cfi_not = [0]
-        c_form = [0]
-        cfi_org = []
-        c_yn1 = c_yn2 = 0
-        for i in range(12):
-            # self.ctb_form :
-            #       i = Sens normal des tonalités numériques
-            #     i2n = Sens inversée des tonalités numériques
-            i2n = i - (i + (11 - i))  # Méthode : Lire le fichier à l'envers
-            # print(lineno(), 'i   ', i, self.ctb_form[i][0], 'ctb_form[i]')
-            c_valo = self.coo_valone[i], self.coo_valpos[i][0][0]
-            self.ctb_finv[i].append(c_valo)  # 0 0 self.ctb_finv[i] [([(0, 'C')], 'g')]
-            c_formi2n = self.ctb_form[i2n]  # 0 0 c_form ('', 1) | 0 1 c_form ('+', 1)...
-            print(lineno(), '-i2n', i2n, c_formi2n, 'ctb_form[i2n]')
-            print(lineno(), 'i2n ctb_finv', i2n, 'i ', i, self.ctb_finv[i], ':(+/-)')
-            for j in range(12):
-                c_form[0] = c_formi2n[0][j]
-                c_finv[0] = self.ctb_finv[i]
-                cfi_ggg = c_finv[0][0][1]
-                # print(lineno(), '-cfi_ggg', cfi_ggg)
-                if j == 0:
-                    if i == 0:
-                        # Enregistrement self.coo_gym[]
-                        cfi_org.append(c_formi2n)  # "i" = "j" = nul
-                        # print(lineno(), '-cfi_org', cfi_org, i2n)
-                        cfi_y = c_finv[0][0][0][0][1]  # cfi_not 0 0 C (cfi_not[0])
-                        c_cfy = -1
-                        c_yy = 0
-                        for y in range(7):
-                            if self.coo_gam[y] == cfi_y:
-                                c_yy = 1
-                            if c_yy == 1:
-                                c_cfy += 1
-                                y2 = self.coo_gam[y]  # self.coo_gam[y] = ['C','D','E','F','G','A','B']
-                                self.coo_gym[c_cfy] = y2  # self.coo_gym[z] = ['','','','','','','']
-                                if y == 6 and c_cfy < 6:
-                                    cfy_ = y - c_cfy
-                                    for cy_ in range(cfy_):
-                                        c_cfy += 1
-                                        self.coo_gym[c_cfy] = self.coo_gam[cy_]
-                    if cfi_ggg == 'g':
-                        # print(lineno(), '-*****1', cfi_org[0][0][i], i)
-                        cfi_ng0 = cfi_org[0][0][i]
-                        cfi_alt[0] = c_finv[0][0][0][0][0]  # cfi_alt 0 0 [(0, 'C')]
-                        cfi_not[0] = cfi_ng0, c_finv[0][0][0][0][1]  # cfi_not 0 0 C
-                        # print(lineno(), '*****1 cfi_alt[0]', cfi_alt[0])
-                        # print(lineno(), '*****1 cfi_not[0]', cfi_not[0])
-                    else:
-                        cfi_n10 = c_finv[0][0][0][0][1][1]  # cfi_n10 0 0 D
-                        cfi_n20 = c_finv[0][0][0][0][0][1]  # cfi_n20 0 0 C
-                        for cy in range(7):
-                            if self.coo_gym[cy] == cfi_n10:
-                                c_yn1 = cy + 1
-                            if self.coo_gym[cy] == cfi_n20:
-                                c_yn2 = cy + 1
-                        cfi_a1 = c_finv[0][0][0][0][1][0]
-                        cfi_a2 = c_finv[0][0][0][0][0][0]
-                        cfi_alt[0] = cfi_a1, cfi_a2
-                        cfi_n1 = c_finv[0][0][0][0][1][1]
-                        cfi_n2 = c_finv[0][0][0][0][0][1]
-                        cfi_not[0] = c_yn1, cfi_n1, c_yn2, cfi_n2
-                        # print(lineno(), '..*****2 cfi_alt[0]', cfi_alt[0])
-                    # print(lineno(), 'cy', '/', i, j, "c_finv's ", cfi_ggg, '/', cfi_alt[0], '/', cfi_not[0])
-                    # print(lineno(), 'ctb_form', i, self.ctb_form[i])
-                else:
-                    pass
-            # print(lineno(), '1er mode c_formi2n inversé', c_formi2n, i, i2n)
-            # print(lineno(), '1er mode ctb_form normal', self.ctb_form[i])
-        # print(lineno(), '..1er mode ctb_finv', self.ctb_finv, ': Mode tonique chrome analogique')
-        print(lineno(), 'Pied de page')
+        # Bien détailler les gammes(heptatoniques et chromatiques !)
+        # self.c_bb[0] = Mode tonique en cours len(1)=hepta et len(2)=chroma
+        # c_iii = Nom de la gamme en cours
+        # self.normal = Tonalité numérique en cours
+        progam_chrom.chromatic(self.c_bb[0], c_iii, self.normal, s_cal)
+        (lineno(), 'Pied de page')
 
 # class Gammique
 # Gammique().mainloop()

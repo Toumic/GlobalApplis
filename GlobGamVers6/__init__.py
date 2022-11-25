@@ -311,12 +311,12 @@ class Gammique(Tk):
         """Modification du type de gamme
             1 : Les noms habituels
             2 : Les modes légers
-        Boutons(self) : btchr(chm), bttab(tur), btacc(acc), btcom(ccc), bttet(ttt)"""
-        if typ == 1:  # Les gammes classiques
+        Boutons(self) : btchr(chm), bttab(tur), btacc(acc), btcom(ccc), bttet(ttt) self.genre_chrome"""
+        if typ == 1:  # Les gammes classiques(naturel)
             self.gamclas = True
             if self.gamcalc:
                 self.gamcalc = None
-        if typ == 2:  # Les gammes calculées
+        if typ == 2:  # Les gammes calculées(atonal)
             self.gamcalc = True
             if self.gamclas:
                 self.gamclas = None
@@ -406,17 +406,17 @@ class Gammique(Tk):
         btcom_ga04.pack()
 
         def compyac(y):
-            if y == 0:
-                self.compy_[0] = 0  # Intègres
-            elif y == 1:
-                self.compy_[0] = 1  # Augmentations
-            elif y == 2:
-                self.compy_[0] = 2  # Diminutions
-            elif y == 3:
+            if y == 0:      # Forme totale
+                self.compy_[0] = 0
+            elif y == 1:    # Forme augmentée
+                self.compy_[0] = 1
+            elif y == 2:    # Forme diminuée
+                self.compy_[0] = 2
+            elif y == 3:    # Chrome naturel
                 self.btchr.configure(text='Chrome naturel')
                 self.btcom3color = 'ivory'
                 self.btcom4color = 'light grey'
-            elif y == 4:
+            elif y == 4:    # Chrome atonal
                 self.btchr.configure(text='Chrome atonal')
                 self.btcom3color = 'light grey'
                 self.btcom4color = 'ivory'
@@ -426,7 +426,8 @@ class Gammique(Tk):
         def scaler():
             while self.scalair > 12 or self.scalair in (0, ''):
                 self.scalair = simpledialog.askinteger('Inversion', 'Entrez un nombre entier de 1 à 12' +
-                                                       '. Pour le traitement commatique')
+                                                       '. Pour le traitement commatique' + '\n' +
+                                                       'Par défaut la dénivellation est fixée à 12')
                 if self.scalair is None:
                     self.scalair = 12
             btcom_up.invoke()
@@ -2909,12 +2910,12 @@ class Gammique(Tk):
         cnat = ['', '', '', '', '', '', '']
         # Niveaux d'altérations
         self.nordiese = ['', '+', 'x', '^', '+^', 'x^', '^^', '+^^', 'x^^', '^^^', '+^^^', 'x^^^', '^^^^',
-                         '13(#)', '14(#)', '15(#)', '16(#)', '17(#)', '18(#)', '19(#)', '20(#)', '21(#)',
-                         '22(#)', '23(#)', '24(#)', '25(#)', '26(#)', '27(#)', '28(#)', '29(#)', '30(#)',
+                         '+^^^^', 'x^^^^', '^^^^^', '+^^^^^', 'x^^^^^', '^^^^^^', '+^^^^^^', 'x^^^^^^', '^^^^^^^',
+                         '+^^^^^^^', 'x^^^^^^^', '^^^^^^^^', '25(#)', '26(#)', '27(#)', '28(#)', '29(#)', '30(#)',
                          '31(#)', '32(#)']
-        self.subemol = ['', '32(b)', '31(b)', '30(b)', '29(b)', '28(b)', '27(b)', '26(b)', '25(b)', '24(b)',
-                        '23(b)', '22(b)', '21(b)', '20(b)', '19(b)', '18(b)', '17(b)', '16(b)', '15(b)',
-                        '14(b)', '13(b)', '****', 'o***', '-***', '***', 'o**', '-**', '**', 'o*', '-*', '*',
+        self.subemol = ['', '32(b)', '31(b)', '30(b)', '29(b)', '28(b)', '27(b)', '26(b)', '25(b)', '********',
+                        'o*******', '-*******', '*******', 'o******', '-******', '******', 'o*****', '-*****', '*****',
+                        'o****', '-****', '****', 'o***', '-***', '***', 'o**', '-**', '**', 'o*', '-*', '*',
                         'o', '-']
         # Configuration modale
         gdeg = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII']
@@ -3079,7 +3080,7 @@ class Commatique(Frame):
                 c_rop2 = self.c_cc[i][j][0][2]  # Formule inter modale : ('', 1). ('+', 1)...
                 c_rop.append(c_rop2)
             self.ctb_form[i].append(c_rop)
-            print(lineno(), 'GGC/ self.ctb_form[i]:', self.ctb_form[i])
+            (lineno(), 'GGV6/ self.ctb_form[i]:', self.ctb_form[i])
         # Dictionnaire des tonalités chromatiques en ordre ascendant(self.normal).
         for i in range(12):
             self.normal[i] = self.ctb_form[i][0]
@@ -3088,29 +3089,35 @@ class Commatique(Frame):
         c_x, c_y = 30, 60
         for i in range(12):
             c_i = i * 40
+            (lineno())
             for j in range(12):
                 c_j = j * 30
                 c_ripaug = self.c_bb[i][j][0][0]  # Signal augmenté : 0. ('+', 'C')...
                 c_ripmin = self.c_bb[i][j][0][1]  # Balance mineure : 0. ('-', 'D')...
                 c_riplen = len(c_ripmin)
-                if c_riplen == 1:
+                if c_riplen == 1:       # Les notes de la gamme sont isolées
                     c_rip0 = self.c_bb[i][j][0][0]  # Signal
                     c_rip1 = c_ripmin  # Note
                     self.ccnbase.create_text(c_x + c_j, c_y + c_i - 10, font=self.f_bu, text=c_rip0, fill='black')
                     self.ccnbase.create_text(c_x + c_j, c_y + c_i, font=self.f_bs, text=c_rip1, fill='black')
-                else:
+                    (lineno(), 'C_Rip0:', c_rip0)  # c_rip0 = Altération sur la note naturelle(gamme)
+                    (lineno(), 'C_Rip1:', c_rip1)  # c_rip1 = La note naturelle de la gamme en cours
+                else:                   # Les notes chromatiques sont couplées
                     c_rip1 = c_ripmin
                     self.ccnbase.create_text(c_x + c_j, c_y + c_i - 5, font=self.f_bv, text=c_rip1, fill='red')
                     c_rip2 = c_ripaug
                     self.ccnbase.create_text(c_x + c_j, c_y + c_i + 5, font=self.f_bv, text=c_rip2, fill='blue')
+                    (lineno(), 'C_Rip1:', c_rip1)  # Note chromatique du rang supérieur('-', 'D')
+                    (lineno(), 'C_Rip2:', c_rip2)  # Note chromatique du rang inférieur('+', 'C')
                 c_rop2 = self.ctb_form[i][0][j]
                 self.ccnbase.create_text(c_x + c_j, c_y + c_i + 20, font=self.f_bt, text=c_rop2, fill='olive')
+                (lineno(), 'C_Rop2:', c_rop2)  # c_rop2 = Valeur numérique de la tonalité
         # Bien détailler les gammes(heptatoniques et chromatiques !)
         # self.c_bb[0] = Mode tonique en cours len(1)=hepta et len(2)=chroma
         # c_iii = Nom de la gamme en cours
         # self.normal = Tonalité numérique en cours
         progam_chrom.chromatic(self.c_bb[0], c_iii, self.normal, s_cal)
-        (lineno(), 'Pied de page')
+        (lineno(), 'Pied de page', 'self.c_bb[0]', self.c_bb[0])
 
 # class Gammique
 # Gammique().mainloop()

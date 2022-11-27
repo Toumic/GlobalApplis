@@ -159,6 +159,20 @@ def transposer(rip0, rip1, rip2, rip3):
     ('\n', lineno(), 'dic_maj:', dic_maj.keys(), '\ngam_abc:', gam_abc)
 
 
+def alteration(signe):
+    """Permet d'obtenir la valeur numérique réelle de l'altération
+    Quand le signe est dans tab_sup = Valeur(+ et son rang(index))
+    Quand le signe est dans tab_inf = Valeur(- et son rang(index))"""
+    retour = ''
+    if signe in tab_sup:
+        retour = '+' + str(tab_sup.index(signe))
+        (lineno(), 'Alteration/signe(+):', signe, retour)
+    elif signe in tab_inf:
+        retour = '-' + str(tab_inf.index(signe))
+        (lineno(), 'Alteration/signe(-):', signe)
+    return retour
+
+
 def chromatic(a, b, c, s):
     """Fonction chromatique afin de soulager le code GlobGamVers6
     Définitions :
@@ -223,14 +237,14 @@ def chromatic(a, b, c, s):
         if abc < 2:  # c_rip0, c_rip1 (note gamme avec/sans altération)
             (lineno(), "Qu'est dic_ana[yep]?:", dic_ana[yep], ":= ('', 'C') ou ('^', 'F')")
             if not list(dic_ana[yep][0]):  # Indexe la partie gauche de ('','') où est la note naturelle
-                dic_rip1[yep] = list(dic_ana[yep][1])
                 dic_rip0[yep] = list(dic_ana[yep][1])
+                dic_rip1[yep] = list(dic_ana[yep][1])
                 if yep == 1:
                     gam0 = gam1 = dic_rip0[yep]  # Gamme en cours originale
                 (lineno(), 'GGC/dic_rip0.1[yep]:\t', yep, dic_rip0[yep], dic_rip1[yep])
             else:  # Indexe la partie gauche de ('-','') où est la note altérée
+                dic_rip0[yep] = [dic_ana[yep][0] + dic_ana[yep][1]]  # Assemble l'altération & la note
                 dic_rip1[yep] = [dic_ana[yep][0] + dic_ana[yep][1]]  # Assemble l'altération & la note
-                dic_rip0[yep] = [dic_ana[yep][0] + dic_ana[yep][1]]
                 if yep == 1:
                     gam0 = gam1 = dic_rip0[yep]  # Gamme en cours originale
                 (lineno(), 'GGC/dic_rip0.1[yep]:\t', yep, dic_rip0[yep], dic_rip1[yep])
@@ -239,33 +253,20 @@ def chromatic(a, b, c, s):
             (lineno(), 'GGC/dic_rip0.1[yep]:\t', yep, dic_rip0[yep], dic_rip1[yep])
         else:  # c_rip2,  c_rip3
             dic_rip2[yep], dic_rip3[yep] = list(dic_ana[yep][1]), list(dic_ana[yep][0])
-            # print(lineno(), 'GGC/dic_inv[yep]:   \t', yep, dic_inv[yep])
-            # print(lineno(), 'GGC/dic_rip2inf[yep]:\t', yep, dic_rip2[yep])
-            # print(lineno(), 'GGC/dic_rip3sup[yep]:\t', yep, dic_rip3[yep])
+            (lineno(), 'GGC/dic_inv[yep]:   \t', yep, dic_inv[yep])
+            (lineno(), 'GGC/dic_rip2inf[yep]:\t', yep, dic_rip2[yep])
+            (lineno(), 'GGC/dic_rip3sup[yep]:\t', yep, dic_rip3[yep])
     dic_rip0[13], dic_rip1[13] = dic_rip0[1], dic_rip1[1]
     transposer(dic_rip0, dic_rip1, dic_rip2, dic_rip3)
-    (lineno(), '_GGC/dic_rip0.1[1]:  \t', 13, dic_rip0, dic_rip1)
-    (lineno(), '_GGC/dic_rip2.3[1]:  \t', 13, dic_rip2, dic_rip3)
-
-    def alteration(signe):
-        """Permet d'obtenir la valeur numérique réelle de l'altération
-        Quand le signe est dans tab_sup = Valeur(+ et son rang(index)
-        Quand le signe est dans tab_inf = Valeur(- et son rang(index)"""
-        retour = ''
-        if signe in tab_sup:
-            retour = '+' + str(tab_sup.index(signe))
-            (lineno(), 'Alteration/signe(+):', signe, retour)
-        elif signe in tab_inf:
-            retour = '-' + str(tab_inf.index(signe))
-            (lineno(), 'Alteration/signe(-):', signe)
-        return retour
+    (lineno(), '_GGC/dic_rip0.1:  \n', dic_rip0, '\n', dic_rip1)
+    print(lineno(), '_GGC/dic_rip2.3:  \n', dic_rip2, '\n', dic_rip3)
 
     '''Phase de renseignement de la matrice'''
     for yes in range(1, 13):  # Lecture des séquences chromatiques
         print(lineno(), '_________________________*************_____________________ Début de cycle yes:', yes)
         # Formatage des variables utiles
         (lineno(), 'Indices gamme en cours originale gam0.1[0]:', gam0[0], gam1[0])
-        # (lineno(), 'dic_maj[dic_rip1[yes][0][1]][0]', dic_maj[dic_rip1[yes][0]])
+        # (lineno(), 'dic_maj[dic_rip1[yes][0][1]][0]:', dic_maj[dic_rip1[yes][0]])
         if yes in dic_rip0.keys():  # Si clé est dans dic_rip0
             if len(dic_rip1[yes]) == 1:
                 (lineno(), type(dic_rip1), '\ndic_rip1[yes][0]:', dic_rip1[yes])
@@ -281,7 +282,8 @@ def chromatic(a, b, c, s):
                 gam_mod = dic_maj[dic_rip1[yes][0]]  # Notes avec intervalle de dic_maj
                 rip1 = dic_maj[dic_rip1[yes][0]][0]
                 (lineno(), 'rip1:', rip1)
-            (lineno(), 'rip1:', rip1, ' dic_maj.keys():',  dic_maj.keys())
+            print(lineno(), 'rip1:', rip1, ' dic_maj.keys():\n',  dic_maj.keys())
+
             # Phase de renseignement des degrés modaux
             for yi in range(1, 12):  # Mise en forme pour un mode diatonique
                 result0, result1, deg_maj = 0, 0, ''
@@ -298,12 +300,12 @@ def chromatic(a, b, c, s):
                 rng_sui, cop_sui = alteration(sig_sui), deg_sui
                 (lineno(), 'GGC/SUI deg:', deg_sui, 'sig:', sig_sui, 'rng:', rng_sui, '\t\t\t*** INF à suivre')
                 (lineno(), 'cop_ava:', cop_ava, 'cop_sui:', cop_sui)
-                if cop_sui > len(gam_abc[rip1]) - 1:  # Huitième degré simplifié(gam_abc = 7 éléments)
-                    cop_sui -= 7
-                    (lineno(), 'cop_sui:', cop_sui, 'gam_abc[rip1]:', gam_abc[rip1])
                 if cop_ava > len(gam_abc[rip1]) - 1:  # Avant c'était avec deg_ava
                     cop_ava -= 7
                     (lineno(), 'cop_ava:', cop_ava, 'gam_abc[rip1]:', gam_abc[rip1])
+                if cop_sui > len(gam_abc[rip1]) - 1:  # Huitième degré simplifié(gam_abc = 7 éléments)
+                    cop_sui -= 7
+                    (lineno(), 'cop_sui:', cop_sui, 'gam_abc[rip1]:', gam_abc[rip1])
                 (lineno(), 'cop_ava:', cop_ava, 'cop_sui:', cop_sui)
                 # not_ava et not_sui tirées de gam_abc
                 not_ava, not_sui = gam_abc[rip1][cop_ava - 1], gam_abc[rip1][cop_sui - 1]
@@ -315,7 +317,6 @@ def chromatic(a, b, c, s):
                 if (deg_ava in extension) or (deg_sui in extension):  # Dernier degré numérique (8 et extensions)
                     '''Définition des variables
                         dif_bas = Différence (demande/état) = Nouveau signe
-                        not_bas = Recueillir la note concernée
                         deg_ba0(1). sig_ba0(1) = Signe altératif de not_bas(gam_abc) en extension
                         sig_nu0(1). sig_nu0(1) = Suivre num_ava(dic_inv[yes]) pour extension
                         à suivre = Les lignes à suivre num_ava(dic_inv[yes]) num_sui(dic_inv[yes + 1])
@@ -462,6 +463,7 @@ def chromatic(a, b, c, s):
                         ind_not = gam_mod.index(not_maj)
                         ind_inf = tab_inf.index(sig_maj)  # Rang du signe parmi les diminués
                         res_not = yi - ind_not  # res_not = Intervalle(Rang réel moins Rang majeur)
+                        (lineno(), 'res_not:', res_not, 'ind_inf:', ind_inf)
                         if len(num_ava) == 1:
                             result0 = not_maj
                             (lineno(), 'num_ava:', num_ava)
@@ -476,9 +478,14 @@ def chromatic(a, b, c, s):
                                 if abs(int(res_not)) == abs(int(rng_ava)):
                                     result0 = deg_maj
                                     (lineno(), 'GGC/SUP res_not:', res_not, 'rng_sui:', rng_sui)
-                                else:
-                                    print(lineno(), 'Autre cas AVA:')
-                                (lineno(), 'GGC/SUP res_not:', res_not, )
+                                elif res_not < ind_inf:
+                                    dif_not = ind_inf - abs(res_not)  # Calcul différence à reporter
+                                    sig_not = tab_inf[dif_not]  # Initialiser l'altération
+                                    result0 = sig_not + deg_maj  # Construire la note finale
+                                    (lineno(), 'GGC/SUP result0:', result0,)
+                                else:  # Laisser cette condition active pour prévenir d'un autre cas AVA
+                                    print(lineno(), 'Autre cas AVA:',)
+                                (lineno(), 'GGC/SUP ind_inf:', ind_inf, )
                         elif res_not < 0:  # Demande une addition
                             dif_not = abs(res_not) + ind_inf  # Calcul différence à reporter
                             sig_not = tab_inf[dif_not]  # Initialiser l'altération
@@ -535,6 +542,7 @@ def chromatic(a, b, c, s):
                         ind_not = gam_mod.index(not_maj)
                         ind_inf = tab_inf.index(sig_maj)  # Rang du signe parmi les diminués
                         res_not = yi - ind_not  # res_not = Intervalle(Rang réel moins Rang majeur)
+                        (lineno(), 'res_not:', res_not, 'ind_inf:', ind_inf)
                         if len(num_sui) == 1:
                             result1 = not_maj
                             (lineno(), 'num_sui:', num_sui)
@@ -543,14 +551,19 @@ def chromatic(a, b, c, s):
                                 dif_not = abs(res_not) - ind_inf  # Calcul différence à reporter
                                 sig_not = tab_sup[dif_not]  # Initialiser l'altération
                                 result1 = sig_not + deg_maj  # Construire la note finale
-                                (lineno(), 'GGC/SUP result1:', result1, '*******tab_sup********')
-                            else:
+                                (lineno(), 'GGC/SUP result1:', result1)
+                            else:  # res_not < ind_inf
                                 rng_sui = alteration(not_sui[:len(not_sui) - 1])
                                 if abs(int(res_not)) == abs(int(rng_sui)):
                                     result1 = deg_maj
                                     (lineno(), 'GGC/SUP res_not:', res_not, 'rng_sui:', rng_sui)
-                                else:
-                                    print(lineno(), 'Autre cas:')
+                                elif abs(res_not) < ind_inf:
+                                    dif_not = ind_inf - abs(res_not)  # Calcul différence à reporter
+                                    sig_not = tab_inf[dif_not]  # Initialiser l'altération
+                                    result1 = sig_not + deg_maj  # Construire la note finale
+                                    (lineno(), 'GGC/SUP result1:', result1)
+                                else:  # Laisser cette condition active pour prévenir d'un autre cas SUI
+                                    print(lineno(), 'Autre cas SUI:')
                         else:  # Demande une addition
                             dif_not = abs(res_not) + ind_inf  # Calcul différence à reporter
                             sig_not = tab_inf[dif_not]  # Initialiser l'altération

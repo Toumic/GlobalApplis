@@ -292,18 +292,28 @@ def chromatic(a, b, c, s):
                 num_ava, num_sui = dic_inv[yes][yi], dic_inv[yes + 1][yi]  # ava = Supérieur, sui = Inférieur
                 (lineno(), 'GGC/num_ava:', num_ava, 'num_sui:', num_sui, '\t\t*** SUP-INF Valeurs à suivre')
                 # deg_ava & sig_ava = abs(degré sup) et signe(degré sup)
-                deg_ava, sig_ava = int(num_ava[len(num_ava) - 1:]), num_ava[:len(num_ava) - 1]
-                rng_ava, cop_ava = alteration(sig_ava), deg_ava
+                deg_ava = sig_ava = ''
+                for y in num_ava:  # Trier(signe/degré)
+                    if y.isnumeric():
+                        deg_ava += y
+                    else:
+                        sig_ava += y
+                rng_ava, cop_ava = alteration(sig_ava), int(deg_ava)
                 (lineno(), 'GGC/AVA deg:', deg_ava, 'sig:', sig_ava, 'rng:', rng_ava, '\t\t\t*** SUP à suivre')
                 # deg_sui & sig_sui = abs(degré inf) et signe(degré inf)
-                deg_sui, sig_sui = int(num_sui[len(num_sui) - 1:]), num_sui[:len(num_sui) - 1]
-                rng_sui, cop_sui = alteration(sig_sui), deg_sui
+                deg_sui = sig_sui = ''
+                for y in num_sui:  # Trier(signe/degré)
+                    if y.isnumeric():
+                        deg_sui += y
+                    else:
+                        sig_sui += y
+                rng_sui, cop_sui = alteration(sig_sui), int(deg_sui)
                 (lineno(), 'GGC/SUI deg:', deg_sui, 'sig:', sig_sui, 'rng:', rng_sui, '\t\t\t*** INF à suivre')
                 (lineno(), 'cop_ava:', cop_ava, 'cop_sui:', cop_sui)
-                if cop_ava > len(gam_abc[rip1]) - 1:  # Avant c'était avec deg_ava
+                if cop_ava > len(gam_abc[rip1]):  # Avant c'était avec deg_ava
                     cop_ava -= 7
                     (lineno(), 'cop_ava:', cop_ava, 'gam_abc[rip1]:', gam_abc[rip1])
-                if cop_sui > len(gam_abc[rip1]) - 1:  # Huitième degré simplifié(gam_abc = 7 éléments)
+                if cop_sui > len(gam_abc[rip1]):  # Huitième degré simplifié(gam_abc = 7 éléments)
                     cop_sui -= 7
                     (lineno(), 'cop_sui:', cop_sui, 'gam_abc[rip1]:', gam_abc[rip1])
                 (lineno(), 'cop_ava:', cop_ava, 'cop_sui:', cop_sui)
@@ -312,7 +322,7 @@ def chromatic(a, b, c, s):
                 (lineno(), 'GGC/not_ava:', not_ava, 'not_sui:', not_sui, '\t\t*** Notes venues de gam_abc')
                 rip_app0, rip_app1, rng_maj = '§', '§', ''
                 (lineno(), 'GGC/rip_app0:', rip_app0, 'rip_app1:', rip_app1, '\t\t********INTRODUCTION******')
-                (lineno(), deg_ava, deg_sui)
+                (lineno(), 'deg_ava:', deg_ava, 'deg_sui:', deg_sui)
 
                 if (deg_ava in extension) or (deg_sui in extension):  # Dernier degré numérique (8 et extensions)
                     '''Définition des variables
@@ -326,14 +336,14 @@ def chromatic(a, b, c, s):
                     qui_ava, qui_sui, qui_est = False, False, {}  # qui_est = Accumule(qui_ava/qui_sui)
                     if deg_ava in extension:
                         qui_ava = True
-                        (lineno(), 'deg_ava:', deg_ava, 'qui_ava:', qui_ava)
+                        print(lineno(), 'deg_ava:', deg_ava, 'qui_ava:', qui_ava)
                     if deg_sui in extension:
                         qui_sui = True
-                        (lineno(), 'deg_sui:', deg_sui, 'qui_sui:', qui_sui)
+                        print(lineno(), 'deg_sui:', deg_sui, 'qui_sui:', qui_sui)
                     '''À l'avenir, il est probable que deux extensions soient en parallèle'''
                     if qui_ava:  # Besoins = deg_bas, rng_bas, rng_nue
                         qui_est['ava'] = []
-                        not_ba0 = gam_abc[rip1][deg_ava - 8]  # not_ba0 = Référence gam_abc
+                        not_ba0 = gam_abc[rip1][int(deg_ava) - 8]  # not_ba0 = Référence gam_abc
                         deg_ba0, sig_ba0 = not_ba0[len(not_ba0)-1:], not_ba0[:len(not_ba0)-1]
                         rng_ba0 = alteration(sig_ba0)  # sig_ba0 = Issue gam_abc
                         for y in num_ava:  # Trier(signe/degré)
@@ -345,11 +355,10 @@ def chromatic(a, b, c, s):
                         qui_est['ava'].append(deg_ba0)  # Donnée à transmettre(Note/degré) à moduler
                         qui_est['ava'].append(rng_ba0)  # Donnée à transmettre(index/rang) à moduler
                         qui_est['ava'].append(rng_nu0)  # Donnée à transmettre(index/rang) à suivre
-                        (lineno(), 'AVA not_ba0:', not_ba0, 'deg_ava-8:', deg_ava - 8)
                         # ('rng_nu0:', rng_nu0, 'rng_ba0:', rng_ba0, 'deg_nu0:', deg_nu0, 'sig_nu0:', sig_nu0)
                     if qui_sui:  # Besoins = deg_bas, rng_bas, rng_nue
                         qui_est['sui'] = []
-                        not_ba1 = gam_abc[rip1][deg_sui - 8]
+                        not_ba1 = gam_abc[rip1][inty(deg_sui) - 8]
                         deg_ba1, sig_ba1 = not_ba1[len(not_ba1) - 1:], not_ba1[:len(not_ba1) - 1]
                         rng_ba1 = alteration(sig_ba1)  # sig_ba1 = Issue gam_abc
                         for y in num_sui:  # Trier(signe/degré)
@@ -361,7 +370,7 @@ def chromatic(a, b, c, s):
                         qui_est['sui'].append(deg_ba1)
                         qui_est['sui'].append(rng_ba1)
                         qui_est['sui'].append(rng_nu1)
-                        (lineno(), 'SUI not_ba1:', not_ba1, 'deg_sui-8:', deg_sui-8)
+                        (lineno(), 'SUI not_ba1:', not_ba1, 'deg_sui:', deg_sui)
                         (lineno(), 'rng_nu1:', rng_nu1, 'rng_ba1:', rng_ba1)
                         (lineno(), 'deg_nu1:', deg_nu1, 'sig_nu1:', sig_nu1)
                     '''Transmission des paramètres (# Besoins = deg_bas, rng_bas, rng_nue)'''
@@ -492,15 +501,6 @@ def chromatic(a, b, c, s):
                             result0 = sig_not + deg_maj  # Construire la note finale
                             (lineno(), 'GGC/SUP result0:', result0, '*******tab_sup********')
                         (lineno(), 'SUP res_not:', res_not, 'ind_not:', ind_not, 'rng_maj:', rng_maj)
-                    """elif len(not_ava) == 1 and len(num_ava) > 1 and yi == 11:
-                        rng_ava = alteration(sig_ava)  # rng_ava = Nombre réel((-+)(index))
-                        result0 = tab_inf[abs(int(rng_ava))] + gam_abc[rip1][0]
-                        (lineno(), 'not_ava:', not_ava, 'num_ava:', num_ava, 'rng_ava:', rng_ava)
-                    elif len(not_ava) > 1 and len(num_ava) > 1 and yi == 11:
-                        deg_ava, sig_ava = rip1[len(rip1) - 1:], rip1[:len(rip1) - 1]
-                        rng_ava = alteration(sig_ava)
-                        print(lineno(), 'not_ava:', not_ava, 'num_ava:', num_ava, 'rng_ava:', rng_ava)
-                        print(lineno(), 'rip1:', rip1, 'deg_ava:', deg_ava, ':')"""
                 elif deg_ava not in extension:  # not_ava = Note majeure non signée SUP à modifier
                     result0 = sig_ava + not_ava
                     (lineno(), 'sig_ava:', sig_ava, 'not_ava:', not_ava)
@@ -512,12 +512,12 @@ def chromatic(a, b, c, s):
                     not_maj = not_sui
                     deg_maj, sig_maj = not_maj[len(not_maj) - 1:], not_maj[:len(not_maj) - 1]
                     rng_maj = alteration(sig_maj)  # rng_maj = Nombre réel((-+)(index))
-                    (lineno(), 'not:', not_maj, 'deg:', deg_maj, '\t\tsig:', sig_maj, 'rng:', rng_maj)
+                    (lineno(), 'not:', not_maj, 'deg:', deg_maj, '\t\tsig:', sig_maj, 'rng:', rng_maj, yi)
                     if int(rng_maj) >= 0:  # Signe parmi les altérations augmentées
                         ind_not = gam_mod.index(not_maj)
                         res_not = yi - ind_not  # res_not = Intervalle(Rang réel moins Rang majeur)
                         ind_sup = tab_sup.index(sig_maj)  # Rang du signe parmi les augmentés
-                        (lineno(), 'INF gam_mod ind_not:', ind_not, 'not_maj:', not_maj, 'num_sui:', num_sui)
+                        (lineno(), 'ind_not:', ind_not, 'res_not:', res_not, 'ind_sup:', ind_sup)
                         if len(num_sui) == 1:
                             result1 = not_maj
                             (lineno(), 'num_sui:', num_sui)
@@ -533,10 +533,12 @@ def chromatic(a, b, c, s):
                                 result1 = sig_not + deg_maj  # Construire la note finale
                                 (lineno(), 'SUP dif_not:', dif_not, 'sig_not:', sig_not, 'deg_maj:', deg_maj)
                                 (lineno(), 'GGC/SUP result1:', result1, '')
+                            (lineno(), 'GGC/ res_not < 0:',)
                         else:  # Demande une addition
                             dif_not = abs(res_not) + ind_sup  # Calcul différence à reporter
-                            sig_not = tab_inf[dif_not]  # Initialiser l'altération
+                            sig_not = tab_sup[dif_not]  # Initialiser l'altération
                             result1 = sig_not + deg_maj  # Construire la note finale
+                            (lineno(), 'dif_not:', dif_not, ':', sig_not)
                             (lineno(), 'GGC/SUP result1:', result1, '*******tab_sup********')
                     else:  # Signe parmi les altérations diminuées
                         ind_not = gam_mod.index(not_maj)
@@ -569,9 +571,7 @@ def chromatic(a, b, c, s):
                             sig_not = tab_inf[dif_not]  # Initialiser l'altération
                             result1 = sig_not + deg_maj  # Construire la note finale
                             (lineno(), 'GGC/SUP result1:', result1, '*******tab_sup********')
-                        (lineno(), 'SUP res_not:', res_not, 'ind_not:', ind_not, 'rng_maj:', rng_maj)
-                    '''elif len(not_sui) == 1 and len(num_sui) > 1:
-                        print(lineno(), "not_sui:", not_sui, 'num_sui:', num_sui)'''
+                        (lineno(), 'SUP res_not:', res_not, 'ind_not:', ind_not, 'rng_maj:', rng_maj, yi)
                 elif deg_sui not in extension:  # not_sui = Note majeure non signée INF à modifier
                     result1 = sig_sui + not_sui
                     (lineno(), "sig_sui:", sig_sui, 'not_sui:', not_sui)

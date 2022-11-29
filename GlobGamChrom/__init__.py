@@ -156,7 +156,7 @@ def transposer(rip0, rip1, rip2, rip3):
                 if note not in dic_maj[ca]:
                     dic_maj[ca].append(note)
                     gam_abc[ca].append(note)
-    ('\n', lineno(), 'dic_maj:', dic_maj.keys(), '\ngam_abc:', gam_abc)
+    ('\n', lineno(), 'dic_maj:', dic_maj.keys(), '\ngam_abc:', gam_abc['C'])
 
 
 def alteration(signe):
@@ -184,11 +184,11 @@ def chromatic(a, b, c, s):
     a_diatonic.append(a)  # Tonalité analogique
     b_diatonic.append(b)  # Nom de la tonalité
     c_diatonic.append(c)  # Tonalité numéric croissant
-    (lineno(), 'GGC/', b, '= Nom de la tonalité analogique')
+    (lineno(), 'GGC/', b, '= Nom de la tonalité analogique', 'a_diatonic:', a_diatonic)
     # Mise en forme du dictionnaire dic_ana(analogie)
     for ia in range(len(a_diatonic[0])):
         dic_ana[ia + 1] = a_diatonic[0][ia][0]
-        (lineno(), 'GGC/', dic_ana, 'len:', len(a_diatonic[0][ia][0]), 'ia:', ia)
+        (lineno(), 'GGC/dic_ana:', dic_ana, 'len:', len(a_diatonic[0][ia][0]), 'ia:', ia)
     # Mise en forme du dictionnaire dic_mod(ordre)(numéric)
     for ia in range(len(c_diatonic[0])):
         dic_mod[ia + 1] = c_diatonic[0][ia]
@@ -224,6 +224,7 @@ def chromatic(a, b, c, s):
             L'inférieur.    # c_rip2 = Note chromatique du rang inférieur ('+', 'C')
             La tonalité.    # c_rop2 = Valeur numérique de la tonalité
             dic_rip0, dic_rip1, dic_rip2, dic_rip3 = {}, {}, {}, {}'''
+
     '''Le cycle yep sépare les notes de la gammes de celles qui sont chromatiques'''
     gam0 = gam1 = ''
     for yep in range(1, 13):  # Mesurer dic_ana[yep](notes:gamme ou chrome)
@@ -259,349 +260,379 @@ def chromatic(a, b, c, s):
     dic_rip0[13], dic_rip1[13] = dic_rip0[1], dic_rip1[1]
     transposer(dic_rip0, dic_rip1, dic_rip2, dic_rip3)
     (lineno(), '_GGC/dic_rip0.1:  \n', dic_rip0, '\n', dic_rip1)
-    print(lineno(), '_GGC/dic_rip2.3:  \n', dic_rip2, '\n', dic_rip3)
+    (lineno(), '_GGC/dic_rip2.3:  \n', dic_rip2, '\n', dic_rip3)
 
     '''Phase de renseignement de la matrice'''
     for yes in range(1, 13):  # Lecture des séquences chromatiques
         print(lineno(), '_________________________*************_____________________ Début de cycle yes:', yes)
-        # Formatage des variables utiles
         (lineno(), 'Indices gamme en cours originale gam0.1[0]:', gam0[0], gam1[0])
-        # (lineno(), 'dic_maj[dic_rip1[yes][0][1]][0]:', dic_maj[dic_rip1[yes][0]])
+        gam_mod, rip0, rip1 = {}, '', ''
+
+        # Section rip0_1
         if yes in dic_rip0.keys():  # Si clé est dans dic_rip0
-            if len(dic_rip1[yes]) == 1:
-                (lineno(), type(dic_rip1), '\ndic_rip1[yes][0]:', dic_rip1[yes])
-                if len(dic_rip1[yes][0]) > 1:
-                    gam_mod = dic_maj[dic_rip1[yes][0]]  # Pour l'index gamme majeure long(12)
-                    rip1 = dic_maj[dic_rip1[yes][0]][0]  # La tonique de la gamme majeure
-                    (lineno(), 'GGC/dic_rip1[yes][0]:', dic_rip1[yes][0], 'rip1:', rip1)
-                else:
-                    gam_mod = dic_maj[dic_rip1[yes][0]]  # Pour l'index gamme majeure long(12)
-                    rip1 = dic_maj[dic_rip1[yes][0]][0]  # La tonique de la gamme majeure
-                    (lineno(), 'GGC/dic_rip1[yes][0]:', dic_rip1[yes][0], 'rip1:', rip1)
+            """if len(dic_rip1[yes]) == 1:"""
+            (lineno(), type(dic_rip1), '\ndic_rip1[yes][0]:', dic_rip1[yes][0], dic_rip1[yes])
+            if len(dic_rip1[yes][0]) > 1:
+                rip1 = dic_maj[dic_rip1[yes][0]][0]  # La tonique de la gamme majeure
+                gam_mod[rip1] = dic_maj[dic_rip1[yes][0]]  # Pour l'index gamme majeure long(12)
+                (lineno(), 'GGC/dic_rip1[yes][0]:', dic_rip1[yes][0], 'rip1:', rip1)
             else:
-                gam_mod = dic_maj[dic_rip1[yes][0]]  # Notes avec intervalle de dic_maj
+                rip1 = dic_maj[dic_rip1[yes][0]][0]  # La tonique de la gamme majeure
+                gam_mod[rip1] = dic_maj[dic_rip1[yes][0]]  # Pour l'index gamme majeure long(12)
+                (lineno(), 'GGC/dic_rip1[yes][0]:', dic_rip1[yes][0], 'rip1:', rip1)
+            """else:
                 rip1 = dic_maj[dic_rip1[yes][0]][0]
-                (lineno(), 'rip1:', rip1)
-            print(lineno(), 'rip1:', rip1, ' dic_maj.keys():\n',  dic_maj.keys())
+                gam_mod[rip1] = dic_maj[dic_rip1[yes][0]]  # Notes avec intervalle de dic_maj
+                print(lineno(), 'rip1:', rip1)"""
+            rip0 = rip1
+            (lineno(), 'gam_mod:', gam_mod)
+            (lineno(), 'rip0:', rip0, 'rip1:', rip1, '\n# Section rip0_1')
 
-            # Phase de renseignement des degrés modaux
-            for yi in range(1, 12):  # Mise en forme pour un mode diatonique
-                result0, result1, deg_maj = 0, 0, ''
-                ('.', lineno(), 'gam_mod:', gam_mod, '\n\tgam_abc[rip1]:', gam_abc[rip1], 'rip1:', rip1)
-                # num_ava & num_sui = Degrés assignés aux lignes directives (supérieures(ava), inférieures(sui))
-                num_ava, num_sui = dic_inv[yes][yi], dic_inv[yes + 1][yi]  # ava = Supérieur, sui = Inférieur
-                (lineno(), 'GGC/num_ava:', num_ava, 'num_sui:', num_sui, '\t\t*** SUP-INF Valeurs à suivre')
-                # deg_ava & sig_ava = abs(degré sup) et signe(degré sup)
-                deg_ava = sig_ava = ''
-                for y in num_ava:  # Trier(signe/degré)
-                    if y.isnumeric():
-                        deg_ava += y
-                    else:
-                        sig_ava += y
-                rng_ava, cop_ava = alteration(sig_ava), int(deg_ava)
-                (lineno(), 'GGC/AVA deg:', deg_ava, 'sig:', sig_ava, 'rng:', rng_ava, '\t\t\t*** SUP à suivre')
-                # deg_sui & sig_sui = abs(degré inf) et signe(degré inf)
-                deg_sui = sig_sui = ''
-                for y in num_sui:  # Trier(signe/degré)
-                    if y.isnumeric():
-                        deg_sui += y
-                    else:
-                        sig_sui += y
-                rng_sui, cop_sui = alteration(sig_sui), int(deg_sui)
-                (lineno(), 'GGC/SUI deg:', deg_sui, 'sig:', sig_sui, 'rng:', rng_sui, '\t\t\t*** INF à suivre')
-                (lineno(), 'cop_ava:', cop_ava, 'cop_sui:', cop_sui)
-                if cop_ava > len(gam_abc[rip1]):  # Avant c'était avec deg_ava
-                    cop_ava -= 7
-                    (lineno(), 'cop_ava:', cop_ava, 'gam_abc[rip1]:', gam_abc[rip1])
-                if cop_sui > len(gam_abc[rip1]):  # Huitième degré simplifié(gam_abc = 7 éléments)
-                    cop_sui -= 7
-                    (lineno(), 'cop_sui:', cop_sui, 'gam_abc[rip1]:', gam_abc[rip1])
-                (lineno(), 'cop_ava:', cop_ava, 'cop_sui:', cop_sui)
-                # not_ava et not_sui tirées de gam_abc
-                not_ava, not_sui = gam_abc[rip1][cop_ava - 1], gam_abc[rip1][cop_sui - 1]
-                (lineno(), 'GGC/not_ava:', not_ava, 'not_sui:', not_sui, '\t\t*** Notes venues de gam_abc')
-                rip_app0, rip_app1, rng_maj = '§', '§', ''
-                (lineno(), 'GGC/rip_app0:', rip_app0, 'rip_app1:', rip_app1, '\t\t********INTRODUCTION******')
-                (lineno(), 'deg_ava:', deg_ava, 'deg_sui:', deg_sui)
+            # Section rip0_2
+        elif yes in dic_rip2.keys():  # Si clé est dans dic_rip2
+            # print(lineno(), dic_rip2.keys(), 'dic_rip2[yes]:', dic_rip2[yes], 'dic_rip3[yes]:', dic_rip3[yes])
+            (lineno(), 'len(dic_rip2[yes]):', len(dic_rip2[yes]))
+            ripe = ''
+            for no in dic_rip2[yes]:
+                ripe += no
+            dic_rip2[yes] = [ripe]
+            gam_mod[ripe] = dic_maj[ripe]  # Notes avec intervalle de dic_maj
+            rip0 = dic_maj[ripe][0]
 
-                if (deg_ava in extension) or (deg_sui in extension):  # Dernier degré numérique (8 et extensions)
-                    '''Définition des variables
-                        dif_bas = Différence (demande/état) = Nouveau signe
-                        deg_ba0(1). sig_ba0(1) = Signe altératif de not_bas(gam_abc) en extension
-                        sig_nu0(1). sig_nu0(1) = Suivre num_ava(dic_inv[yes]) pour extension
-                        à suivre = Les lignes à suivre num_ava(dic_inv[yes]) num_sui(dic_inv[yes + 1])
-                        rng_ba0(1). rng_nu0(1) = Signes recueillis. Signes à suivre en extension'''
-                    deg_bas, rng_bas, rng_nue, dif_bas, sig_mod = '', '', '', '', ''
-                    deg_nu0, deg_nu1, sig_nu0, sig_nu1, rng_nu0, rng_nu1 = '', '', '', '', '', ''
-                    qui_ava, qui_sui, qui_est = False, False, {}  # qui_est = Accumule(qui_ava/qui_sui)
-                    if deg_ava in extension:
-                        qui_ava = True
-                        print(lineno(), 'deg_ava:', deg_ava, 'qui_ava:', qui_ava)
-                    if deg_sui in extension:
-                        qui_sui = True
-                        print(lineno(), 'deg_sui:', deg_sui, 'qui_sui:', qui_sui)
-                    '''À l'avenir, il est probable que deux extensions soient en parallèle'''
-                    if qui_ava:  # Besoins = deg_bas, rng_bas, rng_nue
-                        qui_est['ava'] = []
-                        not_ba0 = gam_abc[rip1][int(deg_ava) - 8]  # not_ba0 = Référence gam_abc
-                        deg_ba0, sig_ba0 = not_ba0[len(not_ba0)-1:], not_ba0[:len(not_ba0)-1]
-                        rng_ba0 = alteration(sig_ba0)  # sig_ba0 = Issue gam_abc
-                        for y in num_ava:  # Trier(signe/degré)
-                            if y.isnumeric():
-                                deg_nu0 += y
-                            else:
-                                sig_nu0 += y
-                        rng_nu0 = alteration(sig_nu0)  # sig_nu0 = Issue num_ava
-                        qui_est['ava'].append(deg_ba0)  # Donnée à transmettre(Note/degré) à moduler
-                        qui_est['ava'].append(rng_ba0)  # Donnée à transmettre(index/rang) à moduler
-                        qui_est['ava'].append(rng_nu0)  # Donnée à transmettre(index/rang) à suivre
-                        # ('rng_nu0:', rng_nu0, 'rng_ba0:', rng_ba0, 'deg_nu0:', deg_nu0, 'sig_nu0:', sig_nu0)
-                    if qui_sui:  # Besoins = deg_bas, rng_bas, rng_nue
-                        qui_est['sui'] = []
-                        not_ba1 = gam_abc[rip1][inty(deg_sui) - 8]
-                        deg_ba1, sig_ba1 = not_ba1[len(not_ba1) - 1:], not_ba1[:len(not_ba1) - 1]
-                        rng_ba1 = alteration(sig_ba1)  # sig_ba1 = Issue gam_abc
-                        for y in num_sui:  # Trier(signe/degré)
-                            if y.isnumeric():
-                                deg_nu1 += y
-                            else:
-                                sig_nu1 += y
-                        rng_nu1 = alteration(sig_nu1)  # sig_nu1 = Issue num_sui
-                        qui_est['sui'].append(deg_ba1)
-                        qui_est['sui'].append(rng_ba1)
-                        qui_est['sui'].append(rng_nu1)
-                        (lineno(), 'SUI not_ba1:', not_ba1, 'deg_sui:', deg_sui)
-                        (lineno(), 'rng_nu1:', rng_nu1, 'rng_ba1:', rng_ba1)
-                        (lineno(), 'deg_nu1:', deg_nu1, 'sig_nu1:', sig_nu1)
-                    '''Transmission des paramètres (# Besoins = deg_bas, rng_bas, rng_nue)'''
-                    dic_est = qui_est.keys()  # dic_est = Liste de dictionnaire
-                    for dic_key in dic_est:
-                        est_lis = list(qui_est[dic_key])
-                        deg_bas = est_lis[0]  # deg_bas = Note à altérer
-                        rng_bas = est_lis[1]  # rng_bas = Signe à moduler
-                        rng_nue = est_lis[2]  # rng_nue = Signe dictateur
-                        (lineno(), 'dic_key:', dic_key)
-                        # result0 = Ligne supérieure
-                        # result1 = Ligne inférieure
-                        (lineno(), 'deg_bas:', deg_bas, 'rng_bas:', rng_bas, 'rng_nue:', rng_nue)
-                        '''Passage aux traitements des modulations, avec deux choix possibles(qui_ava/qui_sui)'''
-                        if int(rng_nue) > -1:  # rng_nue = dic_inv est altération à appliquer sur rng_bas
-                            if int(rng_bas) < 0:  # rng_bas = tab_inf
-                                '''Analyser la disposition altérative'''
-                                dif_bas = abs(int(rng_bas)) - abs(int(rng_nue))
-                                # Si dif_bas est négatif, il y a besoin d'utiliser tab_sup
-                                # Autrement, utiliser tab_inf
-                                if dif_bas > -1:
-                                    sig_mod = tab_inf[dif_bas]
-                                else:
-                                    sig_mod = tab_sup[abs(dif_bas)]
-                                if dic_key == 'ava':
-                                    result0 = sig_mod + deg_bas
-                                else:  # dic_key = 'sui'
-                                    result1 = sig_mod + deg_bas
-                                (lineno(), 'EX/ba2>-1ba1<0')
-                            else:  # rng_bas = tab_sup
-                                '''Tout va bien on peut continuer'''
-                                dif_bas = abs(int(rng_bas)) + abs(int(rng_nue))
-                                sig_mod = tab_sup[dif_bas]
-                                if dic_key == 'ava':
-                                    result0 = sig_mod + deg_bas
-                                else:  # dic_key = 'sui'
-                                    result1 = sig_mod + deg_bas
-                                (lineno(), 'EX/nue>-1_bas>-1', result1, 'deg_bas:', deg_bas)
-                        elif int(rng_nue) < 0:  # rng_nue = dic_inv est altération à appliquer sur rng_bas
-                            if int(rng_bas) < 0:  # rng_bas = tab_inf
-                                '''Tout va bien on peut continuer'''
-                                dif_bas = abs(int(rng_bas)) + abs(int(rng_nue))
+            # Section rip1_3
+            ripe = ''
+            for no in dic_rip3[yes]:
+                ripe += no
+            dic_rip3[yes] = [ripe]
+            gam_mod[ripe] = dic_maj[ripe]  # Notes avec intervalle de dic_maj
+            rip1 = dic_maj[ripe][0]
+            (lineno(), 'rip0:', rip0, 'rip1:', rip1, 'ripe:', ripe)
+            (lineno(), 'gam_mod:', gam_mod.keys(), ' dic_maj:\n', dic_maj.keys(), '\n# Section rip1_2.3')
+
+            '''# Phase de renseignement des degrés modaux'''
+        for yi in range(1, 12):  # Mise en forme pour un mode diatonique
+            result0, result1, deg_maj = 0, 0, ''
+            (lineno(), 'gam_mod[rip0]:', gam_mod[rip0], '\n    gam_abc[rip0]:', gam_abc[rip0], '\trip0:', rip0)
+            (lineno(), 'gam_mod[rip1]:', gam_mod[rip1], '\n    gam_abc[rip1]:', gam_abc[rip1], '\trip1:', rip1)
+            (lineno())
+            # num_ava & num_sui = Degrés assignés aux lignes directives (supérieures(ava), inférieures(sui))
+            num_ava, num_sui = dic_inv[yes][yi], dic_inv[yes + 1][yi]  # ava = Supérieur, sui = Inférieur
+            (lineno(), 'GGC/num_ava:', num_ava, 'num_sui:', num_sui, '\t\t*** SUP-INF Valeurs à suivre')
+            # deg_ava & sig_ava = abs(degré sup) et signe(degré sup)
+            deg_ava = sig_ava = ''
+            for y in num_ava:  # Trier(signe/degré)
+                if y.isnumeric():
+                    deg_ava += y
+                else:
+                    sig_ava += y
+            rng_ava, cop_ava = alteration(sig_ava), int(deg_ava)
+            (lineno(), 'GGC/AVA deg:', deg_ava, 'sig:', sig_ava, '\trng:', rng_ava, '\t\t\t*** SUP à suivre')
+            # deg_sui & sig_sui = abs(degré inf) et signe(degré inf)
+            deg_sui = sig_sui = ''
+            for y in num_sui:  # Trier(signe/degré)
+                if y.isnumeric():
+                    deg_sui += y
+                else:
+                    sig_sui += y
+            rng_sui, cop_sui = alteration(sig_sui), int(deg_sui)
+            (lineno(), 'GGC/SUI deg:', deg_sui, 'sig:', sig_sui, '\trng:', rng_sui, '\t\t\t*** INF à suivre')
+            (lineno(), 'cop_ava:', cop_ava, 'cop_sui:', cop_sui)
+            if cop_ava > len(gam_abc[rip1]):  # Avant c'était avec deg_ava
+                cop_ava -= 7
+                (lineno(), 'cop_ava:', cop_ava, 'deg_ava:', deg_ava)
+            if cop_sui > len(gam_abc[rip1]):  # Huitième degré simplifié(gam_abc = 7 éléments)
+                cop_sui -= 7
+                (lineno(), 'cop_sui:', cop_sui, 'deg_sui:', deg_sui)
+            (lineno(), 'GGC/****cop_ava:', cop_ava, 'cop_sui:', cop_sui)
+            # not_ava et not_sui tirées de gam_abc
+            not_ava, not_sui = gam_abc[rip0][cop_ava - 1], gam_abc[rip1][cop_sui - 1]
+            (lineno(), 'GGC/****not_ava:', not_ava, 'not_sui:', not_sui, 'Notes à altérer')
+            rip_app0, rip_app1, rng_maj = '§', '§', ''
+            (lineno(), 'GGC/rip_app0:', rip_app0, 'rip_app1:', rip_app1, '\t\t********INTRODUCTION******')
+
+            '''Niveau des extensions (8, 9, 10, 11, 12, 13, 14)'''
+            if (int(deg_ava) in extension) or (int(deg_sui) in extension):  # Dernier degré numérique (8 et extensions)
+                '''Définition des variables
+                    dif_bas = Différence (demande/état) = Nouveau signe
+                    deg_ba0(1). sig_ba0(1) = Signe altératif de not_bas(gam_abc) en extension
+                    sig_nu0(1). sig_nu0(1) = Suivre num_ava(dic_inv[yes]) pour extension
+                    à suivre = Les lignes à suivre num_ava(dic_inv[yes]) num_sui(dic_inv[yes + 1])
+                    rng_ba0(1). rng_nu0(1) = Signes recueillis. Signes à suivre en extension'''
+                (lineno(), '§')
+                deg_bas, rng_bas, rng_nue, dif_bas, sig_mod = '', '', '', '', ''
+                deg_nu0, deg_nu1, sig_nu0, sig_nu1, rng_nu0, rng_nu1 = '', '', '', '', '', ''
+                qui_ava, qui_sui, qui_est = False, False, {}  # qui_est = Accumule(qui_ava/qui_sui)
+                if int(deg_ava) in extension:
+                    qui_ava = True
+                    (lineno(), 'deg_ava:', deg_ava, 'qui_ava:', qui_ava, 'num_ava:', num_ava)
+                if int(deg_sui) in extension:
+                    qui_sui = True
+                    (lineno(), 'deg_sui:', deg_sui, 'qui_sui:', qui_sui, 'num_sui:', num_sui)
+                '''À l'avenir, il est probable que deux extensions soient en parallèle'''
+                if qui_ava:  # Besoins = deg_bas, rng_bas, rng_nue
+                    qui_est['ava'] = []
+                    not_ba0 = gam_abc[rip1][int(deg_ava) - 8]  # not_ba0 = Référence gam_abc
+                    deg_ba0, sig_ba0 = not_ba0[len(not_ba0)-1:], not_ba0[:len(not_ba0)-1]
+                    rng_ba0 = alteration(sig_ba0)  # sig_ba0 = Issue gam_abc
+                    for y in num_ava:  # Trier(signe/degré)
+                        if y.isnumeric():
+                            deg_nu0 += y
+                        else:
+                            sig_nu0 += y
+                    rng_nu0 = alteration(sig_nu0)  # sig_nu0 = Issue num_ava
+                    qui_est['ava'].append(deg_ba0)  # Donnée à transmettre(Note/degré) à moduler
+                    qui_est['ava'].append(rng_ba0)  # Donnée à transmettre(index/rang) à moduler
+                    qui_est['ava'].append(rng_nu0)  # Donnée à transmettre(index/rang) à suivre
+                    # ('rng_nu0:', rng_nu0, 'rng_ba0:', rng_ba0, 'deg_nu0:', deg_nu0, 'sig_nu0:', sig_nu0)
+                if qui_sui:  # Besoins = deg_bas, rng_bas, rng_nue
+                    qui_est['sui'] = []
+                    not_ba1 = gam_abc[rip1][int(deg_sui) - 8]
+                    deg_ba1, sig_ba1 = not_ba1[len(not_ba1) - 1:], not_ba1[:len(not_ba1) - 1]
+                    rng_ba1 = alteration(sig_ba1)  # sig_ba1 = Issue gam_abc
+                    for y in num_sui:  # Trier(signe/degré)
+                        if y.isnumeric():
+                            deg_nu1 += y
+                        else:
+                            sig_nu1 += y
+                    rng_nu1 = alteration(sig_nu1)  # sig_nu1 = Issue num_sui
+                    qui_est['sui'].append(deg_ba1)
+                    qui_est['sui'].append(rng_ba1)
+                    qui_est['sui'].append(rng_nu1)
+                    (lineno(), 'SUI not_ba1:', not_ba1, 'deg_sui:', deg_sui)
+                    (lineno(), 'rng_nu1:', rng_nu1, 'rng_ba1:', rng_ba1)
+                    (lineno(), 'deg_nu1:', deg_nu1, 'sig_nu1:', sig_nu1)
+                '''Transmission des paramètres (# Besoins = deg_bas, rng_bas, rng_nue)'''
+                dic_est = qui_est.keys()  # dic_est = Liste de dictionnaire
+                for dic_key in dic_est:
+                    est_lis = list(qui_est[dic_key])
+                    deg_bas = est_lis[0]  # deg_bas = Note à altérer
+                    rng_bas = est_lis[1]  # rng_bas = Signe à moduler
+                    rng_nue = est_lis[2]  # rng_nue = Signe dictateur
+                    (lineno(), 'dic_key:', dic_key)
+                    # result0 = Ligne supérieure
+                    # result1 = Ligne inférieure
+                    (lineno(), 'deg_bas:', deg_bas, 'rng_bas:', rng_bas, 'rng_nue:', rng_nue)
+                    '''Passage aux traitements des modulations, avec deux choix possibles(qui_ava/qui_sui)'''
+                    if int(rng_nue) > -1:  # rng_nue = dic_inv est altération à appliquer sur rng_bas
+                        if int(rng_bas) < 0:  # rng_bas = tab_inf
+                            '''Analyser la disposition altérative'''
+                            dif_bas = abs(int(rng_bas)) - abs(int(rng_nue))
+                            # Si dif_bas est négatif, il y a besoin d'utiliser tab_sup
+                            # Autrement, utiliser tab_inf
+                            (lineno(), 'dif_bas:', dif_bas)
+                            if dif_bas > -1:
                                 sig_mod = tab_inf[dif_bas]
-                                if dic_key == 'ava':
-                                    result0 = sig_mod + deg_bas
-                                else:  # dic_key = 'sui'
-                                    result1 = sig_mod + deg_bas
-                                (lineno(), 'EX/nue<0_bas<0')
-                            else:  # rng_bas = tab_sup
-                                '''Analyser la disposition altérative'''
-                                dif_bas = abs(int(rng_bas)) - abs(int(rng_nue))
-                                if dif_bas > -1:
-                                    sig_mod = tab_sup[dif_bas]
-                                else:
-                                    sig_mod = tab_inf[abs(dif_bas)]
-                                if dic_key == 'ava':
-                                    result0 = sig_mod + deg_bas
-                                else:  # dic_key = 'sui'
-                                    result1 = sig_mod + deg_bas
-                                (lineno(), 'EX/nue<0_bas>-1')
-                        (lineno(), 'EX/deg_sui:', deg_sui, 'sig_sui:', sig_sui, 'dif_bas:', dif_bas)
-                        (lineno(), 'EX/rng_bas:', rng_bas, 'rng_nue:', rng_nue)
-                        (lineno(), 'EX/GGC/SUP result1:', result1)
-                        (lineno(), 'EX/GGC/SUP deg_ava:', deg_ava, 'sig_ava:', sig_ava, 'not_sup:', '\n')
-
-                '''Ligne supérieure des degrés à suivre: dic_inv[yes][yi]'''
-                if len(not_ava) > 1 and deg_ava not in extension:  # not_ava = Note maj signée SUP à modifier
-                    not_maj = not_ava  # Note issue gam_abc
-                    deg_maj, sig_maj = not_maj[len(not_maj) - 1:], not_maj[:len(not_maj) - 1]
-                    rng_maj = alteration(sig_maj)  # rng_maj = Nombre réel((-+)(index))
-                    (lineno(), 'not:', not_maj, 'deg:', deg_maj, '\t\tsig:', sig_maj, 'rng:', rng_maj)
-                    if int(rng_maj) >= 0:  # int(rng_maj) = Signe parmi les altérations augmentées
-                        ind_not = gam_mod.index(not_maj)
-                        res_not = yi - ind_not  # res_not = Intervalle(Rang réel moins Rang majeur)
-                        ind_sup = tab_sup.index(sig_maj)  # Rang du signe parmi les augmentés
-                        (lineno(), 'sig:', sig_maj, 'res_not:', res_not, 'ind:', ind_sup, 'ind_not:', ind_not)
-                        if len(num_ava) == 1:
-                            result0 = not_maj
-                            (lineno(), 'num_ava:', num_ava)
-                        elif res_not < 0:  # Demande une soustraction
-                            if abs(res_not) > ind_sup:  # Demande supérieure à l'offre augmentée
-                                dif_not = abs(res_not) - ind_sup  # Calcul différence à reporter
-                                sig_not = tab_inf[dif_not]  # Initialiser l'altération
-                                result0 = sig_not + deg_maj  # Construire la note finale
-                                (lineno(), 'GGC/SUP result0:', result0, '*******tab_sup********')
                             else:
-                                dif_not = abs(res_not) - ind_sup  # Calcul différence à reporter
-                                sig_not = tab_sup[abs(dif_not)]  # Initialiser l'altération
-                                result0 = sig_not + deg_maj  # Construire la note finale
-                                (lineno(), 'SUP dif_not:', dif_not, 'sig_not:', sig_not, 'deg_maj:', deg_maj)
-                                (lineno(), 'GGC/SUP result0:', result0, '')
-                        else:  # Demande une addition
-                            dif_not = abs(res_not) + ind_sup  # Calcul différence à reporter
+                                sig_mod = tab_sup[abs(dif_bas)]
+                            if dic_key == 'ava':
+                                result0 = sig_mod + deg_bas
+                            else:  # dic_key = 'sui'
+                                result1 = sig_mod + deg_bas
+                            (lineno(), 'EX/ba2>-1ba1<0 result0:', result0, 'result1:', result1)
+                        else:  # rng_bas = tab_sup
+                            '''Tout va bien on peut continuer'''
+                            dif_bas = abs(int(rng_bas)) + abs(int(rng_nue))
+                            sig_mod = tab_sup[dif_bas]
+                            if dic_key == 'ava':
+                                result0 = sig_mod + deg_bas
+                            else:  # dic_key = 'sui'
+                                result1 = sig_mod + deg_bas
+                            (lineno(), 'EX/nue>-1_bas>-1 result0:', result0, 'result1:', result1)
+                    elif int(rng_nue) < 0:  # rng_nue = dic_inv est altération à appliquer sur rng_bas
+                        if int(rng_bas) < 0:  # rng_bas = tab_inf
+                            '''Tout va bien on peut continuer'''
+                            dif_bas = abs(int(rng_bas)) + abs(int(rng_nue))
+                            sig_mod = tab_inf[dif_bas]
+                            if dic_key == 'ava':
+                                result0 = sig_mod + deg_bas
+                            else:  # dic_key = 'sui'
+                                result1 = sig_mod + deg_bas
+                            (lineno(), 'EX/nue<0_bas<0 result0:', result0, 'result1:', result1)
+                        else:  # rng_bas = tab_sup
+                            '''Analyser la disposition altérative'''
+                            dif_bas = abs(int(rng_bas)) - abs(int(rng_nue))
+                            if dif_bas > -1:
+                                sig_mod = tab_sup[dif_bas]
+                            else:
+                                sig_mod = tab_inf[abs(dif_bas)]
+                            if dic_key == 'ava':
+                                result0 = sig_mod + deg_bas
+                            else:  # dic_key = 'sui'
+                                result1 = sig_mod + deg_bas
+                            (lineno(), 'EX/nue<0_bas>-1 result0:', result0, 'result1:', result1)
+                    (lineno(), 'EX/deg_sui:', deg_sui, 'sig_sui:', sig_sui, 'dif_bas:', dif_bas)
+                    (lineno(), 'EX/rng_bas:', rng_bas, 'rng_nue:', rng_nue)
+                    (lineno(), 'EX/GGC/SUP result0:', result0, 'result1:', result1)
+                    (lineno(), 'EX/GGC/SUP deg_ava:', deg_ava, 'sig_ava:', sig_ava, 'not_sup:', '\n')
+
+            '''Ligne supérieure des degrés à suivre: dic_inv[yes][yi]'''
+            if len(not_ava) > 1 and deg_ava not in extension:  # not_ava = Note maj signée SUP à modifier
+                not_maj = not_ava  # Note issue gam_abc
+                deg_maj, sig_maj = not_maj[len(not_maj) - 1:], not_maj[:len(not_maj) - 1]
+                rng_maj = alteration(sig_maj)  # rng_maj = Nombre réel((-+)(index))
+                (lineno(), 'not:', not_maj, 'deg:', deg_maj, '\t\tsig:', sig_maj, 'rng:', rng_maj, 'rip0:', rip0)
+                if int(rng_maj) >= 0:  # int(rng_maj) = Signe parmi les altérations augmentées
+                    ind_not = gam_mod[rip0].index(not_maj)
+                    res_not = yi - ind_not  # res_not = Intervalle(Rang réel moins Rang majeur)
+                    ind_sup = tab_sup.index(sig_maj)  # Rang du signe parmi les augmentés
+                    (lineno(), 'sig:', sig_maj, 'res_not:', res_not, 'ind:', ind_sup, 'ind_not:', ind_not)
+                    if len(num_ava) == 1:
+                        result0 = not_maj
+                        (lineno(), 'num_ava:', num_ava)
+                    elif res_not < 0:  # Demande une soustraction
+                        if abs(res_not) > ind_sup:  # Demande supérieure à l'offre augmentée
+                            dif_not = abs(res_not) - ind_sup  # Calcul différence à reporter
+                            sig_not = tab_inf[dif_not]  # Initialiser l'altération
+                            result0 = sig_not + deg_maj  # Construire la note finale
+                            (lineno(), 'GGC/SUP result0:', result0, '*******tab_sup********')
+                        else:
+                            dif_not = abs(res_not) - ind_sup  # Calcul différence à reporter
+                            sig_not = tab_sup[abs(dif_not)]  # Initialiser l'altération
+                            result0 = sig_not + deg_maj  # Construire la note finale
+                            (lineno(), 'SUP dif_not:', dif_not, 'sig_not:', sig_not, 'deg_maj:', deg_maj)
+                        (lineno(), 'GGC/SUP result0:', result0, '')
+                    else:  # Demande une addition
+                        dif_not = abs(res_not) + ind_sup  # Calcul différence à reporter
+                        sig_not = tab_sup[dif_not]  # Initialiser l'altération
+                        result0 = sig_not + deg_maj  # Construire la note finale
+                        (lineno(), 'dif_not:', dif_not, 'sig_not:', sig_not)
+                        (lineno(), 'GGC/SUP result0:', result0, '*******tab_sup********')
+                else:  # int(rng_maj) = Signe parmi les altérations diminuées
+                    ind_not = gam_mod[rip0].index(not_maj)
+                    ind_inf = tab_inf.index(sig_maj)  # Rang du signe parmi les diminués
+                    res_not = yi - ind_not  # res_not = Intervalle(Rang réel moins Rang majeur)
+                    (lineno(), 'res_not:', res_not, 'ind_inf:', ind_inf)
+                    if len(num_ava) == 1:
+                        result0 = not_maj
+                        (lineno(), 'num_ava:', num_ava)
+                    elif res_not > -1:  # Demande une soustraction
+                        if abs(res_not) > ind_inf:  # Demande supérieure à offre diminuée
+                            dif_not = abs(res_not) - ind_inf  # Calcul différence à reporter
                             sig_not = tab_sup[dif_not]  # Initialiser l'altération
                             result0 = sig_not + deg_maj  # Construire la note finale
-                            (lineno(), 'dif_not:', dif_not, 'sig_not:', sig_not)
-                            (lineno(), 'GGC/SUP result0:', result0, '*******tab_sup********')
-                    else:  # int(rng_maj) = Signe parmi les altérations diminuées
-                        ind_not = gam_mod.index(not_maj)
-                        ind_inf = tab_inf.index(sig_maj)  # Rang du signe parmi les diminués
-                        res_not = yi - ind_not  # res_not = Intervalle(Rang réel moins Rang majeur)
-                        (lineno(), 'res_not:', res_not, 'ind_inf:', ind_inf)
-                        if len(num_ava) == 1:
-                            result0 = not_maj
-                            (lineno(), 'num_ava:', num_ava)
-                        elif res_not > -1:  # Demande une soustraction
-                            if abs(res_not) > ind_inf:  # Demande supérieure à offre diminuée
-                                dif_not = abs(res_not) - ind_inf  # Calcul différence à reporter
-                                sig_not = tab_sup[dif_not]  # Initialiser l'altération
+                            (lineno(), 'GGC/SUP result0:', result0,)
+                        else:
+                            rng_ava = alteration(not_ava[:len(not_ava) - 1])
+                            if abs(int(res_not)) == abs(int(rng_ava)):
+                                result0 = deg_maj
+                                (lineno(), 'GGC/SUP res_not:', res_not, 'rng_sui:', rng_sui)
+                            elif res_not < ind_inf:
+                                dif_not = ind_inf - abs(res_not)  # Calcul différence à reporter
+                                sig_not = tab_inf[dif_not]  # Initialiser l'altération
                                 result0 = sig_not + deg_maj  # Construire la note finale
                                 (lineno(), 'GGC/SUP result0:', result0,)
-                            else:
-                                rng_ava = alteration(not_ava[:len(not_ava) - 1])
-                                if abs(int(res_not)) == abs(int(rng_ava)):
-                                    result0 = deg_maj
-                                    (lineno(), 'GGC/SUP res_not:', res_not, 'rng_sui:', rng_sui)
-                                elif res_not < ind_inf:
-                                    dif_not = ind_inf - abs(res_not)  # Calcul différence à reporter
-                                    sig_not = tab_inf[dif_not]  # Initialiser l'altération
-                                    result0 = sig_not + deg_maj  # Construire la note finale
-                                    (lineno(), 'GGC/SUP result0:', result0,)
-                                else:  # Laisser cette condition active pour prévenir d'un autre cas AVA
-                                    print(lineno(), 'Autre cas AVA:',)
-                                (lineno(), 'GGC/SUP ind_inf:', ind_inf, )
-                        elif res_not < 0:  # Demande une addition
-                            dif_not = abs(res_not) + ind_inf  # Calcul différence à reporter
-                            sig_not = tab_inf[dif_not]  # Initialiser l'altération
-                            result0 = sig_not + deg_maj  # Construire la note finale
-                            (lineno(), 'GGC/SUP result0:', result0, '*******tab_sup********')
-                        (lineno(), 'SUP res_not:', res_not, 'ind_not:', ind_not, 'rng_maj:', rng_maj)
-                elif deg_ava not in extension:  # not_ava = Note majeure non signée SUP à modifier
-                    result0 = sig_ava + not_ava
-                    (lineno(), 'sig_ava:', sig_ava, 'not_ava:', not_ava)
-                rip_app0 = result0
-                (lineno(), 'GGC/SUP rip_app0:', rip_app0)
+                            else:  # Laisser cette condition active pour prévenir d'un autre cas AVA
+                                print(lineno(), 'Autre cas AVA:',)
+                            (lineno(), 'GGC/SUP ind_inf:', ind_inf, )
+                    elif res_not < 0:  # Demande une addition
+                        dif_not = abs(res_not) + ind_inf  # Calcul différence à reporter
+                        sig_not = tab_inf[dif_not]  # Initialiser l'altération
+                        result0 = sig_not + deg_maj  # Construire la note finale
+                        (lineno(), 'GGC/SUP result0:', result0, '*******tab_sup********')
+                    (lineno(), 'SUP res_not:', res_not, 'ind_not:', ind_not, 'rng_maj:', rng_maj)
+            elif deg_ava not in extension:  # not_ava = Note majeure non signée SUP à modifier
+                result0 = sig_ava + not_ava
+                (lineno(), 'sig_ava:', sig_ava, 'not_ava:', not_ava)
+            rip_app0 = result0
+            (lineno(), 'GGC/SUP rip_app0:', rip_app0)
 
-                '''Ligne inférieure des degrés à suivre: dic_inv[yes + 1][yi]'''
-                if len(not_sui) > 1 and deg_sui not in extension:  # Degré inférieur signé
-                    not_maj = not_sui
-                    deg_maj, sig_maj = not_maj[len(not_maj) - 1:], not_maj[:len(not_maj) - 1]
-                    rng_maj = alteration(sig_maj)  # rng_maj = Nombre réel((-+)(index))
-                    (lineno(), 'not:', not_maj, 'deg:', deg_maj, '\t\tsig:', sig_maj, 'rng:', rng_maj, yi)
-                    if int(rng_maj) >= 0:  # Signe parmi les altérations augmentées
-                        ind_not = gam_mod.index(not_maj)
-                        res_not = yi - ind_not  # res_not = Intervalle(Rang réel moins Rang majeur)
-                        ind_sup = tab_sup.index(sig_maj)  # Rang du signe parmi les augmentés
-                        (lineno(), 'ind_not:', ind_not, 'res_not:', res_not, 'ind_sup:', ind_sup)
-                        if len(num_sui) == 1:
-                            result1 = not_maj
-                            (lineno(), 'num_sui:', num_sui)
-                        elif res_not < 0:  # Demande une soustraction
-                            if abs(res_not) > ind_sup:  # Demande supérieure à l'offre augmentée
-                                dif_not = abs(res_not) - ind_sup  # Calcul différence à reporter
-                                sig_not = tab_inf[dif_not]  # Initialiser l'altération
-                                result1 = sig_not + deg_maj  # Construire la note finale
-                                (lineno(), 'GGC/INF result1:', result1, '*****************')
-                            else:  # Voir dans tab_inf
-                                dif_not = abs(res_not) - ind_sup  # Calcul différence à reporter
-                                sig_not = tab_sup[abs(dif_not)]  # Initialiser l'altération
-                                result1 = sig_not + deg_maj  # Construire la note finale
-                                (lineno(), 'SUP dif_not:', dif_not, 'sig_not:', sig_not, 'deg_maj:', deg_maj)
-                                (lineno(), 'GGC/SUP result1:', result1, '')
-                            (lineno(), 'GGC/ res_not < 0:',)
-                        else:  # Demande une addition
-                            dif_not = abs(res_not) + ind_sup  # Calcul différence à reporter
+            '''Ligne inférieure des degrés à suivre: dic_inv[yes + 1][yi]'''
+            if len(not_sui) > 1 and deg_sui not in extension:  # Degré inférieur signé
+                not_maj = not_sui
+                deg_maj, sig_maj = not_maj[len(not_maj) - 1:], not_maj[:len(not_maj) - 1]
+                rng_maj = alteration(sig_maj)  # rng_maj = Nombre réel((-+)(index))
+                (lineno(), 'not:', not_maj, 'deg:', deg_maj, '\t\tsig:', sig_maj, 'rng:', rng_maj, yi)
+                if int(rng_maj) >= 0:  # Signe parmi les altérations augmentées
+                    ind_not = gam_mod[rip1].index(not_maj)
+                    res_not = yi - ind_not  # res_not = Intervalle(Rang réel moins Rang majeur)
+                    ind_sup = tab_sup.index(sig_maj)  # Rang du signe parmi les augmentés
+                    (lineno(), 'ind_not:', ind_not, 'res_not:', res_not, 'ind_sup:', ind_sup)
+                    if len(num_sui) == 1:
+                        result1 = not_maj
+                        (lineno(), 'num_sui:', num_sui)
+                    elif res_not < 0:  # Demande une soustraction
+                        if abs(res_not) > ind_sup:  # Demande supérieure à l'offre augmentée
+                            dif_not = abs(res_not) - ind_sup  # Calcul différence à reporter
+                            sig_not = tab_inf[dif_not]  # Initialiser l'altération
+                            result1 = sig_not + deg_maj  # Construire la note finale
+                            (lineno(), 'GGC/INF result1:', result1, '*****************')
+                        else:  # Voir dans tab_inf
+                            dif_not = abs(res_not) - ind_sup  # Calcul différence à reporter
+                            sig_not = tab_sup[abs(dif_not)]  # Initialiser l'altération
+                            result1 = sig_not + deg_maj  # Construire la note finale
+                            (lineno(), 'SUP dif_not:', dif_not, 'sig_not:', sig_not, 'deg_maj:', deg_maj)
+                            (lineno(), 'GGC/SUP result1:', result1, '')
+                        (lineno(), 'GGC/ res_not < 0:',)
+                    else:  # Demande une addition
+                        dif_not = abs(res_not) + ind_sup  # Calcul différence à reporter
+                        sig_not = tab_sup[dif_not]  # Initialiser l'altération
+                        result1 = sig_not + deg_maj  # Construire la note finale
+                        (lineno(), 'dif_not:', dif_not, ':', sig_not)
+                        (lineno(), 'GGC/SUP result1:', result1, '*******tab_sup********')
+                else:  # Signe parmi les altérations diminuées
+                    ind_not = gam_mod[rip1].index(not_maj)
+                    ind_inf = tab_inf.index(sig_maj)  # Rang du signe parmi les diminués
+                    res_not = yi - ind_not  # res_not = Intervalle(Rang réel moins Rang majeur)
+                    (lineno(), 'res_not:', res_not, 'ind_inf:', ind_inf)
+                    if len(num_sui) == 1:
+                        result1 = not_maj
+                        (lineno(), 'num_sui:', num_sui)
+                    elif res_not > -1:  # Demande une soustraction
+                        if abs(res_not) > ind_inf:  # Demande supérieure à offre diminuée
+                            dif_not = abs(res_not) - ind_inf  # Calcul différence à reporter
                             sig_not = tab_sup[dif_not]  # Initialiser l'altération
                             result1 = sig_not + deg_maj  # Construire la note finale
-                            (lineno(), 'dif_not:', dif_not, ':', sig_not)
-                            (lineno(), 'GGC/SUP result1:', result1, '*******tab_sup********')
-                    else:  # Signe parmi les altérations diminuées
-                        ind_not = gam_mod.index(not_maj)
-                        ind_inf = tab_inf.index(sig_maj)  # Rang du signe parmi les diminués
-                        res_not = yi - ind_not  # res_not = Intervalle(Rang réel moins Rang majeur)
-                        (lineno(), 'res_not:', res_not, 'ind_inf:', ind_inf)
-                        if len(num_sui) == 1:
-                            result1 = not_maj
-                            (lineno(), 'num_sui:', num_sui)
-                        elif res_not > -1:  # Demande une soustraction
-                            if abs(res_not) > ind_inf:  # Demande supérieure à offre diminuée
-                                dif_not = abs(res_not) - ind_inf  # Calcul différence à reporter
-                                sig_not = tab_sup[dif_not]  # Initialiser l'altération
+                            (lineno(), 'GGC/SUP result1:', result1)
+                        else:  # res_not < ind_inf
+                            rng_sui = alteration(not_sui[:len(not_sui) - 1])
+                            if abs(int(res_not)) == abs(int(rng_sui)):
+                                result1 = deg_maj
+                                (lineno(), 'GGC/SUP res_not:', res_not, 'rng_sui:', rng_sui)
+                            elif abs(res_not) < ind_inf:
+                                dif_not = ind_inf - abs(res_not)  # Calcul différence à reporter
+                                sig_not = tab_inf[dif_not]  # Initialiser l'altération
                                 result1 = sig_not + deg_maj  # Construire la note finale
                                 (lineno(), 'GGC/SUP result1:', result1)
-                            else:  # res_not < ind_inf
-                                rng_sui = alteration(not_sui[:len(not_sui) - 1])
-                                if abs(int(res_not)) == abs(int(rng_sui)):
-                                    result1 = deg_maj
-                                    (lineno(), 'GGC/SUP res_not:', res_not, 'rng_sui:', rng_sui)
-                                elif abs(res_not) < ind_inf:
-                                    dif_not = ind_inf - abs(res_not)  # Calcul différence à reporter
-                                    sig_not = tab_inf[dif_not]  # Initialiser l'altération
-                                    result1 = sig_not + deg_maj  # Construire la note finale
-                                    (lineno(), 'GGC/SUP result1:', result1)
-                                else:  # Laisser cette condition active pour prévenir d'un autre cas SUI
-                                    print(lineno(), 'Autre cas SUI:')
-                        else:  # Demande une addition
-                            dif_not = abs(res_not) + ind_inf  # Calcul différence à reporter
-                            sig_not = tab_inf[dif_not]  # Initialiser l'altération
-                            result1 = sig_not + deg_maj  # Construire la note finale
-                            (lineno(), 'GGC/SUP result1:', result1, '*******tab_sup********')
-                        (lineno(), 'SUP res_not:', res_not, 'ind_not:', ind_not, 'rng_maj:', rng_maj, yi)
-                elif deg_sui not in extension:  # not_sui = Note majeure non signée INF à modifier
-                    result1 = sig_sui + not_sui
-                    (lineno(), "sig_sui:", sig_sui, 'not_sui:', not_sui)
-                rip_app1 = result1
+                            else:  # Laisser cette condition active pour prévenir d'un autre cas SUI
+                                print(lineno(), 'Autre cas SUI:')
+                    else:  # Demande une addition
+                        dif_not = abs(res_not) + ind_inf  # Calcul différence à reporter
+                        sig_not = tab_inf[dif_not]  # Initialiser l'altération
+                        result1 = sig_not + deg_maj  # Construire la note finale
+                        (lineno(), 'GGC/SUP result1:', result1, '*******tab_sup********')
+                    (lineno(), 'SUP res_not:', res_not, 'ind_not:', ind_not, 'rng_maj:', rng_maj, yi)
+            elif deg_sui not in extension:  # not_sui = Note majeure non signée INF à modifier
+                result1 = sig_sui + not_sui
+                (lineno(), "sig_sui:", sig_sui, 'not_sui:', not_sui)
+            rip_app1 = result1
+            if yes in dic_rip0.keys():
                 dic_rip0[yes].append(rip_app0)
                 dic_rip1[yes].append(rip_app1)
+            elif yes in dic_rip2.keys():
+                dic_rip2[yes].append(rip_app0)
+                dic_rip3[yes].append(rip_app1)
 
-                (lineno(), 'GGC/rip_app0:', rip_app0, 'rip_app1:', rip_app1, '********************************')
-                if yi == 11:  # Normalement(yi == 11)
-                    print(lineno(), '***** Résultat progressif par cycle ***** yi:', yi, '******')
-                    print(lineno(), 'GGC/dic_inv[yes][yi]:\t', yes, dic_inv[yes][:yi + 1], '*yi:', yi)
+            (lineno(), 'GGC/rip_app0:', rip_app0, 'rip_app1:', rip_app1, '********************* yes:', yes)
+            if yi == 11:  # Normalement(yi == 11)
+                print(lineno(), '***** Résultat progressif par cycle ***** yi:', yi, '****** yes:', yes)
+                print(lineno(), 'GGC/dic_inv[yes][yi]:\t', yes, dic_inv[yes][:yi + 1], '*yi:', yi)
+                if yes in dic_rip0.keys():
                     print(lineno(), 'GGC/dic_rip0[yes]:\t\t', yes, dic_rip0[yes])
                     print(lineno(), 'GGC/dic_rip1[yes]:\t\t', yes, dic_rip1[yes])
-                    if yes != 13:  # Lecture totale limitée à 12 (yes)
-                        print(lineno(), 'GGC/dic_inv[yes+1][yi]:\t', yes, dic_inv[yes + 1][:yi + 1], '*yi:', yi)
-                    print(lineno(), '___________________________________________Fin de cycle yi:', yi)
-                if yes == 12 and yi == 12:  # Lecture totale limitée à 12/12 (yes)/(yi)
-                    break
-            (lineno(), 'GGC/dic_inv[yes]:    \t', yes, dic_inv[yes])
-            (lineno(), 'GGC/dic_rip0[yes]:\t\t', yes, dic_rip0[yes])
-            (lineno(), 'GGC/dic_rip1[yes]:\t\t', yes, dic_rip1[yes])
-            (lineno(), 'GGC/dic_inv[yes+1]:    \t', yes, dic_inv[yes + 1])
-        elif yes in dic_rip2.keys():  # Si clé est dans dic_rip2
-            print(lineno(), dic_rip2.keys(), 'dic_rip2[yes]:', dic_rip2[yes], 'dic_rip3[yes]:', dic_rip3[yes])
+                elif yes in dic_rip2.keys():
+                    print(lineno(), 'GGC/dic_rip2[yes]:\t\t', yes, dic_rip2[yes])
+                    print(lineno(), 'GGC/dic_rip3[yes]:\t\t', yes, dic_rip3[yes])
+                if yes != 13:  # Lecture totale limitée à 12 (yes)
+                    print(lineno(), 'GGC/dic_inv[yes+1][yi]:\t', yes, dic_inv[yes + 1][:yi + 1], '*yi:', yi)
+                (lineno(), '___________________________________________Fin de cycle yi:', yi)
+            if yes == 12 and yi == 12:  # Lecture totale limitée à 12/12 (yes)/(yi)
+                break
         if yes == 12:  # Lecture totale limitée à 12 (yes)
             break
     ('\n', lineno(), 'GGC/dic_rip0.1.keys:', 13, dic_rip0.keys(), dic_rip1.keys())
-    (lineno(), 'GGC/dic_rip2.3.keys:', 13, dic_rip2.keys(), dic_rip3.keys())
+    print(lineno(), 'GGC/dic_rip2.3.keys:', 13, dic_rip2.keys(), dic_rip3.keys())
     (lineno(), 'GGC/dic_inv.keys', dic_inv.keys())
-    print(lineno())
+    (lineno())
     '''print(exemple = "{}".format(a + b)
     print()
     print()

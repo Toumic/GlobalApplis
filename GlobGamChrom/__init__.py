@@ -184,7 +184,6 @@ def chromatic(a, b, c, s):
     a_diatonic.append(a)  # Tonalité analogique
     b_diatonic.append(b)  # Nom de la tonalité
     c_diatonic.append(c)  # Tonalité numéric croissant
-    (lineno(), 'GGC/', b, '= Nom de la tonalité analogique', 'a_diatonic:', a_diatonic)
     # Mise en forme du dictionnaire dic_ana(analogie)
     for ia in range(len(a_diatonic[0])):
         dic_ana[ia + 1] = a_diatonic[0][ia][0]
@@ -261,16 +260,16 @@ def chromatic(a, b, c, s):
     transposer(dic_rip0, dic_rip1, dic_rip2, dic_rip3)
     (lineno(), '_GGC/dic_rip0.1:  \n', dic_rip0, '\n', dic_rip1)
     (lineno(), '_GGC/dic_rip2.3:  \n', dic_rip2, '\n', dic_rip3)
+    print(lineno(), 'Indices \tgam0[0]:', gam0[0], '\t\tgam1[0]:', gam1[0], '\t\tb_diatonic[0]:', b_diatonic[0])
 
     '''Phase de renseignement de la matrice'''
     for yes in range(1, 13):  # Lecture des séquences chromatiques
-        print(lineno(), '_________________________*************_____________________ Début de cycle yes:', yes)
-        (lineno(), 'Indices gamme en cours originale gam0.1[0]:', gam0[0], gam1[0])
+        (lineno(), '_________________________*************_____________________ Début de cycle yes:', yes)
+        (lineno(), 'Indices \tgam0[0]:', gam0[0], '\t\tgam1[0]:', gam1[0], '\t\tb_diatonic[0]:', b_diatonic[0])
         gam_mod, rip0, rip1 = {}, '', ''
 
         # Section rip0_1
         if yes in dic_rip0.keys():  # Si clé est dans dic_rip0
-            """if len(dic_rip1[yes]) == 1:"""
             (lineno(), type(dic_rip1), '\ndic_rip1[yes][0]:', dic_rip1[yes][0], dic_rip1[yes])
             if len(dic_rip1[yes][0]) > 1:
                 rip1 = dic_maj[dic_rip1[yes][0]][0]  # La tonique de la gamme majeure
@@ -371,7 +370,7 @@ def chromatic(a, b, c, s):
                 '''À l'avenir, il est probable que deux extensions soient en parallèle'''
                 if qui_ava:  # Besoins = deg_bas, rng_bas, rng_nue
                     qui_est['ava'] = []
-                    not_ba0 = gam_abc[rip1][int(deg_ava) - 8]  # not_ba0 = Référence gam_abc
+                    not_ba0 = gam_abc[rip0][int(deg_ava) - 8]  # not_ba0 = Référence gam_abc
                     deg_ba0, sig_ba0 = not_ba0[len(not_ba0)-1:], not_ba0[:len(not_ba0)-1]
                     rng_ba0 = alteration(sig_ba0)  # sig_ba0 = Issue gam_abc
                     for y in num_ava:  # Trier(signe/degré)
@@ -383,7 +382,8 @@ def chromatic(a, b, c, s):
                     qui_est['ava'].append(deg_ba0)  # Donnée à transmettre(Note/degré) à moduler
                     qui_est['ava'].append(rng_ba0)  # Donnée à transmettre(index/rang) à moduler
                     qui_est['ava'].append(rng_nu0)  # Donnée à transmettre(index/rang) à suivre
-                    # ('rng_nu0:', rng_nu0, 'rng_ba0:', rng_ba0, 'deg_nu0:', deg_nu0, 'sig_nu0:', sig_nu0)
+                    (lineno(), 'rng_nu0:', rng_nu0, 'rng_ba0:', rng_ba0, 'deg_nu0:', deg_nu0, 'sig_nu0:', sig_nu0)
+                    (lineno(), 'not_ba0:', not_ba0, 'gam_abc[rip1]:', gam_abc[rip1])
                 if qui_sui:  # Besoins = deg_bas, rng_bas, rng_nue
                     qui_est['sui'] = []
                     not_ba1 = gam_abc[rip1][int(deg_sui) - 8]
@@ -401,7 +401,8 @@ def chromatic(a, b, c, s):
                     (lineno(), 'SUI not_ba1:', not_ba1, 'deg_sui:', deg_sui)
                     (lineno(), 'rng_nu1:', rng_nu1, 'rng_ba1:', rng_ba1)
                     (lineno(), 'deg_nu1:', deg_nu1, 'sig_nu1:', sig_nu1)
-                '''Transmission des paramètres (# Besoins = deg_bas, rng_bas, rng_nue)'''
+                '''Transmission des paramètres (# Besoins = deg_bas, rng_bas, rng_nue)
+                Sérier selon la demande pour l'offre la moins altéractivement chargée.'''
                 dic_est = qui_est.keys()  # dic_est = Liste de dictionnaire
                 for dic_key in dic_est:
                     est_lis = list(qui_est[dic_key])
@@ -411,7 +412,7 @@ def chromatic(a, b, c, s):
                     (lineno(), 'dic_key:', dic_key)
                     # result0 = Ligne supérieure
                     # result1 = Ligne inférieure
-                    (lineno(), 'deg_bas:', deg_bas, 'rng_bas:', rng_bas, 'rng_nue:', rng_nue)
+                    (lineno(), 'deg_bas:', deg_bas, '\trng_bas:', rng_bas, '\trng_nue:', rng_nue)
                     '''Passage aux traitements des modulations, avec deux choix possibles(qui_ava/qui_sui)'''
                     if int(rng_nue) > -1:  # rng_nue = dic_inv est altération à appliquer sur rng_bas
                         if int(rng_bas) < 0:  # rng_bas = tab_inf
@@ -428,6 +429,7 @@ def chromatic(a, b, c, s):
                                 result0 = sig_mod + deg_bas
                             else:  # dic_key = 'sui'
                                 result1 = sig_mod + deg_bas
+                            (lineno(), 'dif_bas:', dif_bas, 'sig_mod:', sig_mod, '')
                             (lineno(), 'EX/ba2>-1ba1<0 result0:', result0, 'result1:', result1)
                         else:  # rng_bas = tab_sup
                             '''Tout va bien on peut continuer'''
@@ -437,6 +439,7 @@ def chromatic(a, b, c, s):
                                 result0 = sig_mod + deg_bas
                             else:  # dic_key = 'sui'
                                 result1 = sig_mod + deg_bas
+                            (lineno(), 'dif_bas:', dif_bas, 'sig_mod:', sig_mod, '')
                             (lineno(), 'EX/nue>-1_bas>-1 result0:', result0, 'result1:', result1)
                     elif int(rng_nue) < 0:  # rng_nue = dic_inv est altération à appliquer sur rng_bas
                         if int(rng_bas) < 0:  # rng_bas = tab_inf
@@ -447,6 +450,7 @@ def chromatic(a, b, c, s):
                                 result0 = sig_mod + deg_bas
                             else:  # dic_key = 'sui'
                                 result1 = sig_mod + deg_bas
+                            (lineno(), 'dif_bas:', dif_bas, 'sig_mod:', sig_mod, '')
                             (lineno(), 'EX/nue<0_bas<0 result0:', result0, 'result1:', result1)
                         else:  # rng_bas = tab_sup
                             '''Analyser la disposition altérative'''
@@ -459,6 +463,7 @@ def chromatic(a, b, c, s):
                                 result0 = sig_mod + deg_bas
                             else:  # dic_key = 'sui'
                                 result1 = sig_mod + deg_bas
+                            (lineno(), 'dif_bas:', dif_bas, 'sig_mod:', sig_mod, '')
                             (lineno(), 'EX/nue<0_bas>-1 result0:', result0, 'result1:', result1)
                     (lineno(), 'EX/deg_sui:', deg_sui, 'sig_sui:', sig_sui, 'dif_bas:', dif_bas)
                     (lineno(), 'EX/rng_bas:', rng_bas, 'rng_nue:', rng_nue)
@@ -466,7 +471,7 @@ def chromatic(a, b, c, s):
                     (lineno(), 'EX/GGC/SUP deg_ava:', deg_ava, 'sig_ava:', sig_ava, 'not_sup:', '\n')
 
             '''Ligne supérieure des degrés à suivre: dic_inv[yes][yi]'''
-            if len(not_ava) > 1 and deg_ava not in extension:  # not_ava = Note maj signée SUP à modifier
+            if len(not_ava) > 1 and int(deg_ava) not in extension:  # not_ava = Note maj signée SUP à modifier
                 not_maj = not_ava  # Note issue gam_abc
                 deg_maj, sig_maj = not_maj[len(not_maj) - 1:], not_maj[:len(not_maj) - 1]
                 rng_maj = alteration(sig_maj)  # rng_maj = Nombre réel((-+)(index))
@@ -530,14 +535,14 @@ def chromatic(a, b, c, s):
                         result0 = sig_not + deg_maj  # Construire la note finale
                         (lineno(), 'GGC/SUP result0:', result0, '*******tab_sup********')
                     (lineno(), 'SUP res_not:', res_not, 'ind_not:', ind_not, 'rng_maj:', rng_maj)
-            elif deg_ava not in extension:  # not_ava = Note majeure non signée SUP à modifier
+            elif int(deg_ava) not in extension:  # not_ava = Note majeure non signée SUP à modifier
                 result0 = sig_ava + not_ava
                 (lineno(), 'sig_ava:', sig_ava, 'not_ava:', not_ava)
             rip_app0 = result0
             (lineno(), 'GGC/SUP rip_app0:', rip_app0)
 
             '''Ligne inférieure des degrés à suivre: dic_inv[yes + 1][yi]'''
-            if len(not_sui) > 1 and deg_sui not in extension:  # Degré inférieur signé
+            if len(not_sui) > 1 and int(deg_sui) not in extension:  # Degré inférieur signé
                 not_maj = not_sui
                 deg_maj, sig_maj = not_maj[len(not_maj) - 1:], not_maj[:len(not_maj) - 1]
                 rng_maj = alteration(sig_maj)  # rng_maj = Nombre réel((-+)(index))
@@ -573,7 +578,7 @@ def chromatic(a, b, c, s):
                     ind_not = gam_mod[rip1].index(not_maj)
                     ind_inf = tab_inf.index(sig_maj)  # Rang du signe parmi les diminués
                     res_not = yi - ind_not  # res_not = Intervalle(Rang réel moins Rang majeur)
-                    (lineno(), 'res_not:', res_not, 'ind_inf:', ind_inf)
+                    (lineno(), 'res_not:', res_not, 'ind_inf:', ind_inf, 'result1:', result1)
                     if len(num_sui) == 1:
                         result1 = not_maj
                         (lineno(), 'num_sui:', num_sui)
@@ -594,17 +599,18 @@ def chromatic(a, b, c, s):
                                 result1 = sig_not + deg_maj  # Construire la note finale
                                 (lineno(), 'GGC/SUP result1:', result1)
                             else:  # Laisser cette condition active pour prévenir d'un autre cas SUI
-                                print(lineno(), 'Autre cas SUI:')
+                                (lineno(), 'Autre cas SUI:')
                     else:  # Demande une addition
                         dif_not = abs(res_not) + ind_inf  # Calcul différence à reporter
                         sig_not = tab_inf[dif_not]  # Initialiser l'altération
                         result1 = sig_not + deg_maj  # Construire la note finale
                         (lineno(), 'GGC/SUP result1:', result1, '*******tab_sup********')
                     (lineno(), 'SUP res_not:', res_not, 'ind_not:', ind_not, 'rng_maj:', rng_maj, yi)
-            elif deg_sui not in extension:  # not_sui = Note majeure non signée INF à modifier
+            elif int(deg_sui) not in extension:  # not_sui = Note majeure non signée INF à modifier
                 result1 = sig_sui + not_sui
                 (lineno(), "sig_sui:", sig_sui, 'not_sui:', not_sui)
             rip_app1 = result1
+            (lineno(), 'GGC/SUP result1:', result1, '*******tab_sup********')
             if yes in dic_rip0.keys():
                 dic_rip0[yes].append(rip_app0)
                 dic_rip1[yes].append(rip_app1)
@@ -614,23 +620,24 @@ def chromatic(a, b, c, s):
 
             (lineno(), 'GGC/rip_app0:', rip_app0, 'rip_app1:', rip_app1, '********************* yes:', yes)
             if yi == 11:  # Normalement(yi == 11)
-                print(lineno(), '***** Résultat progressif par cycle ***** yi:', yi, '****** yes:', yes)
-                print(lineno(), 'GGC/dic_inv[yes][yi]:\t', yes, dic_inv[yes][:yi + 1], '*yi:', yi)
+                (lineno(), '***** Résultat progressif par cycle ***** yi:', yi, '****** yes:', yes)
+                (lineno(), 'GGC/dic_inv[yes][yi]:\t', yes, dic_inv[yes][:yi + 1], '*yi:', yi)
                 if yes in dic_rip0.keys():
-                    print(lineno(), 'GGC/dic_rip0[yes]:\t\t', yes, dic_rip0[yes])
-                    print(lineno(), 'GGC/dic_rip1[yes]:\t\t', yes, dic_rip1[yes])
+                    (lineno(), 'GGC/dic_rip0[yes]:\t\t', yes, dic_rip0[yes])
+                    (lineno(), 'GGC/dic_rip1[yes]:\t\t', yes, dic_rip1[yes])
                 elif yes in dic_rip2.keys():
-                    print(lineno(), 'GGC/dic_rip2[yes]:\t\t', yes, dic_rip2[yes])
-                    print(lineno(), 'GGC/dic_rip3[yes]:\t\t', yes, dic_rip3[yes])
+                    (lineno(), 'GGC/dic_rip2[yes]:\t\t', yes, dic_rip2[yes])
+                    (lineno(), 'GGC/dic_rip3[yes]:\t\t', yes, dic_rip3[yes])
                 if yes != 13:  # Lecture totale limitée à 12 (yes)
-                    print(lineno(), 'GGC/dic_inv[yes+1][yi]:\t', yes, dic_inv[yes + 1][:yi + 1], '*yi:', yi)
+                    (lineno(), 'GGC/dic_inv[yes+1][yi]:\t', yes, dic_inv[yes + 1][:yi + 1], '*yi:', yi)
                 (lineno(), '___________________________________________Fin de cycle yi:', yi)
             if yes == 12 and yi == 12:  # Lecture totale limitée à 12/12 (yes)/(yi)
                 break
+            (lineno())
         if yes == 12:  # Lecture totale limitée à 12 (yes)
             break
-    ('\n', lineno(), 'GGC/dic_rip0.1.keys:', 13, dic_rip0.keys(), dic_rip1.keys())
-    print(lineno(), 'GGC/dic_rip2.3.keys:', 13, dic_rip2.keys(), dic_rip3.keys())
+    ('\n', lineno(), 'GGC/dic_rip0.1.keys:', dic_rip0.keys(), dic_rip1.keys())
+    (lineno(), 'GGC/dic_rip2.3.keys:', dic_rip2.keys(), dic_rip3.keys())
     (lineno(), 'GGC/dic_inv.keys', dic_inv.keys())
     (lineno())
     '''print(exemple = "{}".format(a + b)

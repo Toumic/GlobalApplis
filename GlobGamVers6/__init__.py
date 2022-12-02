@@ -627,11 +627,19 @@ class Gammique(Tk):
                                         if co_res in kys6:
                                             if len(kys6) > 1:
                                                 ext = str(co_tbnat[c_dif] + 7)
-                                                coin = kys6[1] + ext
+                                                if co_s2 > 0:
+                                                    co_di = 12 - co_s2
+                                                    co_di = co_di - (co_di + co_di)
+                                                    co_ex = self.subemol[co_di]
+                                                else:
+                                                    co_di = 12 - abs(co_s2)
+                                                    co_ex = self.nordiese[co_di]
+                                                coin = co_ex + ext  # Correction kys6[1)
                                                 co_s1 = coin
+                                                (lineno(), 'co_res:', co_res, 'co_di:', co_di, 'co_s1:', co_s1)
                                                 break
                                     # Suivre chrome numéric
-                                    # print(572, 'GAM|co_s1 ', co_s1, self.notespace[888], 'Space', space)
+                                    # (634, 'GAM|co_s1 ', co_s1, self.notespace[888], 'Space', space)
                                 # Selon l'activité demandée
                                 if self.comfdb[0] != 0 or self.comfcb[0] == 3:
                                     pass
@@ -642,11 +650,11 @@ class Gammique(Tk):
                                     co_s13 = 'c', co, co_s11  # c. co = Note analogic. co_s11 = Signe + Numéric
                                     co_tbdif[co].append(co_s12)
                                     co_tbdif0[co].append(co_s13)
-                                    # print(588, 'co_s12 ', co_s12, )  # (co_s12) Voir ci-dessus
-                                    # print(591, 'co_s12', co_s12, 'co_s13', co_s13, 'CO', co)
+                                    # print(645, 'co_s12 ', co_s12, )  # (co_s12) Voir ci-dessus
                             co_n0 += 1
                     co_tbgam = co_sign0[0], co_note0[0][0]
                     co_tbmod[co].append(co_tbgam)
+                    # print(649, 'co_tbgam:', co_tbgam, ':', )
                 if compris == 'com':  # Définition d'usage des grands volumes altérés
                     '''1. Degrés : +1 ~ ^^1, -2 ~ x^2, o3 ~ +^3, o4 ~ +^4, *5 ~ ^5, -*6 ~ x6, o*7 ~ +7 
                     2. Extensions : -8 ~ o*8
@@ -699,10 +707,19 @@ class Gammique(Tk):
                                 if not space:
                                     for kys6 in self.notespec6[co_tbnat[c_dif]]:
                                         if co_res in kys6:
+                                            (lineno(), 'co_res:', co_res, 'kys6:', kys6)
                                             if len(kys6) > 1:
                                                 ext = str(co_tbnat[c_dif] + 7)
-                                                coin = kys6[1] + ext
+                                                if co_s2 > 0:
+                                                    co_di = 12 - co_s2
+                                                    co_di = co_di - (co_di + co_di)
+                                                    co_ex = self.subemol[co_di]
+                                                else:
+                                                    co_di = 12 - abs(co_s2)
+                                                    co_ex = self.nordiese[co_di]
+                                                coin = co_ex + ext  # Correction kys6[1)
                                                 co_s1 = coin
+                                                (lineno(), '** co_s1:', co_s1, 'co:', co)
                                                 break
                                     # Suivre chrome numéric
                                     # print(499, 'GAM|co_s1 ', co_s1, self.notespace[888], 'Space', space)
@@ -719,6 +736,7 @@ class Gammique(Tk):
                                     co_s12 = '', co, co_s1
                                     co_tbdif[co].append(co_s12)
                                     co_tbdif0[co].append(co_s12)
+                                    # print(722, 'co_s12:', co_s12)
                             co_n0 += 1
                     co_tbplus = co_sign1[0], co_note1[0][0]
                     co_tbmoins = co_sign2[0][0], co_note2[0][0][0]
@@ -727,13 +745,12 @@ class Gammique(Tk):
                 self.co_tbgen[ci].append(co_tbmod)
                 self.co_tbval[ci].append(co_tbdif)
             # print('\n\n__co_tbgen', ci, self.co_tbgen[ci])
-            # print('520\n\n__co_tbval', ci, self.co_tbval[ci])
+            # ('730\n\n__co_tbval', ci, self.co_tbval[ci])
         c_oo.append(self.co_tbgen)
         c_pp.append(self.co_tbval)
         # cob2 = self.co_tbval
-        # Self.co_tbgen, self.co_tbval: Utilisation au rapport commatique
-        # print(ci, co, self.co_tbgen[ci][co]) # Remplacer "#" par "print" pour la forme
-        # print(ci, co, self.co_tbval[ci][co])
+        # Self.co_tbgen, self.co_tbval : Utilisation au rapport commatique
+        # print('734 c_pp:', c_pp)  # Remplacer "#" par "print" pour la forme
 
     # Panoplie tétracordique
     def tetra(self):
@@ -3067,6 +3084,8 @@ class Commatique(Frame):
         for i in range(12):
             self.c_bb.append(c_oo[0][i][0][:12])
             self.c_cc.append(c_pp[0][i][0][:12])
+            (lineno(), 'c_bb:', c_oo[0][i][0][:12])
+            (lineno(), 'c_cc:', c_pp[0][i][0][:12], '\n')
         # Première écriture chromatique de la gamme en cours
         self.ccnbase = Canvas(self.ctpier, bg='Ivory', height=600, width=400)
         self.ccnbase.pack()  # ccnbase = Premier Canvas original (pack_forget ou pas)
@@ -3117,7 +3136,7 @@ class Commatique(Frame):
         # c_iii = Nom de la gamme en cours
         # self.normal = Tonalité numérique en cours
         progam_chrom.chromatic(self.c_bb[0], c_iii, self.normal, s_cal)
-        (lineno(), 'Pied de page', 'self.c_bb[0]', self.c_bb[0])
+        (lineno(), 'Pied de page', 'self.c_bb[0]', self.c_bb[0], 'Scalaire:', s_cal)
 
 # class Gammique
 # Gammique().mainloop()

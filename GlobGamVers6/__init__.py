@@ -622,7 +622,7 @@ class Gammique(Tk):
                                                 space = True
                                                 break
                                 self.notespace[888] = [co_res, str(co_tbnat[c_dif])]  # Mémo entier et unité
-                                if not space:
+                                if not space:  # De compris = 'gam'
                                     for kys6 in self.notespec6[co_tbnat[c_dif]]:
                                         if co_res in kys6:
                                             if len(kys6) > 1:
@@ -704,7 +704,7 @@ class Gammique(Tk):
                                                 space += 1
                                                 break
                                 self.notespace[888] = [co_res, str(co_tbnat[c_dif])]  # Mémo entier et unité
-                                if not space:
+                                if not space:  # De compris = 'com'
                                     for kys6 in self.notespec6[co_tbnat[c_dif]]:
                                         if co_res in kys6:
                                             (lineno(), 'co_res:', co_res, 'kys6:', kys6)

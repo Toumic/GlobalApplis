@@ -13,6 +13,9 @@ lineno: Callable[[], int] = lambda: inspect.currentframe().f_back.f_lineno
 # Module de chromatisation chromatique
 dic_ana, dic_mod, dic_inv, dic_abc = {}, {}, {}, {}  # Dictionnaires à utiliser
 dic_rip0, dic_rip1, dic_rip2, dic_rip3 = {}, {}, {}, {}
+dic_rapt = {}  # dic_rapt = Dictionnaire des premiers commatismes
+dic_rap0, dic_rap2 = {}, {}  # Afficher les chromatismes parallèles
+gam_com = {}  # gam_com = Faire la distinction entre notes gamme uniques et notes chromatiques
 a_diatonic, b_diatonic, c_diatonic = [], [], []
 # dic_maj = Référence des tonalités majeures primaires
 dic_maj = {'C': ['C', '', 'D', '', 'E', 'F', '', 'G', '', 'A', '', 'B'],
@@ -39,28 +42,40 @@ extension = [8, 9, 10, 11, 12, 13, 14]
 
 
 def transposer(rip0, rip1, rip2, rip3):
-    """Ici on réceptionne les gammes qui ont leurs tonices altérées.
+    """Ici, on réceptionne les gammes qui ont leurs tonices altérées.
     Séquences du traitement : - Obtenir la gamme majeure non signée.
      - Transposer la gamme au niveau altéré. - Résoudre la tonalité.
-    Rip0.1 = Huit notes. Rip2.3 = Cinq notes.☺"""
-    (lineno(), 'rip0[1][0]:', rip0[1][0])
-    (lineno(), 'rip1:[1]', rip1[1])
+    Rip0.1 = Huit notes. Rip2.3 = Cinq notes.☺
+    Pour transposer les notes de la gamme (Rip0.1)
+    Pour transposer les notes chromatiques (Rip2.3)"""
+    (lineno(), rip0, rip1, rip2, rip3)
+    if rip0[1]:
+        (lineno(), rip0)
+        (lineno(), 'rip0[1][0]:', rip0[1][0])
+        (lineno(), 'rip1:[1]', rip1[1])
     # Montage table des clés majeures de dic_maj
-    cle_aut, note = [], ''
+    cle_aut, note, ok = [], '', False
     for i in range(1, 14):
-        if i in rip1.keys():
+        if rip1[1] and i in rip1.keys():
             note0 = rip0[i][0]
             if note0 not in cle_aut and len(note0) > 1:
                 cle_aut.append(note0)
                 (lineno(), 'note0:', note0)
-        else:
-            note2, note3 = rip2[i][0] + rip2[i][1], rip3[i][0] + rip3[i][1]
+        if i in rip2.keys():
+            (lineno(), rip2, rip3, len(rip2), len(rip3))
+            if len(rip2) > 2:
+                note2, note3 = rip2[i][0] + rip2[i][1], rip3[i][0] + rip3[i][1]
+            else:
+                note2, note3 = rip2[i], rip3[i]
+                ok = True
             if note2 not in cle_aut and len(note2) > 1:
                 cle_aut.append(note2)
                 (lineno(), 'note2:', note2)
             if note3 not in cle_aut and len(note3) > 1:
                 cle_aut.append(note3)
                 (lineno(), 'note3:', note3)
+        if ok:
+            break
     (lineno(), 'cle_aut:', cle_aut)
     x = 0
     for ca in cle_aut:  # Lire les clés une par une
@@ -179,12 +194,12 @@ def chromatic(a, b, c, s):
     A = Gamme hepta en cours
     B = Nom de la tonalité analogique
     C = Tonalité numérique ordre croissant
-    S = Degré d'inversion demandé ou par donné défaut"""
+    S = Degré d'inversion demandé ou donné par défaut"""
     (lineno(), 'GGC/', 'A:', a[0], 'B = Nom de la tonalité analogique:', b, '\nC:', c[0], 'S:', s)
     a_diatonic.append(a)  # Tonalité analogique
     b_diatonic.append(b)  # Nom de la tonalité
     c_diatonic.append(c)  # Tonalité numéric croissant
-    # Mise en forme du dictionnaire dic_ana(analogie)
+    # Mise en forme du dictionnaire dic_ana (analogie)
     for ia in range(len(a_diatonic[0])):
         dic_ana[ia + 1] = a_diatonic[0][ia][0]
         (lineno(), 'GGC/dic_ana:', dic_ana, 'len:', len(a_diatonic[0][ia][0]), 'ia:', ia)
@@ -336,7 +351,7 @@ def chromatic(a, b, c, s):
             if cop_ava > len(gam_abc[rip1]):  # Avant c'était avec deg_ava
                 cop_ava -= 7
                 (lineno(), 'cop_ava:', cop_ava, 'deg_ava:', deg_ava)
-            if cop_sui > len(gam_abc[rip1]):  # Huitième degré simplifié(gam_abc = 7 éléments)
+            if cop_sui > len(gam_abc[rip1]):  # Huitième degré simplifié (gam_abc = 7 éléments)
                 cop_sui -= 7
                 (lineno(), 'cop_sui:', cop_sui, 'deg_sui:', deg_sui)
             (lineno(), 'GGC/****cop_ava:', cop_ava, 'cop_sui:', cop_sui)
@@ -376,9 +391,9 @@ def chromatic(a, b, c, s):
                         else:
                             sig_nu0 += y
                     rng_nu0 = alteration(sig_nu0)  # sig_nu0 = Issue num_ava
-                    qui_est['ava'].append(deg_ba0)  # Donnée à transmettre(Note/degré) à moduler
-                    qui_est['ava'].append(rng_ba0)  # Donnée à transmettre(index/rang) à moduler
-                    qui_est['ava'].append(rng_nu0)  # Donnée à transmettre(index/rang) à suivre
+                    qui_est['ava'].append(deg_ba0)  # Donnée à transmettre (Note/degré) à moduler
+                    qui_est['ava'].append(rng_ba0)  # Donnée à transmettre (index/rang) à moduler
+                    qui_est['ava'].append(rng_nu0)  # Donnée à transmettre (index/rang) à suivre
                     (lineno(), 'rng_nu0:', rng_nu0, 'rng_ba0:', rng_ba0, 'deg_nu0:', deg_nu0, 'sig_nu0:', sig_nu0)
                     (lineno(), 'not_ba0:', not_ba0, 'gam_abc[rip1]:', gam_abc[rip1])
                 if qui_sui:  # Besoins = deg_bas, rng_bas, rng_nue
@@ -475,7 +490,7 @@ def chromatic(a, b, c, s):
                 (lineno(), 'not:', not_maj, 'deg:', deg_maj, '\t\tsig:', sig_maj, 'rng:', rng_maj, 'rip0:', rip0)
                 if int(rng_maj) >= 0:  # int(rng_maj) = Signe parmi les altérations augmentées
                     ind_not = gam_mod[rip0].index(not_maj)
-                    res_not = yi - ind_not  # res_not = Intervalle(Rang réel moins Rang majeur)
+                    res_not = yi - ind_not  # res_not = Intervalle (Rang réel moins Rang majeur)
                     ind_sup = tab_sup.index(sig_maj)  # Rang du signe parmi les augmentés
                     (lineno(), 'sig:', sig_maj, 'res_not:', res_not, 'ind:', ind_sup, 'ind_not:', ind_not)
                     if len(num_ava) == 1:
@@ -502,7 +517,7 @@ def chromatic(a, b, c, s):
                 else:  # int(rng_maj) = Signe parmi les altérations diminuées
                     ind_not = gam_mod[rip0].index(not_maj)
                     ind_inf = tab_inf.index(sig_maj)  # Rang du signe parmi les diminués
-                    res_not = yi - ind_not  # res_not = Intervalle(Rang réel moins Rang majeur)
+                    res_not = yi - ind_not  # res_not = Intervalle (Rang réel moins Rang majeur)
                     (lineno(), 'res_not:', res_not, 'ind_inf:', ind_inf)
                     if len(num_ava) == 1:
                         result0 = not_maj
@@ -546,7 +561,7 @@ def chromatic(a, b, c, s):
                 (lineno(), 'not:', not_maj, 'deg:', deg_maj, '\t\tsig:', sig_maj, 'rng:', rng_maj, yi)
                 if int(rng_maj) >= 0:  # Signe parmi les altérations augmentées
                     ind_not = gam_mod[rip1].index(not_maj)
-                    res_not = yi - ind_not  # res_not = Intervalle(Rang réel moins Rang majeur)
+                    res_not = yi - ind_not  # res_not = Intervalle (Rang réel moins Rang majeur)
                     ind_sup = tab_sup.index(sig_maj)  # Rang du signe parmi les augmentés
                     (lineno(), 'ind_not:', ind_not, 'res_not:', res_not, 'ind_sup:', ind_sup)
                     if len(num_sui) == 1:
@@ -574,7 +589,7 @@ def chromatic(a, b, c, s):
                 else:  # Signe parmi les altérations diminuées
                     ind_not = gam_mod[rip1].index(not_maj)
                     ind_inf = tab_inf.index(sig_maj)  # Rang du signe parmi les diminués
-                    res_not = yi - ind_not  # res_not = Intervalle(Rang réel moins Rang majeur)
+                    res_not = yi - ind_not  # res_not = Intervalle (Rang réel moins Rang majeur)
                     (lineno(), 'res_not:', res_not, 'ind_inf:', ind_inf, 'result1:', result1)
                     if len(num_sui) == 1:
                         result1 = not_maj
@@ -614,23 +629,22 @@ def chromatic(a, b, c, s):
             elif yes in dic_rip2.keys():
                 dic_rip2[yes].append(rip_app0)
                 dic_rip3[yes].append(rip_app1)
-
             (lineno(), 'GGC/rip_app0:', rip_app0, 'rip_app1:', rip_app1, '********************* yes:', yes)
             #
             # Séquence d'affichage pour d'éventuelles corrections
             # Ci-dessous.
-            if yi == 11:  # Normalement(yi == 11)
-                (lineno(), '***** Résultat progressif par cycle ***** yi:', yi, '****** yes:', yes)
-                (lineno(), 'GGC/dic_inv[yes][yi]:\t', yes, dic_inv[yes][:yi + 1], '*yi:', yi)
+            if yi == 12:  # Normalement(yi == 11)
+                print(lineno(), '***** Résultat progressif par cycle ***** yi:', yi, '****** yes:', yes)
+                print(lineno(), 'GGC/dic_inv[yes][yi]:\t', yes, dic_inv[yes][:yi + 1], '*yi:', yi)
                 if yes in dic_rip0.keys():
-                    (lineno(), 'GGC/dic_rip0[yes]:\t\t', yes, dic_rip0[yes])
-                    (lineno(), 'GGC/dic_rip1[yes]:\t\t', yes, dic_rip1[yes])
+                    print(lineno(), 'GGC/dic_rip0[yes]:\t\t', yes, dic_rip0[yes])
+                    print(lineno(), 'GGC/dic_rip1[yes]:\t\t', yes, dic_rip1[yes])
                 elif yes in dic_rip2.keys():
-                    (lineno(), 'GGC/dic_rip2[yes]:\t\t', yes, dic_rip2[yes])
-                    (lineno(), 'GGC/dic_rip3[yes]:\t\t', yes, dic_rip3[yes])
+                    print(lineno(), 'GGC/dic_rip2[yes]:\t\t', yes, dic_rip2[yes])
+                    print(lineno(), 'GGC/dic_rip3[yes]:\t\t', yes, dic_rip3[yes])
                 if yes != 13:  # Lecture totale limitée à 12 (yes)
-                    (lineno(), 'GGC/dic_inv[yes+1][yi]:\t', yes, dic_inv[yes + 1][:yi + 1], '*yi:', yi)
-                (lineno(), '___________________________________________Fin de cycle yi:', yi)
+                    print(lineno(), 'GGC/dic_inv[yes+1][yi]:\t', yes, dic_inv[yes + 1][:yi + 1], '*yi:', yi)
+                print(lineno(), '___________________________________________Fin de cycle yi:', yi)
             if yes == 12 and yi == 12:  # Lecture totale limitée à 12/12 (yes)/(yi)
                 break
             (lineno())
@@ -639,8 +653,8 @@ def chromatic(a, b, c, s):
         # Ci-dessus.
         # Séquence d'affichage pour d'éventuelles corrections
         #
-    (lineno(), 'GGC/dic_rip0.1.keys:', dic_rip0.keys(), dic_rip1.keys())
-    (lineno(), 'GGC/dic_rip2.3.keys:', dic_rip2.keys(), dic_rip3.keys())
+    print(lineno(), '\nGGC/dic_rip0.1.keys:', dic_rip0.keys(), dic_rip1.keys())
+    print(lineno(), 'GGC/dic_rip2.3.keys:', dic_rip2.keys(), dic_rip3.keys())
     (lineno(), 'GGC/dic_inv.keys', dic_inv.keys())
     '''Tous les dic_rip's ont été initialisés selon la dictée numérique.
     Maintenant on passe à l'épisodique récupération des diatoniques commatiques:
@@ -648,6 +662,7 @@ def chromatic(a, b, c, s):
     .   Une fois sélectionnée, la tonique se construit avec les notes de sa propre colonne.
     En ce moment le traçage récolte(la tonique, le nom de la gamme, la graduation)'''
     print(lineno(), 'INDICES \tgam0:', gam0[0], '\tgam1:', gam1[0], '\t\tnom:', b_diatonic[0], '\tgrade:', graduation)
+    (lineno(), 'GGC/dic_maj.keys\n', dic_maj.keys(), 'len(dic_maj.keys()):', len(dic_maj.keys()))
     # Lecture de chaque colonne des dic_rip's pour trouver la tonique fondamentale
     ton_un = dic_rip0[1][0]
     tab_loi = dic_maj[ton_un]
@@ -684,8 +699,10 @@ def chromatic(a, b, c, s):
                 (lineno(), 'Cas3 absences dic_abs[key]:', dic_abs.keys())
     '''Recueil des toniques présentes : gam0 = Tonalité principale parmi les toniques'''
     (lineno(), 'tab_loi:', tab_loi)
+    tripe0, tripe1 = {1: ''}, {1: ''}  # Pour les notes de la gamme originale
+    tripe2, tripe3 = {2: ''}, {2: ''}  # Pour les notes chromatiques parallèles
     # Lecture des colonnes absentes pour trouver les toniques fondamentales
-    print(lineno(), 'Cas3 ABSENCES dic_abs:', dic_abs)
+    (lineno(), 'Cas3 ABSENCES dic_abs:', dic_abs)
     for cas_duc in dic_abs.keys():
         (lineno(), 'GGC/ton_un:', ton_un, '\n', dic_maj[ton_un])
         ('___ ___ ___ ___ ___ ___ ___ ;', lineno(), 'Cas3 cas_duc:', cas_duc[1])
@@ -728,7 +745,7 @@ def chromatic(a, b, c, s):
                         (lineno(), 'id_cas:', id_cas, 'ici:', ici, 'no_cas:', no_cas)
                     (lineno(), 'ici:', ici, 'ic_rng:', ic_rng)
                 ic = dic_maj[ton_un][ici], ici
-                sur_cas.append(ic)  # sur_cas = Couple(note/index) de la partie supérieure
+                sur_cas.append(ic)  # sur_cas = Couple (note/index) de la partie supérieure
                 (lineno(), 'ic:', ic, ':', ic_deg, ic_sig, 'cas_cas:', cas_cas)
             if dic_maj[ton_un][axe]:  # ax_cas = Cas à augmenter
                 ax_cas = dic_maj[ton_un][axe]
@@ -765,14 +782,19 @@ def chromatic(a, b, c, s):
                             cas_cas.append(no_cas)
                             (lineno(), 'id_cas:', id_cas, 'axe:', axe, 'no_cas:', no_cas)
                 ax = dic_maj[ton_un][axe], axe
-                bas_cas.append(ax)  # bas_cas = Couple(note/index) de la partie inférieure
+                bas_cas.append(ax)  # bas_cas = Couple (note/index) de la partie inférieure
                 (lineno(), 'ax:', ax, 'ax_deg:', ax_deg, 'ax_sig:', ax_sig, 'cas_cas:', cas_cas)
             if len(sur_cas) == len(bas_cas) == 12:
                 but = True
                 (lineno(), '(sur_cas):', len(sur_cas), '(bas_cas):', len(bas_cas), 'cas_duc[1]:', cas_duc[1])
-                print('§', cas_duc[1], lineno())
+                ('§', cas_duc[1], lineno())
 
+        # Enregistrement des toniques absentes dans dic_cas et dans dic_maj, en passant par la fonction transposer
+        # def transposer(rip0, rip1, rip2, rip3):
         (lineno(), 'cas_cas:', cas_cas)
+        (lineno(), 'dic_maj.keys():', dic_maj.keys())
+        ''' tripe0 = tripe1 = {1: []}, {1: []}  # Pour les notes de la gamme originale(et plus)
+            tripe2 = tripe3 = {2: []}, {2: []}  # Pour les notes chromatiques parallèles'''
         for key in range(1, 14):
             len_sos1, len_sos2 = len(dic_cas[gam0[0], 'cas0']), len(dic_cas[gam0[0], 'cas2'])
             if key in dic_rip0.keys():
@@ -782,30 +804,78 @@ def chromatic(a, b, c, s):
                     if cas_sos[sos] in cas_cas:
                         ckc = cas_sos[:2], (key, cas_duc[1])
                         dic_cas[gam0[0], cas_sos[2]].append(ckc)
-                        print(lineno(), 'sos:', dic_cas[gam0[0], cas_sos[2]], '\tkey:', key)
+                        if cas_sos[0] not in dic_maj.keys() and cas_sos[0] not in tripe0[1]:
+                            tripe0[1] = cas_sos[0]
+                            (lineno(), 'tripe0:', tripe0, 'cas_sos[0]:', cas_sos[0])
+                        if cas_sos[1] not in dic_maj.keys() and cas_sos[1] not in tripe1[1]:
+                            tripe1[1] = cas_sos[1]
+                            (lineno(), 'tripe1:', tripe1, 'cas_sos[1]:', cas_sos[1])
+                        (lineno(), 'tripe0:', tripe0, 'tripe1:', tripe1)
+                        (lineno(), 'sos:', dic_cas[gam0[0], cas_sos[2]], '\tkey:', key)
                         break
                 (lineno(), 'cas_sos 0:', cas_sos, 'key:', key, 'cas_duc[1]:', cas_duc[1])
                 (lineno(), 'dic_cas 0:', dic_cas[gam0[0], 'cas0'][0])
             else:
                 cas_sos = dic_rip2[key][cas_duc[1]], dic_rip3[key][cas_duc[1]], 'cas2'
-                print(lineno(), 'cas_sos:', cas_sos, 'key:', key)
+                (lineno(), 'cas_sos:', cas_sos, 'key:', key)
                 for sos in range(2):
                     if cas_sos[sos] in cas_cas:
-                        print(lineno(), 'cas_sos[sos]:', cas_sos[sos])
                         ckc = cas_sos[:2], (key, cas_duc[1])
                         dic_cas[gam0[0], cas_sos[2]].append(ckc)
-                        print(lineno(), 'sos:', dic_cas[gam0[0], cas_sos[2]], '\tkey:', key)
+                        if cas_sos[0] not in dic_maj.keys() and cas_sos[0] not in tripe2[2]:
+                            tripe2[2] = cas_sos[0]
+                            tripe3[2] = cas_sos[1]
+                            (lineno(), 'tripe2:', tripe2, 'tripe3:', tripe3)
+                        (lineno(), 'sos:', dic_cas[gam0[0], cas_sos[2]], '\tkey:', key)
                         break
                 (lineno(), 'cas_sos 2:', cas_sos, 'key:', key, 'cas_duc[1]:', cas_duc[1])
                 (lineno(), 'dic_cas 2:', dic_cas[gam0[0], 'cas2'])
             deg_cas, sig_cas = cas_sos[0][len(cas_sos[0])-1:], cas_sos[0][:len(cas_sos[0])-1]
             (lineno(), 'deg_cas:', deg_cas, 'sig_cas:', sig_cas)
+        # Appel de fonction transposer avec passage de paramètres sans retour
+        (lineno(), '___ ___ Suite rip:', tripe0, tripe1, tripe2, tripe3)
+        transposer(tripe0, tripe1, tripe2, tripe3)
         (lineno(), 'dic_cas:', dic_cas[gam0[0], 'cas0'], '\n :', dic_cas[gam0[0], 'cas2'])
         ('** ', lineno(), '** ** ** len_sos:', len_sos1, 'len_sos2:', len_sos2)
-    print(lineno(), 'dic_cas:', dic_cas[gam0[0], 'cas0'], '\n', dic_cas[gam0[0], 'cas2'])
+    (lineno(), 'dic_cas:', dic_cas[gam0[0], 'cas0'], '\n', dic_cas[gam0[0], 'cas2'])
+    (lineno(), 'dic_maj.keys():', dic_maj.keys())
+    '''Les clefs changent en fonction de chaque gamme originale.'''
     for dc in dic_cas.keys():
+        for vc in dic_cas[dc]:
+            aug_key = vc[1][0]  # La clef tonique (rapport dic_rip2.3[clef])
+            aug_hau = vc[1][1]  # Position tonique (rapport dic_rip2.3[clef][position])
+            aug_rng, aug_lop = 0, -1  # aug_rng = Incrémente la clef
+            dic_rapt[aug_hau] = [[aug_key, aug_hau]]
+            dic_rap0[aug_hau] = [[aug_key, aug_hau]]
+            dic_rap2[aug_hau] = [[aug_key, aug_hau]]
+            (lineno(), 'vc:', vc, '\t\trangeur:', aug_key, 'hauteur:', aug_hau)
+            while aug_lop < 11:
+                aug_lop += 1
+                if aug_key in dic_rip0:
+                    note0, note1 = dic_rip0[aug_key][aug_hau], dic_rip1[aug_key][aug_hau]
+                    dic_rapt[aug_hau].append((note0, note1))
+                    dic_rap0[aug_hau].append(note0)
+                    dic_rap2[aug_hau].append(note1)
+                    (lineno(), 'dic_rip0.1:\t', note0)
+                else:
+                    note2, note3 = dic_rip2[aug_key][aug_hau], dic_rip3[aug_key][aug_hau]
+                    dic_rapt[aug_hau].append((note2, note3))
+                    dic_rap0[aug_hau].append(note2)
+                    dic_rap2[aug_hau].append(note3)
+                    (lineno(), 'dic_rip2.3:\t', note2)
+                aug_key += 1
+                if aug_key == 13:
+                    aug_key = 1
+                (lineno(), 'aug_lop:', aug_lop)
+            (lineno(), 'vc:', vc, '\t\trangeur:', aug_key, 'hauteur:', aug_hau)
         (lineno(), 'dc:', dc, 'dic_cas[dc]:', dic_cas[dc])
-    (lineno(), 'GGC/ton_un:', ton_un, '\n', dic_maj[ton_un])
+    '''Ici, nous connaissons les gammes commatiques qui sont impliquées au commatisme'''
+    (lineno(), 'GGC/ton_un:', ton_un, '\n', dic_maj.keys(), 'len(dic_maj.keys()):', len(dic_maj.keys()))
+    for ik in range(12):
+        print('dic_rap0:\t', dic_rap0[ik], len(dic_rap0[ik]), '\t', lineno())
+        print('dic_rap2:\t', dic_rap2[ik], len(dic_rap2[ik]), '\t', lineno())
+        # break
+    (lineno(), dic_rapt)
     '''print(exemple = "{}".format(a + b)
     print()
     print()

@@ -3,7 +3,7 @@
 # Origine 10 octobre 2022
 # GlobTetraCord : Traitement tétracordique
 """GlobGamVers6 = Origine tétracordique.
-La fonction tetra(self) :
+La fonction tetra (self) :
     Doit se contenter de traiter au cas par cas, c'est ainsi que va le programme.
     Elle transforme les arguments natifs-DataGammes, en :
         ('Inf', 'Sup', N°gamme, NomGamme)/(Position, Numéro, Gamme)
@@ -12,7 +12,7 @@ La fonction tetra(self) :
         Nœud tétra = Un tétra. Pouvant être différent + Position absolue.
         Édition d'un dictionnaire('Inf', 'Sup', N°, Nom) :
             Par n°gamme ayant chacune('Inf' liste, 'Sup' liste).
-            D'une position originale + D'une mise à niveau et nouage unipolaire(nœud).
+            D'une position originale + D'une mise à niveau et nouage unipolaire (nœud).
 GlobTetraCord réhausse grâce aux nœuds bilatéraux, suivant une ligne diatonique*"""
 
 

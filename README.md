@@ -24,7 +24,7 @@ Les tétras majeurs occupent l'octave de Do à Do : Do, _, Ré, _, Mi, Fa et Sol
  
 ###Pour parler un peu du système tétra = Développer cluster
     _Le milieu tétra n'est pas limité à la gamme naturelle_
-Et si cette limite faisait l'occasion à l'apprentissage d'une organisation clustérienne, de voir dans cet infini de combinaisons un systémisme gammique clustérien. En ce qui me concerne, le tétracorde a été vu pendant le développement des tonalités fondamentales. Il a été aussi perçu comme un système à part, selon le modèle cluster. Qui configure une série hiérarchique en croissance d'intervalles, ceci dans un espace donné de 12 notes(~~Octave~~). Le cluster inférieur débute à 1 et le supérieur prend fin à 13 ; En termes mathématiques : **Cluster = 4 notes** et :**Gamme = 2 clusters**, lorsque les 2 clusters sont limités aux extrémités `| La tonique(inf) / la quarte(sup) |`. Ils sont exponentiellement limités, `Voir GlobalApplis.py ligne 38.` Le cluster inférieur peut s'étendre à 9 notes :**= Octave - Cluster**. Au point de développement initial, il y a cinq intervalles vides : `OOOOoooooOOOO`; `Exemple extension : OOOoooooOOOOO, ici = °34^`.
+Et si cette limite faisait l'occasion à l'apprentissage d'une organisation clustérienne, de voir dans cet infini de combinaisons un systémisme gammique clustérien. En ce qui me concerne, le tétracorde a été vu pendant le développement des tonalités fondamentales. Il a été aussi perçu comme un système à part, selon le modèle cluster. Qui configure une série hiérarchique en croissance d'intervalles, ceci dans un espace donné de 12 notes (~~Octave~~). Le cluster inférieur débute à 1 et le supérieur prend fin à 13 ; En termes mathématiques : **Cluster = 4 notes** et :**Gamme = 2 clusters**, lorsque les 2 clusters sont limités aux extrémités `| La tonique(inf) / la quarte(sup) |`. Ils sont exponentiellement limités, `Voir GlobalApplis.py ligne 38.` Le cluster inférieur peut s'étendre à 9 notes :**= Octave - Cluster**. Au point de développement initial, il y a cinq intervalles vides : `OOOOoooooOOOO`; `Exemple extension : OOOoooooOOOOO, ici = °34^`.
 #### §§§_& Le visuel mécanique & L'expansion méthodologique & `L'idéologie gammique`
     Le verbe idéal a l'empreinte des différents aspects des gammes fondamentales.
         `GlobalApplis Ligne 44 & 45`: Les notes 'CDEFGAB'
@@ -43,7 +43,7 @@ Et si cette limite faisait l'occasion à l'apprentissage d'une organisation clus
 _L'application a des modules sobres en fonction_
 #### `GlobalApplis.GlobModelGammy.GlobGamFonds.GlobEnModes.`
 ### _GlobalApplis ***_
-**Le module des initiales,** 'GA' est chargé de transformer le cluster en une entité recevable. Modifier par la voie des incrémentations dans un jeu de priorités rangées aux extrémités libres. C'est dire que lorsque l'extrémité parvient à l'extrême, l'élément clustérien précédant l'extrémité incrémentée avance d'un cran en rappelant l'extrémité à son côté. L'unité clustérienne propage son extrémité jusqu'à l'extrême, puis avance l'unité inférieure et Relance l'extrémisme. Selon que les libertés des unités inférieures ne soient limitées, l'avancée intérieure avance à chaque relance à une aide orientée vers le bas pour le cas.
+**Le module des initiales,** 'GA' est chargé de transformer le cluster en une entité recevable. Modifier par la voie des incrémentations dans un jeu de priorités rangées aux extrémités libres. C'est dire que lorsque l'extrémité parvient à l'extrême, l'élément clustérien précédant l'extrémité incrémentée avance d'un cran en rappelant l'extrémité à son côté. L'unité clustérienne propage son extrémité jusqu'à l'extrême, puis avance l'unité inférieure et Relance l'extrémisme. Selon que les libertés des unités inférieures ne sont limitées, l'avancée intérieure avance à chaque relance à une aide orientée vers le bas pour le cas.
 #### Glob Apply `Édition Fichiers [(Tétras.µ)(Tétras.µ©)(Tétras.Qµ)]`µ: 1234. µ©: 1234. .5678. Q©: 1,b2, .,7,8.
 ### _GlobModelGammy ***_
 **Le module des premiers,** 'GMG' service de triage des modèles (Tetra/Couple). Obtention des modèles uniques débarrassés de leurs modes diatoniques. Modélisations parfaites protagonistes du rôle fondamental : `Réductions Analytiques`. Une gamme a plusieurs descriptions, un exemple lettré "**123045670000**", et sa binarisation "**111011110000**". Binariser les notes à une finalité de comparaison entre modèles, methode de calcul se dispensant des degrés chiffrés.
@@ -94,9 +94,38 @@ Il est évident, que chacune des révélations soient renseignées par le nom de
 puisque chaque gamme a sa définition chromatique. La gamme chromatique fait l'usage d'une trilogie, car elle est composée de la gamme originale et de deux chromatismes altérés. Alors, et selon la mise en place du chromatisme augmenté ou diminué, le développement diatonique produit un cycle ouvert ou fermé.
 * Lorsque le cycle est ouvert : Les modes voisins n'ont pas les mêmes formules numériques
 * Et quand le cycle est fermé : Les modes voisins ont les mêmes formules numériques<br>
+* Expliqués de GlobGamChrom\init.py. Ce samedi 12 décembre 2022<br>
+Il contient :<br>
+... Une table des gammes majeures en cours d'utilisation.<br>
+...	D'autres tables utiles (altérations(b, #), extensions...)
 
-Ce module est consacré à la mise en forme du dictionnaire à l'aide des tables reçues de GlobGamVers6. 
-Le dictionnaire est donc renvoyé, sa forme est simplifiée par rapport aux tables reçues.
+Une fonction permet la transposition majeure diatonique de chacune des notes utilisées.<br>
+...	Def transposer(rip0, rip1, rip2, rip3):<br>
+...	- Aide à la définition de la tonalité est donnée par la gamme majeure.
+	Elle est appliquée avec différentes mesures. Toniques issues de la gamme en cours et
+	celles développées par le système commatique.
+
+Une fonction pour une forme d'altération complexe (index(±), signe(int))<br>
+...	def alteration(signe):<br>
+...	- Transforme son état (nombre réel, index table, signe altératif)
+
+La principale fonction, celle de la liaison chromatique et commatique.<br>
+...	def chromatic(a, b, c, s):
+...	- Tout s'exerce par les paramètres, puis elle se charge de transcrire (a,b,c,s)<br>
+...    		A = Gamme hepta en cours
+    		B = Nom de la tonalité analogique
+    		C = Tonalité numérique ordre croissant
+    		S = Degré d'inversion demandé ou donné par défaut<br>	
+...	1er recueil. La séparation des notes diatoniques (gamme, chrome)
+...	2ème réconciliation d'une analogie numérique (notes + tonalités)
+...	3ème développement à partir d'une tonique mise à la tonalité diatonique
+...	4ème résolution aux sujets des notes en extension (de 8 à 15)."octaves"
+...	5ème récupération des analogies dans le sens vertical (modifiable)
+...	6ème construction diatonique des notes analogiques/verticales/atonales<br>
+...		dic_rapt = {}  # dic_rapt = Dictionnaire des premiers commatismes
+...		dic_rap0, dic_rap2 = {}, {}  # Afficher les chromatismes parallèles<br>
+`Ce module est consacré à la mise en forme du dictionnaire à l'aide des tables reçues de GlobGamVers6. 
+Le dictionnaire est donc renvoyé, sa forme est simplifiée par rapport aux tables reçues.`
 
 
 ### _GlobGamMicro ***_

@@ -242,8 +242,8 @@ class Gammique(Tk):
         for x in self.sca:
             x.pack()
 
-        # Case à cocher de conversion scanote8(CDEFGAB) vers l'octave majeure
-        # Car, la gamme de bCmaj(scanote8) = Bmaj à l'octave principale
+        # Case à cocher de conversion scanote8 (CDEFGAB) vers l'octave majeure
+        # Car, la gamme de bCmaj (scanote8) = Bmaj à l'octave principale
         # Exemple : bC,bD,bE,bF,bG,bA,bB = B,#C,#D,E,#F,#G,#A
         self.fr_8 = [0, 0, 0, 0, 0, 0, 0]  # Les tableaux self.(fr/to/sc/_8)
         self.to_8 = [0, 0, 0, 0, 0, 0, 0]  # Sont utilisés à def self.scanote8(_8)
@@ -312,11 +312,11 @@ class Gammique(Tk):
             1 : Les noms habituels
             2 : Les modes légers
         Boutons(self) : btchr(chm), bttab(tur), btacc(acc), btcom(ccc), bttet(ttt) self.genre_chrome"""
-        if typ == 1:  # Les gammes classiques(naturel)
+        if typ == 1:  # Les gammes classiques (naturel)
             self.gamclas = True
             if self.gamcalc:
                 self.gamcalc = None
-        if typ == 2:  # Les gammes calculées(atonal)
+        if typ == 2:  # Les gammes calculées (atonal)
             self.gamcalc = True
             if self.gamclas:
                 self.gamclas = None
@@ -428,13 +428,15 @@ class Gammique(Tk):
                 self.scalair = simpledialog.askinteger('Inversion', 'Entrez un nombre entier de 1 à 12' +
                                                        '. Pour le traitement commatique' + '\n' +
                                                        'Par défaut la dénivellation est fixée à 12')
-                if self.scalair is None:
+                if self.scalair == 0:
                     self.scalair = 12
+            btcom_dr0up.configure(text='Scalaire = ' + str(self.scalair))
             btcom_up.invoke()
 
         frcom_drup2 = Frame(self.ccc, width=20, height=3)  # Partie droite
         frcom_drup2.place(x=468, y=10, anchor='nw')
-        btcom_dr0up = Button(frcom_drup2, text='Scalaire', height=1, width=15, bg='yellow',
+        sca_txt = 'Scalaire = ' + str(12)
+        btcom_dr0up = Button(frcom_drup2, text=sca_txt, height=1, width=15, bg='yellow',
                              command=lambda: scaler())
         btcom_dr0up.pack()
         frcom_dr = Frame(self.ccc, width=30, height=3)  # Partie droite
@@ -470,17 +472,17 @@ class Gammique(Tk):
             elif c == 0:
                 pass
             elif c == 1:
-                self.comfdb[0] = 1  # Ligne dia.dia
+                self.comfdb[0] = 1  # Ligne dia_dia
             elif c == 2:
-                self.comfdb[0] = 2  # Ligne dia.com
+                self.comfdb[0] = 2  # Ligne dia_com
             elif c == 3:
-                self.comfcb[0] = 3  # Ligne com.com
+                self.comfcb[0] = 3  # Ligne com_com
             elif c == 4:
-                self.comfcb[0] = 4  # Ligne com.dia
+                self.comfcb[0] = 4  # Ligne com_dia
             elif c == 5:
-                self.comfdb[0] = 5  # Ligne dia.dia/com
+                self.comfdb[0] = 5  # Ligne dia_dia/com
             elif c == 6:
-                self.comfcb[0] = 6  # Ligne com.com/dia
+                self.comfcb[0] = 6  # Ligne com_com/dia
             self.ccc.destroy()
             self.btcom.invoke()
 
@@ -3119,7 +3121,7 @@ class Commatique(Frame):
                     c_rip1 = c_ripmin  # Note
                     self.ccnbase.create_text(c_x + c_j, c_y + c_i - 10, font=self.f_bu, text=c_rip0, fill='black')
                     self.ccnbase.create_text(c_x + c_j, c_y + c_i, font=self.f_bs, text=c_rip1, fill='black')
-                    (lineno(), 'C_Rip0:', c_rip0)  # c_rip0 = Altération sur la note naturelle(gamme)
+                    (lineno(), 'C_Rip0:', c_rip0)  # c_rip0 = Altération sur la note naturelle (gamme)
                     (lineno(), 'C_Rip1:', c_rip1)  # c_rip1 = La note naturelle de la gamme en cours
                 else:                   # Les notes chromatiques sont couplées
                     c_rip1 = c_ripmin
@@ -3131,7 +3133,7 @@ class Commatique(Frame):
                 c_rop2 = self.ctb_form[i][0][j]
                 self.ccnbase.create_text(c_x + c_j, c_y + c_i + 20, font=self.f_bt, text=c_rop2, fill='olive')
                 (lineno(), 'C_Rop2:', c_rop2)  # c_rop2 = Valeur numérique de la tonalité
-        # Bien détailler les gammes(heptatoniques et chromatiques !)
+        # Bien détailler les gammes (heptatoniques et chromatiques !)
         # self.c_bb[0] = Mode tonique en cours len(1)=hepta et len(2)=chroma
         # c_iii = Nom de la gamme en cours
         # self.normal = Tonalité numérique en cours

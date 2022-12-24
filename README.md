@@ -109,7 +109,7 @@ Une fonction pour une forme d'altération complexe (index(±), signe(int))<br>
 ...	def alteration(signe):<br>
 ...	- Transforme son état (nombre réel, index table, signe altératif)
 
-**La principale fonction, est celle de la liaison chromatique et commatique.<br>**
+La principale fonction, celle de la liaison chromatique et commatique.<br>
 ...	def chromatic(a, b, c, s):
 ...	- Tout s'exerce par les paramètres, puis elle se charge de transcrire (a,b,c,s)<br>
 ...    		A = Gamme hepta en cours
@@ -126,48 +126,6 @@ Une fonction pour une forme d'altération complexe (index(±), signe(int))<br>
 ...		dic_rap0, dic_rap2 = {}, {}  # Afficher les chromatismes parallèles<br>
 `Ce module est consacré à la mise en forme du dictionnaire à l'aide des tables reçues de GlobGamVers6. 
 Le dictionnaire est donc renvoyé, sa forme est simplifiée par rapport aux tables reçues.`
-### Ligne 706 : Lecture des colonnes absentes pour trouver les toniques fondamentales
-    (lineno(), 'Cas3 ABSENCES dic_abs:', dic_abs)
-### Enregistrement des toniques absentes dans dic_cas et dans dic_maj, par la fonction transposer()
-	# def transposer(rip0, rip1, rip2, rip3):
-`(lineno(), 'dic_maj.keys():', dic_maj.keys())`
-'''858 dic_maj.keys(): dict_keys(['C', 'D', 'E', 'F', 'G', 'A', 'B', '-D', '+C', '-E', '+D', '-G', '+F', '-A', '+G', '-B', '+A', 'oD', '+B'])'''
-`print(lineno(), 'cas_cas:', cas_cas)`
-	# 804 cas_cas: ['+B', 'oD', '^A', '-*E', 'o*F', 'x^G', '-**G', '+^^F', 'x^^E', '***A', '+^^^D',
-	# 'o***B', 'C', '^^^^C']<br>
-Le cas "804", cas_cas = Liste les notes diatoniques altérées jusqu'en position tonique.<br>
-En révisant les gammes dont les toniques n'ont pas été trouvées la première fois, on tombe sur un élément de "804"<br>
-### Appel de fonction transposer avec passage de paramètres sans retour
-	('     Transposer trip', lineno(), '___ ___ Suite rip:', tripe0, tripe1, tripe2, tripe3)
-	# transposer(tripe0, tripe1, tripe2, tripe3) : Voir ligne 103 [...	Def transposer(rip0, rip1, rip2, rip3):]
-* POUR UN...
-### Dictionnaire des tonalités majeures complètement renseigné.
-`(lineno(), 'dic_maj.keys():', dic_maj.keys())`<br>
-* SANS RIRE
-
-        '''# Exécution du traitement diatonique (num + note).
-            Le premier cycle a donné les principales valeurs diatoniques.
-            Le développement diatonique modal de la gamme commatique énoncée.
-            De sa position chromatique réelle, ou son emplacement diatonique.'''
-        (lineno(), 'dic_cap0:', dic_cap0)
-        for dia in range(1, 13):  # VERSIONS NUMÉRIQUES DES DEGRÉS MODAUX
-            # dic_cap0[ik], dic_cap3[ik] = Parties numériques[inf/sup].
-            # dic_cap1[ik], dic_cap2[ik] = Parties analogiques[inf/sup].
-			'''# Compare s'il n'y a pas de couplage chromatique.'''
-			if dic_rap0[ik][dia] == dic_rap2[ik][dia]:  # Les notes (sup/inf) sont identiques.
-				not_gam.append(dic_rap2[ik][dia])  # not_gam = Note tonique de la gamme
-				# Les notes iso font prioritairement partie du lot heptatonique.
-			else:  # Les notes (sup/inf) sont différentes.
-			''' PARTIES DU CODE INUTILISÉ POUR L'INSTANT'''
-### Exemple de premier mode commatique<br>
-	1021 ik: 1 dic_cap0[ik]: ['1', '*3', '*4', '-3', '*5', '4', '*6', 'o6', '*7', '^^^1', '-7', '^^^2']<br>
-	1022 ik: 1 dic_cap1[ik]: ['+B', '-D', 'oE', '+D', '-F', '+E', '-G', 'G', '-A', 'oB', '+A', '-C']<br>
-	1023 ik: 1 dic_cap2[ik]: ['C', '-D', 'xC', '-E', 'xD', 'F', '+F', 'G', '-A', 'xG', '-B', 'xA']<br>
-	1024 ik: 1 dic_cap3[ik]: ['1', '-2', 'x1', '-3', 'x2', '4', '+4', '5', '-6', 'x5', '-7', 'x6'] <br>
-	1038 not_gam: ['-D', 'G', '-A'] Les notes isolées appartiennent à une gamme fondamentale.<br>
-	1039 ... ;<br>
-	............# La gamme est composée de ['-D', 'G', '-A']<br>
-	........# OUT OF DIATONIC<br>
 
 
 ### _GlobGamMicro ***_

@@ -1,7 +1,7 @@
 #!/usr/bin/env python 3
 # -*- coding: utf-8 -*-
 # Origine 20 septembre 2022
-# GlobGamChrom : Traiter le chromatisme original pour le traduire en commatisme
+# GlobGamChrom : Mémoriser le chromatisme original et modifié
 
 
 import inspect
@@ -45,7 +45,7 @@ extension = [8, 9, 10, 11, 12, 13, 14]
 
 def transposer(rip0, rip1, rip2, rip3):
     """Ici, on réceptionne les gammes qui ont leurs tonices altérées.
-    Séquences du traitement : - Obtenir la gamme majeure signée ou non signée.
+    Séquences du traitement : - Obtenir la gamme majeure non signée.
      - Transposer la gamme au niveau altéré. - Résoudre la tonalité.
     Rip0.1 = Huit notes. Rip2.3 = Cinq notes.☺
     Pour transposer les notes de la gamme (Rip0.1)
@@ -242,7 +242,7 @@ def chromatic(a, b, c, s):
             La tonalité.    # c_rop2 = Valeur numérique de la tonalité
             dic_rip0, dic_rip1, dic_rip2, dic_rip3 = {}, {}, {}, {}'''
 
-    '''Le cycle yep sépare les notes de la gamme de celles qui sont chromatiques'''
+    '''Le cycle yep sépare les notes de la gammes de celles qui sont chromatiques'''
     gam0 = gam1 = ''
     for yep in range(1, 13):  # Mesurer dic_ana[yep](notes:gamme ou chrome)
         (lineno(), '___________________*************___________________ Début de cycle yep:', yep)
@@ -280,7 +280,7 @@ def chromatic(a, b, c, s):
     (lineno(), '_GGC/dic_rip2.3:  \n', dic_rip2, '\n', dic_rip3)
     (lineno(), 'Indices \tgam0[0]:', gam0[0], '\t\tgam1[0]:', gam1[0], '\t\tb_diatonic[0]:', b_diatonic[0])
 
-    '''Phase de renseignement de la matrice (yep)'''
+    '''Phase de renseignement de la matrice'''
     for yes in range(1, 13):  # Lecture des séquences chromatiques
         (lineno(), '_________________________*************_____________________ Début de cycle yes:', yes)
         (lineno(), 'Indices \tgam0[0]:', gam0[0], '\t\tgam1[0]:', gam1[0], '\t\tb_diatonic[0]:', b_diatonic[0])
@@ -635,7 +635,7 @@ def chromatic(a, b, c, s):
             #
             # Séquence d'affichage pour d'éventuelles corrections
             # Ci-dessous.
-            if yi == 12:  # Normalement(yi == 11). Et yi = 12 est improbable.
+            if yi == 12:  # Normalement(yi == 11)
                 print(lineno(), '***** Résultat progressif par cycle ***** yi:', yi, '****** yes:', yes)
                 print(lineno(), 'GGC/dic_inv[yes][yi]:\t', yes, dic_inv[yes][:yi + 1], '*yi:', yi)
                 if yes in dic_rip0.keys():
@@ -655,8 +655,8 @@ def chromatic(a, b, c, s):
         # Ci-dessus.
         # Séquence d'affichage pour d'éventuelles corrections
         #
-    (lineno(), '\nGGC/dic_rip0.1.keys:', dic_rip0.keys(), dic_rip1.keys())
-    (lineno(), 'GGC/dic_rip2.3.keys:', dic_rip2.keys(), dic_rip3.keys())
+    print(lineno(), '\nGGC/dic_rip0.1.keys:', dic_rip0.keys(), dic_rip1.keys())
+    print(lineno(), 'GGC/dic_rip2.3.keys:', dic_rip2.keys(), dic_rip3.keys())
     (lineno(), 'GGC/dic_inv.keys', dic_inv.keys())
     '''Tous les dic_rip's ont été initialisés selon la dictée numérique.
     Maintenant on passe à l'épisodique récupération des diatoniques commatiques:
@@ -799,12 +799,9 @@ def chromatic(a, b, c, s):
                 (lineno(), '(sur_cas):', len(sur_cas), '(bas_cas):', len(bas_cas), 'cas_duc[1]:', cas_duc[1])
                 ('§', cas_duc[1], lineno())
 
-        # Enregistrement des toniques absentes dans dic_cas et dans dic_maj, en passant par la fonction transposer()
+        # Enregistrement des toniques absentes dans dic_cas et dans dic_maj, en passant par la fonction transposer
         # def transposer(rip0, rip1, rip2, rip3):
         (lineno(), 'cas_cas:', cas_cas)
-        # 804 cas_cas: ['+B', 'oD', '^A', '-*E', 'o*F', 'x^G', '-**G', '+^^F', 'x^^E', '***A', '+^^^D',
-        # 'o***B', 'C', '^^^^C']
-        '''# cas_cas = Liste les notes diatoniques altérées jusqu'en position tonique'''
         (lineno(), 'dic_maj.keys():', dic_maj.keys())
         ''' tripe0 = tripe1 = {1: []}, {1: []}  # Pour les notes de la gamme originale(et plus)
             tripe2 = tripe3 = {2: []}, {2: []}  # Pour les notes chromatiques parallèles'''
@@ -964,7 +961,7 @@ def chromatic(a, b, c, s):
             #
             '''# Indexation des notes commatiques aux positions réelles et majeures:
                 Vrai = La note commatique énoncée supérieure.       Ou not_com1 de dic_rap0.
-                Et, mage = La note commatique énoncée inférieure.   Ou not_com2 de dic_rap2.
+                Et, faux = La note commatique énoncée inférieure.   Ou not_com2 de dic_rap2.
                 La note énoncée est relocalisée dans le dictionnaire des gammes majeures,
                 sa nouvelle localisation donne la référence du même degré majeur.'''
             #   # deg_abc0.1 = Adaptations des tonalités naturelles.

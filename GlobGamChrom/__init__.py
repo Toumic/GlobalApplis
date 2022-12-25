@@ -50,16 +50,19 @@ def transposer(rip0, rip1, rip2, rip3):
     Rip0.1 = Huit notes. Rip2.3 = Cinq notes.☺
     Pour transposer les notes de la gamme (Rip0.1)
     Pour transposer les notes chromatiques (Rip2.3)"""
-    (lineno(), rip0, rip1, rip2, rip3)
+    (lineno(), rip0, rip1, rip2, rip3, 'len(rip0):', len(rip0))
     if rip0[1]:
-        (lineno(), rip0)
+        (lineno(), 'rip0:', rip0)
         (lineno(), 'rip0[1][0]:', rip0[1][0])
         (lineno(), 'rip1:[1]', rip1[1])
     # Montage table des clés majeures de dic_maj
     cle_aut, note, ok = [], '', False
     for i in range(1, 14):
         if rip1[1] and i in rip1.keys():
-            note0 = rip0[i][0]
+            if len(rip0) > 1:
+                note0 = rip0[i][0]
+            else:
+                note0 = rip0[i]
             if note0 not in cle_aut and len(note0) > 1:
                 cle_aut.append(note0)
                 (lineno(), 'note0:', note0)
@@ -81,7 +84,7 @@ def transposer(rip0, rip1, rip2, rip3):
     (lineno(), 'cle_aut:', cle_aut)
     x = 0
     for ca in cle_aut:  # Lire les clés une par une
-        ('\n', lineno(), 'aut:', ca)
+        ('\n', lineno(), 'ca:', ca)
         x += 1
         '''Commencement réitératif transposé majeur'''
         if len(ca) > 1:  # Assurance de la note altérée
@@ -855,7 +858,7 @@ def chromatic(a, b, c, s):
         (lineno(), 'dic_cas:', dic_cas[gam0[0], 'cas0'], '\n :', dic_cas[gam0[0], 'cas2'])
         ('** ', lineno(), '** ** ** len_sos:', len_sos1, 'len_sos2:', len_sos2)
     (lineno(), 'dic_cas:', dic_cas[gam0[0], 'cas0'], '\n', dic_cas[gam0[0], 'cas2'])
-    (lineno(), 'dic_maj.keys():', dic_maj.keys())
+    (lineno(), 'dic_maj.keys():', dic_maj.keys(), 'len:', len(dic_maj.keys()))
     '''Les clefs changent en fonction de chaque gamme originale.'''
     for dc in dic_cas.keys():
         for vc in dic_cas[dc]:
@@ -898,11 +901,12 @@ def chromatic(a, b, c, s):
     for ik in range(12):
         # Initialiser la nouvelle clef du dictionnaire.
         dic_cap0[ik], dic_cap1[ik], dic_cap2[ik], dic_cap3[ik] = [], [], [], []
-        dic_com[ik] = []  # dic_com = Encadrement : (dic_cap0, dic_cap1, dic_cap2, dic_cap3)
+        dic_com[b_diatonic[0], ik] = []  # dic_com = Encadrement : (dic_cap0, dic_cap1, dic_cap2, dic_cap3)
         not_iso0, not_iso1, not_iso2, not_gam = '', '', '',  []
         '''# Compare, il n'y a pas de couplage chromatique?'''
         if dic_rap0[ik][1] == dic_rap2[ik][1]:  # Les notes (sup/inf) sont identiques.
             not_iso0 = dic_rap2[ik][1]  # not_iso0.1.2 = Notes toniques de la gamme (dic_maj[not_iso]).
+            print(lineno(), 'not_iso0:', not_iso0)
             gam_vol0 = dic_maj[not_iso0][0]  # gam_vol0 = Clé de la gamme majeure[dans dic_maj[]]
             gam_vol1 = dic_maj[not_iso0][0]  # gam_vol1 = Clé de la gamme majeure[dans dic_maj[]]
             (lineno(), 'gam_vol0:', gam_vol0, ':&1:', gam_vol1, '\t.\t\tPartie isolée.')
@@ -1022,10 +1026,10 @@ def chromatic(a, b, c, s):
                 print(lineno(), 'ik:', ik, 'dic_cap1[ik]:', dic_cap1[ik])
                 print(lineno(), 'ik:', ik, 'dic_cap2[ik]:', dic_cap2[ik])
                 print(lineno(), 'ik:', ik, 'dic_cap3[ik]:', dic_cap3[ik], '')
-                dic_com[ik].append(dic_cap0[ik])
-                dic_com[ik].append(dic_cap1[ik])
-                dic_com[ik].append(dic_cap2[ik])
-                dic_com[ik].append(dic_cap3[ik])
+                dic_com[b_diatonic[0], ik].append(dic_cap0[ik])
+                dic_com[b_diatonic[0], ik].append(dic_cap1[ik])
+                dic_com[b_diatonic[0], ik].append(dic_cap2[ik])
+                dic_com[b_diatonic[0], ik].append(dic_cap3[ik])
                 (lineno(), 'not_iso0:', not_iso0)
             if dia == 13:  # Moduler en fonction du niveau recherché.
                 break
@@ -1035,12 +1039,12 @@ def chromatic(a, b, c, s):
         ('dic_rap0:\t', dic_rap0[ik], len(dic_rap0[ik]), '\t', lineno())
         ('dic_rap2:\t', dic_rap2[ik], len(dic_rap2[ik]), '\t', lineno())
         '''#'''
-        print(lineno(), 'not_gam:', not_gam, 'Les notes isolées appartiennent à une gamme fondamentale.')
+        print(lineno(), 'not_gam:', not_gam, '. Les notes isolées sont à la gamme fondamentale.')
         print(lineno(), '... ;')
         if ik > 11:  # Fermeture au premier cycle (if ik == 0)
             print(lineno(), '(if ik == 0) break.')
             break
-    print(lineno(), '... dic_com ;', dic_com)
+    (lineno(), '... dic_com ;', dic_com)
     '''print(exemple = "{}".format(a + b)
     print()
     print()

@@ -906,7 +906,7 @@ def chromatic(a, b, c, s):
         '''# Compare, il n'y a pas de couplage chromatique?'''
         if dic_rap0[ik][1] == dic_rap2[ik][1]:  # Les notes (sup/inf) sont identiques.
             not_iso0 = dic_rap2[ik][1]  # not_iso0.1.2 = Notes toniques de la gamme (dic_maj[not_iso]).
-            print(lineno(), 'not_iso0:', not_iso0)
+            (lineno(), 'not_iso0:', not_iso0)
             gam_vol0 = dic_maj[not_iso0][0]  # gam_vol0 = Clé de la gamme majeure[dans dic_maj[]]
             gam_vol1 = dic_maj[not_iso0][0]  # gam_vol1 = Clé de la gamme majeure[dans dic_maj[]]
             (lineno(), 'gam_vol0:', gam_vol0, ':&1:', gam_vol1, '\t.\t\tPartie isolée.')
@@ -995,29 +995,61 @@ def chromatic(a, b, c, s):
                         Comma local[dia-1]. Majeur local[ind_vrai, ind_mage]
                 Le signe énoncé du comma est invariable.
                 Le degré énoncé du comma donne sa localisation.'''
+
             #   Partie supérieure : Le dessus numérique'''
             ide_vrai, num_vrai = '', str(niv_vrai + 1)  # num_vrai = Numéro du degré
             dif_vrai = (dia - 1) - ind_vrai  # dia-1 = Position chromatique
             (lineno(), 'num_vrai:', num_vrai, 'dif_vrai:', dif_vrai, '\t\tPartie supérieure.\tDia:', dia)
-            if dif_vrai > -1:
+            if abs(dif_vrai) > 6:
+                if dif_vrai < 0:  # dif_vrai = Altération dans tab_inf
+                    dif_dif = 12 - abs(dif_vrai)
+                    tab_dif = tab_sup[dif_dif]
+                    not_dif = int(num_vrai) + 7
+                    ('***', lineno(), 'dif_vrai:', dif_vrai, 'num_vrai:', num_vrai)
+                else:  # dif_vrai= Altération dans tab_sup
+                    dif_dif = 12 - abs(dif_vrai)
+                    tab_dif = tab_inf[dif_dif]
+                    not_dif = int(num_vrai) + 7
+                    ('***', lineno(), 'dif_vrai:', dif_vrai, 'num_vrai:', num_vrai)
+                not_vrai = tab_dif + str(not_dif)
+                ('**', lineno(), 'not_vrai:', not_vrai, '. if abs(dif_vrai) > 6:', 'num_vrai:', num_vrai)
+            elif dif_vrai > -1:
                 ide_vrai = tab_sup[dif_vrai]
+                not_vrai = ide_vrai + num_vrai
             else:
                 ide_vrai = tab_inf[abs(dif_vrai)]
-            not_vrai = ide_vrai + num_vrai
+                not_vrai = ide_vrai + num_vrai
             dic_cap0[ik].append(not_vrai)
             (lineno(), 'num_vrai:', num_vrai, 'dia-1:', dia - 1, 'ind_vrai:', ind_vrai)
-            (lineno(), '*** *** * not_vrai:', not_vrai, ide_vrai, '\t\tPartie supérieure.\tDia:', dia)
+            (lineno(), 'FINAL *** *** * not_vrai:', not_vrai, ide_vrai, '\t\tPartie supérieure.\tDia:', dia)
+
             #   Partie inférieure : Le dessous numérique'''
             ide_mage, num_mage = '', str(niv_mage + 1)  # num_mage = Numéro du degré
             dif_mage = (dia - 1) - ind_mage  # dia-1 = Position chromatique
             (lineno(), 'num_mage:', num_mage, 'dif_mage:', dif_mage, '\t\tPartie inférieure.\tDia:', dia)
-            if dif_mage > -1:
+            if abs(dif_mage) > 6:
+                if dif_mage < 0:  # dif_mage = Altération dans tab_inf
+                    dif_dif = 12 - abs(dif_mage)
+                    tab_dif = tab_sup[dif_dif]
+                    not_dif = int(num_mage) + 7
+                    ('***', lineno(), 'dif_mage:', dif_mage, 'num_mage:', num_mage)
+                else:  # dif_mage = Altération dans tab_sup
+                    dif_dif = 12 - abs(dif_mage)
+                    tab_dif = tab_inf[dif_dif]
+                    not_dif = int(num_mage) + 7
+                    ('***', lineno(), 'dif_mage:', dif_mage, 'num_mage:', num_mage)
+                not_mage = tab_dif + str(not_dif)
+                ('**', lineno(), 'not_mage:', not_mage, '. if abs(dif_mage) > 6:', 'num_mage:', num_mage)
+            elif dif_mage > -1:
                 ide_mage = tab_sup[dif_mage]
+                not_mage = ide_mage + num_mage
+                ('*', lineno(), 'not_mage:', not_mage, 'elif dif_mage > -1:', dif_mage)
             else:
                 ide_mage = tab_inf[abs(dif_mage)]
-            not_mage = ide_mage + num_mage
+                not_mage = ide_mage + num_mage
+                ('*', lineno(), 'not_mage:', not_mage)
             dic_cap3[ik].append(not_mage)
-            (lineno(), 'num_mage:', num_mage, 'dia-1:', dia - 1, 'ind_mage:', ind_mage)
+            (lineno(), 'FINAL not_mage:', not_mage, """'dia-1:', dia - 1, 'ind_mage:', ind_mage""")
             (lineno(), '*** *** * not_com2:', not_com2, '\t.\tPartie inférieure.\tDia:', dia)
 
             if dia == 12:
@@ -1039,7 +1071,7 @@ def chromatic(a, b, c, s):
         ('dic_rap0:\t', dic_rap0[ik], len(dic_rap0[ik]), '\t', lineno())
         ('dic_rap2:\t', dic_rap2[ik], len(dic_rap2[ik]), '\t', lineno())
         '''#'''
-        print(lineno(), 'not_gam:', not_gam, '. Les notes isolées sont à la gamme fondamentale.')
+        print(lineno(), 'not_gam:', not_gam, '. Les notes isolées de la gamme.')
         print(lineno(), '... ;')
         if ik > 11:  # Fermeture au premier cycle (if ik == 0)
             print(lineno(), '(if ik == 0) break.')

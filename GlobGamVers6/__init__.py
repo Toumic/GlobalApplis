@@ -35,7 +35,7 @@ def progam(pratic, glob, ego_p, ego_r, utile):
         Ego_r = Gammes mêmes rangs.
         Utile = ."""
     # print('Pratique', pratic['Maj'])
-    # print(lineno(), 'Globe', glob[0], '\n*', ego_p.keys(), '\n*', ego_r.keys())
+    (lineno(), 'Globe', glob[0], '\n*', ego_p.keys(), '\n*', ego_r.keys())
     # class Gammique
     data_gam = {1: pratic, 2: glob, 3: ego_p, 4: ego_r, 5: utile}
     Gammique(data_gam).mainloop()

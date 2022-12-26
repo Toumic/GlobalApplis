@@ -169,6 +169,15 @@ En révisant les gammes dont les toniques n'ont pas été trouvées la première
 	............# La gamme est composée de ['-D', 'G', '-A']<br>
 	........# OUT OF DIATONIC<br>
 
+### Exemple de premier mode commatique (arrangement des extensions)<br>
+	`1058 INDES		nom: C Maj 	grade: 12
+	1059 ik: 1 dic_cap0[ik]: ['1', '*3', '*4', '-3', '*5', '4', '*6', 'o6', '*7', '*8', '-7', '*9']
+	1060 ik: 1 dic_cap1[ik]: ['+B', '-D', 'oE', '+D', '-F', '+E', '-G', 'G', '-A', 'oB', '+A', '-C']
+	1061 ik: 1 dic_cap2[ik]: ['C', '-D', 'xC', '-E', 'xD', 'F', '+F', 'G', '-A', 'xG', '-B', 'xA']
+	1062 ik: 1 dic_cap3[ik]: ['1', '-2', 'x1', '-3', 'x2', '4', '+4', '5', '-6', 'x5', '-7', 'x6'] 
+	1063 not_gam: ['-D', 'G', '-A'] . Les notes isolées de la gamme.
+	1064 ... ;`
+
 IMPORTANT :
 Le module `GlobGamChrom` peut servir plusieurs fois, selon la visite des éléments commatiques sous-jacents.
 

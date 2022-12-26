@@ -666,7 +666,6 @@ def chromatic(a, b, c, s):
     .   Suivre les colonnes une par une en commençant par la tonique la plus rapprochée de celle de la 1ère colonne.
     .   Une fois sélectionnée, la tonique se construit avec les notes de sa propre colonne.
     En ce moment le traçage récolte(la tonique, le nom de la gamme, la graduation)'''
-    print(lineno(), 'INDES\tgam0:', gam0[0], '\tgam1:', gam1[0], '\tnom:', b_diatonic[0], '\tgrade:', graduation, '\n')
     (lineno(), 'GGC/dic_maj.keys\n', dic_maj.keys(), 'len(dic_maj.keys()):', len(dic_maj.keys()))
     # Lecture de chaque colonne des dic_rip's pour trouver la tonique fondamentale
     ton_un = dic_rip0[1][0]
@@ -1053,11 +1052,16 @@ def chromatic(a, b, c, s):
             (lineno(), '*** *** * not_com2:', not_com2, '\t.\tPartie inférieure.\tDia:', dia)
 
             if dia == 12:
+                ok_print = 0  # ok_print = 1 Mise en route des print's
                 # La production des résultantes numériques.
-                print(lineno(), 'ik:', ik, 'dic_cap0[ik]:', dic_cap0[ik])
-                print(lineno(), 'ik:', ik, 'dic_cap1[ik]:', dic_cap1[ik])
-                print(lineno(), 'ik:', ik, 'dic_cap2[ik]:', dic_cap2[ik])
-                print(lineno(), 'ik:', ik, 'dic_cap3[ik]:', dic_cap3[ik], '')
+                if ok_print:
+                    print(lineno(), 'INDES\t\tnom:', b_diatonic[0], '\tgrade:', graduation)
+                    print(lineno(), 'ik:', ik, 'dic_cap0[ik]:', dic_cap0[ik])
+                    print(lineno(), 'ik:', ik, 'dic_cap1[ik]:', dic_cap1[ik])
+                    print(lineno(), 'ik:', ik, 'dic_cap2[ik]:', dic_cap2[ik])
+                    print(lineno(), 'ik:', ik, 'dic_cap3[ik]:', dic_cap3[ik], '')
+                    print(lineno(), 'not_gam:', not_gam, '. Les notes isolées de la gamme.')
+                    print(lineno(), '... ;')
                 dic_com[b_diatonic[0], ik].append(dic_cap0[ik])
                 dic_com[b_diatonic[0], ik].append(dic_cap1[ik])
                 dic_com[b_diatonic[0], ik].append(dic_cap2[ik])
@@ -1071,9 +1075,7 @@ def chromatic(a, b, c, s):
         ('dic_rap0:\t', dic_rap0[ik], len(dic_rap0[ik]), '\t', lineno())
         ('dic_rap2:\t', dic_rap2[ik], len(dic_rap2[ik]), '\t', lineno())
         '''#'''
-        print(lineno(), 'not_gam:', not_gam, '. Les notes isolées de la gamme.')
-        print(lineno(), '... ;')
-        if ik > 11:  # Fermeture au premier cycle (if ik == 0)
+        if ik > 11:  # Fermeture au premier cycle (de 0 à 11)
             print(lineno(), '(if ik == 0) break.')
             break
     (lineno(), '... dic_com ;', dic_com)

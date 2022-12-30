@@ -3137,7 +3137,9 @@ class Commatique(Frame):
         # self.c_bb[0] = Mode tonique en cours len(1)=hepta et len(2)=chroma
         # c_iii = Nom de la gamme en cours
         # self.normal = Tonalité numérique en cours
-        progam_chrom.chromatic(self.c_bb[0], c_iii, self.normal, s_cal)
+        topo_com = progam_chrom.chromatic(self.c_bb[0], c_iii, self.normal, s_cal, None)
+        GlobGamMicro.commatic(topo_com)
+        (lineno(), 'GGV6/topo_com:', topo_com)
         (lineno(), 'Pied de page', 'self.c_bb[0]', self.c_bb[0], 'Scalaire:', s_cal)
 
 # class Gammique

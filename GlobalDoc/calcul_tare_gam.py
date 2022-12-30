@@ -22,10 +22,13 @@
  "				Masse pesante totale = -4-7-8 = -19\n")"""
 
 z = [0]
+
+
 def func(x):
     print(x)
     z[0] = 8
-    return(z)
+    return z
+
 
 func(4)
-print('z',z[0])
+print('z', z[0])

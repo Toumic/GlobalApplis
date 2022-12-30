@@ -136,7 +136,7 @@ def maj7_fonc(table, unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC
         """Développement diatonique du mode binaire
             Transforme binaire en unaire à calculer
          Crée une liste de la topologie et met en forme le nom
-         Format(nom) = Max(2 degrés, 2 signes) (Ligne 59).
+         Format (nom) = Max(2 degrés, 2 signes) (Ligne 59).
             Altéractifs = o3, +3, -4, o4, x4, o5, x5,"""
         '''Les intermédiaires : Définition altéractive.
         La    direction altéractive
@@ -204,8 +204,8 @@ def maj7_fonc(table, unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC
             '^4': ['x5', '+6'], 'x5': ['+6']}
 
         def former(signal, topo, toc):  # FORMATAGE Fonction Origine
-            """Passage par les signes invariants(affirmatif, amplifier, altéractif)
-            Permet la détection des invariants dans la signature modale(photo)
+            """Passage par les signes invariants (affirmatif, amplifier, altéractif)
+            Permet la détection des invariants dans la signature modale (photo)
             Définition des variables :
                 Revu : True pour inverser sens lecture liste.
                 Box : Tableau contenu altéractif. Values().
@@ -517,15 +517,15 @@ def maj7_fonc(table, unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC
         '''Détecte le nombre de signes dans la signature.'''
         for ks, kv in signatures.items():
             cou = None
-            if len(signatures.keys()) == 1:  # Signatures 1 signe(clé)
+            if len(signatures.keys()) == 1:  # Signatures 1 signe (clé)
                 '''Quand il y a un seul signe dans la signature:
                     Longueur kv Quant + Multi Notes. Q = numéro-gamme.
                     En soustrayant Qµ-unité. Reste Notes.'''
-                if len(kv) == 2:  # Signature 1 signe(clé) + 1 note
+                if len(kv) == 2:  # Signature 1 signe (clé) + 1 note
                     '''|66(8)[-7]||66(5)[+4]|...'''
                     # ('#\n###\n###\n###\n###\n###\n###\n###\n#####\n#####\n#####')
                     cou = kv[1]
-                elif len(kv) == 3:  # Signature 1 signe(clé) + 2 notes
+                elif len(kv) == 3:  # Signature 1 signe (clé) + 2 notes
                     for kepi in kv:
                         if kepi in alteractif.keys():  # Les cas altéractifs sont uniques
                             '''|56(9)[-4]||40(9)[+3]|'''
@@ -544,11 +544,11 @@ def maj7_fonc(table, unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC
                         else:
                             bloc = pot2[0] + pot2[1][1:]
                         cou = bloc
-                elif len(kv) > 3:  # Signature 1 signe(clé) + 3 notes
+                elif len(kv) > 3:  # Signature 1 signe (clé) + 3 notes
                     '''|66(28)[-76532]||66(2)[-7632]||66(19)[-763]||65(3)[-76542]|...'''
                     # ('\n\n\n\n\nLigne de repérage\n\n\n\n\n')
                     cou = former(kv[1:], [], '1')
-            else:  # Signatures aux clés multiples
+            else:  # Signatures à clés multiples
                 cou = former(signatures, photo, '2')
                 col = photo, cou
                 signaux[fol].append(col)

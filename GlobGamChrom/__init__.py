@@ -193,14 +193,15 @@ def alteration(signe):
     return retour
 
 
-def chromatic(a, b, c, s):
+def chromatic(a, b, c, s, t):
     """Fonction chromatique afin de soulager le code GlobGamVers6
     Définitions :
     A = Gamme hepta en cours
     B = Nom de la tonalité analogique
     C = Tonalité numérique ordre croissant
-    S = Degré d'inversion demandé ou donné par défaut"""
-    (lineno(), 'GGC/', 'A:', a[0], 'B = Nom de la tonalité analogique:', b, '\nC:', c[0], 'S:', s)
+    S = Degré d'inversion demandé ou donné par défaut
+    T = Présence d'un nom antécédent = La fonction a déclaré une gamme"""
+    (lineno(), 'GGC/', 'A:', a[0], 'B = Nom de la tonalité analogique:', b, '\nC:', c[0], 'S:', s, 'T:', t)
     a_diatonic.append(a)  # Tonalité analogique
     b_diatonic.append(b)  # Nom de la tonalité
     c_diatonic.append(c)  # Tonalité numéric croissant
@@ -901,7 +902,7 @@ def chromatic(a, b, c, s):
         # Initialiser la nouvelle clef du dictionnaire.
         dic_cap0[ik], dic_cap1[ik], dic_cap2[ik], dic_cap3[ik] = [], [], [], []
         dic_com[b_diatonic[0], ik] = []  # dic_com = Encadrement : (dic_cap0, dic_cap1, dic_cap2, dic_cap3)
-        not_iso0, not_iso1, not_iso2, not_gam = '', '', '',  []
+        not_iso0, not_iso1, not_iso2, not_gam, nom_gam = '', '', '',  [], ''
         '''# Compare, il n'y a pas de couplage chromatique?'''
         if dic_rap0[ik][1] == dic_rap2[ik][1]:  # Les notes (sup/inf) sont identiques.
             not_iso0 = dic_rap2[ik][1]  # not_iso0.1.2 = Notes toniques de la gamme (dic_maj[not_iso]).
@@ -947,6 +948,7 @@ def chromatic(a, b, c, s):
             if dic_rap0[ik][dia] == dic_rap2[ik][dia]:  # Les notes (sup/inf) sont identiques.
                 dic_cap1[ik].append(dic_rap2[ik][dia])  # not_iso = Note tonique de la gamme (dic_maj[not_iso])
                 dic_cap2[ik].append(dic_rap2[ik][dia])  # not_iso = Note tonique de la gamme (dic_maj[not_iso])
+                nom_gam += dic_rap2[ik][dia]  # Composition du nom en mode hors liste.
                 not_gam.append(dic_rap2[ik][dia])  # not_gam = Note tonique de la gamme
                 (lineno(), 'not_iso0:', not_iso0, not_iso1, '\t.\t Partie isolée.', 'dia:', dia)
             else:  # Les notes (sup/inf) sont différentes.
@@ -1056,42 +1058,96 @@ def chromatic(a, b, c, s):
                 # La production des résultantes numériques.
                 if ok_print:
                     print(lineno(), 'INDES\t\tnom:', b_diatonic[0], '\tgrade:', graduation)
-                    print(lineno(), 'ik:', ik, 'dic_cap0[ik]:', dic_cap0[ik])
-                    print(lineno(), 'ik:', ik, 'dic_cap1[ik]:', dic_cap1[ik])
-                    print(lineno(), 'ik:', ik, 'dic_cap2[ik]:', dic_cap2[ik])
-                    print(lineno(), 'ik:', ik, 'dic_cap3[ik]:', dic_cap3[ik], '')
-                    print(lineno(), 'not_gam:', not_gam, '. Les notes isolées de la gamme.')
+                    print(lineno(), 'ik:', ik, 'dic_cap0[clé]:', dic_cap0[ik])
+                    print(lineno(), 'ik:', ik, 'dic_cap1[clé]:', dic_cap1[ik])
+                    print(lineno(), 'ik:', ik, 'dic_cap2[clé]:', dic_cap2[ik])
+                    print(lineno(), 'ik:', ik, 'dic_cap3[clé]:', dic_cap3[ik], '')
+                    print(lineno(), 'not_gam:', not_gam, '. Les notes isolées de la gamme.', nom_gam)
                     print(lineno(), '... ;')
+                dic_com[b_diatonic[0], ik].append(nom_gam)
                 dic_com[b_diatonic[0], ik].append(dic_cap0[ik])
                 dic_com[b_diatonic[0], ik].append(dic_cap1[ik])
                 dic_com[b_diatonic[0], ik].append(dic_cap2[ik])
                 dic_com[b_diatonic[0], ik].append(dic_cap3[ik])
-                (lineno(), 'not_iso0:', not_iso0)
+                (lineno(), 'dic_cap1[ik]:', dic_cap1[ik][0], 'dic_cap2[ik]:', dic_cap2[ik][0], 'not_gam:', not_gam)
+                (lineno(), '[b_diatonic[0]:', [b_diatonic[0], ik])
             if dia == 13:  # Moduler en fonction du niveau recherché.
                 break
-        # OUT OF DIATONIC
         (lineno(), 'ik:', ik, 'dic_cap1[ik]:', dic_cap1[ik])
         (lineno(), 'ik:', ik, 'dic_cap2[ik]:', dic_cap2[ik])
         ('dic_rap0:\t', dic_rap0[ik], len(dic_rap0[ik]), '\t', lineno())
         ('dic_rap2:\t', dic_rap2[ik], len(dic_rap2[ik]), '\t', lineno())
+        (lineno(), 'not_gam:', not_gam, 'nom_gam:', nom_gam, '. Les notes isolées de la gamme.')
+        '''1080 not_gam: ['C', 'D', 'E', 'F', 'G', 'A', 'B'] nom_gam: CDEFGAB . Les notes isolées de la gamme.
+            1080 not_gam: ['-D', 'G', '-A'] nom_gam: -DG-A . Les notes isolées de la gamme.
+            1080 not_gam: ['+C', 'E', '+F', 'G', 'B'] nom_gam: +CE+FGB . Les notes isolées de la gamme.
+            1080 not_gam: ['C', '-E', 'F', 'A', '-B'] nom_gam: C-EFA-B . Les notes isolées de la gamme.
+            1080 not_gam: ['+D', '+G', 'A'] nom_gam: +D+GA . Les notes isolées de la gamme.
+            1080 not_gam: ['C', 'D', 'E', 'F', 'G', 'A', 'B'] nom_gam: CDEFGAB . Les notes isolées de la gamme.
+            1080 not_gam: ['-G'] nom_gam: -G . Les notes isolées de la gamme.
+            1080 not_gam: ['C', 'D', 'E', '+F', 'A', 'B'] nom_gam: CDE+FAB . Les notes isolées de la gamme.
+            1080 not_gam: ['D', '-E', '-A', '-B'] nom_gam: D-E-A-B . Les notes isolées de la gamme.
+            1080 not_gam: ['+C', 'D', '+F', '+G'] nom_gam: +CD+F+G . Les notes isolées de la gamme.
+            1080 not_gam: ['C', 'D', 'E', 'F', 'G', '-B'] nom_gam: CDEFG-B . Les notes isolées de la gamme.
+            1080 not_gam: ['+A'] nom_gam: +A . Les notes isolées de la gamme.'''
         '''#'''
-        if ik > 11:  # Fermeture au premier cycle (de 0 à 11)
-            print(lineno(), '(if ik == 0) break.')
+        if ik == 12:  # Fermeture au premier cycle (de 0 à 11)
+            print(lineno(), '(if ik == 0), (de 0 à 11), break.')
             break
+        # OUT OF DIATONIC
     (lineno(), '... dic_com ;', dic_com)
-    '''print(exemple = "{}".format(a + b)
-    print()
-    print()
-    print()
-    print()
-    print()
-    print()
-    print()
-    print()
-    print()
-    print()
-    print()
-    print()
-    print()
-    print()
-    print()'''
+    # La ZONE d'ANALYSE des COUPLES et des doublons.
+    tab_gam, tab_uni, tab_nom, tab_cop, tab_key = 'CDEFGAB', [], [], [], []
+    for k_duo, v_duo in dic_com.items():
+        '''Compter le nombre de notes dans v_duo[0], '''
+        nbr_not, nbr_aut, tab_aut = 0, 0, []
+        for tube in v_duo[0]:  # v_duo = Nom de la gamme en script
+            if tube in list(tab_gam):  # Tube est une note
+                nbr_not += 1
+            else:  # Tube est une altération = +^^ = nbr_aut = 3
+                nbr_aut += 1
+        tab_aut.append((nbr_not, nbr_aut))
+        trans = v_duo, tab_aut  # trans = Nom gamme, tab_aut = Nombres notes et altérations
+        # Mémorisation et séparation des doublons
+        if trans[0] in tab_uni:  # tab_uni = Stoke uniquement les noms (facilité de recherche)
+            '''Voir si ce doublon est entièrement identique'''
+            for k_key in range(12):
+                # Capter la clé k_key du doublon
+                if dic_com[k_duo[0], k_key][0] == trans[0][0]:  # Ici, seulement les noms sont comparés
+                    if dic_com[k_duo[0], k_key] != trans[0]:  # Ici, les valeurs sont différentes (noms égaux)
+                        tab_uni.append(trans[0])  # Tableau basic des notes isolées
+                        tab_nom.append(trans)  # Tableau évolué des unités isolées
+                        (lineno(), 'trans:', trans)
+                    else:  # Plusieurs égalités (noms égaux, valeurs égales, cles inégales)
+                        trans_cop = [k_duo[0], k_key], trans
+                        tab_cop.append(trans_cop)  # Tableau des clones isolés
+                        (lineno(), 'IF trans0:', trans[0], tab_cop)
+                    (lineno(), 'dic_com_clé:', [k_duo[0], k_key])
+        else:
+            tab_uni.append(trans[0])  # Tableau basic des notes isolées
+            tab_nom.append(trans)  # Tableau évolué des unités isolées
+            (lineno(), 'EL trans0:', trans[0], tab_nom)
+        (lineno(), '.\tNotes:', nbr_not, 'Signes:', nbr_aut, '\tv_duo[0]:', v_duo[0])
+        (lineno(), '.\tv_duo[0]:', v_duo[0], '\tlen():', len(v_duo[0]))
+        (lineno(), 'v_duo[1:]...:', v_duo[1:][:2][0][:3], trans[0][0], '\t\tk_duo:', k_duo)
+    (lineno(), 'len_tab_nom:', len(tab_nom), 'tab_nom = Tableau évolué des unités isolées sans les doublons')
+    (lineno(), '... dic_com ;', dic_com[('C Maj', 0)])
+    return dic_com
+
+
+'''print(exemple = "{}".format(a + b)
+print()
+print()
+print()
+print()
+print()
+print()
+print()
+print()
+print()
+print()
+print()
+print()
+print()
+print()
+print(☺)'''

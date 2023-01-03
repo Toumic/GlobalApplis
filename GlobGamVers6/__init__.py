@@ -3062,7 +3062,7 @@ class Commatique(Frame):
         self.ctb_form = None  # Table originale
         self.f_bs = Font(family='Arial', size=8)
         self.f_bt = Font(family='Arial', size=7)
-        self.f_bu = Font(family='Arial', size=6)
+        self.f_bu = Font(family='Arial', size=6, weight='bold')
         self.f_bv = Font(family='Arial', size=6)
         # Dictionnarisation de l'ordre chromatique ascendant.
         self.normal = {}  # Dictionnaire des tonalités chromatiques en ordre ascendant(normal).
@@ -3079,7 +3079,7 @@ class Commatique(Frame):
             self.ctpier.destroy()
         self.ctpier = Toplevel(self)
         self.ctpier.title('Entité Chromatique : Commatisme en  %s' % c_iii)
-        self.ctpier.geometry('777x567+234+100')
+        self.ctpier.geometry('900x900+234+100')
         self.c_bb = []
         self.c_cc = []
         self.ctb_form = [], [], [], [], [], [], [], [], [], [], [], []
@@ -3089,7 +3089,7 @@ class Commatique(Frame):
             (lineno(), 'c_bb:', c_oo[0][i][0][:12])
             (lineno(), 'c_cc:', c_pp[0][i][0][:12], '\n')
         # Première écriture chromatique de la gamme en cours
-        self.ccnbase = Canvas(self.ctpier, bg='Ivory', height=600, width=400)
+        self.ccnbase = Canvas(self.ctpier, bg='Ivory', height=800, width=600)
         self.ccnbase.pack()  # ccnbase = Premier Canvas original (pack_forget ou pas)
         self.ccnbase.delete(ALL)
         c_ii2 = "{}{}".format('Chrome en cours ', str(c_iii))
@@ -3106,23 +3106,61 @@ class Commatique(Frame):
         for i in range(12):
             self.normal[i] = self.ctb_form[i][0]
             (lineno(), 'i    \t', i, self.ctb_form[i][0])  # , 'ctb_form[i]')
-        # Écriture sur canvas ccnbase
+
+        # Appel à la fonction de première mise en forme commatique
+        '''Retour topo_com =
+            topo_com[0] = Dictionnaire global des 12 premiers modes toniques commas.[dic_com]
+                Premiers modes, car il s'agit de la première inspection (None).
+            topo_com[1] = Dictionnaire des clefs sans doublons.[tab_nom]
+            topo_com[2] = Dictionnaire des clefs qu'avec les doublons.[tab_cop]'''
+        topo_com = progam_chrom.chromatic(self.c_bb[0], c_iii, self.normal, s_cal, None)
+        GlobGamMicro.commatic(topo_com)
+        (lineno(), 'GGV6/topo_com:', topo_com[0])
+
+        '''# Écriture sur canvas ccnbase'''
         c_x, c_y = 30, 60
+        tab_top, gam_top, cle_top0 = [], ['C', 'D', 'E', 'F', 'G', 'A', 'B'], []
+        c_rop9, c_rop10 = [], ''
         for i in range(12):
-            c_i = i * 40
-            (lineno())
+            tab_top.clear()  # Un nouveau tableau à chaque fois
+            # Trouver la correspondance avec 'i' parmi les clés de topo_com[0]
+            for k_top in topo_com[0].keys():
+                if i in k_top:
+                    cle_top0 = k_top
+                    iso_top = topo_com[0][cle_top0][0]
+                    itou = ''
+                    for i_t in iso_top:
+                        if i_t in gam_top:
+                            itou += i_t
+                            tab_top.append(itou)
+                            itou = ''
+                        else:
+                            itou += i_t
+                    (lineno(), 'i:', i, 'cle_top0:', cle_top0, 'tab_top:', tab_top)
+                    (lineno(), 'iso_top:', iso_top)
+                    break
+            # Détecter les modes commatiques en double
+            for d_k in topo_com[2]:
+                if i != 0 and d_k == topo_com[0][cle_top0][0]:
+                    c_rop9 = topo_com[2][d_k][0]
+                    c_rop10 = 'DOUBLON'
+                    (lineno(), 'd_k:', d_k, c_rop9, c_rop10)
+            (lineno(), 'i:', i, 'tab_top:', tab_top, 'topo_com:', topo_com[0][cle_top0][1])
+            (lineno(), 'k_top:', )
+            c_i = i * 60
+            (lineno(), 'i:', i)
             for j in range(12):
                 c_j = j * 30
-                c_ripaug = self.c_bb[i][j][0][0]  # Signal augmenté : 0. ('+', 'C')...
-                c_ripmin = self.c_bb[i][j][0][1]  # Balance mineure : 0. ('-', 'D')...
-                c_riplen = len(c_ripmin)
-                if c_riplen == 1:       # Les notes de la gamme sont isolées
-                    c_rip0 = self.c_bb[i][j][0][0]  # Signal
-                    c_rip1 = c_ripmin  # Note
-                    self.ccnbase.create_text(c_x + c_j, c_y + c_i - 10, font=self.f_bu, text=c_rip0, fill='black')
-                    self.ccnbase.create_text(c_x + c_j, c_y + c_i, font=self.f_bs, text=c_rip1, fill='black')
+                c_ripaug = topo_com[0][cle_top0][2][j]  # Signal augmenté : 0. ('+', 'C')...
+                c_ripmin = topo_com[0][cle_top0][3][j]  # Balance mineure : 0. ('-', 'D')...
+                (lineno(), 'GGV6/c_ripaug:', c_ripaug, 'c_ripmin:', c_ripmin)
+                c_rop2 = topo_com[0][cle_top0][1][j]   # Valeur numérique de la tonalité supérieure
+                self.ccnbase.create_text(c_x + c_j, c_y + c_i - 20, font=self.f_bt, text=c_rop2, fill='olive')
+                (lineno(), 'C_Rop2:', c_rop2)  # c_rop2 = Valeur numérique de la tonalité
+                if c_ripaug in tab_top:       # Les notes de la gamme sont isolées
+                    c_rip0 = c_ripaug  # Signal
+                    self.ccnbase.create_text(c_x + c_j, c_y + c_i, font=self.f_bu, text=c_rip0, fill='black')
                     (lineno(), 'C_Rip0:', c_rip0)  # c_rip0 = Altération sur la note naturelle (gamme)
-                    (lineno(), 'C_Rip1:', c_rip1)  # c_rip1 = La note naturelle de la gamme en cours
                 else:                   # Les notes chromatiques sont couplées
                     c_rip1 = c_ripmin
                     self.ccnbase.create_text(c_x + c_j, c_y + c_i - 5, font=self.f_bv, text=c_rip1, fill='red')
@@ -3130,17 +3168,45 @@ class Commatique(Frame):
                     self.ccnbase.create_text(c_x + c_j, c_y + c_i + 5, font=self.f_bv, text=c_rip2, fill='blue')
                     (lineno(), 'C_Rip1:', c_rip1)  # Note chromatique du rang supérieur('-', 'D')
                     (lineno(), 'C_Rip2:', c_rip2)  # Note chromatique du rang inférieur('+', 'C')
-                c_rop2 = self.ctb_form[i][0][j]
+                c_rop2 = topo_com[0][cle_top0][4][j]   # Valeur numérique de la tonalité inférieure
                 self.ccnbase.create_text(c_x + c_j, c_y + c_i + 20, font=self.f_bt, text=c_rop2, fill='olive')
                 (lineno(), 'C_Rop2:', c_rop2)  # c_rop2 = Valeur numérique de la tonalité
+            if i in c_rop9:
+                self.ccnbase.create_text(c_x + 370, c_y + c_i, font=self.f_bu, text=c_rop10, fill='black')
+                (lineno(), 'i:', i)
         # Bien détailler les gammes (heptatoniques et chromatiques !)
         # self.c_bb[0] = Mode tonique en cours len(1)=hepta et len(2)=chroma
         # c_iii = Nom de la gamme en cours
         # self.normal = Tonalité numérique en cours
-        topo_com = progam_chrom.chromatic(self.c_bb[0], c_iii, self.normal, s_cal, None)
+        '''topo_com = progam_chrom.chromatic(self.c_bb[0], c_iii, self.normal, s_cal, None)
         GlobGamMicro.commatic(topo_com)
-        (lineno(), 'GGV6/topo_com:', topo_com)
+        (lineno(), 'GGV6/topo_com:', topo_com)'''
         (lineno(), 'Pied de page', 'self.c_bb[0]', self.c_bb[0], 'Scalaire:', s_cal)
 
 # class Gammique
 # Gammique().mainloop()
+
+
+'''for j in range(12):
+    c_j = j * 30
+    c_ripaug = self.c_bb[i][j][0][0]  # Signal augmenté : 0. ('+', 'C')...
+    c_ripmin = self.c_bb[i][j][0][1]  # Balance mineure : 0. ('-', 'D')...
+    c_riplen = len(c_ripmin)
+    (lineno(), 'GGV6/self.c_bb:', self.c_bb[i][j][0], 'c_riplen:', c_riplen, 'c_ripmin:', c_ripmin)
+    if c_riplen == 1:  # Les notes de la gamme sont isolées
+        c_rip0 = self.c_bb[i][j][0][0]  # Signal
+        c_rip1 = c_ripmin  # Note
+        self.ccnbase.create_text(c_x + c_j, c_y + c_i - 10, font=self.f_bu, text=c_rip0, fill='black')
+        self.ccnbase.create_text(c_x + c_j, c_y + c_i, font=self.f_bs, text=c_rip1, fill='black')
+        (lineno(), 'C_Rip0:', c_rip0)  # c_rip0 = Altération sur la note naturelle (gamme)
+        (lineno(), 'C_Rip1:', c_rip1)  # c_rip1 = La note naturelle de la gamme en cours
+    else:  # Les notes chromatiques sont couplées
+        c_rip1 = c_ripmin
+        self.ccnbase.create_text(c_x + c_j, c_y + c_i - 5, font=self.f_bv, text=c_rip1, fill='red')
+        c_rip2 = c_ripaug
+        self.ccnbase.create_text(c_x + c_j, c_y + c_i + 5, font=self.f_bv, text=c_rip2, fill='blue')
+        (lineno(), 'C_Rip1:', c_rip1)  # Note chromatique du rang supérieur('-', 'D')
+        (lineno(), 'C_Rip2:', c_rip2)  # Note chromatique du rang inférieur('+', 'C')
+    c_rop2 = self.ctb_form[i][0][j]
+    self.ccnbase.create_text(c_x + c_j, c_y + c_i + 20, font=self.f_bt, text=c_rop2, fill='olive')
+    (lineno(), 'C_Rop2:', c_rop2)  # c_rop2 = Valeur numérique de la tonalité'''

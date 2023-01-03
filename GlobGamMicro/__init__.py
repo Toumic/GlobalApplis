@@ -11,4 +11,4 @@ lineno: Callable[[], int] = lambda: inspect.currentframe().f_back.f_lineno
 
 
 def commatic(comma):
-    print(lineno(), 'comma:', comma)
+    (lineno(), 'comma:', comma[0], '\n***', comma[1], '\n***', comma[2])

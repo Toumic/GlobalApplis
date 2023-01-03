@@ -1097,7 +1097,7 @@ def chromatic(a, b, c, s, t):
         # OUT OF DIATONIC
     (lineno(), '... dic_com ;', dic_com)
     # La ZONE d'ANALYSE des COUPLES et des doublons.
-    tab_gam, tab_uni, tab_nom, tab_cop, tab_key = 'CDEFGAB', [], [], [], []
+    tab_gam, tab_uni, tab_nom, tab_cop, tab_key = 'CDEFGAB', [], {}, {}, []
     for k_duo, v_duo in dic_com.items():
         '''Compter le nombre de notes dans v_duo[0], '''
         nbr_not, nbr_aut, tab_aut = 0, 0, []
@@ -1116,23 +1116,26 @@ def chromatic(a, b, c, s, t):
                 if dic_com[k_duo[0], k_key][0] == trans[0][0]:  # Ici, seulement les noms sont comparés
                     if dic_com[k_duo[0], k_key] != trans[0]:  # Ici, les valeurs sont différentes (noms égaux)
                         tab_uni.append(trans[0])  # Tableau basic des notes isolées
-                        tab_nom.append(trans)  # Tableau évolué des unités isolées
-                        (lineno(), 'trans:', trans)
+                        tab_nom[trans[0][0]] = []
+                        tab_nom[trans[0][0]].append([k_duo[0], k_key])  # Dictionnaire évolué des unités isolées
+                        (lineno(), 'IF val != val:', trans[0])
                     else:  # Plusieurs égalités (noms égaux, valeurs égales, cles inégales)
-                        trans_cop = [k_duo[0], k_key], trans
-                        tab_cop.append(trans_cop)  # Tableau des clones isolés
-                        (lineno(), 'IF trans0:', trans[0], tab_cop)
+                        tab_cop[trans[0][0]] = []
+                        tab_cop[trans[0][0]].append([k_duo[0], k_key])  # Dictionnaire des clones isolés
+                        (lineno(), 'ELSE val = val:', trans[0][0], 'tab_cop:', tab_cop)
                     (lineno(), 'dic_com_clé:', [k_duo[0], k_key])
         else:
             tab_uni.append(trans[0])  # Tableau basic des notes isolées
-            tab_nom.append(trans)  # Tableau évolué des unités isolées
+            tab_nom[trans[0][0]] = []
+            tab_nom[trans[0][0]].append([k_duo[0], k_duo])  # Dictionnaire évolué des unités isolées
             (lineno(), 'EL trans0:', trans[0], tab_nom)
         (lineno(), '.\tNotes:', nbr_not, 'Signes:', nbr_aut, '\tv_duo[0]:', v_duo[0])
         (lineno(), '.\tv_duo[0]:', v_duo[0], '\tlen():', len(v_duo[0]))
         (lineno(), 'v_duo[1:]...:', v_duo[1:][:2][0][:3], trans[0][0], '\t\tk_duo:', k_duo)
-    (lineno(), 'len_tab_nom:', len(tab_nom), 'tab_nom = Tableau évolué des unités isolées sans les doublons')
-    (lineno(), '... dic_com ;', dic_com[('C Maj', 0)])
-    return dic_com
+    (lineno(), 'tab_nom:', tab_nom, 'tab_nom = Dictionnaire évolué des unités isolées sans les doublons')
+    (lineno(), 'tab_cop:', tab_cop, 'tab_cop = Dictionnaire évolué des unités isolées doublons')
+    (lineno(), '... dic_com ;', dic_com.keys())
+    return [dic_com, tab_nom, tab_cop]
 
 
 '''print(exemple = "{}".format(a + b)

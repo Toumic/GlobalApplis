@@ -1054,7 +1054,7 @@ def chromatic(a, b, c, s, t):
             (lineno(), '*** *** * not_com2:', not_com2, '\t.\tPartie inférieure.\tDia:', dia)
 
             if dia == 12:
-                ok_print = 0  # ok_print = 1 Mise en route des print's
+                ok_print = 1  # ok_print = 1 Mise en route des print's
                 # La production des résultantes numériques.
                 if ok_print:
                     print(lineno(), 'INDES\t\tnom:', b_diatonic[0], '\tgrade:', graduation)

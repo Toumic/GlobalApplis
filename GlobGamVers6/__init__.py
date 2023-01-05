@@ -3058,7 +3058,7 @@ class Commatique(Frame):
         self.c_bb = []
         self.c_cc = []
         self.coo_gam = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
-        self.ctpier = self.ccnbase = None
+        self.ctpier = self.ccnbase = self.ccn_bout = None
         self.ctb_form = None  # Table originale
         self.f_bs = Font(family='Arial', size=8)
         self.f_bt = Font(family='Arial', size=7)
@@ -3090,8 +3090,11 @@ class Commatique(Frame):
             (lineno(), 'c_cc:', c_pp[0][i][0][:12], '\n')
         # Première écriture chromatique de la gamme en cours
         self.ccnbase = Canvas(self.ctpier, bg='Ivory', height=800, width=600)
-        self.ccnbase.pack()  # ccnbase = Premier Canvas original (pack_forget ou pas)
+        self.ccnbase.pack(padx=13, side="left")  # ccnbase = Premier Canvas original (pack_forget ou pas)
         self.ccnbase.delete(ALL)
+        self.ccn_bout = Canvas(self.ctpier, bg='Ivory', height=800, width=100)
+        self.ccn_bout.pack(expand=True)  # ccn_bout = Second Canvas original pour les boutons
+        self.ccn_bout.delete(ALL)
         c_ii2 = "{}{}".format('Commatismes en cours : ', str(c_iii))
         self.ccnbase.create_text(112, 8, font=self.f_bt, text=c_ii2, fill='blue')
         # Formation self.ctb_form pour self.normal
@@ -3110,7 +3113,7 @@ class Commatique(Frame):
         # Appel à la fonction de première mise en forme commatique
         '''Retour topo_com =
             topo_com[0] = Dictionnaire global des 12 premiers modes toniques commas.[dic_com]
-                Premiers modes, car il s'agit de la première inspection (None).
+                Tracer les premiers modes, car il s'agit de la première inspection (None).
             topo_com[1] = Dictionnaire des clefs sans doublons.[tab_nom]
             topo_com[2] = Dictionnaire des clefs qu'avec les doublons.[tab_cop]'''
         topo_com = progam_chrom.chromatic(self.c_bb[0], c_iii, self.normal, s_cal, None)
@@ -3120,9 +3123,10 @@ class Commatique(Frame):
         '''# Écriture sur canvas ccnbase'''
         c_x, c_y = 30, 60
         tab_top, gam_top, cle_top0 = [], ['C', 'D', 'E', 'F', 'G', 'A', 'B'], []
-        c_rop9, c_rop10 = [], ''
+        c_rop9, c_rop10, pin_rop = [], '', []
         for i in range(12):
             tab_top.clear()  # Un nouveau tableau à chaque fois
+            c_rop8 = True
             # Trouver la correspondance avec 'i' parmi les clés de topo_com[0]
             for k_top in topo_com[0].keys():
                 if i in k_top:
@@ -3130,7 +3134,7 @@ class Commatique(Frame):
                     iso_top = topo_com[0][cle_top0][0]
                     itou = ''
                     for i_t in iso_top:
-                        if i_t in gam_top:
+                        if i_t in gam_top:  # i_t = Note naturelle diatonique
                             itou += i_t
                             tab_top.append(itou)
                             itou = ''
@@ -3143,16 +3147,23 @@ class Commatique(Frame):
             for d_k in topo_com[2]:
                 if d_k == topo_com[0][cle_top0][0]:
                     c_rop9 = topo_com[2][d_k][0]
-                    c_rop10 = 'DOUBLON : ' + d_k
-                    (lineno(), 'd_k:', d_k, c_rop9, c_rop10, 'topo_com[2]:', topo_com[2])
+                    if i == c_rop9[1]:
+                        c_rop10 = 'DOUBLON : ' + d_k
+                        pin_rop.append(c_rop10)
+                        c_rop8 = False
+                        (lineno(), 'd_k:', d_k, c_rop9, c_rop10, 'topo_com[2]:', topo_com[2], 'i:', i)
+            else:
+                if c_rop8:
+                    t_rop10 = topo_com[0][cle_top0][0]
+                    pin_rop.append(t_rop10)
+                    (lineno(), 'topo_com[0][cle_top0][0]', topo_com[0][cle_top0][0], 'i:', i)
             (lineno(), 'i:', i, 'tab_top:', tab_top, 'topo_com:', topo_com[0][cle_top0][1])
-            (lineno(), 'k_top:', )
             c_i = i * 60
             (lineno(), 'i:', i)
             for j in range(12):
                 c_j = j * 30
-                c_ripaug = topo_com[0][cle_top0][3][j]  # Signal augmenté : 0. ('+C')...
                 c_ripmin = topo_com[0][cle_top0][2][j]  # Balance mineure : 0. ('-D')...
+                c_ripaug = topo_com[0][cle_top0][3][j]  # Signal augmenté : 0. ('+C')...
                 c_rop2 = topo_com[0][cle_top0][1][j]   # Valeur numérique de la tonalité supérieure
                 self.ccnbase.create_text(c_x + c_j, c_y + c_i - 20, font=self.f_bt, text=c_rop2, fill='olive')
                 (lineno(), 'C_Rop2:', c_rop2)  # c_rop2 = Valeur numérique de la tonalité
@@ -3171,11 +3182,16 @@ class Commatique(Frame):
                 self.ccnbase.create_text(c_x + c_j, c_y + c_i + 20, font=self.f_bt, text=c_rop2, fill='olive')
                 (lineno(), 'C_Rop2:', c_rop2)  # c_rop2 = Valeur numérique de la tonalité
             if i in c_rop9:
-                self.ccnbase.create_text(c_x + 400, c_y + c_i, font=self.f_bu, text=c_rop10, fill='red')
+                self.ccnbase.create_text(c_x + 450, c_y + c_i, font=self.f_bu, text=c_rop10, fill='red')
                 (lineno(), 'i:', i, topo_com[0][cle_top0])
             else:
-                self.ccnbase.create_text(c_x + 400, c_y + c_i, font=self.f_bu, text=topo_com[0][cle_top0][0],
+                self.ccnbase.create_text(c_x + 450, c_y + c_i, font=self.f_bu, text=topo_com[0][cle_top0][0],
                                          fill='black')
+        '''Créer des boutons pour développer les diatonies des commas toniques'''
+        for pr in range(len(pin_rop)):
+            pin_rop[pr] = Button(self.ccn_bout, text=pin_rop[pr], height=1, width=60, bg='lightblue',
+                                 command=lambda m=pin_rop[pr]: print(m))
+            pin_rop[pr].pack(pady=6, padx=3)
         # Bien détailler les gammes (heptatoniques et chromatiques !)
         # self.c_bb[0] = Mode tonique en cours len(1)=hepta et len(2)=chroma
         # c_iii = Nom de la gamme en cours
@@ -3184,3 +3200,6 @@ class Commatique(Frame):
 
 # class Gammique
 # Gammique().mainloop()
+
+
+'''canvas.create_line((50, 50), (100, 100), width=4, fill='red')'''

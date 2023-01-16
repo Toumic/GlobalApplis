@@ -1621,7 +1621,7 @@ class Gammique(Tk):
             self.chm.destroy()
         self.chm = Toplevel(self)
         self.chm.title('Entité Gammique : Chromatisme en %s' % self.c_ii)
-        self.chm.geometry('700x400+800+40')
+        self.chm.geometry('700x600+800+40')
         self.chm.protocol("WM_DELETE_WINDOW", lambda: Gammique.fermeture(self, 'chrome'))
         # Sélection du mode chromatique (naturel) ou (atonal)
         frchm = Frame(self.chm, width=200, height=10)
@@ -1635,7 +1635,7 @@ class Gammique(Tk):
         frchm_ = Frame(self.chm, width=200, height=10)
         frchm_.pack(side=TOP)
         # Fenêtre écran_résultat
-        chrcan = Canvas(self.chm, bg='white', height=456, width=666)
+        chrcan = Canvas(self.chm, bg='white', height=666, width=777)
         chrcan.pack()
         Label(frchm_, text="Chromatismes", fg='red').pack()
         fontchr = Font(family='Liberation Serif', size=10)
@@ -3058,7 +3058,7 @@ class Commatique(Frame):
         self.c_bb = []
         self.c_cc = []
         self.coo_gam = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
-        self.ctpier = self.ccnbase = self.ccn_bout = None
+        self.ctpier = self.ccnbase = self.ccn_bout = self.copier = self.cop_bout = None
         self.ctb_form = None  # Table originale
         self.f_bs = Font(family='Arial', size=8)
         self.f_bt = Font(family='Arial', size=7)
@@ -3073,21 +3073,14 @@ class Commatique(Frame):
             c_pp = Modes diatoniques calculés + Chromes numériques (sup/inf)
             c_iii = Nom de la gamme 'Note + Valeur'
             s_cal = Taux de dénivellation des degrés pour commatisme"""
-        (lineno(), '2665-brnch_1-c_oo', type(c_oo), c_oo)
-        (lineno(), '2665-brnch_1-c_pp', type(c_pp), c_pp)
+        (lineno(), '2665-brnch_1-c_oo', type(c_oo), c_oo[0][0][0], '\n')
+        (lineno(), '2665-brnch_1-c_pp', type(c_pp), c_pp[0][0][0])
+        (lineno(), '2665-brnch_1-c_iii', type(c_iii), c_iii, 'Long:', len(c_iii), 'SCA:', s_cal)
         if self.ctpier is not None:
             self.ctpier.destroy()
         self.ctpier = Toplevel(self)
-        self.ctpier.title('Entité Chromatique : Commatisme en  %s' % c_iii)
-        self.ctpier.geometry('900x900+234+100')
-        self.c_bb = []
-        self.c_cc = []
-        self.ctb_form = [], [], [], [], [], [], [], [], [], [], [], []
-        for i in range(12):
-            self.c_bb.append(c_oo[0][i][0][:12])
-            self.c_cc.append(c_pp[0][i][0][:12])
-            (lineno(), 'c_bb:', c_oo[0][i][0][:12])
-            (lineno(), 'c_cc:', c_pp[0][i][0][:12], '\n')
+        self.ctpier.title('Entités Commatiques du Chromatisme en  %s' % c_iii)
+        self.ctpier.geometry('900x900+150+100')
         # Première écriture chromatique de la gamme en cours
         self.ccnbase = Canvas(self.ctpier, bg='Ivory', height=800, width=600)
         self.ccnbase.pack(padx=13, side="left")  # ccnbase = Premier Canvas original (pack_forget ou pas)
@@ -3097,31 +3090,57 @@ class Commatique(Frame):
         self.ccn_bout.delete(ALL)
         c_ii2 = "{}{}".format('Commatismes en cours : ', str(c_iii))
         self.ccnbase.create_text(112, 8, font=self.f_bt, text=c_ii2, fill='blue')
-        # Formation self.ctb_form pour self.normal
-        for i in range(12):
-            c_rop = []
-            for j in range(12):
-                c_rop2 = self.c_cc[i][j][0][2]  # Formule inter modale : ('', 1). ('+', 1)...
-                c_rop.append(c_rop2)
-            self.ctb_form[i].append(c_rop)
-            (lineno(), 'GGV6/ self.ctb_form[i]:', self.ctb_form[i])
-        # Dictionnaire des tonalités chromatiques en ordre ascendant(self.normal).
-        for i in range(12):
-            self.normal[i] = self.ctb_form[i][0]
-            (lineno(), 'i    \t', i, self.ctb_form[i][0])  # , 'ctb_form[i]')
+        if s_cal == 0:
+            s_cal = 12
+            (lineno(), 'Scalaire:', s_cal)
+        #
+        if isinstance(c_iii, str):
+            '''Premier modèle des paramètres'''
+            self.c_bb = []
+            self.c_cc = []
+            self.ctb_form = [], [], [], [], [], [], [], [], [], [], [], []
+            for i in range(12):
+                self.c_bb.append(c_oo[0][i][0][:12])  # Formes analogiques
+                self.c_cc.append(c_pp[0][i][0][:12])  # Formes numériques
+                (lineno(), 'self.c_bb[0]:', self.c_bb[0], 'Longueur =', len(self.c_bb[0]))
+                (lineno(), 'c_cc:', c_pp[0][i][0][:12], 'Longueur =', len(c_pp[0][i][0][:12]))
+            # Formation self.ctb_form pour self.normal
+            self.ctb_form = [], [], [], [], [], [], [], [], [], [], [], []
+            for i in range(12):
+                c_rop = []
+                for j in range(12):
+                    c_rop2 = self.c_cc[i][j][0][2]  # Formule inter modale : ('', 1). ('+', 1)...
+                    c_rop.append(c_rop2)
+                self.ctb_form[i].append(c_rop)
+                (lineno(), 'GGV6/ self.ctb_form[i]:', self.ctb_form[i])
+            # Dictionnaire des tonalités chromatiques en ordre ascendant(self.normal).
+            for i in range(12):
+                self.normal[i] = self.ctb_form[i][0]
+                (lineno(), 'i    \t', i, self.ctb_form[i][0])  # , 'ctb_form[i]')
+                '''3124 i    	 0 ['1', '+1', '2', '+2', '3', '4', '+4', '5', '+5', '6', '+6', '7']/...'''
+            clo_bb, clo_normal = self.c_bb[0], self.normal.copy()
+        else:
+            (lineno(), 'Paramètres déclarés à la fonction def brnch_1')
+            clo_bb, clo_normal = c_oo, c_pp.copy()
 
-        # Appel à la fonction de première mise en forme commatique
+        # Appel à la fonction de mise en forme commatique
+        topo_com = progam_chrom.chromatic(clo_bb, c_iii, clo_normal, s_cal)
+        (lineno(), 'GGV6/topo_com:', topo_com[0])
+        (lineno(), 'self.c_bb[0]:', self.c_bb[0], 'Longueur =', len(self.c_bb[0]))
+        '''3127 self.c_bb[0]: ([('', 'C')], [(('+', 'C'), ('-', 'D'))], [('', 'D')], [(('+', 'D'), ('-', 'E'))], 
+        [('', 'E')], [('', 'F')], [(('+', 'F'), ('-', 'G'))], [('', 'G')], [(('+', 'G'), ('-', 'A'))], [('', 'A')], 
+        [(('+', 'A'), ('-', 'B'))], [('', 'B')]) Longueur = 12'''
+        (lineno(), 'c_iii:', c_iii, 'Longueur =', len(c_iii))
+        '''3131 c_iii: [[12, '-DG-A', ('C Maj', 1)]] Longueur = 1'''
+        (lineno(), 'self.normal:', self.normal, 'Longueur =', len(self.normal))
+        '''3133 self.normal: {0: ['1', '+1', '2', '+2', '3', '4', '+4', '5', '+5', '6', '+6', '7']/...'''
         '''Retour topo_com =
             topo_com[0] = Dictionnaire global des 12 premiers modes toniques commas.[dic_com]
                 Tracer les premiers modes, car il s'agit de la première inspection (None).
             topo_com[1] = Dictionnaire des clefs sans doublons.[tab_nom]
             topo_com[2] = Dictionnaire des clefs qu'avec les doublons.[tab_cop]'''
-        topo_com = progam_chrom.chromatic(self.c_bb[0], c_iii, self.normal, s_cal, None)
-        GlobGamMicro.commatic(topo_com)
-        (lineno(), 'GGV6/topo_com:', topo_com[0])
 
         '''# Écriture sur canvas ccnbase'''
-        c_x, c_y = 30, 60
         tab_top, gam_top, cle_top0 = [], ['C', 'D', 'E', 'F', 'G', 'A', 'B'], []
         c_rop9, c_rop10, pin_rop = [], '', []
         for i in range(12):
@@ -3151,7 +3170,7 @@ class Commatique(Frame):
                         c_rop10 = 'DOUBLON : ' + d_k
                         pin_rop.append(c_rop10)
                         c_rop8 = False
-                        (lineno(), 'd_k:', d_k, c_rop9, c_rop10, 'topo_com[2]:', topo_com[2], 'i:', i)
+                        (lineno(), 'd_k:', d_k, 'c_rop10:', c_rop10, 'topo_com[2]:', topo_com[2], 'i:', i)
             else:
                 if c_rop8:
                     t_rop10 = topo_com[0][cle_top0][0]
@@ -3159,6 +3178,7 @@ class Commatique(Frame):
                     (lineno(), 'topo_com[0][cle_top0][0]', topo_com[0][cle_top0][0], 'i:', i)
             (lineno(), 'i:', i, 'tab_top:', tab_top, 'topo_com:', topo_com[0][cle_top0][1])
             c_i = i * 60
+            c_x, c_y = 30, 60
             (lineno(), 'i:', i)
             for j in range(12):
                 c_j = j * 30
@@ -3187,11 +3207,13 @@ class Commatique(Frame):
             else:
                 self.ccnbase.create_text(c_x + 450, c_y + c_i, font=self.f_bu, text=topo_com[0][cle_top0][0],
                                          fill='black')
-        '''Créer des boutons pour développer les diatonies des commas toniques'''
+
+        '''Créer des boutons de développement diatonique des commas toniques, via la fonction commatic.'''
         for pr in range(len(pin_rop)):
             pin_rop[pr] = Button(self.ccn_bout, text=pin_rop[pr], height=1, width=60, bg='lightblue',
-                                 command=lambda m=pin_rop[pr]: print(m))
-            pin_rop[pr].pack(pady=6, padx=3)
+                                 command=lambda m=pin_rop[pr]: progam_micro.Comique.commatic(self, s_cal, topo_com, m))
+            pin_rop[pr].pack(pady=6, padx=6)
+        (lineno(), topo_com[0], '\n ***', topo_com[1], '\n ***', topo_com[2])
         # Bien détailler les gammes (heptatoniques et chromatiques !)
         # self.c_bb[0] = Mode tonique en cours len(1)=hepta et len(2)=chroma
         # c_iii = Nom de la gamme en cours

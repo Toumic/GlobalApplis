@@ -183,7 +183,20 @@ Le module `GlobGamChrom` peut servir plusieurs fois, selon la visite des éléme
 
 
 ### _GlobGamMicro ***_
-**Le module des commatismes.** 'GGM'
+**Le module des commatismes.** 'GGM' en charge du développement diatonique de la gamme fondamentale commatique.<br>
+L'utilisation de GlobGamVers6, dans sa section de la gamme en cours produisant un développement diatonique correspondant
+à la diffusion des sept degrés modaux respectifs. Cette création poursuit sa production par un déploiement de sept tonalités
+primordiales, dont chacune d'entre-elles dispose d'une capacité diatonique.
+
+### `_Progressions commatiques_`
+Voici le séquentiel de la gamme :<br>
+... Au début, il y a une gamme fondamentale<br>
+... Ensuite les intervalles prennent des valeurs chromatiques<br>
+... Pour qu'une gamme chromatique primitive produise 12 modes toniques différents<br>
+... Qui selon le mode tonique choisi, produise un développement diatonique :<br>
+... ... Une gamme = Notes + Chromatisation<br>
+... ... Une gamme chromatique = Notes + Commatisation<br>
+
 
 ### _progamV6encore ***_
 **Le module interface.** 'pv6e' Rassemble le résumé gammologique et est destiné à approfondir les systèmes tétras et commatiques.

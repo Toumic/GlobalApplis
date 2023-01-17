@@ -700,7 +700,7 @@ def chromatic(a, b, c, s):
             #
             # Séquence d'affichage pour d'éventuelles corrections
             # Ci-dessous. Déploiement diatonique analogique guidé par la formule numérique.
-            if yi == 12:  # Normalement(yi == 11). Et yi = 12 est improbable.
+            if yi == 11:  # Normalement(yi == 11). Et yi = 12 est improbable.
                 print(lineno(), '***** Résultat progressif par cycle ***** yi:', yi, '****** yes:', yes)
                 print(lineno(), 'GGC/dic_inv[yes][yi]:\t', yes, dic_inv[yes][:yi + 1], '*yi:', yi)
                 if yes in dic_rip0.keys():

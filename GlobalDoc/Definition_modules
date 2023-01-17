@@ -1,4 +1,4 @@
-Ce samedi 26 juin 2021
+Ce samedi 26 juin 2021 : Vicenté Llavata Abreu
 
 Définition des modules utilisés pour calculer les gammes.
 
@@ -11,7 +11,12 @@ GlobalTexte dossier des textes
 GlobalApplis module principal:
     Ce 1er module a pour but de générer les tétracordes,
     afin de les assembler en couple pour former les modes.
-    Branche module GlobModelGammy
+    Comporte un accès d'affichage en choix multiple: GlobalApplis[Voir fin du script]
+        print('Modes binaires.      Tapez 1')
+        print('Modes majeurs 7.     Tapez 2 ')
+        print('Modes poids.         Tapez 3')
+        print('Modes utile/inutile. Tapez 4')
+        print('Modes détaillés.     Tapez 5')
 
 GlobModelGammy module de triage:
     Ce module a une fonction de tri fondamental,
@@ -38,15 +43,18 @@ GlobInverseAcc module du miroir:
     Branche module GlobGamVers6
 
 GlobGamChrom module du chromatisme:
-    Module des transmutations modales, soit : chromatique vers commatique
+    Transmutations modales, soit : chromatique vers commatique
     C'est une série de transcriptions commatiques
     Voir GlobalApplis/exportToHTML/CommentGlobGamChromII.py.html et section README.md
 
 GloGamMicro module du commatisme:
+    Développement diatonique d'une gamme commatique
+    Branche module GlobGamVers6
 
 GlobTetraCord module tétracordique:
 
 progamV6encore module utilisateur:
+    Amorce globale des sujets gammiques ou des modules
     Branche module GlobGamChrom
     Branche module GlobGamMicro
     Branche module GlobTetraCord

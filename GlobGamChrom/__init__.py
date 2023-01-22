@@ -212,7 +212,7 @@ def chromatic(a, b, c, s):
         Ce degré est invariable, car il forme une chronologie.
         Tout changement fait une modulation de l'inversion parallèle.
         - Cette modulation de l'inversion pourrait, mais ici elle n'est pas dans le code."""
-    (lineno(), '***\nGGC/', 'A:', type(a), 'B = Nom de la tonalité analogique:', b, '\nC:', c[0], 'S:', s)
+    (lineno(), '***\nGGC/', 'A:', type(a), 'B = Nom de la tonalité analogique:', b, '\nC:', c, 'S:', s)
     '''Exemples: Formats des premiers tableaux[Comment ils sont traités - |CHANGE = ERREUR| ]
     209 GGC/ A: ([('', 'C')], [(('+', 'C'), ('-', 'D'))], [('', 'D')], [(('+', 'D'), ('-', 'E'))], [('', 'E')], 
     [('', 'F')], [(('+', 'F'), ('-', 'G'))], [('', 'G')], [(('+', 'G'), ('-', 'A'))], [('', 'A')], 
@@ -700,7 +700,7 @@ def chromatic(a, b, c, s):
             #
             # Séquence d'affichage pour d'éventuelles corrections
             # Ci-dessous. Déploiement diatonique analogique guidé par la formule numérique.
-            if yi == 11:  # Normalement(yi == 11). Et yi = 12 est improbable.
+            if yi == 12:  # Normalement(yi == 11). Et yi = 12 est improbable.
                 print(lineno(), '***** Résultat progressif par cycle ***** yi:', yi, '****** yes:', yes)
                 print(lineno(), 'GGC/dic_inv[yes][yi]:\t', yes, dic_inv[yes][:yi + 1], '*yi:', yi)
                 if yes in dic_rip0.keys():
@@ -1146,7 +1146,7 @@ def chromatic(a, b, c, s):
             (lineno(), '*** *** * not_com2:', not_com2, '\t.\tPartie inférieure.\tDia:', dia)
 
             if dia == 12:
-                ok_print = 1  # ok_print = 1 Mise en route des print's
+                ok_print = 0  # ok_print = 1 Mise en route des print's
                 # La production des résultantes numériques.
                 if ok_print:
                     print(lineno(), 'INDES\t\tnom:', b_diatonic[0], '\tgrade:', graduation)

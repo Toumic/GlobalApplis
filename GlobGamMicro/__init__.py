@@ -231,7 +231,7 @@ class Comique(Frame):
                 mdc_mod2[lie].append(mod_dia3[lie][que])
                 mdc_mod3[lie].append(note3)
                 num_lie[lie].append(note2)
-                if que == 12:
+                if que == 11:  # Pour activer cette section (que = 11)
                     print(lineno(), 'mdc_mod0[lie]:', mdc_mod0[lie])
                     print(lineno(), 'mdc_mod1[lie]:', mdc_mod1[lie])
                     print(lineno(), 'mdc_mod2[lie]:', mdc_mod2[lie])
@@ -240,7 +240,7 @@ class Comique(Frame):
         (lineno(), 'num_lie.keys():', num_lie.keys())
         '''236 num_lie.keys(): dict_keys([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])'''
 
-        # Écriture sur Frame
+        # Écriture sur Canvas
         c_ii2 = "{}{}".format('Commatismes en cours de traçage : ', tracer)
         self.cop_bout.create_text(180, 8, font=self.f_bt, text=c_ii2, fill='blue')
         for i in range(12):
@@ -252,7 +252,7 @@ class Comique(Frame):
                 c_ripmin = mdc_mod1[i][j]  # Balance mineure : 0. ('-D')...
                 c_ripaug = mdc_mod2[i][j]  # Signal augmenté : 0. ('+C')...
                 c_rop2 = mdc_mod0[i][j]  # Valeur numérique de la tonalité supérieure
-                self.cop_bout.create_text(c_x + c_j, c_y + c_i - 30, font=self.f_bt, text=c_rop2, fill='olive')
+                self.cop_bout.create_text(c_x + c_j, c_y + c_i - 20, font=self.f_bt, text=c_rop2, fill='olive')
                 (lineno(), 'C_Rop2:', c_rop2)  # c_rop2 = Valeur numérique de la tonalité
                 if c_ripaug in mode:  # Les notes de la gamme sont isolées
                     c_rip0 = c_ripaug  # Signal
@@ -265,17 +265,13 @@ class Comique(Frame):
                     self.cop_bout.create_text(c_x + c_j, c_y + c_i + 10, font=self.f_bv, text=c_rip2, fill='blue')
                     (lineno(), 'C_Rip1:', c_rip1)  # Note chromatique du rang supérieur('-D')
                     (lineno(), 'C_Rip2:', c_rip2)  # Note chromatique du rang inférieur('+C')
-                if i == 11:
-                    c_rop2 = mdc_mod3[i][j]  # Valeur numérique de la tonalité inférieure
-                    self.cop_bout.create_text(c_x + c_j, c_y + c_i + 30, font=self.f_bt, text=c_rop2, fill='olive')
-                    (lineno(), 'C_Rop2:', c_rop2)  # c_rop2 = Valeur numérique de la tonalité
+                # if i == 11:
+                c_rop2 = mdc_mod3[i][j]  # Valeur numérique de la tonalité inférieure
+                self.cop_bout.create_text(c_x + c_j, c_y + c_i + 20, font=self.f_bt, text=c_rop2, fill='olive')
+                (lineno(), 'C_Rop2:', c_rop2)  # c_rop2 = Valeur numérique de la tonalité
         but_cop = Button(self.copier, text='Commane', height=1, width=15, bg='pink',
                          command=lambda: progam_vers6.Commatique.brnch_1(self, lst_dia, num_lie, tracer, scale))
         but_cop.pack(side=BOTTOM, pady=6)
-        '''if self.copier:
-            bit_cop = Button(self.copier, text='Quitter', height=1, width=15, bg='white',
-                             command=self.copier.destroy())
-            bit_cop.pack(side=BOTTOM, pady=6)'''
 
 
 '''print()

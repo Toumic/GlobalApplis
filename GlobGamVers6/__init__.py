@@ -3081,10 +3081,11 @@ class Commatique(Frame):
         self.ctpier = Toplevel(self)
         self.ctpier.title('Entités Commatiques du Chromatisme en  %s' % c_iii)
         self.ctpier.geometry('900x900+150+100')
-        # Première écriture chromatique de la gamme en cours
+        # Écriture chromatique de la gamme en cours (les formules (ana/num))
         self.ccnbase = Canvas(self.ctpier, bg='Ivory', height=800, width=600)
         self.ccnbase.pack(padx=13, side="left")  # ccnbase = Premier Canvas original (pack_forget ou pas)
         self.ccnbase.delete(ALL)
+        # Empilement des boutons communs aux noms composés (notes non-couplées ou isolées)
         self.ccn_bout = Canvas(self.ctpier, bg='Ivory', height=800, width=100)
         self.ccn_bout.pack(expand=True)  # ccn_bout = Second Canvas original pour les boutons
         self.ccn_bout.delete(ALL)
@@ -3116,8 +3117,8 @@ class Commatique(Frame):
             # Dictionnaire des tonalités chromatiques en ordre ascendant(self.normal).
             for i in range(12):
                 self.normal[i] = self.ctb_form[i][0]
-                (lineno(), 'i    \t', i, self.ctb_form[i][0])  # , 'ctb_form[i]')
-                '''3124 i    	 0 ['1', '+1', '2', '+2', '3', '4', '+4', '5', '+5', '6', '+6', '7']/...'''
+                (lineno(), 'i    \t:', i, self.ctb_form[i][0])  # , 'ctb_form[i]')
+                '''3120 i    	: 0 ['1', '+1', '2', '+2', '3', '4', '+4', '5', '+5', '6', '+6', '7']/...'''
             clo_bb, clo_normal = self.c_bb[0], self.normal.copy()
         else:
             (lineno(), 'Paramètres déclarés à la fonction def brnch_1')
@@ -3170,7 +3171,7 @@ class Commatique(Frame):
                         c_rop10 = 'DOUBLON : ' + d_k
                         pin_rop.append(c_rop10)
                         c_rop8 = False
-                        (lineno(), 'd_k:', d_k, 'c_rop10:', c_rop10, 'topo_com[2]:', topo_com[2], 'i:', i)
+                        (lineno(), '\nd_k:', d_k, '\nc_rop10:', c_rop10, '\ntopo_com[2]:', topo_com[2], 'i:', i)
             else:
                 if c_rop8:
                     t_rop10 = topo_com[0][cle_top0][0]

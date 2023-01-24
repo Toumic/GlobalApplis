@@ -49,7 +49,7 @@ class Gammique(Tk):
         "Tableau de bord"
         # Titre principal
         self.title('Entité Gammique :')
-        self.geometry('1200x700+7+7')
+        self.geometry('1200x700+91+14')
 
         # Fenêtre écran_résultat
         self.can = Canvas(self, bg='white', height=550, width=700)

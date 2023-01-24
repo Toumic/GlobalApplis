@@ -314,18 +314,20 @@ def chromatic(a, b, c, s):
             (lineno(), 'GGC/dic_rip0.1[yep]:\t', yep, dic_rip0[yep], dic_rip1[yep])
         else:  # c_rip2, c_rip3 : Entretiennent les couplages
             (lineno(), "Qu'est dic_ana[yep]?:", dic_ana[yep][0], dic_ana[yep][1], 'yep:', yep)
-            dic_rip2[yep] = list(dic_ana[yep][0])
-            dic_rip3[yep] = list(dic_ana[yep][1])
-            (lineno(), "dic_rip2.3:", dic_rip2[yep], dic_rip3[yep], 'dic_ana[yep]:', dic_ana[yep], 'yep:', yep)
+            dic_rip2[yep] = list(dic_ana[yep][1])
+            dic_rip3[yep] = list(dic_ana[yep][0])
+            (lineno(), "dic_rip2.3:", dic_rip2[yep], dic_rip3[yep], 'yep:', yep)
             if yep == 1 and 1 in dic_rip2.keys():
                 (lineno(), "dic_rip2.3:", dic_rip2[yep], dic_rip3[yep], 'dic_ana[yep]:', dic_ana[yep], 'yep:', yep)
                 if dic_rip2[yep][0] != '':
                     dic_rip2[yep] = [dic_ana[yep][0][0] + dic_ana[yep][0][1]]
+                    (lineno(), "dic_rip2:", dic_rip2[yep])
                 else:
                     dic_rip2[yep] = dic_ana[yep][0][1]
                     (lineno(), "dic_rip2:", dic_rip2[yep])
                 if dic_rip3[yep][0] != '':
                     dic_rip3[yep] = [dic_ana[yep][1][0] + dic_ana[yep][1][1]]
+                    (lineno(), "dic_rip3:", dic_rip3[yep])
                 else:
                     dic_rip3[yep] = dic_ana[yep][1][1]
                     (lineno(), "dic_rip3:", dic_rip3[yep])
@@ -344,12 +346,11 @@ def chromatic(a, b, c, s):
     (lineno(), '_GGC/dic_rip2.3:  \n', dic_rip2, '\n', dic_rip3)
     (lineno(), 'Indices \tgam0:', gam0, '\t\tgam1:', gam1, '\t\tb_diatonic[0]:', b_diatonic[0])
 
-    '''Phase de renseignement de la matrice (yep)'''
+    '''Phase de renseignement de la matrice (yep) | gam_mod = dic_maj = Modes majeurs avec les intervalles'''
     for yes in range(1, 13):  # Lecture des séquences chromatiques
         (lineno(), '_________________________*************_____________________ Début de cycle yes:', yes)
         (lineno(), 'Indices \tgam0:', gam0, '\t\tgam1:', gam1, '\t\tb_diatonic[0]:', b_diatonic[0])
         gam_mod, rip0, rip1 = {}, '', ''
-
         # Section rip0_1
         if yes in dic_rip0.keys():  # Si clé est dans dic_rip0
             (lineno(), type(dic_rip1), '\ndic_rip1[yes][0]:', dic_rip1[yes][0], dic_rip1[yes])
@@ -364,7 +365,6 @@ def chromatic(a, b, c, s):
             rip0 = rip1
             (lineno(), 'gam_mod:', gam_mod)
             (lineno(), 'rip0:', rip0, 'rip1:', rip1, '\n# Section rip0_1')
-
             # Section rip0_2
         elif yes in dic_rip2.keys():  # Si clé est dans dic_rip2
             # print(lineno(), dic_rip2.keys(), 'dic_rip2[yes]:', dic_rip2[yes], 'dic_rip3[yes]:', dic_rip3[yes])
@@ -375,7 +375,6 @@ def chromatic(a, b, c, s):
             dic_rip2[yes] = [ripe]
             gam_mod[ripe] = dic_maj[ripe]  # Notes avec intervalle de dic_maj
             rip0 = dic_maj[ripe][0]
-
             # Section rip1_3
             ripe = ''
             for no in dic_rip3[yes]:
@@ -384,6 +383,7 @@ def chromatic(a, b, c, s):
             gam_mod[ripe] = dic_maj[ripe]  # Notes avec intervalle de dic_maj
             rip1 = dic_maj[ripe][0]
             (lineno(), 'rip0:', rip0, 'rip1:', rip1, 'ripe:', ripe)
+            (lineno(), 'gam_mod:', gam_mod)
             (lineno(), 'gam_mod:', gam_mod.keys(), ' dic_maj:\n', dic_maj.keys(), '\n# Section rip1_2.3')
 
         '''# Phase de renseignement des degrés modaux'''
@@ -714,7 +714,6 @@ def chromatic(a, b, c, s):
                 print(lineno(), '___________________________________________Fin de cycle yi:', yi)
             if yes == 12 and yi == 12:  # Lecture totale limitée à 12/12 (yes)/(yi)
                 break
-            (lineno())
         if yes == 12:  # Lecture totale limitée à 12 (yes)
             break
         # Ci-dessus.
@@ -956,6 +955,7 @@ def chromatic(a, b, c, s):
             dic_rap2[aug_hau] = [[aug_key, aug_hau]]
             (lineno(), 'vc:', vc, '\t\trangeur_aug_key:', aug_key, 'hauteur_aug_hau:', aug_hau)
             (lineno(), 'dic_rap0:', dic_rap0, '\ndic_rap2:', dic_rap2)
+            (lineno(), 'dic_rap0:', dic_rap0.keys(), '\ndic_rap2:', dic_rap2.keys())
             while aug_lop < 11:
                 aug_lop += 1
                 if aug_key in dic_rip0:
@@ -977,6 +977,7 @@ def chromatic(a, b, c, s):
                 (lineno(), 'aug_lop:', aug_lop, 'aug_key:', aug_key)
             (lineno(), 'vc:', vc, '\t\trangeur:', aug_key, 'hauteur:', aug_hau)
         (lineno(), 'dc:', dc, 'dic_cas[dc]:', dic_cas[dc])
+
     ''' Ici, nous connaissons les gammes commatiques qui sont impliquées au commatisme.
         Nous utilisons un dictionnaire modulaire des situations isolées ou couplées.
         Quand une note est isolée c'est qu'elle n'a pas de parallélisme chromatique.
@@ -987,7 +988,7 @@ def chromatic(a, b, c, s):
     # cap0[num_sup], cap1[not_sup], cap2[not_inf], cap3[num_inf]
     # dic_cap0, dic_cap1, dic_cap2, dic_cap3
     (lineno(), 'b_diatonic[0]:', b_diatonic[0], '= Le nom de la gamme fondamentale; exemple[C Maj]')
-    for ik in range(12):
+    for ik in dic_rap0.keys():
         # Initialiser la nouvelle clef du dictionnaire.
         dic_cap0[ik], dic_cap1[ik], dic_cap2[ik], dic_cap3[ik] = [], [], [], []
         dic_com[str(b_diatonic[0]), ik] = []  # dic_com = Encadrement : (dic_cap0, dic_cap1, dic_cap2, dic_cap3)
@@ -1184,10 +1185,10 @@ def chromatic(a, b, c, s):
             1080 not_gam: ['+A'] nom_gam: +A . Les notes isolées de la gamme.'''
         '''#'''
         if ik == 12:  # Fermeture au premier cycle (de 0 à 11)
-            print(lineno(), '(if ik == 0), (de 0 à 11), break.')
+            print(lineno(), '(if ik == 0), (de 0 à 11), break. Ne sera jamais écrit.')
             break
         # OUT OF DIATONIC
-    (lineno(), '... dic_com ;', dic_com)
+    (lineno(), '... dic_com ;', dic_com.keys())
     # La ZONE d'ANALYSE des COUPLES et des doublons.
     tab_gam, tab_uni, tab_nom, tab_cop, tab_key = 'CDEFGAB', [], {}, {}, []
     for k_duo, v_duo in dic_com.items():
@@ -1200,22 +1201,26 @@ def chromatic(a, b, c, s):
                 nbr_aut += 1
         tab_aut.append((nbr_not, nbr_aut))
         trans = v_duo, tab_aut  # trans = Nom gamme, tab_aut = Nombres notes et altérations
+        (lineno(), 'trans:', trans)
         # Mémorisation et séparation des doublons
         if trans[0] in tab_uni:  # tab_uni = Stoke uniquement les noms (facilité de recherche)
             '''Voir si ce doublon est entièrement identique'''
             for k_key in range(12):
-                # Capter la clé k_key du doublon
-                if dic_com[k_duo[0], k_key][0] == trans[0][0]:  # Ici, seulement les noms sont comparés
-                    if dic_com[k_duo[0], k_key] != trans[0]:  # Ici, les valeurs sont différentes (noms égaux)
-                        tab_uni.append(trans[0])  # Tableau basic des notes isolées
-                        tab_nom[trans[0][0]] = []
-                        tab_nom[trans[0][0]].append([k_duo[0], k_key])  # Dictionnaire évolué des unités isolées
-                        (lineno(), 'IF val != val:', trans[0])
-                    else:  # Plusieurs égalités (noms égaux, valeurs égales, cles inégales)
-                        tab_cop[trans[0][0]] = []
-                        tab_cop[trans[0][0]].append([k_duo[0], k_key])  # Dictionnaire des clones isolés
-                        (lineno(), 'ELSE val = val:', trans[0][0], 'tab_cop:', tab_cop)
-                    (lineno(), 'dic_com_clé:', [k_duo[0], k_key])
+                if k_key in dic_com.keys():
+                    (lineno(), 'trans[0][0]:', trans[0][0], '[k_duo[0], k_key]:', [k_duo[0], k_key])
+                    (lineno(), 'trans[0][0]:', trans[0][0], '[k_duo[0], k_key]:', [k_duo[0], k_key])
+                    # Capter la clé k_key du doublon
+                    if dic_com[k_duo[0], k_key][0] == trans[0][0]:  # Ici, seulement les noms sont comparés
+                        if dic_com[k_duo[0], k_key] != trans[0]:  # Ici, les valeurs sont différentes (noms égaux)
+                            tab_uni.append(trans[0])  # Tableau basic des notes isolées
+                            tab_nom[trans[0][0]] = []
+                            tab_nom[trans[0][0]].append([k_duo[0], k_key])  # Dictionnaire évolué des unités isolées
+                            (lineno(), 'IF val != val:', trans[0])
+                        else:  # Plusieurs égalités (noms égaux, valeurs égales, cles inégales)
+                            tab_cop[trans[0][0]] = []
+                            tab_cop[trans[0][0]].append([k_duo[0], k_key])  # Dictionnaire des clones isolés
+                            (lineno(), 'ELSE val = val:', trans[0][0], 'tab_cop:', tab_cop)
+                        (lineno(), 'dic_com_clé:', [k_duo[0], k_key])
         else:
             tab_uni.append(trans[0])  # Tableau basic des notes isolées
             tab_nom[trans[0][0]] = []

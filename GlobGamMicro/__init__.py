@@ -59,7 +59,6 @@ class Comique(Frame):
         mod_com, mod_ton1, mod_ton2, t_ion = [], '', '', ''  # mod_ton1.2 = Les toniques de la tonalité
         '''# Capter les formes tonales analogiques et numériques'''
         if 'DOUBLON' in choix:  # Choix du bouton appuyé qui détient la clé des formules
-            print('choix:', choix)
             for ion in comic[2].values():
                 t_ion = tuple(ion[0])
                 mod_com = comic[0][t_ion]
@@ -175,7 +174,10 @@ class Comique(Frame):
         maj_lie = [1, 0, 2, 0, 3, 4, 0, 5, 0, 6, 0, 7]  # Table des degrés majeurs
         deg_lie = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
         # Déclarer les modes diatoniques de cette gamme commatique
-        mdc_mod0, mdc_mod1, mdc_mod2, mdc_mod3 = {}, {}, {}, {}
+        mdc_mod0, mdc_mod1, mdc_mod2, mdc_mod3 = {}, {}, {}, {}  # Dico primordial bitonic
+        une_mod0, une_mod1, une_mod2, une_mod3 = {}, {}, {}, {}  # Dico première gamme
+        sec_mod0, sec_mod1, sec_mod2, sec_mod3 = {}, {}, {}, {}  # Dico deuxième gamme
+        tri_log = False
         for lie in range(12):                           # Construire les modes diatoniques - Tonalité numérisée
             # Détecter la tonique pour ranger les degrés
             tn2, tn3 = mod_dia2[lie][0], mod_dia3[lie][0]  # Les toniques des paramètres
@@ -183,10 +185,10 @@ class Comique(Frame):
             ind_tn2, ind_tn3 = deg_lie.index(deg_tn2), deg_lie.index(deg_tn3)  # Index dans deg_lie
             gam_tn2 = deg_lie[ind_tn2:] + deg_lie[:ind_tn2]  # Les tables des degrés rangés
             gam_tn3 = deg_lie[ind_tn3:] + deg_lie[:ind_tn3]
-            mdc_mod0[lie] = []  # Dictionnaires numériques sup
-            mdc_mod1[lie] = []  # Dictionnaires analogues sup
-            mdc_mod2[lie] = []  # Dictionnaires analogues inf
-            mdc_mod3[lie] = []  # Dictionnaires numériques inf
+            mdc_mod0[lie] = []  # Dictionnaire numérique sup
+            mdc_mod1[lie] = []  # Dictionnaire analogue sup
+            mdc_mod2[lie] = []  # Dictionnaire analogue inf
+            mdc_mod3[lie] = []  # Dictionnaire numérique inf
             num_lie[lie] = []  # Dictionnaire général des numériques
             # Capter les degrés (emplacements naturels) et numériser avec les extensions
             '''Chaque degré note réelle, absolue, extension'''
@@ -231,16 +233,67 @@ class Comique(Frame):
                 mdc_mod2[lie].append(mod_dia3[lie][que])
                 mdc_mod3[lie].append(note3)
                 num_lie[lie].append(note2)
-                if que == 11:  # Pour activer cette section (que = 11)
-                    print(lineno(), 'mdc_mod0[lie]:', mdc_mod0[lie])
-                    print(lineno(), 'mdc_mod1[lie]:', mdc_mod1[lie])
-                    print(lineno(), 'mdc_mod2[lie]:', mdc_mod2[lie])
-                    print(lineno(), 'mdc_mod3[lie]:', mdc_mod3[lie])
+                if que == 12:  # Pour activer cette section (que = 11)
+                    print(lineno(), 'mdc_mod0[lie]:', lie, mdc_mod0[lie])
+                    print(lineno(), 'mdc_mod1[lie]:', lie, mdc_mod1[lie])
+                    # print(lineno(), 'mdc_mod2[lie]:', lie, mdc_mod2[lie])
+                    # print(lineno(), 'mdc_mod3[lie]:', lie, mdc_mod3[lie])
                     print(lineno(), '***')
         (lineno(), 'num_lie.keys():', num_lie.keys())
-        '''236 num_lie.keys(): dict_keys([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])'''
+        '''240 num_lie.keys(): dict_keys([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])'''
+        # Vérification des correspondances des tonalités ; Aux valeurs numériques sup/inf
+        '''Quand la condition est vraie, elle indique qu'il s'agit d'une gamme standard :
+            Gamme standard = Coïncidence modales à la forme numérique de la tonalité.
+            Autrement, chaque tonalité est unique et n'a qu'une seule forme numérique.'''
+        if mdc_mod0[0] == mdc_mod3[1]:  # Gamme originale
+            tri_log = True
+            print(lineno(), 'Mod0 et Mod3 Correspondent:', mdc_mod0[0], mdc_mod3[1])
+        else:  # Gamme bipartie et double-gamme
+            # mdc_mod4, mdc_mod5 = Parties analogues pour une trilogie
+            ''' mdc_mod4 : Analogie en duo avec mdc_mod1
+                mdc_mod5 : Analogie en duo avec mdc_mod2
+            En bref : Garder inf en créant sup, ou changer sur pour créer inf.'''
+            une_mod0 = mdc_mod0.copy()  # Dictionnaire premier numérique sup des listes gardées
+            une_mod1 = mdc_mod1.copy()  # Dictionnaire premier analogue sup des listes gardées
+            #
+            sec_mod2 = mdc_mod2.copy()  # Dictionnaire second analogue inf des listes gardées
+            sec_mod3 = mdc_mod3.copy()  # Dictionnaire second numérique inf des listes gardées
+            for cle0 in mdc_mod0.keys():
+                une_mod2[cle0] = []  # Dictionnaire premier analogue inf des listes à compléter
+                une_mod3[cle0] = []  # Dictionnaire premier numérique inf des listes à compléter
+                #
+                sec_mod0[cle0] = []  # Dictionnaire second numérique sup des listes à compléter
+                sec_mod1[cle0] = []  # Dictionnaire second analogue sup des listes à compléter
+                cle1 = cle0 + 1
+                if cle1 == 12:
+                    cle1 = 0
+                if cle0 == 0:  # Initialisation des toniques des listes à compléter
+                    une_mod2[cle0].append(mdc_mod2[cle0][0])
+                    sec_mod1[cle0].append(mdc_mod1[cle0][0])
+                    print(lineno(), 'Toniques premier:', une_mod2[cle0], ', et second:', sec_mod1[cle0])
+                for hop in range(12):
+                    # Partie de la première gamme
+                    une_mod3[cle0].append(une_mod0[cle1][hop])  # Tonalité du mode suivant
+                    print(lineno(), 'cle0:', cle0, 'une_mod0:', une_mod0[cle0][:hop])
+                    print(lineno(), 'cle0:', cle0, 'une_mod1:', une_mod1[cle0][:hop])
+                    print(lineno(), 'cle0:', cle0, 'une_mod2:', une_mod2[cle0][:hop])
+                    print(lineno(), 'cle0:', cle0, 'une_mod3:', une_mod3[cle0][:hop])
+                    print(lineno(), '***')
+                    #
+                    # Partie de la seconde gamme
+                    sec_mod0[cle0].append(sec_mod3[cle1][hop])
+                    (lineno(), 'cle0:', cle0, 'sec_mod0:', sec_mod0[cle0][:hop])
+                    (lineno(), 'cle0:', cle0, 'sec_mod1:', sec_mod1[cle0][:hop])
+                    (lineno(), 'cle0:', cle0, 'sec_mod2:', sec_mod2[cle0][:hop])
+                    (lineno(), 'cle0:', cle0, 'sec_mod3:', sec_mod3[cle0][:hop])
+                    (lineno(), '***')
+                    break
+                break
 
         # Écriture sur Canvas
+        tri = 20
+        if tri_log:
+            tri = 30
         c_ii2 = "{}{}".format('Commatismes en cours de traçage : ', tracer)
         self.cop_bout.create_text(180, 8, font=self.f_bt, text=c_ii2, fill='blue')
         for i in range(12):
@@ -252,7 +305,7 @@ class Comique(Frame):
                 c_ripmin = mdc_mod1[i][j]  # Balance mineure : 0. ('-D')...
                 c_ripaug = mdc_mod2[i][j]  # Signal augmenté : 0. ('+C')...
                 c_rop2 = mdc_mod0[i][j]  # Valeur numérique de la tonalité supérieure
-                self.cop_bout.create_text(c_x + c_j, c_y + c_i - 20, font=self.f_bt, text=c_rop2, fill='olive')
+                self.cop_bout.create_text(c_x + c_j, c_y + c_i - tri, font=self.f_bt, text=c_rop2, fill='olive')
                 (lineno(), 'C_Rop2:', c_rop2)  # c_rop2 = Valeur numérique de la tonalité
                 if c_ripaug in mode:  # Les notes de la gamme sont isolées
                     c_rip0 = c_ripaug  # Signal
@@ -265,9 +318,12 @@ class Comique(Frame):
                     self.cop_bout.create_text(c_x + c_j, c_y + c_i + 10, font=self.f_bv, text=c_rip2, fill='blue')
                     (lineno(), 'C_Rip1:', c_rip1)  # Note chromatique du rang supérieur('-D')
                     (lineno(), 'C_Rip2:', c_rip2)  # Note chromatique du rang inférieur('+C')
-                # if i == 11:
-                c_rop2 = mdc_mod3[i][j]  # Valeur numérique de la tonalité inférieure
-                self.cop_bout.create_text(c_x + c_j, c_y + c_i + 20, font=self.f_bt, text=c_rop2, fill='olive')
+                if tri_log and i == 11:  # Utiliser en cas de correspondance des tonalités sup/inf
+                    c_rop2 = mdc_mod3[i][j]  # Valeur numérique de la tonalité inférieure
+                    self.cop_bout.create_text(c_x + c_j, c_y + c_i + tri, font=self.f_bt, text=c_rop2, fill='olive')
+                elif not tri_log:
+                    c_rop2 = mdc_mod3[i][j]  # Valeur numérique de la tonalité inférieure
+                    self.cop_bout.create_text(c_x + c_j, c_y + c_i + tri, font=self.f_bt, text=c_rop2, fill='olive')
                 (lineno(), 'C_Rop2:', c_rop2)  # c_rop2 = Valeur numérique de la tonalité
         but_cop = Button(self.copier, text='Commane', height=1, width=15, bg='pink',
                          command=lambda: progam_vers6.Commatique.brnch_1(self, lst_dia, num_lie, tracer, scale))

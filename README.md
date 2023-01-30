@@ -192,10 +192,10 @@ primordiales, dont chacune d'entre-elles dispose d'une capacité diatonique.
 Voici le séquentiel de la gamme :<br>
 ... Au début, il y a une gamme fondamentale<br>
 ... Ensuite les intervalles prennent des valeurs chromatiques<br>
-... Pour qu'une gamme chromatique primitive produise 12 modes toniques différents<br>
-... Qui selon le mode tonique choisi, produise un développement diatonique :<br>
-... ... Une gamme = Notes + Chromatisation<br>
-... ... Une gamme chromatique = Notes + Commatisation<br>
+... Pour qu'une gamme chromatique primitive produise 12 modes diatoniques différents<br>
+... Dans le mode chromatique "fermé", il n'y a pas de modulation de la tonalité<br>
+... Par contre le mode chromatique "ouvert" a un mode tonique à deux tonalités<br>
+... ... Ce mode chromatique "ouvert" n'est pas appliqué à ce jour du lundi 30 janvier 2023
 
 
 ### _progamV6encore ***_

@@ -3081,7 +3081,7 @@ class Commatique(Frame):
         self.ctpier = Toplevel(self)
         self.ctpier.title('Entités Commatiques du Chromatisme en  %s' % c_iii)
         self.ctpier.geometry('900x900+150+100')
-        # Écriture chromatique de la gamme en cours (les formules (ana/num))
+        # Écriture chromatique de la gamme en cours (les formules (ana/num)
         self.ccnbase = Canvas(self.ctpier, bg='Ivory', height=800, width=600)
         self.ccnbase.pack(padx=13, side="left")  # ccnbase = Premier Canvas original (pack_forget ou pas)
         self.ccnbase.delete(ALL)
@@ -3125,8 +3125,8 @@ class Commatique(Frame):
             clo_bb, clo_normal = c_oo, c_pp.copy()
 
         # Appel à la fonction de mise en forme commatique
+        (lineno(), clo_bb, '\nc_iii:', c_iii, '\nclo_normal:', clo_normal, s_cal)
         topo_com = progam_chrom.chromatic(clo_bb, c_iii, clo_normal, s_cal)
-        (lineno(), 'GGV6/topo_com:', topo_com[0])
         (lineno(), 'self.c_bb[0]:', self.c_bb[0], 'Longueur =', len(self.c_bb[0]))
         '''3127 self.c_bb[0]: ([('', 'C')], [(('+', 'C'), ('-', 'D'))], [('', 'D')], [(('+', 'D'), ('-', 'E'))], 
         [('', 'E')], [('', 'F')], [(('+', 'F'), ('-', 'G'))], [('', 'G')], [(('+', 'G'), ('-', 'A'))], [('', 'A')], 
@@ -3135,6 +3135,7 @@ class Commatique(Frame):
         '''3131 c_iii: [[12, '-DG-A', ('C Maj', 1)]] Longueur = 1'''
         (lineno(), 'self.normal:', self.normal, 'Longueur =', len(self.normal))
         '''3133 self.normal: {0: ['1', '+1', '2', '+2', '3', '4', '+4', '5', '+5', '6', '+6', '7']/...'''
+        (lineno(), 'GGV6/topo_com0:', topo_com[0], '\n1:', topo_com[1], '\n2:', topo_com[2])
         '''Retour topo_com =
             topo_com[0] = Dictionnaire global des 12 premiers modes toniques commas.[dic_com]
                 Tracer les premiers modes, car il s'agit de la première inspection (None).
@@ -3142,13 +3143,30 @@ class Commatique(Frame):
             topo_com[2] = Dictionnaire des clefs qu'avec les doublons.[tab_cop]'''
 
         '''# Écriture sur canvas ccnbase'''
-        tab_top, gam_top, cle_top0 = [], ['C', 'D', 'E', 'F', 'G', 'A', 'B'], []
-        c_rop9, c_rop10, pin_rop = [], '', []
+        tab_top, gam_top, cle_top0 = {}, ['C', 'D', 'E', 'F', 'G', 'A', 'B'], []
+        c_rop7, c_rop9, c_rop10, pin_rop, est_rop = [], [], '', [], []
+        '''####################################################"'''
+        # c_rop7 = Clefs | c_rop9 = Index | est_rop = Noms
+        # Détecter les modes commatiques en double
+        for cle, d_k in topo_com[0].items():
+            c_rop7.append(cle[1])
+            (lineno(), 'd_k[0]:', d_k[0], cle, 'est_rop:', est_rop)
+            if d_k[0] not in est_rop:
+                est_rop.append(d_k[0])
+                pin_rop.append(d_k[0])
+                (lineno(), 'd_k:', d_k[0])
+            else:
+                c_rop9.append(cle[1])
+                c_rop10 = 'DOUBLON : ' + d_k[0]
+                pin_rop.append(c_rop10)
+                (lineno(), 'DOUBLON c_rop10:', c_rop10, 'c_rop7:', c_rop7)
+        (lineno(), pin_rop)
+        '''####################################################"'''
         for i in range(12):
-            tab_top.clear()  # Un nouveau tableau à chaque fois
-            c_rop8 = True
+            tab_top[i] = []  # Un nouveau tableau à chaque fois
             # Trouver la correspondance avec 'i' parmi les clés de topo_com[0]
             for k_top in topo_com[0].keys():
+                (lineno(), 'k_top:', k_top)
                 if i in k_top:
                     cle_top0 = k_top
                     iso_top = topo_com[0][cle_top0][0]
@@ -3156,64 +3174,52 @@ class Commatique(Frame):
                     for i_t in iso_top:
                         if i_t in gam_top:  # i_t = Note naturelle diatonique
                             itou += i_t
-                            tab_top.append(itou)
+                            tab_top[i].append(itou)
                             itou = ''
                         else:
                             itou += i_t
-                    (lineno(), 'i:', i, 'cle_top0:', cle_top0, 'tab_top:', tab_top)
-                    (lineno(), 'iso_top:', iso_top)
+                    (lineno(), 'i:', i, 'tab_top:', tab_top[i])
+                    (lineno(), 'iso_top:', iso_top, 'cle_top0:', cle_top0)
                     break
-            # Détecter les modes commatiques en double
-            for d_k in topo_com[2]:
-                if d_k == topo_com[0][cle_top0][0]:
-                    c_rop9 = topo_com[2][d_k][0]
-                    if i == c_rop9[1]:
-                        c_rop10 = 'DOUBLON : ' + d_k
-                        pin_rop.append(c_rop10)
-                        c_rop8 = False
-                        (lineno(), '\nd_k:', d_k, '\nc_rop10:', c_rop10, '\ntopo_com[2]:', topo_com[2], 'i:', i)
-            else:
-                if c_rop8:
-                    t_rop10 = topo_com[0][cle_top0][0]
-                    pin_rop.append(t_rop10)
-                    (lineno(), 'topo_com[0][cle_top0][0]', topo_com[0][cle_top0][0], 'i:', i)
-            (lineno(), 'i:', i, 'tab_top:', tab_top, 'topo_com:', topo_com[0][cle_top0][1])
-            c_i = i * 60
-            c_x, c_y = 30, 60
-            (lineno(), 'i:', i)
-            for j in range(12):
-                c_j = j * 30
-                c_ripmin = topo_com[0][cle_top0][2][j]  # Balance mineure : 0. ('-D')...
-                c_ripaug = topo_com[0][cle_top0][3][j]  # Signal augmenté : 0. ('+C')...
-                c_rop2 = topo_com[0][cle_top0][1][j]   # Valeur numérique de la tonalité supérieure
-                self.ccnbase.create_text(c_x + c_j, c_y + c_i - 20, font=self.f_bt, text=c_rop2, fill='olive')
-                (lineno(), 'C_Rop2:', c_rop2)  # c_rop2 = Valeur numérique de la tonalité
-                if c_ripaug in tab_top:       # Les notes de la gamme sont isolées
-                    c_rip0 = c_ripaug  # Signal
-                    self.ccnbase.create_text(c_x + c_j, c_y + c_i, font=self.f_bu, text=c_rip0, fill='black')
-                    (lineno(), 'C_Rip0:', c_rip0)  # c_rip0 = Altération sur la note naturelle (gamme)
-                else:                   # Les notes chromatiques sont couplées
-                    c_rip1 = c_ripmin
-                    self.ccnbase.create_text(c_x + c_j, c_y + c_i - 5, font=self.f_bv, text=c_rip1, fill='red')
-                    c_rip2 = c_ripaug
-                    self.ccnbase.create_text(c_x + c_j, c_y + c_i + 5, font=self.f_bv, text=c_rip2, fill='blue')
-                    (lineno(), 'C_Rip1:', c_rip1)  # Note chromatique du rang supérieur('-D')
-                    (lineno(), 'C_Rip2:', c_rip2)  # Note chromatique du rang inférieur('+C')
-                c_rop2 = topo_com[0][cle_top0][4][j]   # Valeur numérique de la tonalité inférieure
-                self.ccnbase.create_text(c_x + c_j, c_y + c_i + 20, font=self.f_bt, text=c_rop2, fill='olive')
-                (lineno(), 'C_Rop2:', c_rop2)  # c_rop2 = Valeur numérique de la tonalité
-            if i in c_rop9:
-                self.ccnbase.create_text(c_x + 450, c_y + c_i, font=self.f_bu, text=c_rop10, fill='red')
-                (lineno(), 'i:', i, topo_com[0][cle_top0])
-            else:
-                self.ccnbase.create_text(c_x + 450, c_y + c_i, font=self.f_bu, text=topo_com[0][cle_top0][0],
-                                         fill='black')
+            if i in c_rop7:
+                (lineno(), 'i:', i, cle_top0, 'topo_com:', topo_com[0][cle_top0][0])
+                c_i = i * 60
+                c_x, c_y = 30, 60
+                (lineno(), 'i:', i)
+                for j in range(12):
+                    c_j = j * 30
+                    c_rop2 = topo_com[0][cle_top0][1][j]  # Valeur numérique de la tonalité supérieure
+                    self.ccnbase.create_text(c_x + c_j, c_y + c_i - 20, font=self.f_bt, text=c_rop2, fill='olive')
+                    (lineno(), 'C_Rop2:', c_rop2)  # c_rop2 = Valeur numérique de la tonalité
+                    if topo_com[0][cle_top0][2][j] == topo_com[0][cle_top0][3][j]:
+                        c_rip0 = topo_com[0][cle_top0][3][j]  # Signal augmenté : 0. ('+C')...
+                        self.ccnbase.create_text(c_x + c_j, c_y + c_i, font=self.f_bu, text=c_rip0, fill='black')
+                        (lineno(), 'C_Rip0:', c_rip0, tab_top[i], i)  # c_rip0 = Altération sur la note (gamme)
+                    elif topo_com[0][cle_top0][2][j] != topo_com[0][cle_top0][3][j]:
+                        c_rip1 = topo_com[0][cle_top0][2][j]  # Balance mineure : 0. ('-D')...
+                        c_rip2 = topo_com[0][cle_top0][3][j]  # Signal augmenté : 0. ('+C')...
+                        self.ccnbase.create_text(c_x + c_j, c_y + c_i - 5, font=self.f_bv, text=c_rip1, fill='red')
+                        self.ccnbase.create_text(c_x + c_j, c_y + c_i + 5, font=self.f_bv, text=c_rip2, fill='blue')
+                        (lineno(), 'C_Rip1:', c_rip1, i)  # Note chromatique du rang supérieur('-D')
+                        (lineno(), 'C_Rip2:', c_rip2, i)  # Note chromatique du rang inférieur('+C')
+                    c_rop2 = topo_com[0][cle_top0][4][j]   # Valeur numérique de la tonalité inférieure
+                    self.ccnbase.create_text(c_x + c_j, c_y + c_i + 20, font=self.f_bt, text=c_rop2, fill='olive')
+                    (lineno(), 'C_Rop2:', c_rop2)  # c_rop2 = Valeur numérique de la tonalité
+                if i in c_rop9:
+                    self.ccnbase.create_text(c_x + 450, c_y + c_i, font=self.f_bu, text=c_rop10, fill='red')
+                    (lineno(), 'i:', i, topo_com[0][cle_top0])
+                else:
+                    self.ccnbase.create_text(c_x + 450, c_y + c_i, font=self.f_bu, text=topo_com[0][cle_top0][0],
+                                             fill='black')
 
         '''Créer des boutons de développement diatonique des commas toniques, via la fonction commatic.'''
         for pr in range(len(pin_rop)):
-            pin_rop[pr] = Button(self.ccn_bout, text=pin_rop[pr], height=1, width=60, bg='lightblue',
-                                 command=lambda m=pin_rop[pr]: progam_micro.Comique.commatic(self, s_cal, topo_com, m))
-            pin_rop[pr].pack(pady=6, padx=6)
+            if 'DOUBLON' not in pin_rop[pr]:
+                pin_rop[pr] = Button(self.ccn_bout, text=pin_rop[pr], height=1, width=60, bg='lightblue',
+                                     command=lambda m=pin_rop[pr]:
+                                     progam_micro.Comique.commatic(self, s_cal, topo_com, m))
+                pin_rop[pr].pack(pady=6, padx=6)
+        pin_rop.clear()
         (lineno(), topo_com[0], '\n ***', topo_com[1], '\n ***', topo_com[2])
         # Bien détailler les gammes (heptatoniques et chromatiques !)
         # self.c_bb[0] = Mode tonique en cours len(1)=hepta et len(2)=chroma

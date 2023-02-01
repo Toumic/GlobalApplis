@@ -76,6 +76,7 @@ class Comique(Frame):
                 mod_ton1 = mod_com[2][0]
                 mod_ton2 = mod_com[3][0]
                 (lineno(), 'mod_com:', mod_com, ', len:', len(mod_com), 't_ion:', t_ion)
+                break
         '''80 mod_com: ['-DG-A', ['1', '*3', '*4', '-3', '*5', '4', '*6', 'o6', '*7', '*8', '-7', '*9'], 
         ['+B', '-D', 'oE', '+D', '-F', '+E', '-G', 'G', '-A', 'oB', '+A', '-C'], ['C', '-D', 'xC', '-E', 'xD', 'F', 
         '+F', 'G', '-A', 'xG', '-B', 'xA'], ['1', '-2', 'x1', '-3', 'x2', '4', '+4', '5', '-6', 'x5', '-7', 'x6']] , 

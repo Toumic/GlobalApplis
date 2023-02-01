@@ -731,6 +731,7 @@ def chromatic(a, b, c, s):
     # Lecture de chaque colonne des dic_rip's pour trouver la tonique fondamentale
     tripe0, tripe1 = {1: ''}, {1: ''}  # Pour les notes de la gamme originale
     tripe2, tripe3 = {2: ''}, {2: ''}  # Pour les notes chromatiques parallèles
+    tab_trip, rap_trip = [], [tripe0, tripe1, tripe2, tripe3]
     if 1 in dic_rip0.keys():  # ton_un est inchangé
         ton_un = dic_rip0[1][0]
         (lineno(), 'dic_rip0.keys::', dic_rip0[1], 'ton_un:', ton_un)
@@ -757,18 +758,29 @@ def chromatic(a, b, c, s):
                 if gam0 in cas0:
                     ckc = cas0, (key, clef)  # ckc((notes(couple), (clé, verticale))
                     dic_cas[gam0, 'cas0'].append(ckc)
-                    if cas0[0] not in dic_maj:
+                    if cas0[0] not in dic_maj.keys():
                         if cas0[0] not in maj:
                             maj.append(cas0[0])
-                        tripe0[1] = cas0[0]
-                        (lineno(), '____ cas0[0]:', cas0[0], 'tripe0:', tripe0[1], 'cas0:', cas0, maj)
-                    if cas0[1] not in dic_maj:
+                            if not tripe0[1]:
+                                tripe0[1] = cas0[0]
+                            elif cas0[1] in dic_maj.keys() and not tripe1[1]:
+                                tripe1[1] = cas0[0]
+                            else:
+                                tab_trip.append(cas0[0])
+                        (lineno(), '____ cas0[0]:', cas0[0], 'tripe0:', tripe0[1], 'cas0:', cas0, 'maj:', maj)
+                    if cas0[1] not in dic_maj.keys():
                         if cas0[1] not in maj:
                             maj.append(cas0[1])
-                        tripe1[1] = cas0[1]
-                        (lineno(), '____ cas0[1]:', cas0[1], 'tripe1:', tripe1[1], 'cas0:', cas0, maj)
+                            if not tripe1[1]:
+                                tripe1[1] = cas0[1]
+                            elif cas0[0] in dic_maj.keys() and not tripe0[1]:
+                                tripe0[1] = cas0[1]
+                            else:
+                                tab_trip.append(cas0[1])
+                        (lineno(), '____ cas0[1]:', cas0[1], 'tripe1:', tripe1[1], 'cas0:', cas0, 'maj:', maj)
                     (lineno(), 'cas0:', cas0, 'ckc:', ckc, 'gam0:', gam0, 'Tonique rencontrée')
                     break
+                (lineno(), 'Transposer ', tripe0, tripe1, tripe2, tripe3)
                 (lineno(), 'dic_rip1:', key, dic_rip1[key][clef], clef)
             elif key in dic_rip2.keys():
                 (lineno(), 'key:', key, 'clef:', clef, 'dic_rip2[key]:', dic_rip2[key])
@@ -777,27 +789,65 @@ def chromatic(a, b, c, s):
                 if gam0 in cas2:
                     ckc = cas2, (key, clef)
                     dic_cas[gam0, 'cas2'].append(ckc)
-                    if cas2[0] not in dic_maj:
+                    if cas2[0] not in dic_maj.keys():
                         if cas2[0] not in maj:
                             maj.append(cas2[0])
-                        tripe2[2] = cas2[0]
-                        (lineno(), '**** cas2[0]:', cas2[0], 'tripe2:', tripe2[2], 'cas2:', cas2, maj)
-                    if cas2[1] not in dic_maj:
+                            if not tripe2[2]:
+                                tripe2[2] = cas2[0]
+                            elif cas2[1] in dic_maj.keys() and not tripe3[2]:
+                                tripe3[2] = cas2[0]
+                            else:
+                                tab_trip.append(cas2[0])
+                        (lineno(), '**** cas2[0]:', cas2[0], 'tripe2:', tripe2[2], 'cas2:', cas2, 'maj:', maj)
+                    if cas2[1] not in dic_maj.keys():
                         if cas2[1] not in maj:
                             maj.append(cas2[1])
-                        tripe3[2] = cas2[1]
-                        (lineno(), '**** cas2[1]:', cas2[1], 'tripe3:', tripe3[2], 'cas2:', cas2, maj)
+                            if not tripe3[2]:
+                                tripe3[2] = cas2[1]
+                            elif cas2[0] in dic_maj.keys() and not tripe2[2]:
+                                tripe2[2] = cas2[1]
+                            else:
+                                tab_trip.append(cas2[1])
+                        (lineno(), '**** cas2[1]:', cas2[1], 'tripe3:', tripe3[2], 'cas2:', cas2, 'maj:', maj)
                     (lineno(), 'cas2:', cas2, 'ckc:', ckc, 'gam0:', gam0, 'Tonique rencontrée')
                     break
             (lineno(), 'cas3:', cas3, 'key:', key)
             if cas3 > 11 and key == 12:
                 dic_abs[key, clef] = []
                 ('. absences ', lineno(), 'Cas3 absences dic_abs[key]:', dic_abs.keys())
-    (lineno(), 'Transposer ', tripe0, tripe1, tripe2, tripe3)
+    if tab_trip:
+        tri, lib_trip = 0, []
+        (lineno(), 'tab_trip:', tab_trip, 'tri:', tri)
+        if not tripe0[1]:
+            tripe0[1] = tab_trip[tri]
+            del tab_trip[tri]
+            tri += 1
+            (lineno(), 'tripe0:', tripe0)
+        elif not tripe1[1]:
+            tripe1[1] = tab_trip[tri]
+            del tab_trip[tri]
+            tri += 1
+            (lineno(), 'tripe1:', tripe1)
+        elif not tripe2[2]:
+            tripe2[2] = tab_trip[tri]
+            del tab_trip[tri]
+            tri += 1
+            (lineno(), 'tripe2:', tripe2)
+        elif not tripe3[2]:
+            tripe3[2] = tab_trip[tri]
+            del tab_trip[tri]
+            tri += 1
+            (lineno(), 'tripe3:', tripe3)
+    (lineno(), 'Transposer ', tripe0, tripe1, tripe2, tripe3, 'b:', b)
     transposer(tripe0, tripe1, tripe2, tripe3)
+    if tab_trip:
+        for tab in range(len(tab_trip)):
+            rap_trip[tab] = tab_trip[tab]
+            transposer({1: rap_trip[tab]}, {1: ''}, {1: ''}, {1: ''})
+            (lineno(), 'tab:', tab_trip[tab], 'rap_trip:', rap_trip[tab])
     '''Recueil des toniques présentes : gam0 = Tonalité principale parmi les toniques'''
     # Lecture des colonnes absentes pour trouver les toniques fondamentales
-    (lineno(), 'Cas3 ABSENCES dic_abs:', dic_abs)
+    (lineno(), 'Cas3 ABSENCES dic_abs:', dic_abs, dic_maj.keys())
     '''790 Cas3 ABSENCES dic_abs: {}'''  # Toujours pas d'absence ?!
     for cas_duc in dic_abs.keys():
         (lineno(), 'GGC/ton_un:', ton_un, '\n', dic_maj[ton_un])
@@ -1162,7 +1212,7 @@ def chromatic(a, b, c, s):
             (lineno(), '*** *** * not_com2:', not_com2, '\t.\tPartie inférieure.\tDia:', dia)
 
             if dia == 12:
-                ok_print = 0  # ok_print = 1 Mise en route des print's
+                ok_print = 1  # ok_print = 1 Mise en route des print's
                 # La production des résultantes numériques.
                 if ok_print:
                     print(lineno(), 'INDES\t\tnom:', b_diatonic[0], '\tgrade:', graduation)

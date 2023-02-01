@@ -1,0 +1,87 @@
+GlobalApplis.py 
+1218 INDES		nom: C x53+ 	grade: 12
+1219 ik: 0 dic_cap0[clé]: ['1', '-2', '2', '-3', 'o*6', '+3', '+4', '5', '*7', 'x5', '+6', '7']
+1220 ik: 0 dic_cap1[clé]: ['C', '-D', 'D', '-E', 'o*A', '+E', '+F', 'G', '*B', 'xG', '+A', 'B']
+1221 ik: 0 dic_cap2[clé]: ['C', '+C', 'D', '-*G', 'xD', '+E', '+F', 'oA', '^F', 'xG', '+A', 'B']
+1222 ik: 0 dic_cap3[clé]: ['1', '+1', '2', '-*5', 'x2', '+3', '+4', 'o6', '^4', 'x5', '+6', '7'] 
+1223 not_gam: ['C', 'D', '+E', '+F', 'xG', '+A', 'B'] . Les notes isolées de la gamme. CD+E+FxG+AB
+1224 ... ;
+1218 INDES		nom: C x53+ 	grade: 12
+1219 ik: 1 dic_cap0[clé]: ['1', '*3', '*4', 'o4', '*5', 'o5', '*6', 'o6', '*7', 'x5', '-*9', '-8']
+1220 ik: 1 dic_cap1[clé]: ['+B', '-D', 'oE', '-E', '-F', 'F', '-G', 'G', '-A', 'o**F', 'oC', 'B']
+1221 ik: 1 dic_cap2[clé]: ['C', '-D', 'D', '-E', 'E', 'F', '+F', 'G', 'o**E', 'oB', '+A', 'xA']
+1222 ik: 1 dic_cap3[clé]: ['1', '-2', '2', '-3', '3', '4', '+4', '5', '+^3', 'o7', '+6', 'x6'] 
+1223 not_gam: ['-D', '-E', 'F', 'G'] . Les notes isolées de la gamme. -D-EFG
+1224 ... ;
+1218 INDES		nom: C x53+ 	grade: 12
+1219 ik: 6 dic_cap0[clé]: ['1', '-2', '^14', '+^14', '-4', '+3', '+4', '5', '^^2', '*8', 'o8', '7']
+1220 ik: 6 dic_cap1[clé]: ['C', '-D', '^B', '+^B', '-F', '+E', '+F', 'G', '^^D', '*C', 'oC', 'B']
+1221 ik: 6 dic_cap2[clé]: ['C', '+^A', 'x^A', '-E', 'xD', '+E', '+F', '+^^C', '*B', 'oB', '+A', 'B']
+1222 ik: 6 dic_cap3[clé]: ['1', '+^13', 'x^13', '-3', 'x2', '+3', '+4', 'o*8', '*7', 'o7', '+6', '7'] 
+1223 not_gam: ['C', '+E', '+F', 'B'] . Les notes isolées de la gamme. C+E+FB
+1224 ... ;
+1218 INDES		nom: C x53+ 	grade: 12
+1219 ik: 7 dic_cap0[clé]: ['1', '*3', '*4', '+2', 'x2', '+3', '*6', 'o6', '*7', 'o7', '^5', 'o*10']
+1220 ik: 7 dic_cap1[clé]: ['+B', '-D', 'oE', '^C', '+^C', '^D', '-G', 'G', '-A', 'A', 'x^F', '*D']
+1221 ik: 7 dic_cap2[clé]: ['C', '-D', '^B', '+^B', '+^C', 'F', '+F', 'G', '+G', 'x^E', 'oC', 'xA']
+1222 ik: 7 dic_cap3[clé]: ['1', '-2', '^14', '+^14', '+^1', '4', '+4', '5', '+5', 'x^3', 'o8', 'x6'] 
+1223 not_gam: ['-D', '+^C', 'G'] . Les notes isolées de la gamme. -D+^CG
+1224 ... ;
+1218 INDES		nom: C x53+ 	grade: 12
+1219 ik: 2 dic_cap0[clé]: ['1', '+^13', '^14', '+2', 'x2', '+3', 'x3', 'o*8', '+5', 'x5', '^^3', 'o*10']
+1220 ik: 2 dic_cap1[clé]: ['-*E', '+C', 'D', 'oF', '-F', 'oG', '-G', '^E', '*B', 'oB', '^G', '+^G']
+1221 ik: 2 dic_cap2[clé]: ['+B', '+C', 'oE', '-E', '-F', 'F', '+^D', 'oA', '-A', '+^F', 'x^F', '*D']
+1222 ik: 2 dic_cap3[clé]: ['1', '-2', '*4', 'o4', '*5', 'o5', 'x3', '-*7', '*7', 'x5', '^5', 'o*10'] 
+1223 not_gam: ['+C', '-F'] . Les notes isolées de la gamme. +C-F
+1224 ... ;
+1218 INDES		nom: C x53+ 	grade: 12
+1219 ik: 3 dic_cap0[clé]: ['1', '-2', 'x^13', '-*5', 'o*6', '**7', '^^1', 'o*8', '-6', 'o7', 'x^4', '-8']
+1220 ik: 3 dic_cap1[clé]: ['^A', 'xB', '*F', '-E', '-F', 'oG', '*A', 'oA', '^F', 'xG', '-*D', 'xA']
+1221 ik: 3 dic_cap2[clé]: ['^A', '*E', 'D', '-E', '-F', 'oG', '-G', '^E', '^F', '*C', '^G', '+^G']
+1222 ik: 3 dic_cap3[clé]: ['1', '**5', '*4', '-*5', 'o*6', '**7', 'o*7', '5', '-6', 'x^3', '-7', '7'] 
+1223 not_gam: ['^A', '-E', '-F', 'oG', '^F'] . Les notes isolées de la gamme. ^A-E-FoG^F
+1224 ... ;
+1218 INDES		nom: C x53+ 	grade: 12
+1219 ik: 10 dic_cap0[clé]: ['1', '+1', 'x1', '**6', '-4', '+3', '^^1', 'x^2', '+^3', 'x^3', 'x^4', '+^5']
+1220 ik: 10 dic_cap1[clé]: ['-*E', '*E', 'oE', '^C', '+^^A', 'oG', 'xE', 'xF', '+G', 'xG', '+A', 'B']
+1221 ik: 10 dic_cap2[clé]: ['oD', '-D', '^B', 'x^^G', '-F', '^D', 'xE', 'xF', '^F', 'xG', '+A', '*D']
+1222 ik: 10 dic_cap3[clé]: ['1', '+1', 'x^13', 'o4', '3', 'x^1', '+^2', '^3', '+^3', '+^4', '^5', '-8'] 
+1223 not_gam: ['xE', 'xF', 'xG', '+A'] . Les notes isolées de la gamme. xExFxG+A
+1224 ... ;
+1218 INDES		nom: C x53+ 	grade: 12
+1219 ik: 4 dic_cap0[clé]: ['1', 'x14', 'x1', '^1', 'o*6', 'o5', '-5', '-*7', '*7', 'x5', '+6', '7']
+1220 ik: 4 dic_cap1[clé]: ['C', 'xB', 'xC', '^C', 'o*A', 'oG', '-G', '-*B', '*B', 'xG', '+A', 'B']
+1221 ik: 4 dic_cap2[clé]: ['^A', 'xB', '^B', '-*G', '-F', 'F', '*A', 'oA', '^F', 'xG', '+A', 'B']
+1222 ik: 4 dic_cap3[clé]: ['1', '-2', '2', '+^14', 'o*6', '-*6', '^^1', 'o*8', '-6', 'o7', 'o8', '*9'] 
+1223 not_gam: ['xB', 'xG', '+A', 'B'] . Les notes isolées de la gamme. xBxG+AB
+1224 ... ;
+1218 INDES		nom: C x53+ 	grade: 12
+1219 ik: 5 dic_cap0[clé]: ['1', '+^13', '2', '+2', 'x2', '+3', '^^1', 'o6', '*7', '*8', '+6', '7']
+1220 ik: 5 dic_cap1[clé]: ['C', 'o**A', 'D', '+D', 'xD', '+E', '**C', 'oA', '*B', '*C', '+A', 'B']
+1221 ik: 5 dic_cap2[clé]: ['-**G', '+C', 'xC', '^C', 'xD', '**B', '-G', 'oA', '*B', 'xG', '+A', 'B']
+1222 ik: 5 dic_cap3[clé]: ['1', '-*4', '*4', 'o4', '*5', '+3', '^^1', 'x^2', '+^3', '*8', '-*9', 'o*10'] 
+1223 not_gam: ['xD', 'oA', '*B', '+A', 'B'] . Les notes isolées de la gamme. xDoA*B+AB
+1224 ... ;
+1218 INDES		nom: C x53+ 	grade: 12
+1219 ik: 9 dic_cap0[clé]: ['1', '+1', 'o3', '+2', '3', '^2', '+^2', '^3', '+^3', '+^4', 'o8', '7']
+1220 ik: 9 dic_cap1[clé]: ['oD', '-D', '*F', '-E', '-F', '+E', 'xE', 'xF', '^F', 'xG', '-*D', '-C']
+1221 ik: 9 dic_cap2[clé]: ['C', '*E', 'D', '-E', 'xD', '^D', 'xE', '^E', '^F', '*C', '-B', '-C']
+1222 ik: 9 dic_cap3[clé]: ['1', '*3', '2', '-3', 'x2', '^2', 'x3', '^3', '^4', '*8', '-7', '-8'] 
+1223 not_gam: ['-E', 'xE', '^F', '-C'] . Les notes isolées de la gamme. -ExE^F-C
+1224 ... ;
+1218 INDES		nom: C x53+ 	grade: 12
+1219 ik: 11 dic_cap0[clé]: ['1', '+1', 'o*5', 'o4', 'x2', '+3', '^^1', 'x4', '^4', '6', '+6', '7']
+1220 ik: 11 dic_cap1[clé]: ['C', '+C', 'o*G', 'oF', 'xD', '+E', '^^C', 'xF', '^F', 'A', '+A', 'B']
+1221 ik: 11 dic_cap2[clé]: ['+B', '-*F', 'oE', '^C', 'xD', '^^B', 'xE', '^E', '+G', 'xG', '+A', 'B']
+1222 ik: 11 dic_cap3[clé]: ['1', '**5', '*4', '+2', '3', 'x^1', '+4', 'x4', '-6', '6', '-7', '-8'] 
+1223 not_gam: ['xD', '+A', 'B'] . Les notes isolées de la gamme. xD+AB
+1224 ... ;
+1218 INDES		nom: C x53+ 	grade: 12
+1219 ik: 8 dic_cap0[clé]: ['1', '-*4', 'o*5', '+^14', '*5', 'o5', '*6', 'o6', '+^3', 'x^3', '^^3', '^^4']
+1220 ik: 8 dic_cap1[clé]: ['-**G', '+C', 'D', 'oF', 'xD', '^D', 'xE', '^E', '*B', 'oB', '-B', '-C']
+1221 ik: 8 dic_cap2[clé]: ['+B', '+C', 'oE', '^C', '+^C', '^D', '+^D', 'oA', '-A', 'A', '-B', '**F']
+1222 ik: 8 dic_cap3[clé]: ['1', '-2', '*4', '+2', 'x2', '+3', 'x3', '-*7', '*7', 'o7', 'o8', '+^5'] 
+1223 not_gam: ['+C', '^D', '-B'] . Les notes isolées de la gamme. +C^D-B
+1224 ... ;
+
+Process finished with exit code 0

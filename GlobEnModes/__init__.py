@@ -77,8 +77,6 @@ ego_mode, ego_rang, ego_poids = {}, {}, {}  # Dico:ego. Union gammes
 maj_mode, maj_rang, maj_poids = {}, {}, {}  # Dico:maj. Diatonic majeur
 # Pour éviter de tourner autour du pot !
 maj_clef = [66]  # Table : maj_clef. Clef référence majeure. :dana.keys().
-# Conteneur d'essai
-# essai, compteur = [], [0]
 
 # Classement Gammes.mécanic
 """Les mutations sont chiffrées :
@@ -1179,7 +1177,8 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
             # noinspection PyTypeChecker
             pratique[k_pratic] = k_cumul
             # print(lineno(), pratique[k_pratic], '= k_cumul', k_pratic, '| Binaire', k_forme1, '\n')
-        # print(lineno(), 'pratique', pratique, len(pratique))
+        (lineno(), 'pratique', pratique, len(pratique), '\ntrans_dic:', trans_dic)
+        dana_cop = trans_dic.copy()
         modes = {
             'analyse': trans_dic,
             'groupe': trans_groupe,
@@ -1213,7 +1212,7 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                 data_gammes.write(mm)
             t_dan.clear()
         data_gammes.close()
-        glob_in_acc.inv_acc(modes, ego_poids, ego_rang, pratique, inutile)
+        glob_in_acc.inv_acc(modes, ego_poids, ego_rang, pratique, inutile, dana_cop)
 
 
 if __name__ == '__main__':

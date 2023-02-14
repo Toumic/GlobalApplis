@@ -1,15 +1,22 @@
 **GlobalApplis** _Idées de développements_
+# Propriétés via le bouton console
+### Naturel chroma.  Atonal chroma. `Les états chromatiques suivants...`
+* **La position majeure des degrés chromatiques respecte l'ordre numérique (1, 2, 3, 4, 5, 6, 7).**<br>
+...... Do majeur développe naturellement deux types chromatiques[Naturel. Atonal]. _.. À préciser_<br>
+...... Selon les signes[Augmenté. Diminué], on altère le degré par cumulation significative.<br>
+...... ...... _Propriété de la liste des signatures sans les notes "référence aux signes généraux"_ <br>
+...... Une tonique modale comportant une diatonie composée[Supérieur. Couplé. Inférieur]
+### Le commatisme est composite. `Un état général complexe`
+* **Les gammes à micro-intervalles nous donnent une vision chromatique lunaire**<br>
+...... Une tonique modale comportant une diatonie composée[Supérieur. Couplé. Inférieur]<br>
+...... Propriété composée "état, noms, empreinte, doublons, absents"
+### Analyse[rang, poids brut, poids fin]. `Assimilation des gammes de même nature`
+* **La fonction dana_fonc dans GlobEnModes des poids et des mesures modales**<br>
+...... Permet de visionner les gammes similaires à la gamme en cours<br>
+...... `data_gam = {1: pratic, 2: glob, 3: ego_p, 4: ego_r, 5: utile, 6: dana}`<br>
 
-# Statistiques
-## La gamme naturelle standard
-C'est, la gamme de Do majeure qui développe naturellement deux types chromatiques[Naturel. Atonal] :
-### Naturel chroma.  Atonal chroma. `Ce que vous apprenez en utilisant GlobalApplis...`
-...... La position majeure des degrés chromatique respecte l'ordre numérique (1, 2, 3, 4, 5, 6, 7).<br>
-...... Selon les signes[Augmenté. Diminué], on altère le degré par cumulation significative.
 
-La gamme naturelle nous donne également douze toniques commatiques, à valoir que chacune d'entre-elles<br>
-étant une tonique modale comportant une diatonie composée[Supérieur. Couplé. Inférieur] :
-### Sup. Couple. Inf. `La trilogie des intervalles enharmoniques`
-...... Les intervalles enharmoniques font les liaisons où s'alignent les degrés.
-
-
+<br>
+<br>
+<br>
+<br>

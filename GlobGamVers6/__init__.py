@@ -19,6 +19,7 @@ from wave import *
 import GlobGamChrom
 import GlobGamMicro
 import GlobTetraCord
+import GlobGamSim
 
 # lineno() Pour consulter le programme grâce au suivi des print's
 lineno: Callable[[], int] = lambda: inspect.currentframe().f_back.f_lineno
@@ -26,18 +27,46 @@ lineno: Callable[[], int] = lambda: inspect.currentframe().f_back.f_lineno
 progam_chrom = GlobGamChrom
 progam_micro = GlobGamMicro
 progam_tetra = GlobTetraCord
+progam_simis = GlobGamSim
 
 
-def progam(pratic, glob, ego_p, ego_r, utile):
+def progam(pratic, glob, ego_p, ego_r, utile, dana):
     """Pratic = Dictionnaire(clé=nom)(val=cumul).
-        Glob = .
+        Glob = Modes à effet miroir (ISO = unique ou DUO = double).
         Ego_p = Gammes mêmes poids.
         Ego_r = Gammes mêmes rangs.
-        Utile = ."""
-    # print('Pratique', pratic['Maj'])
-    (lineno(), 'Globe', glob[0], '\n*', ego_p.keys(), '\n*', ego_r.keys())
+        Utile = Les noms entiers dans un mode unique.
+        Dana = Les poids modaux des gammes (Attention au changement)"""
+    pf_ku = 0  # Quand pf_ku > 0 = Liste les détails des paramètres
+    (lineno(), 'GGV6/dana:', dana, type(dana))
+    if pf_ku:
+        for pp in pratic.keys():
+            (lineno(), "GGV6/Pratique:", pratic[pp], 'pp:', pp)
+            # 38 GGV6/Pratique: [1, 1, 0, 1, 1, 1, 0] pp: Maj
+            break
+        for ff in glob:
+            (lineno(), 'GGV6/glob:', ff)
+            # 44 GGV6/glob: ('ISO', (((1, 'I'), '+^2'), ((1, 'III'), '-*6')))
+            break
+        for kk in ego_p.keys():
+            (lineno(), 'GGV6/ego_p:', ego_p[kk], 'kk:', kk)
+            # 47 GGV6/ego_p: [1] kk: 147
+            break
+        for kk1 in ego_r.keys():
+            (lineno(), 'GGV6/ego_r:', ego_r[kk1], 'kk1:', kk1)
+            # 50 GGV6/ego_r: [1] kk1: 0352146
+            break
+        for uu in utile.keys():
+            (lineno(), 'GGV6/utile:', utile[uu], 'uu:', uu)
+            # 53 GGV6/utile: ['x54o', '^43o', '+65*', '^32-', '-*6', '+^2'] uu: 1
+            break
+        for dd in dana.keys():
+            (lineno(), 'GGV6/dana:', dana[dd], 'dd:', dd)
+            # 61 GGV6/dana: [[0, 0, 0, 0, 0, 0, 0], [833, 119.0, 17.0, 2.4285714285714284, 0.3469387755102041]]
+            # dd: (66, 'I')
+            break
     # class Gammique
-    data_gam = {1: pratic, 2: glob, 3: ego_p, 4: ego_r, 5: utile}
+    data_gam = {1: pratic, 2: glob, 3: ego_p, 4: ego_r, 5: utile, 6: dana}
     Gammique(data_gam).mainloop()
 
 
@@ -165,10 +194,6 @@ class Gammique(Tk):
         self.com2 = Commatique()
         self.scalair = 0  # Indice taux d'inversion
 
-        # Bouton quitter
-        self.btquit = Button(self.cad, text='Quitter', bg='light grey', width=15, command=self.destroy)
-        self.btquit.pack(side=BOTTOM)
-
         # Mémoire fantomatique
         self.entfan = Entry(self)
         self.c_ii = ''
@@ -214,6 +239,14 @@ class Gammique(Tk):
         self.sel_gam = [12, 14, 16, 17, 19, 21, 23]  # Positions relatives majeures
         self.btsel = Button(self.cad, text='Sélectif', width=15, bg='orange', command=lambda: self.actuac(8))
         self.btsel.pack()
+
+        # Bouton des propriétés
+        self.btsimi = Button(self.cad, text='Propriétés', bg='moccasin', width=15)
+        self.btsimi.pack()
+
+        # Bouton quitter
+        self.btquit = Button(self.cad, text='Quitter', bg='light grey', width=15, command=self.destroy)
+        self.btquit.pack(side=BOTTOM)
 
         # Les notes cursives scalpha : Graduations gérées.
         self.sca = []
@@ -262,7 +295,7 @@ class Gammique(Tk):
         self.btzer.pack()
 
         # Bouton gamme_calculée
-        self.data = data_gam
+        self.data = data_gam.copy()
         self.nordiese = []  #
         self.subemol = []
         self.cursifs = []
@@ -750,6 +783,9 @@ class Gammique(Tk):
             # ('730\n\n__co_tbval', ci, self.co_tbval[ci])
         c_oo.append(self.co_tbgen)
         c_pp.append(self.co_tbval)
+        # Fermeture de fenêtre inutile quand inutilisée
+        if self.chm is not None:
+            self.chm.destroy()
         # cob2 = self.co_tbval
         # Self.co_tbgen, self.co_tbval : Utilisation au rapport commatique
         # print('734 c_pp:', c_pp)  # Remplacer "#" par "print" pour la forme
@@ -2604,7 +2640,7 @@ class Gammique(Tk):
             self.sca[0].set(ren + 1)
         if ren > xmi + 1:
             self.sca[2].set(ren - 1)
-        self.btgama.invoke()
+        self.bind('<ButtonRelease-1>', self.momentgama)
 
     def scanote3(self, xe):
         mi = int(xe)
@@ -2614,7 +2650,7 @@ class Gammique(Tk):
             self.sca[1].set(mi + 1)
         if mi > xfa:
             self.sca[3].set(mi)
-        self.btgama.invoke()
+        self.bind('<ButtonRelease-1>', self.momentgama)
 
     def scanote4(self, xf):
         fa = int(xf)
@@ -2624,7 +2660,7 @@ class Gammique(Tk):
             self.sca[2].set(fa)
         if fa > xsol + 1:
             self.sca[4].set(fa - 1)
-        self.btgama.invoke()
+        self.bind('<ButtonRelease-1>', self.momentgama)
 
     def scanote5(self, xg):
         sol = int(xg)
@@ -2634,7 +2670,7 @@ class Gammique(Tk):
             self.sca[3].set(sol + 1)
         if sol > xla + 1:
             self.sca[5].set(sol - 1)
-        self.btgama.invoke()
+        self.bind('<ButtonRelease-1>', self.momentgama)
 
     def scanote6(self, xa):
         la = int(xa)
@@ -2644,7 +2680,7 @@ class Gammique(Tk):
             self.sca[4].set(la + 1)
         if la > xsi + 1:
             self.sca[6].set(la - 1)
-        self.btgama.invoke()
+        self.bind('<ButtonRelease-1>', self.momentgama)
 
     def scanote7(self, xb):
         si = int(xb)
@@ -2662,7 +2698,7 @@ class Gammique(Tk):
             self.sca[7].configure(from_=-12 - xdo, to=12 - si)
         elif xxxrad == "IOY":
             self.sca[7].configure(from_=-24 - xdo, to=0 - si)
-        self.btgama.invoke()
+        self.bind('<ButtonRelease-1>', self.momentgama)
 
     def scanote8(self, xh):
         sch = int(xh)
@@ -2742,7 +2778,7 @@ class Gammique(Tk):
         cb_ = self.cb_chk.get()
         if cb_ == 1:
             self.cbchk8.invoke()
-        self.btgama.invoke()  # Retirer cette ligne ; affiche une page blanche d'accueil
+        self.bind('<ButtonRelease-1>', self.momentgama)
 
     # La gamme naturelle
     def zero(self):
@@ -2753,6 +2789,8 @@ class Gammique(Tk):
         self.sca[7].set(0)
         self.cbchk8.deselect()
         self.rad[1].invoke()  # Remise à l'octave zéro ou "ioi"
+        if self.chm is not None:
+            self.chm.destroy()
         self.btgama.invoke()
 
     # Motorisation Gammique
@@ -2800,8 +2838,13 @@ class Gammique(Tk):
             # print(lineno(), gammes)
             # print(lineno(), 'GGV6 DATA 2 : \n', self.data[1])
         # print(lineno(), 'self.gamcalc', gamnoms)
-        self.gammescopie = gammes
-        self.gamnomscopie = gamnoms
+        self.gammescopie = gammes.copy()
+        self.gamnomscopie = gamnoms.copy()
+        # dic_assemble = Rafraichir le dictionnaire transfert avec changement (classique, calculée)
+        dic_assemble = {}
+        for gg in range(len(gammes)):
+            dic_assemble[gamnoms[gg]] = gammes[gg]
+        (lineno(), 'GGV6/dic_assemble:', dic_assemble.keys())
 
         # Récupération des notes cursives
         xxx = 0
@@ -3045,6 +3088,8 @@ class Gammique(Tk):
                 b5 = boutons[ouvertes.index(ouvert)]
                 b5.invoke()
         # print(lineno(), self.c_ii)
+        (lineno(), 'GGV6/dic_assemble:', dic_assemble.keys())
+        progam_simis.simili(dic_assemble, self.data, self.c_ii)
 
     gamme0 = {}
     globe0, galop, essor = [], {}, {}

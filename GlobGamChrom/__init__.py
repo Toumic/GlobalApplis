@@ -1046,7 +1046,7 @@ def chromatic(a, b, c, s):
         Nous utilisons un dictionnaire modulaire des situations isolées ou couplées.
         Quand une note est isolée c'est qu'elle n'a pas de parallélisme chromatique.
         Par définition la note isolée est intégrée à la gamme diatonique, hors contexte chromatique.'''
-    (lineno(), 'GGC/ton_un:', ton_un, '\ndic_maj', dic_maj.keys(), 'len(dic_maj.keys()):', len(dic_maj.keys()))
+    print(lineno(), 'GGC/ton_un:', ton_un, '\ndic_maj', dic_maj.keys(), 'len(dic_maj.keys()):', len(dic_maj.keys()))
 
     # , dic_rap0, dic_rap2 = Modules de transport diatonique, des lignes supérieures et inférieures.
     # cap0[num_sup], cap1[not_sup], cap2[not_inf], cap3[num_inf]
@@ -1146,7 +1146,7 @@ def chromatic(a, b, c, s):
             # sig_vrai, sig_mage = dic_vrai[:len(dic_vrai)-1], dic_mage[:len(dic_mage)-1]  # sig_vrai = Signe relatif
             # rng_vrai, rng_mage = alteration(sig_vrai), alteration(sig_mage)
             # (lineno(), 'rng_vrai :', rng_vrai, deg_vrai, 'rng_mage :', rng_mage, deg_mage)'''
-            (lineno(), 'dia:', dia-1, '\t \t \t \t \t \t Position note commatique')
+            # (lineno(), 'dia:', dia-1, '\t \t \t \t \t \t Position note commatique')
             '''Le niveau de l'altération majeure est une référence,
                 aussi que sa position donne l'intervalle en rigueur.
                 La position du comma énoncé est primordiale de part le rapport majeur.
@@ -1298,7 +1298,7 @@ def chromatic(a, b, c, s):
         (lineno(), 'v_duo[1:]...:', v_duo[1:][:2][0][:3], trans[0][0], '\t\tk_duo:', k_duo)
     (lineno(), '\ntab_nom:', tab_nom, 'tab_nom = Dictionnaire évolué des unités isolées sans les doublons')
     (lineno(), 'tab_cop:', tab_cop, 'tab_cop = Dictionnaire évolué des unités isolées doublons')
-    (lineno(), '... dic_com ;', dic_com.keys())
+    print(lineno(), '... dic_com ;', dic_com.keys())
     return [dic_com, tab_nom, tab_cop]
 
 

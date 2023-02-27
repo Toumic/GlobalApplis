@@ -223,9 +223,9 @@ def inv_acc(pc, ego_p, ego_r, pratic_k, inutile_k, dana_k):
     # print('\nego_f01 Mêmes rangs fins:\n', ego_f01.keys(), 'Quant. :', len(ego_f01))
     # print('ego_f02 Mêmes rangs forts:\n', ego_f02.keys(), 'Quant. :', len(ego_f02))
 
-    progam.progam(pratic, glob, ego_p, ego_r, inutile_k, dana_k)
+    progam.progam(pratic, glob, ego_p, ego_r, inutile_k, dana_k, pc['signaux'])
 
 
 if __name__ == '__main__':
     # #print(f' GEM Quelle seption !')
-    inv_acc({}, {}, {}, {}, {})
+    inv_acc({}, {}, {}, {}, {}, {})

@@ -126,9 +126,9 @@ Une fonction pour une forme d'altération complexe (index(±), signe(int))<br>
 ...		dic_rap0, dic_rap2 = {}, {}  # Afficher les chromatismes parallèles<br>
 `Ce module est consacré à la mise en forme du dictionnaire à l'aide des tables reçues de GlobGamVers6. 
 Le dictionnaire est donc renvoyé, sa forme est simplifiée par rapport aux tables reçues.`
-### Ligne 706 : Lecture des colonnes absentes pour trouver les toniques fondamentales
+#### Ligne 706 : Lecture des colonnes absentes pour trouver les toniques fondamentales
     (lineno(), 'Cas3 ABSENCES dic_abs:', dic_abs)
-### Enregistrement des toniques absentes dans dic_cas et dans dic_maj, par la fonction transposer()
+#### Enregistrement des toniques absentes dans dic_cas et dans dic_maj, par la fonction transposer()
 	# def transposer(rip0, rip1, rip2, rip3):
 `(lineno(), 'dic_maj.keys():', dic_maj.keys())`
 '''858 dic_maj.keys(): dict_keys(['C', 'D', 'E', 'F', 'G', 'A', 'B', '-D', '+C', '-E', '+D', '-G', '+F', '-A', '+G', '-B', '+A', 'oD', '+B'])'''
@@ -137,11 +137,11 @@ Le dictionnaire est donc renvoyé, sa forme est simplifiée par rapport aux tabl
 	# 'o***B', 'C', '^^^^C']<br>
 Le cas "804", cas_cas = Liste les notes diatoniques altérées jusqu'en position tonique.<br>
 En révisant les gammes dont les toniques n'ont pas été trouvées la première fois, on tombe sur un élément de "804"<br>
-### Appel de fonction transposer avec passage de paramètres sans retour
+#### Appel de fonction transposer avec passage de paramètres sans retour
 	('     Transposer trip', lineno(), '___ ___ Suite rip:', tripe0, tripe1, tripe2, tripe3)
 	# transposer(tripe0, tripe1, tripe2, tripe3) : Voir ligne 103 [...	Def transposer(rip0, rip1, rip2, rip3):]
 * POUR UN...
-### Dictionnaire des tonalités majeures complètement renseigné.
+#### Dictionnaire des tonalités majeures complètement renseigné.
 `(lineno(), 'dic_maj.keys():', dic_maj.keys())`<br>
 * SANS RIRE
 
@@ -159,7 +159,7 @@ En révisant les gammes dont les toniques n'ont pas été trouvées la première
 				# Les notes iso font prioritairement partie du lot heptatonique.
 			else:  # Les notes (sup/inf) sont différentes.
 			''' PARTIES DU CODE INUTILISÉ POUR L'INSTANT'''
-### Exemple de premier mode commatique<br>
+#### Exemple de premier mode commatique<br>
 	1021 ik: 1 dic_cap0[ik]: ['1', '*3', '*4', '-3', '*5', '4', '*6', 'o6', '*7', '^^^1', '-7', '^^^2']<br>
 	1022 ik: 1 dic_cap1[ik]: ['+B', '-D', 'oE', '+D', '-F', '+E', '-G', 'G', '-A', 'oB', '+A', '-C']<br>
 	1023 ik: 1 dic_cap2[ik]: ['C', '-D', 'xC', '-E', 'xD', 'F', '+F', 'G', '-A', 'xG', '-B', 'xA']<br>
@@ -169,7 +169,7 @@ En révisant les gammes dont les toniques n'ont pas été trouvées la première
 	............# La gamme est composée de ['-D', 'G', '-A']<br>
 	........# OUT OF DIATONIC<br>
 
-### Exemple de premier mode commatique (arrangement des extensions)<br>
+#### Exemple de premier mode commatique (arrangement des extensions)<br>
 	`1058 INDES		nom: C Maj 	grade: 12
 	1059 ik: 1 dic_cap0[ik]: ['1', '*3', '*4', '-3', '*5', '4', '*6', 'o6', '*7', '*8', '-7', '*9']
 	1060 ik: 1 dic_cap1[ik]: ['+B', '-D', 'oE', '+D', '-F', '+E', '-G', 'G', '-A', 'oB', '+A', '-C']
@@ -200,3 +200,30 @@ Voici le séquentiel de la gamme :<br>
 
 ### _progamV6encore ***_
 **Le module interface.** 'pv6e' Rassemble le résumé gammologique et est destiné à approfondir les systèmes tétras et commatiques.
+
+
+### _GlobGamSim ***_
+**Le module similitudes.** 'GGS' Permet dans un premier temps d'obtenir des renseignements relatifs aux poids et rangs. 
+La gamme sur laquelle repose votre attention, a plusieurs poids modaux, et en ordonnant l'ordre des grandeurs pesantes 
+on obtient un ordre modal différent de celui annoncé par le développement diatonique de la gamme.
+Ainsi, plusieurs gammes peuvent les mêmes poids modaux aux rangés différemment. Ou bien, elles sont rangées 
+de la même manière, tout en ayant une différenciation au niveau des poids modaux.<br>
+On affirme que les gammes ayant les mêmes poids modaux, sont rangés de façon identique. Jusqu'à l'apparition d'un contraire.
+#### Pour la gamme majeure
+`POIDS dat_poids: {'Maj': [['0', '+4'], ['-3', '+45']]}` <br> 
+`POIDS dat_rangs: {'Maj': [['-32'], ['-3', '+45'], ['0', '+4']]}`
+#### Pour la gamme mélodique
+`POIDS dat_poids: {'-3': [['0', '+4'], ['-3', '+45']]}` <br>
+`POIDS dat_rangs: {'-3': [['-32'], ['-3', '+45'], ['0', '+4']]}` 
+#### Pour la gamme mélodique dominante
+`POIDS dat_poids: {'-53': [['-53'], ['+53-', '+35']]}` <br>
+`POIDS dat_rangs: {'-53': [['+2', '+46'], ['+53-', '+35'], ['-53'], ['+46-', '-2']]}`
+* #### Les symétries de type miroir des modes "ISO"&"DUO"
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>

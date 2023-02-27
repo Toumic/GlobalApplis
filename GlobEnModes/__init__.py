@@ -1028,9 +1028,10 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
         couche = 0
         # Mise en ordre diatonique du GROUPE
         for tonice in clefs_toniques:
+            t = tonice
             if '5' in table:
-                t = tonice
                 print('\n', lineno(), 'OO__OOO_O_OOOO_______', '\n _____o ooo o o o  ooo MODÈLES RAPPORTÉS   ', t)
+            ('\n', lineno(), 'OO__OOO_O_OOOO_______', '\n _____o ooo o o o  ooo MODÈLES RAPPORTÉS   ', t)
             couche += 1
             ton = 0
             rang_deg = list(toniques[tonice][1])
@@ -1052,6 +1053,7 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                     ton0 = table_deg[ton]
                     if '5' in table:
                         print(lineno(), 'DEGRÉ', ton0)
+                    (lineno(), 'DEGRÉ', ton0)
                     '''diC_AnaLySe 66[[0,-3,-4,0,-6,-7,-8],[196,28.0,4.0,0.5714285714285714]]'''
                     trans_dic[tonice, table_deg[ton]] = []
                     '''*. TraNs_GRouPe .* [(('101011010101', 0), 66)]'''
@@ -1067,6 +1069,8 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                             # Pour enregistrer la forme binaire
                             if '5' in table:
                                 print(lineno(), '   T_t_grp', t_grp[0][0], t_grp, ton0)
+                            # Pointé, car il contient les formes binaires des modes diatoniques
+                            (lineno(), '   T_t_grp', t_grp[0][0], t_grp, ton0)
                             break
                         # break # Coupure développement diatonique
                     s_tab1, s_tab2 = [], []
@@ -1093,6 +1097,7 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                                 if '5' in table:
                                     print(lineno(), '   *..* tag_mod 0', trans_picolo[tonice, ton0][0])
                                     (lineno(), '*..* tag_mod 1', trans_picolo[tonice, ton0][1])
+                                (lineno(), '   *..* tag_mod 0', trans_picolo[tonice, ton0][0])
                                 for v_tp in trans_picolo[tonice, ton0][1].values():
                                     # Construction table pour signaux
                                     for vt in v_tp:
@@ -1112,12 +1117,16 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                                             pratique[sig0[1]] = deg_txt
                                             if '5' in table:
                                                 print(lineno(), 'GlobalApplis_   ', sig0[1], ' _De_ ', inutile[tonice])
+                                            (lineno(), 'GlobalApplis_   ', sig0[1], ' _De_ ', inutile[tonice])
                                         if sig0[1] in nominal:  # Indique les gammes de progamV6encore
                                             if '5' in table:
                                                 print(lineno(), 'ProgamV6encore_ ', sig0[1], ' _De_ ', inutile[tonice])
+                                            (lineno(), 'ProgamV6encore_ ', sig0[1], ' _De_ ', inutile[tonice])
                                         if '5' in table:
                                             # Noms des tonalités modales dans sig0[1]
                                             print(lineno(), '   . Signaux', trans_signaux[tonice, ton0], sig0[1])
+                                        # Pointé, car il contient le nom (entier/décimal) des modes diatoniques
+                                        (lineno(), '   . Signaux', trans_signaux[tonice, ton0], sig0[1])
                                         break
                                 tab, sur = [0], ''  # Rapport tab trans_dic
                                 # Table convertie pour dic_analyse (trans_dic)
@@ -1143,6 +1152,7 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                                         trans_dic[tonice, ton0] = ta0
                                 if '5' in table:
                                     print(lineno(), '   TA0', trans_dic[tonice, table_deg[ton]])
+                                (lineno(), '   TA0', trans_dic[tonice, table_deg[ton]])
                                 break
                         if stop_pic:
                             break  # Coupure développement diatonique

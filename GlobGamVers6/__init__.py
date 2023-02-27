@@ -30,7 +30,7 @@ progam_tetra = GlobTetraCord
 progam_simis = GlobGamSim
 
 
-def progam(pratic, glob, ego_p, ego_r, utile, dana):
+def progam(pratic, glob, ego_p, ego_r, utile, dana, pc):
     """Pratic = Dictionnaire(clé=nom)(val=cumul).
         Glob = Modes à effet miroir (ISO = unique ou DUO = double).
         Ego_p = Gammes mêmes poids.
@@ -66,7 +66,7 @@ def progam(pratic, glob, ego_p, ego_r, utile, dana):
             # dd: (66, 'I')
             break
     # class Gammique
-    data_gam = {1: pratic, 2: glob, 3: ego_p, 4: ego_r, 5: utile, 6: dana}
+    data_gam = {1: pratic, 2: glob, 3: ego_p, 4: ego_r, 5: utile, 6: dana, 7: pc}
     Gammique(data_gam).mainloop()
 
 
@@ -241,7 +241,8 @@ class Gammique(Tk):
         self.btsel.pack()
 
         # Bouton des propriétés
-        self.btsimi = Button(self.cad, text='Propriétés', bg='moccasin', width=15)
+        self.btsimi = Button(self.cad, text='Propriétés', bg='moccasin', width=15,
+                             command=lambda: progam_simis.approprier())
         self.btsimi.pack()
 
         # Bouton quitter
@@ -3076,10 +3077,6 @@ class Gammique(Tk):
                 nat2 = 0
             deg += 1
         self.tbdegre[0] = degre
-        """Actualisation des fenêtres() :
-            comma[ccc], tetra[ttt], tabla[tur], chrome[chm], accords[acc]
-        Boutons(self) : 
-            btchr(chm), bttab(tur), btacc(acc), btcom(ccc), bttet(ttt)"""
         ouvertes = [self.ccc, self.ttt, self.tur, self.chm, self.acc]
         boutons = [self.btcom, self.bttet, self.bttab,
                    self.btchr, self.btacc]
@@ -3088,7 +3085,13 @@ class Gammique(Tk):
                 b5 = boutons[ouvertes.index(ouvert)]
                 b5.invoke()
         # print(lineno(), self.c_ii)
-        (lineno(), 'GGV6/dic_assemble:', dic_assemble.keys())
+        print(lineno(), 'GGV6/dic_assemble[Maj]:', dic_assemble['Maj'], dic_assemble.keys())
+        # 3087 GGV6/dic_assemble[Maj]: [1, 1, 0, 1, 1, 1, 0] dict_keys(['Maj', '-2', '+2', '^2', '-3',
+        # '-32', 'x43-', '+34', 'x32+', '-43', 'x3', 'o3', '+34x', 'x43o', '^3', '-4', '-42', '^4', 'o4',
+        # '-5', '-52', '+52-', '+25-', '-53', '+53-', 'x54+', 'x52+', 'o35-', 'x53+', '+54-', '-54', 'x5',
+        # 'x45+', 'o52-', 'o53-', 'o54-', 'o45-', 'o5', '+53o', '*5', 'x53o', 'x54-', 'x54o', '-6', '+6', '-62',
+        # '+62-', '+26-', '+26', '-63', '+63-', '-65', '+65-', '+56', 'x46+', 'o62-', '+64-', 'o64-', 'x36+',
+        # 'o65-', 'o46-', '+63o', '*6', '+64o', 'o6', 'x26-'])
         progam_simis.simili(dic_assemble, self.data, self.c_ii)
 
     gamme0 = {}
@@ -3170,7 +3173,7 @@ class Commatique(Frame):
             clo_bb, clo_normal = c_oo, c_pp.copy()
 
         # Appel à la fonction de mise en forme commatique
-        (lineno(), clo_bb, '\nc_iii:', c_iii, '\nclo_normal:', clo_normal, s_cal)
+        (lineno(), 'GGV6/', clo_bb, '\nc_iii:', c_iii, '\nclo_normal:', clo_normal, s_cal)
         topo_com = progam_chrom.chromatic(clo_bb, c_iii, clo_normal, s_cal)
         (lineno(), 'self.c_bb[0]:', self.c_bb[0], 'Longueur =', len(self.c_bb[0]))
         '''3127 self.c_bb[0]: ([('', 'C')], [(('+', 'C'), ('-', 'D'))], [('', 'D')], [(('+', 'D'), ('-', 'E'))], 

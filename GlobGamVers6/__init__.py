@@ -81,7 +81,7 @@ class Gammique(Tk):
         self.geometry('1200x700+91+14')
 
         # Fenêtre écran_résultat
-        self.can = Canvas(self, bg='white', height=550, width=700)
+        self.can = Canvas(self, bg='beige', height=550, width=700)
         self.can.pack(side=RIGHT)
 
         # Fenêtre des utilités
@@ -1388,7 +1388,7 @@ class Gammique(Tk):
             pass
         else:
             self.sel_yes = s_yes
-        # print(lineno(), '|s_yes:', s_yes, '|sel_yes:', self.sel_yes, '\n')
+        (lineno(), '|s_yes:', s_yes, '|sel_yes:', self.sel_yes, '\n')
         Label(self.tur, text=self.sel_yes, font='bold', fg='black').pack()
         # Cadre de visualisation : Tablatures
         frtur = Frame(self.tur, width=30, height=1)
@@ -2796,7 +2796,7 @@ class Gammique(Tk):
 
     # Motorisation Gammique
     def gama(self):
-        # print(2500, 'GGV6 def gama : \n', self.data.keys())
+        (lineno(), 'GGV6 def gama : \n', self.data.keys())
         imod = None
         gammes, gamnoms = [], []
         self.decore.clear()  # Remise au zéro tonique des accords
@@ -2838,7 +2838,7 @@ class Gammique(Tk):
             gamnoms = list(self.data[1].keys())
             # print(lineno(), gammes)
             # print(lineno(), 'GGV6 DATA 2 : \n', self.data[1])
-        # print(lineno(), 'self.gamcalc', gamnoms)
+        (lineno(), 'self.gamcalc', gamnoms)
         self.gammescopie = gammes.copy()
         self.gamnomscopie = gamnoms.copy()
         # dic_assemble = Rafraichir le dictionnaire transfert avec changement (classique, calculée)
@@ -2998,19 +2998,20 @@ class Gammique(Tk):
                 ymod = self.subemol[ycurs]
             cnat[ynat] = ymod
             ynat += 1
-        # print(2608, 'cnat ', cnat)
+        # (lineno(), 'cnat:', cnat)
 
         # Une tournée produit une tonalité modale de 7 notes
         nat2 = degre
         deg = nom = 0
         ynote = xgdeg = 30
         ytone = 50
+        tt_deg, tt_gam, tt_nom, tt_ind = [], '', '', 0
         while deg < 7:
             nat = deg  # Degré tonal en question
             cri = gimj = maj = 0
             xdeg, cnom = 80, ''
-            text0 = gdeg[deg]  # text0 = I, II, III, IV, V, VI, VII
-            self.can.create_text(xgdeg + 25, ynote + 10, text=text0, font='bold', fill='black')
+            '''text0 = gdeg[deg]  # text0 = I, II, III, IV, V, VI, VII
+            self.can.create_text(xgdeg + 25, ynote + 10, text=text0, font='bold', fill='black')'''
             while maj < 7:  # Tonalité modale du degré
                 gmj = gmaj[maj]  # Forme majeure (1101110)
                 imaj = diata2[nat]  # Forme modale (DIATA[DEGRE])
@@ -3022,7 +3023,7 @@ class Gammique(Tk):
                 if maj == 0:
                     yntgnt = ynt, gnt
                     self.decore[deg] = yntgnt
-                    # print(lineno(), 'decore', deg, self.decore[deg])
+                    (lineno(), 'decore', deg, self.decore[deg])
                 if gmod > 0:  # Forme altérative des tonalités
                     imod = self.nordiese[cmod]
                 if gmod < 0:
@@ -3035,6 +3036,7 @@ class Gammique(Tk):
                     ynom = ynt
                     gnom = gnt
                     tnom = "{}{}".format(gnom, gamnoms[myx2])
+                    (lineno(), 'tnom:', tnom)
                     if ynom:  # Altération de la note
                         for yn in ynom:
                             cnom += yn
@@ -3049,8 +3051,17 @@ class Gammique(Tk):
                     self.c_ii = cnom
                     self.sel_yes = ynom, tnom  # Report nom vers sélection
                     self.sel_myx[0] = myx2  # Report type vers sélection
-                    self.can.create_text(40, 12, text=cnom, font=font2, fill='black')
-                    # print(lineno(), 'Analise Général Texte', self.sel_yes, '|:', nom, ':Y|nom|T:', tnom)
+                    # Décryptage du nom pour trouver les noms[entiers/décimaux] des modes diatoniques
+                    if maj == deg == 0:
+                        (lineno(), 'self.sel_yes:', self.sel_yes)
+                        for tt in self.sel_yes[1]:
+                            if tt not in self.gamula:
+                                tt_nom += tt
+                        tt_ind = 66 - self.gamnomscopie.index(tt_nom)  # Numéro de la gamme
+                    (lineno(), 'Décrypte nom:', tt_nom, 'tt_ind:', tt_ind, ';')
+                    self.can.create_text(40, 12, text=cnom, font=font2, fill='black')  # Nom de la gamme
+                    (lineno(), 'Analise Général Texte', self.sel_yes, '|:', nom, ':Y|nom|T:', tnom)
+                    # 3053 Analise Général Texte ('', 'CMaj') |: 0 :Y|nom|T: CMaj
                 nat += 1
                 nat2 += 1
                 if nat > 6:
@@ -3060,16 +3071,27 @@ class Gammique(Tk):
                 maj += 1
                 text1 = gnt
                 text2 = "{}{}".format(imod, maj)
-                self.can.create_text(xdeg, ynote - 12, text=ynt, font=font100, fill='red')
-                self.can.create_text(xdeg, ynote, text=text1)
+                self.can.create_text(xdeg, ynote - 12, text=ynt, font=font100, fill='red')  # Altérations sur les notes
+                self.can.create_text(xdeg, ynote, text=text1, font='bold')
                 self.can.create_text(xdeg, ytone, text=text2, fill='blue')
-                # print(lineno(), 'Analise Général Texte', self.sel_yes, imod, maj)
+                (lineno(), 'Analise Général Texte', self.sel_yes, imod, 'maj:', maj)
                 xdeg += 30
                 nom = 1
                 self.declare[(deg, maj)] = imod
                 self.dechire[(deg, maj)] = cmod  # Utilisation chromatique
-            # print(lineno(), 'declare imod ', self.declare)
-            # print(lineno(), 'dechire cmod ', self.dechire)
+            text0 = gdeg[deg]  # text0 = Degrés = I, II, III, IV, V, VI, VII
+            if tt_ind == 0:
+                tt_ind = 66
+            nom_mode = self.data[7][tt_ind, text0]
+            for nm in nom_mode:
+                if nm:
+                    text0 += ' ' + nm[1]
+                (lineno(), 'nm:', nm[1])
+                break
+            (lineno(), ':', tt_ind, text0, ':', )  # self.data[7] [tt_ind, text0]
+            self.can.create_text(xgdeg + 7, ynote + 10, text=text0, font=font100, fill='blue')
+            (lineno(), 'declare imod ', self.declare)
+            (lineno(), 'dechire cmod ', self.dechire)
             ynote += 60
             ytone += 60
             nat2 += 1
@@ -3085,7 +3107,7 @@ class Gammique(Tk):
                 b5 = boutons[ouvertes.index(ouvert)]
                 b5.invoke()
         # print(lineno(), self.c_ii)
-        print(lineno(), 'GGV6/dic_assemble[Maj]:', dic_assemble['Maj'], dic_assemble.keys())
+        (lineno(), 'GGV6/dic_assemble[Maj]:', dic_assemble['Maj'], dic_assemble.keys())
         # 3087 GGV6/dic_assemble[Maj]: [1, 1, 0, 1, 1, 1, 0] dict_keys(['Maj', '-2', '+2', '^2', '-3',
         # '-32', 'x43-', '+34', 'x32+', '-43', 'x3', 'o3', '+34x', 'x43o', '^3', '-4', '-42', '^4', 'o4',
         # '-5', '-52', '+52-', '+25-', '-53', '+53-', 'x54+', 'x52+', 'o35-', 'x53+', '+54-', '-54', 'x5',

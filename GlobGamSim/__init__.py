@@ -47,6 +47,7 @@ def simili(sim, dat, nom):
     Le nom de la gamme en cours (attention aux compositions : Exemple = 'oF x54o')"""
     # Objectif mettre en forme les données reçues pour une meilleure gestion
     (lineno(), 'GGS/sim:', sim, '\n', 'dat:', dat.keys(), type(dat), 'nom:', nom)
+    # ('\n dat[7]:', dat[7])
 
     # print(' dat[3]:poids', dat[3], '\n dat[4]:rangs', dat[4], '\n dat[5]:noms', dat[5])
 
@@ -64,11 +65,11 @@ def simili(sim, dat, nom):
             for kt, vt in dat[5].items():
                 if titre in vt:
                     titre1 = kt, vt
-                    print(lineno(), 'TIT_titre1:', titre1, 'titre:', titre, kt)
+                    (lineno(), 'TIT_titre1:', titre1, 'titre:', titre, kt)
                     break
         elif tom == 'num':  # Retrouver les noms des gammes grâce au numéro
             titre1 = titre, dat[5][titre]
-            print(lineno(), 'NUM_titre1:', titre1, 'titre:', titre)
+            (lineno(), 'NUM_titre1:', titre1, 'titre:', titre)
         return titre1
 
     # Formatage du nom de la gamme en cours : 'C Maj' devient 'C' et 'Maj'
@@ -95,7 +96,11 @@ def simili(sim, dat, nom):
         n0 += 1
     (lineno(), 'sig_ava:', sig_ava, 'sig_abc:', sig_abc, 'sig_sui:', sig_sui)
     retour1 = numismate(sig_sui, 'tit')
-    number.append(retour1[0])
+    retour10 = 0
+    for rr1 in retour1:
+        number.append(rr1)
+        retour10 = rr1
+        break
     signe.append(sig_ava)
     name.append(sig_abc)
     value.append(sig_sui)
@@ -173,7 +178,7 @@ def simili(sim, dat, nom):
     ''' dat_poids traitement au cas-par-cas où un cas = une gamme (en cours)
     # Liste les gammes aux mêmes poids dat3, clé égal poids'''
     for k3, v3 in dat[3].items():
-        if retour1[0] in v3:
+        if retour10 in v3:
             dat_poids[sig_sui] = []
             for n3 in v3:
                 retour3 = [numismate(n3, 'num')]  # Avec les crochets,
@@ -193,7 +198,7 @@ def simili(sim, dat, nom):
     ''' dat_rangs traitement au cas-par-cas où un cas = une gamme (en cours)
     # Liste les gammes aux mêmes rangs dat4, clé égal rang'''
     for k4, v4 in dat[4].items():
-        if retour1[0] in v4:
+        if retour10 in v4:
             dat_rangs[sig_sui] = []
             for n4 in v4:
                 retour4 = [numismate(n4, 'num')]
@@ -228,15 +233,25 @@ def approprier():
     gamme = signe[0] + name[0] + ' ' + value[0] + '(' + str(number[0]) + ')'
     proprio = Toplevel()
     proprio.title('Propriété de la  Gamme : Chromatisme en %s' % gamme)
-    proprio.geometry('1000x600+800+40')
+    proprio.geometry('1000x800+900+40')
     proprio.configure(bg='moccasin')
     f_titre = Font(family='Liberation Serif', size=14)
-    c_proprio = Canvas(proprio, bg='Ivory', height=800, width=600)
-    c_proprio.pack(padx=13, pady=13, side="left")  # c_proprio = Premier Canvas original (pack_forget ou pas)
-    c_proprio.delete(ALL)
-    t_titre = 'Les gammes similaires à ' + gamme
-    c_proprio.create_text(193, 13, font=f_titre, text=t_titre, fill='blue', justify='left')
-    print(lineno(), 'Écriture simili.duo_quant:', duo_quant.keys(), '\n', 'signe:', signe[0], name[0], value[0])
+    f_proprio0 = Frame(proprio, bg='beige')
+    f_proprio0.pack(side=LEFT, expand=True)
+    f_proprio1 = Frame(proprio, bg='beige')
+    f_proprio1.pack(side=RIGHT, expand=True)
+    c_proprio0 = Canvas(f_proprio0, bg='Ivory', height=30, width=410)
+    c_proprio0.pack(padx=15, pady=15)  # c_proprio = Premier Canvas original (pack_forget ou pas)
+    c_proprio0.delete(ALL)
+    t_titre = 'Les propriétés de ' + gamme
+    c_proprio0.create_text(163, 13, font=f_titre, text=t_titre, fill='blue')
+    c_proprio1 = Canvas(f_proprio0, bg='lightgrey', height=500, width=410)
+    c_proprio1.pack(padx=15, pady=15)  # c_proprio = Premier Canvas original (pack_forget ou pas)
+    c_proprio1.delete(ALL)
+    c_proprio2 = Canvas(f_proprio1, bg='wheat', height=500, width=410)
+    c_proprio2.pack(padx=15, pady=15)  # c_proprio = Premier Canvas original (pack_forget ou pas)
+    c_proprio2.delete(ALL)
+    print(lineno(), 'GGS/Écriture simili.duo_quant:', duo_quant.keys(), '\n', 'signe:', signe[0], name[0], value[0])
     #
 
     #

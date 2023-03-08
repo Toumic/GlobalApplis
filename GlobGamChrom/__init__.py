@@ -42,7 +42,7 @@ cle_maj = [0, 2, 4, 5, 7, 9, 11]  # Emplacements majeurs
 extension = [8, 9, 10, 11, 12, 13, 14]
 
 
-def transposer(rip0, rip1, rip2, rip3):
+def transposer(rip0, rip1, rip2, rip3, sub):
     """Ici, on réceptionne les gammes qui ont leurs tonices altérées.
     Séquences du traitement : - Obtenir la gamme majeure signée ou non signée.
      - Transposer la gamme au niveau altéré. - Résoudre la tonalité.
@@ -186,6 +186,8 @@ def transposer(rip0, rip1, rip2, rip3):
                     dic_maj[ca].append(note)
                     gam_abc[ca].append(note)
     ('\n', lineno(), 'dic_maj:', dic_maj.keys(), '\ngam_abc:', gam_abc['C'])
+    if sub == 'sub':  # Employé par GlobGamSim pour des nouvelles gammes majeures
+        return dic_maj
 
 
 def alteration(signe):
@@ -341,7 +343,7 @@ def chromatic(a, b, c, s):
     else:
         dic_rip2[13], dic_rip3[13] = dic_rip2[1], dic_rip3[1]
     ('\n', lineno(), 'transposer dic_rip0.1.2.3:', dic_rip0, '\n1:', dic_rip1, '\n2:', dic_rip2, '\n3:', dic_rip3)
-    transposer(dic_rip0, dic_rip1, dic_rip2, dic_rip3)
+    transposer(dic_rip0, dic_rip1, dic_rip2, dic_rip3, '')
     (lineno(), '_GGC/dic_rip0.1:  \n', dic_rip0, '\n', dic_rip1)
     (lineno(), '_GGC/dic_rip2.3:  \n', dic_rip2, '\n', dic_rip3)
     (lineno(), 'Indices \tgam0:', gam0, '\t\tgam1:', gam1, '\t\tb_diatonic[0]:', b_diatonic[0])
@@ -839,11 +841,11 @@ def chromatic(a, b, c, s):
             tri += 1
             (lineno(), 'tripe3:', tripe3)
     (lineno(), 'Transposer ', tripe0, tripe1, tripe2, tripe3, 'b:', b)
-    transposer(tripe0, tripe1, tripe2, tripe3)
+    transposer(tripe0, tripe1, tripe2, tripe3, '')
     if tab_trip:
         for tab in range(len(tab_trip)):
             rap_trip[tab] = tab_trip[tab]
-            transposer({1: rap_trip[tab]}, {1: ''}, {1: ''}, {1: ''})
+            transposer({1: rap_trip[tab]}, {1: ''}, {1: ''}, {1: ''}, '')
             (lineno(), 'tab:', tab_trip[tab], 'rap_trip:', rap_trip[tab])
     '''Recueil des toniques présentes : gam0 = Tonalité principale parmi les toniques'''
     # Lecture des colonnes absentes pour trouver les toniques fondamentales
@@ -997,7 +999,7 @@ def chromatic(a, b, c, s):
             (lineno(), 'deg_cas:', deg_cas, 'sig_cas:', sig_cas)
         # Appel de fonction transposer avec passage de paramètres sans retour
         ('......Transposer tripe0.1.2.3', lineno(), '___ ___ Suite rip:', tripe0, tripe1, tripe2, tripe3)
-        transposer(tripe0, tripe1, tripe2, tripe3)
+        transposer(tripe0, tripe1, tripe2, tripe3, '')
         (lineno(), 'dic_cas:', dic_cas[gam0, 'cas0'], '\n :', dic_cas[gam0, 'cas2'])
         ('** ', lineno(), '** ** ** len_sos:', len_sos1, 'len_sos2:', len_sos2)
     #
@@ -1298,7 +1300,7 @@ def chromatic(a, b, c, s):
         (lineno(), 'v_duo[1:]...:', v_duo[1:][:2][0][:3], trans[0][0], '\t\tk_duo:', k_duo)
     (lineno(), '\ntab_nom:', tab_nom, 'tab_nom = Dictionnaire évolué des unités isolées sans les doublons')
     (lineno(), 'tab_cop:', tab_cop, 'tab_cop = Dictionnaire évolué des unités isolées doublons')
-    print(lineno(), '... dic_com ;', dic_com.keys())
+    (lineno(), '... dic_com ;', dic_com.keys())
     return [dic_com, tab_nom, tab_cop]
 
 

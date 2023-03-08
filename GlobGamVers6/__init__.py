@@ -78,15 +78,21 @@ class Gammique(Tk):
         "Tableau de bord"
         # Titre principal
         self.title('Entité Gammique :')
-        self.geometry('1200x700+91+14')
+        self.geometry('1500x700+91+14')
 
         # Fenêtre écran_résultat
-        self.can = Canvas(self, bg='beige', height=550, width=700)
-        self.can.pack(side=RIGHT)
+        self.can = Canvas(self, bg='beige', height=666, width=666)
+        self.can.pack(side=RIGHT, padx=6, pady=6)  # side=RIGHT [curseurs + notes graphiques]
+
+        # Fenêtre écran_utilitaire : VISIONS =
+        self.cat = Canvas(self, bg='beige', height=600, width=300, bd=10,
+                          highlightthickness=1, highlightbackground="black")
+        self.cat.pack(side=RIGHT, expand=True, ipadx=10, ipady=10)
+        self.cat.create_text(160, 30, text='§ VISIONS §', font='bold')
 
         # Fenêtre des utilités
-        self.cad = Frame(self, bg='white', width=30, height=80)
-        self.cad.pack(side=LEFT)
+        self.cad = Frame(self, bg='white', width=300, height=800)
+        self.cad.pack(side=LEFT, padx=30, pady=30)  # Les boutons situés à gauche
 
         # Bouton type de fondamentaux
         self.gamclas = None
@@ -329,7 +335,8 @@ class Gammique(Tk):
         elif fff == 'chrome':
             # print('Fermeture fenêtre :', fff)
             self.chm.destroy()
-            self.ccc.destroy()
+            if self.ccc is not None:
+                self.ccc.destroy()
             self.chm = None
         elif fff == 'accord':
             # print('Fermeture fenêtre :', fff)
@@ -1743,15 +1750,42 @@ class Gammique(Tk):
                         if be == maj1:
                             rg_bemdeg = c, maj1
                             chr_bem.append(rg_bemdeg)
+        (lineno(), ' chr_dies:', chr_dies, '\n chr_bem:', chr_bem)  # [(rangX, degréN)]
+        # 1753  chr_dies: [(10, 1), (30, 2), (60, 4), (80, 5), (100, 6)]    chnat_aug = [1, 2, 4, 5, 6]
+        #  chr_bem: [(10, 2), (30, 3), (60, 5), (80, 6), (100, 7)]          chnat_min = [2, 3, 5, 6, 7]
 
-        def c_sign(c_dbs):
-            cdb_ = c_dbs
-            if c_dbs > -1:
-                c_sdb[0] = self.nordiese[cdb_]
-                coltyp1[0] = 'plum'
-            else:
-                c_sdb[0] = self.subemol[cdb_]
-                coltyp2[0] = 'pink'
+        def c_sign(c_dbs, axe):  # Altération des notes chromatiques
+            cdb_, ret_ = c_dbs, 0
+            if axe == 1:
+                if c_dbs > -1:
+                    c_sdb[0] = self.nordiese[cdb_]
+                    coltyp1[0] = 'plum'
+                else:
+                    c_sdb[0] = self.subemol[cdb_]
+                    coltyp2[0] = 'pink'
+                (lineno(), 'GGVc/C_SIGN/db_:', cdb_, 'c_sdb[0]:', c_sdb[0], 'c_dbs:', c_dbs)
+            elif axe == 2:  # axe = 2 = C'est la valeur numérique de l'altération qui est en paramètre
+                if c_dbs > -1:
+                    c_xyz = self.nordiese[cdb_]
+                    i_xyz = self.nordiese.index(c_xyz)
+                    ret_ = 'Diato_aug'
+                else:
+                    c_xyz = self.subemol[cdb_]
+                    i_xyz = self.subemol.index(c_xyz) - len(self.subemol)
+                    ret_ = 'Diato_dim'
+                (lineno(), 'GGVc/C_SIGN/db_:', cdb_, 'c_xyz:', c_xyz, 'i_xyz:', i_xyz)
+                return c_xyz, i_xyz, ret_
+            elif axe == 3:  # axe = 3 = C'est l'altération qui est en paramètre
+                (lineno(), '--------- Définition service/axe3 ---------')
+                if cdb_ in self.nordiese:
+                    j_xyz = self.nordiese.index(cdb_)
+                    ret_ = 'Chrome_aug'
+                    (lineno(), '---------GGVc/C_SIGN/db_:', cdb_, 'j_xyz:', j_xyz, 'ret_:', ret_)
+                else:
+                    j_xyz = self.subemol.index(cdb_) - len(self.subemol)
+                    ret_ = 'Chrome_dim'
+                    (lineno(), '---------GGVc/C_SIGN/db_:', cdb_, 'j_xyz:', j_xyz, 'ret_:', ret_)
+                return cdb_, j_xyz, ret_
 
         def c_form(c_noes):
             cf_ = c_noes
@@ -1764,6 +1798,7 @@ class Gammique(Tk):
                     c_dbn[0] = cie
                 if ce_min == cf_:
                     c_dbn[0] = eic
+            (lineno(), 'GGV6/C_FORM/cf_:', cf_, 'c_dbn[0]:', c_dbn[0], 'c_noes:', c_noes)
 
         # Définitions données
         ch_chrdies = ['0', '0', '0', '0', '0']
@@ -1787,11 +1822,11 @@ class Gammique(Tk):
                     c_noe0 = self.decore[ch_dx - 1]
                     c_noe1 = c_noe0[1]
                     c_noe2 = c_noe0[0]
-                    c_form(c_noe2)
+                    c_form(c_noe2)  # c_form initialise c_dbn[0]
                     ch_wdx2 = (ch_wd - chr_trans[ch_dx - 1]) // 10
                     ch_wdx = ch_wdx2 + c_dbn[0]
                     c_db = ch_wdx
-                    c_sign(c_db)
+                    c_sign(c_db, 1)  # c_sign initialise c_sdb[0]
                     c2_0 = c_sdb[0]
                     c3_0 = c_noe1
                     # c4_0 = c2_0
@@ -1812,10 +1847,15 @@ class Gammique(Tk):
                     ch_ybz2 = (ch_yb - chr_trans[ch_bz - 1]) // 10
                     ch_ybz = ch_ybz2 + c_dbn[0]
                     c_db = ch_ybz
-                    c_sign(c_db)
+                    c_sign(c_db, 1)
                     c5_0 = c_sdb[0]
                     c6_0 = c_noe1
                     ch_chrbem[c_] = ch_o, ch_bz, c5_0, c6_0, 'pink', ch_ybz
+        (lineno(), 'ch_chrdies:', ch_chrdies, '\n ch_chrbem:', ch_chrbem)  # Gamme naturelle
+        # 1831 ch_chrdies: [(10, 1, '+', 'C', 'plum', 1), (30, 2, '+', 'D', 'plum', 1), (60, 4, '+', 'F', 'plum', 1),
+        # (80, 5, '+', 'G', 'plum', 1), (100, 6, '+', 'A', 'plum', 1)]
+        #  ch_chrbem: [(10, 2, '-', 'D', 'pink', -1), (30, 3, '-', 'E', 'pink', -1), (60, 5, '-', 'G', 'pink', -1),
+        #  (80, 6, '-', 'A', 'pink', -1), (100, 7, '-', 'B', 'pink', -1)]
         c_aug = []
         for ci_ in ch_chrdies:
             if ci_ != '0':
@@ -1859,7 +1899,7 @@ class Gammique(Tk):
                 c_mj2 = (c_ch - chr_trans[c_a0]) // 10
                 c_mj = c_mj2 + c_dbn[0]
                 c_db = c_mj
-                c_sign(c_db)
+                c_sign(c_db, 1)
                 c2_0 = c_sdb[0]
                 c3_0 = c_noe1
                 # c4_0 = c_mj
@@ -1891,35 +1931,50 @@ class Gammique(Tk):
                 c_mj2 = (c_ch - chr_trans[c_a0]) // 10
                 c_mj = c_mj2 + c_dbn[0]
                 c_db = c_mj
-                c_sign(c_db)
+                c_sign(c_db, 1)
                 c2_0 = c_sdb[0]
                 c3_0 = c_noe1
                 # c4_0 = c2_0
-                ch_chrbem[c] = c_ch, c_a, c2_0, c3_0, 'pink', c_mj
+                ch_chrbem[c] = c_ch, c_a, c2_0, c3_0, 'pink', c_mj  # [(10, 2, '-', 'D', 'pink', -1),,, ]
+        (lineno(), 'ch_chrdies:', ch_chrdies, '\n ch_chrbem:', ch_chrbem)  # Gamme naturelle
+        '''# Ressemble à la précédente sauf pour l'initialisation des variables utilisées'''
+        # 1916 ch_chrdies: [(10, 1, '+', 'C', 'plum', 1), (30, 2, '+', 'D', 'plum', 1), (60, 4, '+', 'F', 'plum', 1),
+        # (80, 5, '+', 'G', 'plum', 1), (100, 6, '+', 'A', 'plum', 1)]
+        #  ch_chrbem: [(10, 2, '-', 'D', 'pink', -1), (30, 3, '-', 'E', 'pink', -1), (60, 5, '-', 'G', 'pink', -1),
+        #  (80, 6, '-', 'A', 'pink', -1), (100, 7, '-', 'B', 'pink', -1)]
+        xcpos_ = 180
+        ycpos_ = 234
+        y_poste = []
+        # c4_ = self.dechire[(0, cx_uu)]
+        for v10_dec in range(1, 8):
+            v_10 = ycpos_ - (self.dechire[0, v10_dec] * 30)
+            y_poste.append(v_10)
+            (lineno(), 'v10_dec:', v_10)
+        print(lineno(), 'y_poste:', y_poste)
         c_chaug = [0]
         c_chmin = [0]
         c_doube = [0]
         cz_ = cx_tr = cn_ = 0
         cx_uu = 1
         chtop6 = chr_trans[6] // 10
-        xcpos_ = 180
-        ycpos_ = 234
         chposx = 0
         rb_ = 15
         chrcan.create_line(15, 234, 585, 234, fill='blue')
         for cx_ in range(12):
             c1_ = c2_ = c3_ = c4_ = c5_ = c6_ = c7_ = 'n'  # -1 = Emplacement chromatique
             c2_a1 = c2_m1 = c3_a = c3_m = c4_a = c4_a1 = c4_m = c4_m1 = comp = 0
-            coltyp = 'light grey'
+            coltyp = 'light grey'  # Couleur des notes diatoniques
             if cx_ == 0:
-                c1_ = chr_trans[cx_tr]  # Incrustation diatonique
-                c2_ = chr_curs[cx_tr]  # Hauteur tonale
+                c1_ = chr_trans[cx_tr]  # Incrustation position diatonique
+                c2_ = chr_curs[cx_tr]  # Hauteur altérative tonale
                 if c2_ > -1:
                     c2_ = self.nordiese[c2_]
                 else:
                     c2_ = self.subemol[c2_]
-                c3_ = self.decore[cx_tr][1:]  # Note naturelle
-                c4_ = self.dechire[(0, cx_uu)]  # Valeur tonale
+                c3_ = self.decore[cx_tr][1:]  # Note diatonique
+                c4_ = self.dechire[(0, cx_uu)]  # Position tonale
+                (lineno(), 'c3_:', c3_, 'c4_:', c4_, 'cx_uu:', cx_uu)  # c3_[0] = C
+                # 1946 c3_: ('C',) c4_: 0
                 cx_tr += 1
                 cx_uu += 1
                 chposx += 1
@@ -1927,36 +1982,40 @@ class Gammique(Tk):
                 xb_ = xcpos_ + (chposx * 30)
                 ybn_ = ycpos_ - (chposyn * 30)
                 chvow_n = "{}{}".format(c2_, c3_[0])
-                chrcan.create_oval(xb_ - rb_, ybn_ - rb_, xb_ + rb_, ybn_ + rb_, fill=coltyp)
+                chrcan.create_oval(xb_ - rb_, ybn_ - rb_, xb_ + rb_, ybn_ + rb_, fill=coltyp)  # Notes diatoniques
                 chrcan.create_text(xb_, ybn_, text=chvow_n, font=fontchr, fill='black')
+                (lineno(), '_\t GGV6/ybn_:', ybn_, chvow_n, 'chposyn:', chposyn, 'cx_uu:', cx_uu)  # Gamme C b3
             else:
                 if chr_trans[cx_tr] == cx_ * 10:
-                    c1_ = chr_trans[cx_tr]
-                    c2_ = chr_curs[cx_tr]  # c2_ = Altération de la note (gamme*)
+                    c1_ = chr_trans[cx_tr]  # c1_ = Position de la note diatonique
+                    c2_ = chr_curs[cx_tr]  # c2_ = Altération de la note diatonique
+                    (lineno(), 'chr_trans:', chr_trans, 'chr_curs:', chr_curs)  # Pour diatonique[b3]
+                    # 1960 chr_trans: [0, 20, 30, 50, 70, 90, 110] chr_curs: [0, 0, -1, 0, 0, 0, 0]
                     if c2_ > -1:
                         c2_ = self.nordiese[c2_]
                     else:
                         c2_ = self.subemol[c2_]
                     c3_ = self.decore[cx_tr][1:]  # c3_ = Note de la gamme* (7 notes)
-                    c4_ = self.dechire[(0, cx_uu)]
+                    c4_ = self.dechire[(0, cx_uu)]  # self.dechire = Dictionnaire des altérations diatoniques
                     cx_tr += 1
                     cx_uu += 1
                     chposx += 1
                     chposyn = c4_
                     xb_ = xcpos_ + (chposx * 30)
                     ybn_ = ycpos_ - (chposyn * 30)
-                    chvow_n = "{}{}".format(c2_, c3_[0])
-                    chrcan.create_oval(xb_ - rb_, ybn_ - rb_, xb_ + rb_, ybn_ + rb_, fill=coltyp)
+                    chvow_n = "{}{}".format(c2_, c3_[0])  # chvow_n(entier réel) = Note diatonique[c3_[0]], signe[c2_]
+                    chrcan.create_oval(xb_ - rb_, ybn_ - rb_, xb_ + rb_, ybn_ + rb_, fill=coltyp)  # Notes diatoniques
                     chrcan.create_text(xb_, ybn_, text=chvow_n, font=fontchr, fill='black')
+                    (lineno(), '_\t GGV6/ybn_:', ybn_, chvow_n, 'chposyn:', chposyn, 'cx_uu:', cx_uu)
                 else:
                     comp = -1
                     # Zone des futurs
                 if comp == -1 and cn_ < 5:
                     if chrselect == 'Chrome atonal':
                         if chtop6 < cx_:
-                            chpre = chr_trans[6] // 10
+                            chpre = chr_trans[6] // 10  # chr_trans = Positions des notes diatoniques
                             chsui = chr_trans[0] // 10
-                            c2_pre = chr_curs[6]
+                            c2_pre = chr_curs[6]  # chr_curs = Altérations des notes diatoniques
                             c2_sui = chr_curs[0]
                             c3_pre = self.decore[6][1:]
                             c3_sui = self.decore[0][1:]
@@ -1975,70 +2034,138 @@ class Gammique(Tk):
                         tg_sui = cx_ - chsui
                         c2_ax = tg_pre + c2_pre
                         c_db = c2_ax
-                        c_sign(c_db)
+                        c_sign(c_db, 1)
                         c2_a1 = c_sdb[0]
                         c2_mx = tg_sui + c2_sui
                         c_db = c2_mx
-                        c_sign(c_db)
+                        c_sign(c_db, 1)
                         c2_m1 = c_sdb[0]
                         c3_a = c3_pre[0]
                         c3_m = c3_sui[0]
                         c4_a = c4_pre + tg_pre
                         c_db = c4_a
-                        c_sign(c_db)
+                        c_sign(c_db, 1)
                         c4_a1 = c_sdb[0]
                         c4_m = c4_sui + tg_sui
                         c_db = c4_m
-                        c_sign(c_db)
+                        c_sign(c_db, 1)
                         c4_m1 = c_sdb[0]
-                        # print(lineno(), 'Nom atonal =', c2_a1, c3_a)
-                    if chrselect == 'Chrome naturel':
+                        (lineno(), 'Nom atonal =', c4_a, c4_m)
+                    if chrselect == 'Chrome naturel':  # Voir fiche R_problèmes.md
+                        ''' *** c3_a et c3_m : Transportent les notes chromes/diatoniques,
+                            les notes chromatiques relatives aux notes diatoniques.
+                            *** c4_a et c4_m : Transportent les valeurs de positionnement,
+                            seul le positionnement vertical est affecté et en cours de rectification.
+                        Seuls, chr_trans, chr_curs et self.decore pour les références diatoniques.
+                        # 1960 chr_trans: [0, 20, 30, 50, 70, 90, 110] chr_curs: [0, 0, -1, 0, 0, 0, 0]'''
+
+                        def relatif(cas, signal, image):
+                            """Fonction chargée de trouver le lien avec la gemme diatonique,
+                            afin d'identifier les correspondances notes/altérations des positionnements
+                            cas[Note chrome], signal[Altération chrome], image[Chrome aug/dim]"""
+                            (lineno(), ' ---- cas:', cas, 'signal:', signal, 'image:', image)
+                            sig_dia, sig_chr, pos_dia = (), (), []
+                            chr_sup1 = chr_inf1 = k_doc = 0
+                            if signal in self.nordiese:
+                                sig_chr = self.nordiese.index(signal)
+                            else:
+                                sig_chr = self.subemol.index(signal) - len(self.subemol)
+                            # Chercher dans le dictionnaire self_décore
+                            for k_dec, v_dec in self.decore.items():
+                                if cas in v_dec:
+                                    pos_dia, val_dia = chr_trans[k_dec], chr_curs[k_dec]
+                                    (lineno(), 'k_dec:', k_dec, 'y_poste[k_dec]:', y_poste[k_dec])
+                                    if image == 'sup':
+                                        sig_chr = c_sign(signal, 3), 'sup'
+                                        sig_dia = c_sign(val_dia, 2)
+                                    elif image == 'inf':
+                                        sig_chr = c_sign(signal, 3), 'inf'
+                                        sig_dia = c_sign(val_dia, 2)
+                                    n_chr, n_dia = sig_chr[0][1], sig_dia[1]
+                                    nn_cd = n_chr - n_dia
+                                    if sig_chr[1] == 'sup':
+                                        chr_sup1 = nn_cd
+                                        (lineno(), 'chr_sup1:', chr_sup1, nn_cd)
+                                    elif sig_chr[1] == 'inf':
+                                        chr_inf1 = nn_cd
+                                        (lineno(), 'chr_inf1:', chr_inf1, nn_cd)
+                                    (lineno(), k_dec, 'n_chr:', n_chr, 'n_dia:', n_dia, '= nn_cd:', nn_cd)
+                                    (lineno(), 'cas:', cas, sig_chr, sig_dia, 'pos_dia:', pos_dia)
+                                    k_doc = k_dec
+                                    break
+                            (lineno(), 'return:', chr_sup1, chr_inf1, y_poste[k_doc])
+                            return chr_sup1, chr_inf1, k_doc
+
                         c_chaug[0] = ch_chrdies[cn_]
-                        c2_a1 = c_chaug[0][2]
-                        c3_a = c_chaug[0][3]
+                        c2_a1 = c_chaug[0][2]  # Altération sur la note chrome augmentée
+                        c3_a = c_chaug[0][3]  # Note du chrome augmenté
+                        '''Appel fonction pour retour donnée de positionnement augmenté'''
+                        ycpos_1 = relatif(c3_a, c2_a1, 'sup')
+                        ycpos_, chr_sup, chr_inf = y_poste[ycpos_1[2]], ycpos_1[0], ycpos_1[1]
+                        (lineno(), 'chr_sup:', chr_sup, 'ycpos_1:', ycpos_1)
                         c4_a1 = c2_a1
-                        coltyp1[0] = c_chaug[0][4]
-                        c4_a = c_chaug[0][5]
+                        c4_a = chr_sup  # Valeur numérique altérative chrome augmenté
+                        coltyp1[0] = c_chaug[0][4]  # Couleur graphique augmentée
                         c_chmin[0] = ch_chrbem[cn_]
-                        c2_m1 = c_chmin[0][2]
-                        c3_m = c_chmin[0][3]
+                        c2_m1 = c_chmin[0][2]  # Altération sur la note chrome diminuée
+                        c3_m = c_chmin[0][3]  # Note diatonique du chrome diminué
+                        '''Appel fonction pour retour donnée de positionnement diminué'''
+                        ycpos_1 = relatif(c3_m, c2_m1, 'inf')
+                        ycpos_, chr_sup, chr_inf = y_poste[ycpos_1[2]], ycpos_1[0], ycpos_1[1]
+                        (lineno(), 'chr_inf:', chr_inf, 'ycpos_:', ycpos_)
                         c4_m1 = c2_m1
-                        coltyp2[0] = c_chmin[0][4]
-                        c4_m = c_chmin[0][5]
+                        coltyp2[0] = c_chmin[0][4]  # Couleur graphique diminuée
+                        c4_m = chr_inf  # Valeur numérique altérative chrome diminué
                         c_doube[0] = 0
                         if c3_a == c3_m:
                             c_doube[0] = 2
-                        # print(lineno(), 'Nom naturel =', c2_a1, c3_a)
-                        # print(lineno(), 'Nom naturel =', c2_m1, c3_m)
+                        (lineno(), 'Nom naturel =', c4_a, c4_m, ch_chrdies[cn_], ch_chrbem[cn_], c3_m)
+                        # 2036 Nom naturel = 1 -1 (10, 1, '+', 'C', 'plum', 1) (10, 2, '-', 'D', 'pink', -1)
+                        # 1916 ch_chrdies: [(10, 1, '+', 'C', 'plum', 1), (30, 2, '+', 'D', 'plum', 1),
+                        # (60, 4, '+', 'F', 'plum', 1), (80, 5, '+', 'G', 'plum', 1), (100, 6, '+', 'A', 'plum', 1)]
+                        # ch_chrbem: [(10, 2, '-', 'D', 'pink', -1), (30, 3, '-', 'E', 'pink', -1),
+                        # (60, 5, '-', 'G', 'pink', -1), (80, 6, '-', 'A', 'pink', -1), (100, 7, '-', 'B', 'pink', -1)]
                     cn_ += 1
                     chposx += 1
                     c2_ = c2_a1
-                    c3_ = c3_a
+                    ''' c3_a et c3_m : Transportent les notes chromes/diatoniques,
+                        les notes chromatiques relatives aux notes diatoniques.'''
+                    c3_ = c3_a  # c3_ = Note chromatique augmentée dans chvow_a
                     c4_ = c4_a1
-                    c5_ = c2_m1
-                    c6_ = c3_m
+                    c5_ = c2_m1  # Altération portée sur la note
+                    c6_ = c3_m  # c6_ = Note chromatique diminuée dans chvow_m
                     c7_ = c4_m1
-                    chposya = c4_a
-                    chposym = c4_m
+                    ''' c4_a et c4_m : Transportent les valeurs de positionnement,
+                        seul le positionnement vertical est affecté et en cours de rectification.'''
+                    chposya = c4_a  # Valeur numérique altérative chrome augmenté de c_chaug[0][5]
+                    chposym = c4_m  # Valeur numérique altérative chrome diminué de c_chmin[0][5]
                     xb_ = xcpos_ + (chposx * 30)
-                    yb1_ = ycpos_ - (chposya * 30)
-                    chvow_a = "{}{}".format(c3_, c2_)
+                    yb1_ = ycpos_ - (chposya * 30)  # ycpos_ = Position naturelle horizontale[234].
+                    chvow_a = "{}{}".format(c2_, c3_)
                     if c_doube[0] == 2:
                         coltyp1[0] = 'tan'
                         coltyp2[0] = 'tan'
                     chrcan.create_oval(xb_ - rb_, yb1_ - rb_, xb_ + rb_, yb1_ + rb_, fill=coltyp1[0])
                     chrcan.create_text(xb_, yb1_, text=chvow_a, font=fontchr, fill='black')
+                    (lineno(), '*GGV6/yb1_:', yb1_, chvow_a, 'yc:', ycpos_, 'chposya:', chposya)
                     yb2_ = ycpos_ - (chposym * 30)
-                    chvow_m = "{}{}".format(c6_, c5_)  # Les notes chromatiques
+                    chvow_m = "{}{}".format(c5_, c6_)  # Les notes chromatiques
                     chrcan.create_oval(xb_ - rb_, yb2_ - rb_, xb_ + rb_, yb2_ + rb_, fill=coltyp2[0])
                     chrcan.create_text(xb_, yb2_, text=chvow_m, font=fontchr, fill='black')
+                    (lineno(), '*GGV6/yb2_:', yb2_, chvow_m, 'yc:', ycpos_, 'chposym:', chposym)
             self.chrgen[cx_] = [cz_], [c1_], [c2_], [c3_], [c4_], [c5_], [c6_], [c7_]
             cz_ += chr_lepas
+            (lineno(), 'self.decore:', self.decore)  # Les notes diatoniques rangées
+            # 2066 self.decore: {0: ('', 'C'), 1: ('', 'D'), 2: ('-', 'E'), 3: ('', 'F'),
+            # 4: ('', 'G'), 5: ('', 'A'), 6: ('', 'B')}
+            (lineno(), '-----------------:Marquage cycle révision-tonalité:-----------------')
+
             # Génération analogique du tableau chromatique
             # chrcan = Canvas(height=300,width=600)
             chvow = "{}{}".format('Gamme chromatique :', chrselect)
             chrcan.create_line(5, 15, 5, 5, fill='black')
             chrcan.create_text(120, 10, text=chvow, fill='red')
+        (lineno(), '---------------------------:Marquage cycle révision-diatonie:---------------------------')
 
     # Les accords acoustiques
     def wavacc(self, w):
@@ -3205,7 +3332,7 @@ class Commatique(Frame):
         '''3131 c_iii: [[12, '-DG-A', ('C Maj', 1)]] Longueur = 1'''
         (lineno(), 'self.normal:', self.normal, 'Longueur =', len(self.normal))
         '''3133 self.normal: {0: ['1', '+1', '2', '+2', '3', '4', '+4', '5', '+5', '6', '+6', '7']/...'''
-        (lineno(), 'GGV6/topo_com0:', topo_com[0], '\n1:', topo_com[1], '\n2:', topo_com[2])
+        print(lineno(), 'GGV6/topo_com0:', topo_com[0], '\n1:', topo_com[1], '\n2:', topo_com[2], '\n:', topo_com)
         '''Retour topo_com =
             topo_com[0] = Dictionnaire global des 12 premiers modes toniques commas.[dic_com]
                 Tracer les premiers modes, car il s'agit de la première inspection (None).

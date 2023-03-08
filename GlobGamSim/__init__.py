@@ -6,12 +6,17 @@
 # Modules importés
 from tkinter import *
 from tkinter.font import Font
+import GlobGamVers6
+import GlobGamChrom
 
 # lineno() Pour consulter le programme grâce au suivi des print's
 import inspect
 from typing import Callable
-
 lineno: Callable[[], int] = lambda: inspect.currentframe().f_back.f_lineno
+
+# Lier les modules utiles
+progam_vers6 = GlobGamVers6
+progam_chrom = GlobGamChrom
 
 # GGV6/2974(self.nordiese) 2978(self.subemol)
 tab_sup = ['', '+', 'x', '^', '+^', 'x^', '^^', '+^^', 'x^^', '^^^', '+^^^', 'x^^^', '^^^^', '+^^^^', 'x^^^^',
@@ -225,6 +230,9 @@ def simili(sim, dat, nom):
             (lineno(), 'vis:', vis, 'k7:', k7)
         (lineno(), 'dat7:', k7, v7)
     (lineno(), 'GGS/dat[7]:', 'dat[7]', '\n dat_singe:', dat_singe)
+    ''' Comment obtenir une gamme majeure à n'importe quel moment
+    gamme_maj7 = progam_chrom.transposer({1: 'xB'}, {1: ''}, {1: ''}, {1: ''}, 'sub')
+    print(lineno(), 'GGS/gamme_maj7:', gamme_maj7)'''
 
 
 def approprier():

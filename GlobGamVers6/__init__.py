@@ -65,6 +65,11 @@ def progam(pratic, glob, ego_p, ego_r, utile, dana, pc):
             # 61 GGV6/dana: [[0, 0, 0, 0, 0, 0, 0], [833, 119.0, 17.0, 2.4285714285714284, 0.3469387755102041]]
             # dd: (66, 'I')
             break
+        for cc in pc.keys():
+            (lineno(), 'cc:', cc, 'GGV6/pc:', pc[cc])
+            # 69 cc: (66, 'I') GGV6/pc: []
+            # 69 cc: (66, 'II') GGV6/pc: [(['-3', '-7'], '-73')],,,
+            break
     # class Gammique
     data_gam = {1: pratic, 2: glob, 3: ego_p, 4: ego_r, 5: utile, 6: dana, 7: pc}
     Gammique(data_gam).mainloop()
@@ -87,8 +92,8 @@ class Gammique(Tk):
         # Fenêtre écran_utilitaire : VISIONS =
         self.cat = Canvas(self, bg='beige', height=600, width=300, bd=10,
                           highlightthickness=1, highlightbackground="black")
-        self.cat.pack(side=RIGHT, expand=True, ipadx=10, ipady=10)
-        self.cat.create_text(160, 30, text='§ VISIONS §', font='bold')
+        self.cat.pack(side=RIGHT, expand=True)
+        self.cat.create_text(160, 600, text='§ VISIONS §', font='bold')
 
         # Fenêtre des utilités
         self.cad = Frame(self, bg='white', width=300, height=800)
@@ -2928,6 +2933,7 @@ class Gammique(Tk):
         gammes, gamnoms = [], []
         self.decore.clear()  # Remise au zéro tonique des accords
         self.can.delete(ALL)
+        self.cat.delete(ALL)
         # Tracé d'encadrement
         # Données de l'encadré : Axes(x,y)=365(x),220(y)
         self.can.create_line(10, 450, 740, 450, fill='blue')
@@ -3184,8 +3190,13 @@ class Gammique(Tk):
                         for tt in self.sel_yes[1]:
                             if tt not in self.gamula:
                                 tt_nom += tt
-                        tt_ind = 66 - self.gamnomscopie.index(tt_nom)  # Numéro de la gamme
-                    (lineno(), 'Décrypte nom:', tt_nom, 'tt_ind:', tt_ind, ';')
+                        for k_dat, v_dat in self.data[7].items():
+                            for vd in v_dat:
+                                if tt_nom == vd[1]:
+                                    (lineno(), 'k_dat:', k_dat, vd[1])
+                                    tt_ind = k_dat[0]
+                                    break
+                    (lineno(), 'Décrypte nom:', tt_nom, 'tt_ind:', tt_ind, ';', self.gamnomscopie)
                     self.can.create_text(40, 12, text=cnom, font=font2, fill='black')  # Nom de la gamme
                     (lineno(), 'Analise Général Texte', self.sel_yes, '|:', nom, ':Y|nom|T:', tnom)
                     # 3053 Analise Général Texte ('', 'CMaj') |: 0 :Y|nom|T: CMaj
@@ -3215,8 +3226,12 @@ class Gammique(Tk):
                     text0 += ' ' + nm[1]
                 (lineno(), 'nm:', nm[1])
                 break
+            for kd in self.data[7].keys():
+                if kd[1] == 'I' and deg == 0:
+                    (lineno(), 'kd:', kd, self.data[7][kd])
             (lineno(), ':', tt_ind, text0, ':', )  # self.data[7] [tt_ind, text0]
             self.can.create_text(xgdeg + 7, ynote + 10, text=text0, font=font100, fill='blue')
+            (lineno(), 'nom_mode:', nom_mode, text0, 'tt_ind:', tt_ind)
             (lineno(), 'declare imod ', self.declare)
             (lineno(), 'dechire cmod ', self.dechire)
             ynote += 60
@@ -3241,7 +3256,36 @@ class Gammique(Tk):
         # 'x45+', 'o52-', 'o53-', 'o54-', 'o45-', 'o5', '+53o', '*5', 'x53o', 'x54-', 'x54o', '-6', '+6', '-62',
         # '+62-', '+26-', '+26', '-63', '+63-', '-65', '+65-', '+56', 'x46+', 'o62-', '+64-', 'o64-', 'x36+',
         # 'o65-', 'o46-', '+63o', '*6', '+64o', 'o6', 'x26-'])
+
         progam_simis.simili(dic_assemble, self.data, self.c_ii)
+
+        f_cat1 = Font(family='courier', size=9, weight='bold')
+        f_cat2 = Font(family='courier', size=9, slant='roman')
+        poids = progam_simis.dat_poids
+        rangs = progam_simis.dat_rangs
+        liste = list(poids.keys())
+        ligne = 20
+        nomme = 'Nom de la gamme :'
+        (lineno(), 'GGV6/VISIONS nomme:', nomme, 'poids:', poids[liste[-1]])
+        (lineno(), 'GGV6/VISIONS NOM:', self.c_ii, 'rangs:', rangs[liste[-1]], 'num:', tt_ind)
+        self.cat.create_text(100, ligne, text=nomme, font=f_cat1)
+        self.cat.create_text(200, ligne, text=self.c_ii, font=f_cat2)
+        ligne += 20
+        indic = 'Numéro de la gamme :'
+        indic_t = tt_ind
+        (lineno(), 'GGV6/VISIONS indic:', indic, 'num:', indic_t, self.c_ii)
+        self.cat.create_text(100, ligne, text=indic, font=f_cat1)
+        self.cat.create_text(200, ligne, text=indic_t, font=f_cat2)
+        ligne += 20
+        (lineno(), 'self.data[5]:', self.data[5][indic_t])
+        noms_e, noms_l = 'Majeurs sept gamme :', self.data[5][indic_t]
+        self.cat.create_text(100, ligne, text=noms_e, font=f_cat1)
+        for no_lis in noms_l:
+            self.cat.create_text(200, ligne, text=no_lis, font=f_cat2)
+            ligne += 20
+        (lineno(), 'GGV6/VISIONS noms_e:', noms_e, 'noms_l:', noms_l)
+
+        (lineno(), 'ligne:', ligne)
 
     gamme0 = {}
     globe0, galop, essor = [], {}, {}

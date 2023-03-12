@@ -3138,7 +3138,7 @@ class Gammique(Tk):
         deg = nom = 0
         ynote = xgdeg = 30
         ytone = 50
-        tt_deg, tt_gam, tt_nom, tt_ind = [], '', '', 0
+        tt_nom, tt_ind, tt_gam, tt_cle, nom_mode = '', 0, [], (), []
         while deg < 7:
             nat = deg  # Degré tonal en question
             cri = gimj = maj = 0
@@ -3186,7 +3186,7 @@ class Gammique(Tk):
                     self.sel_myx[0] = myx2  # Report type vers sélection
                     # Décryptage du nom pour trouver les noms[entiers/décimaux] des modes diatoniques
                     if maj == deg == 0:
-                        (lineno(), 'self.sel_yes:', self.sel_yes)
+                        (lineno(), 'self.sel_yes:', self.sel_yes)  # 3189 self.sel_yes: ('', 'CMaj')
                         for tt in self.sel_yes[1]:
                             if tt not in self.gamula:
                                 tt_nom += tt
@@ -3220,16 +3220,36 @@ class Gammique(Tk):
             text0 = gdeg[deg]  # text0 = Degrés = I, II, III, IV, V, VI, VII
             if tt_ind == 0:
                 tt_ind = 66
-            nom_mode = self.data[7][tt_ind, text0]
-            for nm in nom_mode:
-                if nm:
-                    text0 += ' ' + nm[1]
-                (lineno(), 'nm:', nm[1])
-                break
-            for kd in self.data[7].keys():
-                if kd[1] == 'I' and deg == 0:
-                    (lineno(), 'kd:', kd, self.data[7][kd])
-            (lineno(), ':', tt_ind, text0, ':', )  # self.data[7] [tt_ind, text0]
+            # Les degrés data[7] ne correspond pas selon le choix[classique ou calculé]
+            (lineno(), 'deg:', deg, tt_nom)
+            if deg == 0:
+                stop = False
+                for kd in self.data[7].keys():
+                    for sd7 in self.data[7][kd]:
+                        if tt_nom == sd7[1]:
+                            stop, tt_cle = True, kd
+                            (lineno(), self.data[7][kd], 'nom:', tt_nom, 'kd:', kd, 'text0:', text0)
+                            break
+                    if stop:
+                        break
+                if tt_cle:
+                    for gd in range(7):
+                        for gd1 in self.data[7][tt_cle[0], gdeg[gd]]:
+                            tt_gam.append(gd1[1])
+                    if tt_nom != tt_gam[0]:
+                        ind_nom = tt_gam.index(tt_nom)
+                        tt_gam = tt_gam[ind_nom:] + tt_gam[:ind_nom]
+                    nom_mode = tt_gam.copy()
+                else:
+                    nom_mode.append(tt_nom)
+                    for gd in range(7):
+                        for gd1 in self.data[7][tt_ind, gdeg[gd]]:
+                            nom_mode.append(gd1[1])
+                (lineno(), 'tt_nom:', tt_nom, 'nom_mode:', nom_mode)
+            text0 += ' ' + nom_mode[deg]
+            (lineno(), 'nom_mode:', nom_mode, deg, 'nom_mode[deg]:', nom_mode[deg])
+            (lineno(), 'tt_gam:', tt_gam, 'nom_mode:', nom_mode)
+
             self.can.create_text(xgdeg + 7, ynote + 10, text=text0, font=font100, fill='blue')
             (lineno(), 'nom_mode:', nom_mode, text0, 'tt_ind:', tt_ind)
             (lineno(), 'declare imod ', self.declare)
@@ -3248,9 +3268,8 @@ class Gammique(Tk):
             if ouvert:
                 b5 = boutons[ouvertes.index(ouvert)]
                 b5.invoke()
-        # print(lineno(), self.c_ii)
         (lineno(), 'GGV6/dic_assemble[Maj]:', dic_assemble['Maj'], dic_assemble.keys())
-        # 3087 GGV6/dic_assemble[Maj]: [1, 1, 0, 1, 1, 1, 0] dict_keys(['Maj', '-2', '+2', '^2', '-3',
+        # 3072 GGV6/dic_assemble[Maj]: [1, 1, 0, 1, 1, 1, 0] dict_keys(['Maj', '-2', '+2', '^2', '-3',
         # '-32', 'x43-', '+34', 'x32+', '-43', 'x3', 'o3', '+34x', 'x43o', '^3', '-4', '-42', '^4', 'o4',
         # '-5', '-52', '+52-', '+25-', '-53', '+53-', 'x54+', 'x52+', 'o35-', 'x53+', '+54-', '-54', 'x5',
         # 'x45+', 'o52-', 'o53-', 'o54-', 'o45-', 'o5', '+53o', '*5', 'x53o', 'x54-', 'x54o', '-6', '+6', '-62',
@@ -3277,12 +3296,13 @@ class Gammique(Tk):
         self.cat.create_text(100, ligne, text=indic, font=f_cat1)
         self.cat.create_text(200, ligne, text=indic_t, font=f_cat2)
         ligne += 20
-        (lineno(), 'self.data[5]:', self.data[5][indic_t])
-        noms_e, noms_l = 'Majeurs sept gamme :', self.data[5][indic_t]
+        noms_e, noms_l = 'Majeurs sept gamme :', nom_mode  # self.data[5][indic_t]
+        (lineno(), 'self.data[5]:', self.data[5][indic_t], 'nom:', self.c_ii)
         self.cat.create_text(100, ligne, text=noms_e, font=f_cat1)
         for no_lis in noms_l:
-            self.cat.create_text(200, ligne, text=no_lis, font=f_cat2)
-            ligne += 20
+            if no_lis in self.data[5][indic_t] or no_lis == 'Maj':
+                self.cat.create_text(200, ligne, text=no_lis, font=f_cat2)
+                ligne += 20
         (lineno(), 'GGV6/VISIONS noms_e:', noms_e, 'noms_l:', noms_l)
 
         (lineno(), 'ligne:', ligne)

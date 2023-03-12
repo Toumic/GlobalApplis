@@ -259,7 +259,7 @@ def approprier():
     c_proprio2 = Canvas(f_proprio1, bg='wheat', height=500, width=410)
     c_proprio2.pack(padx=15, pady=15)  # c_proprio = Premier Canvas original (pack_forget ou pas)
     c_proprio2.delete(ALL)
-    print(lineno(), 'GGS/Écriture simili.duo_quant:', duo_quant.keys(), '\n', 'signe:', signe[0], name[0], value[0])
+    (lineno(), 'GGS/Écriture simili.duo_quant:', duo_quant.keys(), '\n', 'signe:', signe[0], name[0], value[0])
     #
 
     #

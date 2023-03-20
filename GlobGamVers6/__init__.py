@@ -93,7 +93,6 @@ class Gammique(Tk):
         self.cat = Canvas(self, bg='beige', height=600, width=300, bd=10,
                           highlightthickness=1, highlightbackground="black")
         self.cat.pack(side=RIGHT, expand=True)
-        self.cat.create_text(160, 600, text='§ VISIONS §', font='bold')
 
         # Fenêtre des utilités
         self.cad = Frame(self, bg='white', width=300, height=800)
@@ -1955,7 +1954,7 @@ class Gammique(Tk):
             v_10 = ycpos_ - (self.dechire[0, v10_dec] * 30)
             y_poste.append(v_10)
             (lineno(), 'v10_dec:', v_10)
-        print(lineno(), 'y_poste:', y_poste)
+        (lineno(), 'y_poste:', y_poste)
         c_chaug = [0]
         c_chmin = [0]
         c_doube = [0]
@@ -3138,7 +3137,7 @@ class Gammique(Tk):
         deg = nom = 0
         ynote = xgdeg = 30
         ytone = 50
-        tt_nom, tt_ind, tt_gam, tt_cle, nom_mode = '', 0, [], (), []
+        tt_nom, tt_ind, tt_gam, tt_cle, nom_mode, dif_mode = '', 0, [], (), [], 0
         while deg < 7:
             nat = deg  # Degré tonal en question
             cri = gimj = maj = 0
@@ -3217,7 +3216,6 @@ class Gammique(Tk):
                 nom = 1
                 self.declare[(deg, maj)] = imod
                 self.dechire[(deg, maj)] = cmod  # Utilisation chromatique
-            text0 = gdeg[deg]  # text0 = Degrés = I, II, III, IV, V, VI, VII
             if tt_ind == 0:
                 tt_ind = 66
             # Les degrés data[7] ne correspond pas selon le choix[classique ou calculé]
@@ -3228,7 +3226,7 @@ class Gammique(Tk):
                     for sd7 in self.data[7][kd]:
                         if tt_nom == sd7[1]:
                             stop, tt_cle = True, kd
-                            (lineno(), self.data[7][kd], 'nom:', tt_nom, 'kd:', kd, 'text0:', text0)
+                            (lineno(), self.data[7][kd], 'nom:', tt_nom, 'kd:', kd)
                             break
                     if stop:
                         break
@@ -3239,6 +3237,7 @@ class Gammique(Tk):
                     if tt_nom != tt_gam[0]:
                         ind_nom = tt_gam.index(tt_nom)
                         tt_gam = tt_gam[ind_nom:] + tt_gam[:ind_nom]
+                        dif_mode = ind_nom
                     nom_mode = tt_gam.copy()
                 else:
                     nom_mode.append(tt_nom)
@@ -3246,12 +3245,14 @@ class Gammique(Tk):
                         for gd1 in self.data[7][tt_ind, gdeg[gd]]:
                             nom_mode.append(gd1[1])
                 (lineno(), 'tt_nom:', tt_nom, 'nom_mode:', nom_mode)
+            text0 = gdeg[deg]  # text0 = Degrés = I, II, III, IV, V, VI, VII
+            (lineno(), 'deg:', deg)
             text0 += ' ' + nom_mode[deg]
             (lineno(), 'nom_mode:', nom_mode, deg, 'nom_mode[deg]:', nom_mode[deg])
             (lineno(), 'tt_gam:', tt_gam, 'nom_mode:', nom_mode)
-
             self.can.create_text(xgdeg + 7, ynote + 10, text=text0, font=font100, fill='blue')
             (lineno(), 'nom_mode:', nom_mode, text0, 'tt_ind:', tt_ind)
+            # 3252 nom_mode: ['-65', '-754', '-7643', '+4.-32', '+356', '+245.-7', 'o7.-632'] I -65 tt_ind: 39
             (lineno(), 'declare imod ', self.declare)
             (lineno(), 'dechire cmod ', self.dechire)
             ynote += 60
@@ -3269,7 +3270,7 @@ class Gammique(Tk):
                 b5 = boutons[ouvertes.index(ouvert)]
                 b5.invoke()
         (lineno(), 'GGV6/dic_assemble[Maj]:', dic_assemble['Maj'], dic_assemble.keys())
-        # 3072 GGV6/dic_assemble[Maj]: [1, 1, 0, 1, 1, 1, 0] dict_keys(['Maj', '-2', '+2', '^2', '-3',
+        # 3271 GGV6/dic_assemble[Maj]: [1, 1, 0, 1, 1, 1, 0] dict_keys(['Maj', '-2', '+2', '^2', '-3',
         # '-32', 'x43-', '+34', 'x32+', '-43', 'x3', 'o3', '+34x', 'x43o', '^3', '-4', '-42', '^4', 'o4',
         # '-5', '-52', '+52-', '+25-', '-53', '+53-', 'x54+', 'x52+', 'o35-', 'x53+', '+54-', '-54', 'x5',
         # 'x45+', 'o52-', 'o53-', 'o54-', 'o45-', 'o5', '+53o', '*5', 'x53o', 'x54-', 'x54o', '-6', '+6', '-62',
@@ -3285,18 +3286,21 @@ class Gammique(Tk):
         liste = list(poids.keys())
         ligne = 20
         nomme = 'Nom de la gamme :'
-        (lineno(), 'GGV6/VISIONS nomme:', nomme, 'poids:', poids[liste[-1]])
+        (lineno(), 'GGV6/VISIONS nomme:', nomme, 'mêmes poids:', poids[liste[-1]])
         (lineno(), 'GGV6/VISIONS NOM:', self.c_ii, 'rangs:', rangs[liste[-1]], 'num:', tt_ind)
+        # 3286 GGV6/VISIONS nomme: Nom de la gamme : mêmes poids: [(66, ['0', '+4']), (65, ['-3', '+45'])]
+        # 3287 GGV6/VISIONS NOM: C Maj rangs: [(47, ['-32']), (65, ['-3', '+45']), (66, ['0', '+4'])] num: 66
         self.cat.create_text(100, ligne, text=nomme, font=f_cat1)
         self.cat.create_text(200, ligne, text=self.c_ii, font=f_cat2)
         ligne += 20
         indic = 'Numéro de la gamme :'
-        indic_t = tt_ind
+        indic_t = tt_ind  # indic_t = Numéro de la gamme
         (lineno(), 'GGV6/VISIONS indic:', indic, 'num:', indic_t, self.c_ii)
+        # 3295 GGV6/VISIONS indic: Numéro de la gamme : num: 66 C Maj
         self.cat.create_text(100, ligne, text=indic, font=f_cat1)
         self.cat.create_text(200, ligne, text=indic_t, font=f_cat2)
         ligne += 20
-        noms_e, noms_l = 'Majeurs sept gamme :', nom_mode  # self.data[5][indic_t]
+        noms_e, noms_l = 'Modes majeurs 7 :', nom_mode  # ('self.data[5][indic_t]')
         (lineno(), 'self.data[5]:', self.data[5][indic_t], 'nom:', self.c_ii)
         self.cat.create_text(100, ligne, text=noms_e, font=f_cat1)
         for no_lis in noms_l:
@@ -3304,8 +3308,184 @@ class Gammique(Tk):
                 self.cat.create_text(200, ligne, text=no_lis, font=f_cat2)
                 ligne += 20
         (lineno(), 'GGV6/VISIONS noms_e:', noms_e, 'noms_l:', noms_l)
+        '''# Phase figurative de la distribution des poids modaux
+        Les gammes aux intervalles cumulés par ½ ton [:gammes]
+        Les noms des gammes aux valeurs justes et adaptatives [:gamnoms]'''
+        (lineno(), 'gammes:', gammes, '\ngamnoms:', gamnoms)
+        # 3306 gammes: [[1, 1, 0, 1, 1, 1, 0], [0, 2, 0, 1, 1, 1, 0], [2, 0, 0, 1, 1, 1, 0], [4, 0, 0, 0, 0, 1, 0],,,
+        # gamnoms: ['Maj', '-2', '+2', '^2', '-3', '-32', 'x43-', '+34', 'x32+', '-43', 'x3', 'o3', '+34x', 'x43o',,,
+        (lineno(), 'gammes:', gammes, '\ngamnoms:', gamnoms)
+        nom_poids = nom_mode[0]
+        ind_pds, ind_deg, lis_pds = gamnoms.index(nom_poids), dif_mode, []
+        for ii in range(7):  # ind_deg = Différence d'index (data[6] est constamment aux valeurs calculées)
+            rep_pds = self.data[6][indic_t, gdeg[ind_deg]][1][0]
+            lis_pds.append(rep_pds)
+            (lineno(), 'lis_pds:', lis_pds, gdeg[ind_deg], ind_deg)
+            ind_deg += 1
+            if ind_deg == 7:
+                ind_deg = 0
+        # Trier les valeurs de lis_pds en ordre croissant
+        lis_pds_tri = lis_pds.copy()
+        lis_pds_tri.sort()
+        couleurs = ['black', 'green', 'blue', 'grey', 'red', 'orange', 'yellow']
+        ligne += 20  # Ajouter une ligne d'aération
+        (lineno(), 'lis_pds cas:', lis_pds)
+        (lineno(), 'lis_pds_tri:', lis_pds_tri, rb_, 'ligne:', ligne)
+        # Dessiner les courbes harmoniques et les boules colorées
+        jusque = ligne + (6 * 20) + 1
+        lig_deg = list(range(ligne, jusque, 20))
+        fin = a_d = a_g = 0
+        axe, tip, clones, el_pt, el_pt2 = 150, True, [], '', ''  # tip = Information pour basculer le sens de l'arc
+        ind_fin_arc = ''
+        for lpt2 in lis_pds_tri:
+            if lis_pds.count(lpt2) > 1:
+                top = 0
+                for ept2 in lis_pds:
+                    if ept2 == lpt2:
+                        el_pt2 = top
+                    top += 1
+                    if el_pt2 not in clones:
+                        clones.append(el_pt2)
+                (lineno(), fin, '*\tPlusieurs mêmes poids. Nombre:', 'clones:', clones)
 
-        (lineno(), 'ligne:', ligne)
+        # Tester les niveaux entre début et fin
+        def tester(cas_deb, cas_fin, clou):
+            if '' in clou:
+                ind_vide = clou.index('')
+                clou.remove(clou[ind_vide])
+            (lineno(), '******* test:', 'cas_fin:', cas_fin, 'clou:', clou)
+            if len(clou) > 2:
+                print(lineno(), '[def tester] Deb. La liste des clones a plusieurs doublons')
+            ind_x = ''
+            if cas_deb in clou:  # cas_deb = Index du début de l'arc
+                if clou.index(cas_deb) == 0:
+                    ind_x = 1
+                elif clou.index(cas_deb) == 1:
+                    ind_x = 0
+                # Tester l'indexation
+                (lineno(), '******* test cas_deb:', cas_deb, 'ind_x:', ind_x, 'clou:', clou)
+                if cas_deb > ind_x:
+                    dif_a = lig_deg[cas_deb] - lig_deg[clou[ind_x]]
+                    mili = dif_a // 2
+                    mil0 = lig_deg[cas_deb] - mili
+                else:
+                    dif_a = lig_deg[clou[ind_x]] - lig_deg[cas_deb]
+                    mili = dif_a // 2
+                    mil0 = lig_deg[cas_deb] + mili
+                return clou[ind_x], mil0
+            if cas_fin in clou:  # cas_fin = Index de la fin de l'arc
+                if len(clou) == 3:
+                    clou.remove(clou[0])
+                if clou.index(cas_fin) == 0:
+                    ind_x = 1
+                elif clou.index(cas_fin) == 1:
+                    ind_x = 0
+                # Tester l'indexation
+                (lineno(), '******* test cas_fin:', cas_fin, 'ind_x:', ind_x, 'clou:', clou)
+                if cas_fin > ind_x:
+                    dif_a = lig_deg[cas_fin] - lig_deg[clou[ind_x]]
+                    mili = dif_a // 2
+                    mil0 = lig_deg[cas_fin] - mili
+                else:
+                    dif_a = lig_deg[clou[ind_x]] - lig_deg[cas_fin]
+                    mili = dif_a // 2
+                    mil0 = lig_deg[cas_fin] + mili
+                return clou[ind_x], mil0
+
+        f_cat3 = Font(family='courier', size=11, slant='roman')
+        for lpt in lis_pds_tri:  # lis_pds_tri =
+            (lineno(), '_____________________________________________________________________')
+            fin += 1
+            if fin + 1 < 8:
+                deb_arc = lis_pds.index(lpt)  # Index
+                if lis_pds_tri[fin-1] != lis_pds_tri[fin]:
+                    pro_arc = lis_pds_tri[fin]
+                else:
+                    pro_arc = lis_pds_tri[fin+1]
+                fin_arc = lis_pds.index(pro_arc)
+                if deb_arc > fin_arc:
+                    dif_arc = lig_deg[deb_arc] - lig_deg[fin_arc]
+                    milieu = dif_arc // 2
+                    mil = lig_deg[deb_arc] - milieu
+                else:
+                    dif_arc = lig_deg[fin_arc] - lig_deg[deb_arc]
+                    milieu = dif_arc // 2
+                    mil = lig_deg[deb_arc] + milieu
+                (lineno(), 'milieu:', milieu, '= dif_arc // 2:', dif_arc)
+                if tip:  # Arc du côté droit
+                    a_d += 30
+                    dep = axe + a_d
+                    self.cat.create_line((axe, lig_deg[deb_arc]), (dep, mil), (axe, lig_deg[fin_arc]),
+                                         smooth=True, width=2)
+                    self.cat.create_line((axe, lig_deg[deb_arc]), (axe+60, lig_deg[deb_arc]), dash=(3, 3))
+                    texte = str(fin) + ') ' + str(lis_pds[deb_arc])
+                    self.cat.create_text(axe+100, lig_deg[deb_arc], text=texte, font=f_cat3, fill='red')
+                    (lineno(), 'texte droite:', texte)
+                    if fin == 6:  # Fin de droite
+                        self.cat.create_line((axe, lig_deg[fin_arc]), (axe + 60, lig_deg[fin_arc]), dash=(3, 3))
+                        texte = str(fin+1) + ') ' + str(lis_pds[lis_pds_tri])
+                        self.cat.create_text(axe + 100, lig_deg[fin_arc], text=texte, font=f_cat3, fill='red')
+                    if deb_arc in clones:  # Rencontré un clone Partie droite
+                        conclu = tester(deb_arc, fin_arc, clones)
+                        (lineno(), '*******D Deb_conclu:', conclu, 'fin:', fin)
+                        # 3395 conclu: (5, 150) fin: 5
+                        self.cat.create_line((axe, lig_deg[conclu[0]]), (dep, conclu[1]), (axe, lig_deg[fin_arc]),
+                                             smooth=True, width=2)
+                        self.cat.create_line((axe, lig_deg[deb_arc]), (axe + 60, lig_deg[deb_arc]), dash=(3, 3))
+                        texte = str(fin) + ') ' + str(lis_pds[deb_arc])
+                        self.cat.create_text(axe + 100, lig_deg[deb_arc], text=texte, font=f_cat3, fill='red')
+                        (lineno(), 'texte droite deb:', texte)
+                        (lineno(), '* D_deb clones:', clones, lig_deg[fin_arc], ind_fin_arc)
+                        (lineno(), fin, 'DROITE deb:', deb_arc, 'fin:', fin_arc, 'mil:', mil, 'lpt:', lpt)
+                    elif fin_arc in clones:
+                        conclu = tester(deb_arc, fin_arc, clones)
+                        (lineno(), '*******D Fin_conclu:', conclu, 'fin:', fin)
+                        # 3402 conclu: (5, 150) fin: 3
+                        self.cat.create_line((axe, lig_deg[deb_arc]), (dep, conclu[1]), (axe, lig_deg[conclu[0]]),
+                                             smooth=True, width=2)
+                        (lineno(), '* D_fin clones:', clones, lig_deg[fin_arc], ind_fin_arc)
+                        (lineno(), fin, 'DROITE deb:', deb_arc, 'fin:', fin_arc, 'mil:', mil, 'lpt:', lpt)
+                    tip = False
+
+                else:  # Arc du côté gauche
+                    a_g -= 30
+                    dep = axe + a_g
+                    self.cat.create_line((axe, lig_deg[deb_arc]), (dep, mil), (axe, lig_deg[fin_arc]),
+                                         smooth=True, width=2)
+                    self.cat.create_line((axe, lig_deg[deb_arc]), (axe - 60, lig_deg[deb_arc]), dash=(3, 3))
+                    texte = str(fin) + ') ' + str(lis_pds[deb_arc])
+                    self.cat.create_text(axe - 100, lig_deg[deb_arc], text=texte, font=f_cat3, fill='red')
+                    (lineno(), 'texte gauche:', texte)
+                    if fin == 6:  # Fin de gauche
+                        self.cat.create_line((axe, lig_deg[fin_arc]), (axe - 60, lig_deg[fin_arc]), dash=(3, 3))
+                        texte = str(fin+1) + ') ' + str(lis_pds_tri[6])
+                        self.cat.create_text(axe - 100, lig_deg[fin_arc], text=texte, font=f_cat3, fill='red')
+                    if deb_arc in clones:  # Rencontré plusieurs clones
+                        conclu = tester(deb_arc, fin_arc, clones)
+                        (lineno(), '*******G Deb_conclu:', conclu, 'fin:', fin)
+                        # 3436 conclu: (5, 150) fin: 5
+                        self.cat.create_line((axe, lig_deg[conclu[0]]), (dep, conclu[1]), (axe, lig_deg[fin_arc]),
+                                             smooth=True, width=2)
+                        self.cat.create_line((axe, lig_deg[deb_arc]), (axe - 60, lig_deg[deb_arc]), dash=(3, 3))
+                        texte = str(fin) + ') ' + str(lis_pds[deb_arc])
+                        self.cat.create_text(axe - 100, lig_deg[deb_arc], text=texte, font=f_cat3, fill='red')
+                        (lineno(), 'texte gauche deb:', texte)
+                        (lineno(), '* G_deb clones:', clones, lig_deg[deb_arc])
+                        (lineno(), fin, 'GAUCHE deb:', deb_arc, 'fin:', fin_arc, 'mil:', mil, 'lpt:', lpt)
+                    elif fin_arc in clones:
+                        conclu = tester(deb_arc, fin_arc, clones)
+                        (lineno(), '*******G Fin_conclu:', conclu, 'fin:', fin)
+                        # 3402 conclu: (5, 150) fin: 3
+                        self.cat.create_line((axe, lig_deg[deb_arc]), (dep, conclu[1]), (axe, lig_deg[conclu[0]]),
+                                             smooth=True, width=2)
+                        (lineno(), '* G_fin clones:', clones, lig_deg[fin_arc])
+                        (lineno(), fin, 'GAUCHE deb:', deb_arc, 'fin:', fin_arc, 'mil:', mil, 'lpt:', lpt)
+                    tip = True
+
+        for cou in range(7):
+            self.cat.create_oval(axe - rb_, lig_deg[cou] - rb_, axe + rb_, lig_deg[cou] + rb_, fill=couleurs[cou])
+        (lineno(), 'lig_deg:', lig_deg, 'clones:', clones, '\n')
+        self.cat.create_text(160, 600, text='§ VISIONS §', font='bold')
 
     gamme0 = {}
     globe0, galop, essor = [], {}, {}
@@ -3396,7 +3576,7 @@ class Commatique(Frame):
         '''3131 c_iii: [[12, '-DG-A', ('C Maj', 1)]] Longueur = 1'''
         (lineno(), 'self.normal:', self.normal, 'Longueur =', len(self.normal))
         '''3133 self.normal: {0: ['1', '+1', '2', '+2', '3', '4', '+4', '5', '+5', '6', '+6', '7']/...'''
-        print(lineno(), 'GGV6/topo_com0:', topo_com[0], '\n1:', topo_com[1], '\n2:', topo_com[2], '\n:', topo_com)
+        (lineno(), 'GGV6/topo_com0:', topo_com[0], '\n1:', topo_com[1], '\n2:', topo_com[2], '\n:', topo_com)
         '''Retour topo_com =
             topo_com[0] = Dictionnaire global des 12 premiers modes toniques commas.[dic_com]
                 Tracer les premiers modes, car il s'agit de la première inspection (None).

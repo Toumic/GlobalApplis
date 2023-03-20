@@ -1048,7 +1048,7 @@ def chromatic(a, b, c, s):
         Nous utilisons un dictionnaire modulaire des situations isolées ou couplées.
         Quand une note est isolée c'est qu'elle n'a pas de parallélisme chromatique.
         Par définition la note isolée est intégrée à la gamme diatonique, hors contexte chromatique.'''
-    print(lineno(), 'GGC/ton_un:', ton_un, '\ndic_maj', dic_maj.keys(), 'len(dic_maj.keys()):', len(dic_maj.keys()))
+    (lineno(), 'GGC/ton_un:', ton_un, '\ndic_maj', dic_maj.keys(), 'len(dic_maj.keys()):', len(dic_maj.keys()))
 
     # , dic_rap0, dic_rap2 = Modules de transport diatonique, des lignes supérieures et inférieures.
     # cap0[num_sup], cap1[not_sup], cap2[not_inf], cap3[num_inf]

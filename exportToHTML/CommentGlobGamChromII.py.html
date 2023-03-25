@@ -1,0 +1,175 @@
+<html>
+<head>
+<title>CommentGlobGamChromII.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #808080;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #629755; font-style: italic;}
+.s3 { color: #cc7832;}
+.s4 { color: #6a8759;}
+.s5 { color: #a9b7c6;}
+.s6 { color: #6897bb;}
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+CommentGlobGamChromII.py</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0"># GlobGamChrom : Traiter le chromatisme original pour le traduire en commatisme</span>
+<a name="l2"><span class="ln">2    </span></a><span class="s2">'''Plusieurs dictionnaires ont été créés, en voici quelques uns : 
+<a name="l3"><span class="ln">3    </span></a># dic_maj = Référence des tonalités majeures primaires 
+<a name="l4"><span class="ln">4    </span></a>    Je rappelle que les tonalités sont découvertes avec la comparaison majeure. 
+<a name="l5"><span class="ln">5    </span></a># tab_inf et tab_sup = Tableaux des altérations (de 1 à 24) 
+<a name="l6"><span class="ln">6    </span></a>'''</span>
+<a name="l7"><span class="ln">7    </span></a><span class="s0"># Les fonctions nécessaires :</span>
+<a name="l8"><span class="ln">8    </span></a><span class="s3">def </span><span class="s1">transposer(rip0</span><span class="s3">, </span><span class="s1">rip1</span><span class="s3">, </span><span class="s1">rip2</span><span class="s3">, </span><span class="s1">rip3): Créer les majeures absentes dans dic_maj</span>
+<a name="l9"><span class="ln">9    </span></a><span class="s4">&quot;&quot;&quot;Ici, on réceptionne les gammes qui ont leurs tonices altérées. 
+<a name="l10"><span class="ln">10   </span></a>    Séquences du traitement : - Obtenir la gamme majeure signée ou non signée. 
+<a name="l11"><span class="ln">11   </span></a>     - Transposer la gamme au niveau altéré. - Résoudre la tonalité. 
+<a name="l12"><span class="ln">12   </span></a>    Rip0.1 = Huit notes. Rip2.3 = Cinq notes.☺ 
+<a name="l13"><span class="ln">13   </span></a>    Pour transposer les notes de la gamme (Rip0.1) 
+<a name="l14"><span class="ln">14   </span></a>    Pour transposer les notes chromatiques (Rip2.3)&quot;&quot;&quot;</span>
+<a name="l15"><span class="ln">15   </span></a><span class="s3">def </span><span class="s1">alteration(signe): Pour un retour en nombre réel (</span><span class="s5">±</span><span class="s1">)</span><span class="s3">, </span><span class="s1">le signe plus le niveau</span>
+<a name="l16"><span class="ln">16   </span></a><span class="s4">&quot;&quot;&quot;Permet d'obtenir la valeur numérique réelle de l'altération 
+<a name="l17"><span class="ln">17   </span></a>    Quand le signe est dans tab_sup = Valeur(+ et son rang(index)) 
+<a name="l18"><span class="ln">18   </span></a>    Quand le signe est dans tab_inf = Valeur(- et son rang(index))&quot;&quot;&quot;</span>
+<a name="l19"><span class="ln">19   </span></a><span class="s3">def </span><span class="s1">chromatic(a</span><span class="s3">, </span><span class="s1">b</span><span class="s3">, </span><span class="s1">c</span><span class="s3">, </span><span class="s1">s): Accès principal de réception des paramètres depuis GlobGamVers6</span>
+<a name="l20"><span class="ln">20   </span></a><span class="s4">&quot;&quot;&quot;Fonction chromatique afin de soulager le code GlobGamVers6 
+<a name="l21"><span class="ln">21   </span></a>    Définitions : 
+<a name="l22"><span class="ln">22   </span></a>    A = Gamme hepta en cours 
+<a name="l23"><span class="ln">23   </span></a>    B = Nom de la tonalité analogique 
+<a name="l24"><span class="ln">24   </span></a>    C = Tonalité numérique ordre croissant 
+<a name="l25"><span class="ln">25   </span></a>    S = Degré d'inversion demandé ou donné par défaut&quot;&quot;&quot;</span>
+<a name="l26"><span class="ln">26   </span></a><span class="s0"># Définition de l'enregistrement</span>
+<a name="l27"><span class="ln">27   </span></a><span class="s4">'''Mettre en forme les données pour qu'elles s'adaptent au retour. 
+<a name="l28"><span class="ln">28   </span></a>    Dessin de la table (gamme en cours): 
+<a name="l29"><span class="ln">29   </span></a>        dic_ana[1] = [('Altération', 'C')], dic_ana[2] = [(('+', 'C'), ('-', 'D'))] 
+<a name="l30"><span class="ln">30   </span></a>            La note.        # c_rip0 = Altération sur la note naturelle(gamme)(#/b) 
+<a name="l31"><span class="ln">31   </span></a>            La note.        # c_rip1 = La note naturelle de la gamme en cours(C) 
+<a name="l32"><span class="ln">32   </span></a>            Le supérieur.   # c_rip1 = Note chromatique du rang supérieur ('-', 'D') 
+<a name="l33"><span class="ln">33   </span></a>            L'inférieur.    # c_rip2 = Note chromatique du rang inférieur ('+', 'C') 
+<a name="l34"><span class="ln">34   </span></a>            La tonalité.    # c_rop2 = Valeur numérique de la tonalité 
+<a name="l35"><span class="ln">35   </span></a>            dic_rip0, dic_rip1, dic_rip2, dic_rip3 = {}, {}, {}, {}'''</span>
+<a name="l36"><span class="ln">36   </span></a><span class="s3">for </span><span class="s1">yep </span><span class="s3">in </span><span class="s1">range(</span><span class="s6">1</span><span class="s3">, </span><span class="s6">13</span><span class="s1">):  </span><span class="s0"># Mesurer dic_ana[yep](notes:gamme ou chrome)</span>
+<a name="l37"><span class="ln">37   </span></a><span class="s2">'''Le cycle yep sépare les notes de la gamme de celles qui sont chromatiques'''</span>
+<a name="l38"><span class="ln">38   </span></a><span class="s3">for </span><span class="s1">yes </span><span class="s3">in </span><span class="s1">range(</span><span class="s6">1</span><span class="s3">, </span><span class="s6">13</span><span class="s1">):  </span><span class="s0"># Lecture des séquences chromatiques</span>
+<a name="l39"><span class="ln">39   </span></a><span class="s4">'''Phase de renseignement de la matrice (yep)'''</span>
+<a name="l40"><span class="ln">40   </span></a>	<span class="s0"># Section rip0_1 = Qui appartient aux notes de la gamme en cours</span>
+<a name="l41"><span class="ln">41   </span></a>	<span class="s0"># Section rip0_2. Section rip1_3 = Les notes d'appartenance chromatique</span>
+<a name="l42"><span class="ln">42   </span></a><span class="s4">'''# Phase de renseignement des degrés modaux'''</span>
+<a name="l43"><span class="ln">43   </span></a><span class="s3">for </span><span class="s1">yi </span><span class="s3">in </span><span class="s1">range(</span><span class="s6">1</span><span class="s3">, </span><span class="s6">12</span><span class="s1">):  </span><span class="s0"># Mise en forme pour un mode diatonique</span>
+<a name="l44"><span class="ln">44   </span></a>	<span class="s4">'''Niveau des extensions (8, 9, 10, 11, 12, 13, 14)'''</span>
+<a name="l45"><span class="ln">45   </span></a>	<span class="s3">if </span><span class="s1">(int(deg_ava) </span><span class="s3">in </span><span class="s1">extension) </span><span class="s3">or </span><span class="s1">(int(deg_sui) </span><span class="s3">in </span><span class="s1">extension): </span><span class="s3">pass</span>
+<a name="l46"><span class="ln">46   </span></a>		<span class="s0"># deg_ava = Ligne supérieure de la tonalité numérique (1, 2, b3, 4, #5, 6, 7), degré avant.</span>
+<a name="l47"><span class="ln">47   </span></a>		<span class="s0"># deg_sui = Ligne inférieure de la tonalité numérique (1, #2, 3, 4, 5, b6, 7), degré suivant.</span>
+<a name="l48"><span class="ln">48   </span></a>		<span class="s4">'''Définition des variables 
+<a name="l49"><span class="ln">49   </span></a>            dif_bas = Différence (demande/état) = Nouveau signe 
+<a name="l50"><span class="ln">50   </span></a>            deg_ba0(1). sig_ba0(1) = Signe altératif de not_bas(gam_abc) en extension 
+<a name="l51"><span class="ln">51   </span></a>            sig_nu0(1). sig_nu0(1) = Suivre num_ava(dic_inv[yes]) pour extension 
+<a name="l52"><span class="ln">52   </span></a>            à suivre = Les lignes à suivre num_ava(dic_inv[yes]) num_sui(dic_inv[yes + 1]) 
+<a name="l53"><span class="ln">53   </span></a>            rng_ba0(1). rng_nu0(1) = Signes recueillis. Signes à suivre en extension'''</span>
+<a name="l54"><span class="ln">54   </span></a>	<span class="s0"># Résolution des extensions (8, 9, 10, 11, 12, 13, 14), présentes aux octaves voisines</span>
+<a name="l55"><span class="ln">55   </span></a>	<span class="s4">'''Ligne supérieure des degrés à suivre: dic_inv[yes][yi]'''</span>
+<a name="l56"><span class="ln">56   </span></a>	<span class="s3">if </span><span class="s1">len(not_ava) &gt; </span><span class="s6">1 </span><span class="s3">and </span><span class="s1">int(deg_ava) </span><span class="s3">not in </span><span class="s1">extension: </span><span class="s3">pass</span>
+<a name="l57"><span class="ln">57   </span></a>	<span class="s4">'''Ligne inférieure des degrés à suivre: dic_inv[yes + 1][yi]'''</span>
+<a name="l58"><span class="ln">58   </span></a>	<span class="s3">if </span><span class="s1">len(not_sui) &gt; </span><span class="s6">1 </span><span class="s3">and </span><span class="s1">int(deg_sui) </span><span class="s3">not in </span><span class="s1">extension: </span><span class="s3">pass</span>
+<a name="l59"><span class="ln">59   </span></a>	<span class="s3">elif </span><span class="s1">int(deg_sui) </span><span class="s3">not in </span><span class="s1">extension: </span><span class="s3">pass</span>
+<a name="l60"><span class="ln">60   </span></a>		<span class="s0"># not_sui = Note majeure non signée INF à modifier</span>
+<a name="l61"><span class="ln">61   </span></a>	<span class="s1">(lineno()</span><span class="s3">, </span><span class="s4">'GGC/SUP result1:'</span><span class="s3">, </span><span class="s1">result1</span><span class="s3">, </span><span class="s4">'*******tab_sup********'</span><span class="s1">)</span>
+<a name="l62"><span class="ln">62   </span></a>	<span class="s0"># Séquence d'affichage pour d'éventuelles corrections</span>
+<a name="l63"><span class="ln">63   </span></a>            <span class="s0"># Ci-dessous.</span>
+<a name="l64"><span class="ln">64   </span></a>            <span class="s3">if </span><span class="s1">yi == </span><span class="s6">12</span><span class="s1">:  </span><span class="s0"># Normalement(yi == 11). Et yi = 12 est improbable.</span>
+<a name="l65"><span class="ln">65   </span></a>                <span class="s1">print(lineno()</span><span class="s3">, </span><span class="s4">'***** Résultat progressif par cycle ***** yi:'</span><span class="s3">, </span><span class="s1">yi</span><span class="s3">, </span><span class="s4">'****** yes:'</span><span class="s3">, </span><span class="s1">yes)</span>
+<a name="l66"><span class="ln">66   </span></a>                <span class="s1">print(lineno()</span><span class="s3">, </span><span class="s4">'GGC/dic_inv[yes][yi]:</span><span class="s3">\t</span><span class="s4">'</span><span class="s3">, </span><span class="s1">yes</span><span class="s3">, </span><span class="s1">dic_inv[yes][:yi + </span><span class="s6">1</span><span class="s1">]</span><span class="s3">, </span><span class="s4">'*yi:'</span><span class="s3">, </span><span class="s1">yi)</span>
+<a name="l67"><span class="ln">67   </span></a>                <span class="s3">if </span><span class="s1">yes </span><span class="s3">in </span><span class="s1">dic_rip0.keys():</span>
+<a name="l68"><span class="ln">68   </span></a>                    <span class="s1">print(lineno()</span><span class="s3">, </span><span class="s4">'GGC/dic_rip0[yes]:</span><span class="s3">\t\t</span><span class="s4">'</span><span class="s3">, </span><span class="s1">yes</span><span class="s3">, </span><span class="s1">dic_rip0[yes])</span>
+<a name="l69"><span class="ln">69   </span></a>                    <span class="s1">print(lineno()</span><span class="s3">, </span><span class="s4">'GGC/dic_rip1[yes]:</span><span class="s3">\t\t</span><span class="s4">'</span><span class="s3">, </span><span class="s1">yes</span><span class="s3">, </span><span class="s1">dic_rip1[yes])</span>
+<a name="l70"><span class="ln">70   </span></a>                <span class="s3">elif </span><span class="s1">yes </span><span class="s3">in </span><span class="s1">dic_rip2.keys():</span>
+<a name="l71"><span class="ln">71   </span></a>                    <span class="s1">print(lineno()</span><span class="s3">, </span><span class="s4">'GGC/dic_rip2[yes]:</span><span class="s3">\t\t</span><span class="s4">'</span><span class="s3">, </span><span class="s1">yes</span><span class="s3">, </span><span class="s1">dic_rip2[yes])</span>
+<a name="l72"><span class="ln">72   </span></a>                    <span class="s1">print(lineno()</span><span class="s3">, </span><span class="s4">'GGC/dic_rip3[yes]:</span><span class="s3">\t\t</span><span class="s4">'</span><span class="s3">, </span><span class="s1">yes</span><span class="s3">, </span><span class="s1">dic_rip3[yes])</span>
+<a name="l73"><span class="ln">73   </span></a>                <span class="s3">if </span><span class="s1">yes != </span><span class="s6">13</span><span class="s1">:  </span><span class="s0"># Lecture totale limitée à 12 (yes)</span>
+<a name="l74"><span class="ln">74   </span></a>                    <span class="s1">print(lineno()</span><span class="s3">, </span><span class="s4">'GGC/dic_inv[yes+1][yi]:</span><span class="s3">\t</span><span class="s4">'</span><span class="s3">, </span><span class="s1">yes</span><span class="s3">, </span><span class="s1">dic_inv[yes + </span><span class="s6">1</span><span class="s1">][:yi + </span><span class="s6">1</span><span class="s1">]</span><span class="s3">, </span><span class="s4">'*yi:'</span><span class="s3">, </span><span class="s1">yi)</span>
+<a name="l75"><span class="ln">75   </span></a>                <span class="s1">print(lineno()</span><span class="s3">, </span><span class="s4">'___________________________________________Fin de cycle yi:'</span><span class="s3">, </span><span class="s1">yi)</span>
+<a name="l76"><span class="ln">76   </span></a>            <span class="s3">if </span><span class="s1">yes == </span><span class="s6">12 </span><span class="s3">and </span><span class="s1">yi == </span><span class="s6">12</span><span class="s1">:  </span><span class="s0"># Lecture totale limitée à 12/12 (yes)/(yi)</span>
+<a name="l77"><span class="ln">77   </span></a>                <span class="s3">break</span>
+<a name="l78"><span class="ln">78   </span></a><span class="s4">'''639 ***** Résultat progressif par cycle ***** yi: 11 ****** yes: 1 
+<a name="l79"><span class="ln">79   </span></a>640 GGC/dic_inv[yes][yi]:    1 ['1', '-2', '2', '-3', '3', '4', '-5', '5', '-6', '6', '-7', '7'] *yi: 11 
+<a name="l80"><span class="ln">80   </span></a>642 GGC/dic_rip0[yes]:       1 ['C', '-D', 'D', '-E', 'E', 'F', '-G', 'G', '-A', 'A', '-B', 'B'] 
+<a name="l81"><span class="ln">81   </span></a>643 GGC/dic_rip1[yes]:       1 ['C', '-D', 'oE', '-E', '-F', 'F', '-G', 'oA', '-A', 'oB', '-B', '-C'] 
+<a name="l82"><span class="ln">82   </span></a>648 GGC/dic_inv[yes+1][yi]: 1 ['1', '-2', 'o3', '-3', '-4', '4', '-5', 'o6', '-6', 'o7', '-7', '-8'] *yi: 11 
+<a name="l83"><span class="ln">83   </span></a>649 ___________________________________________Fin de cycle yi: 11'''</span>
+<a name="l84"><span class="ln">84   </span></a>
+<a name="l85"><span class="ln">85   </span></a>	<span class="s4">'''Tous les dic_rip's ont été initialisés selon la dictée numérique. 
+<a name="l86"><span class="ln">86   </span></a>    Maintenant on passe à l'épisodique récupération des diatoniques commatiques: 
+<a name="l87"><span class="ln">87   </span></a>    .   Suivre les colonnes une par une en commençant par la tonique la plus rapprochée de celle de la 1ère colonne. 
+<a name="l88"><span class="ln">88   </span></a>    .   Une fois sélectionnée, la tonique se construit avec les notes de sa propre colonne. 
+<a name="l89"><span class="ln">89   </span></a>    En ce moment le traçage récolte(la tonique, le nom de la gamme, la graduation)'''</span>
+<a name="l90"><span class="ln">90   </span></a>	<span class="s0"># Ligne 706 : Lecture des colonnes absentes pour trouver les toniques fondamentales</span>
+<a name="l91"><span class="ln">91   </span></a>    <span class="s1">(lineno()</span><span class="s3">, </span><span class="s4">'Cas3 ABSENCES dic_abs:'</span><span class="s3">, </span><span class="s1">dic_abs)</span>
+<a name="l92"><span class="ln">92   </span></a>    <span class="s3">for </span><span class="s1">cas_duc </span><span class="s3">in </span><span class="s1">dic_abs.keys():</span>
+<a name="l93"><span class="ln">93   </span></a>        <span class="s1">(lineno()</span><span class="s3">, </span><span class="s4">'GGC/ton_un:'</span><span class="s3">, </span><span class="s1">ton_un</span><span class="s3">, </span><span class="s4">'</span><span class="s3">\n</span><span class="s4">'</span><span class="s3">, </span><span class="s1">dic_maj[ton_un])</span>
+<a name="l94"><span class="ln">94   </span></a>	<span class="s0"># Enregistrement des toniques absentes dans dic_cas et dans dic_maj, par la fonction transposer()</span>
+<a name="l95"><span class="ln">95   </span></a>	<span class="s0"># def transposer(rip0, rip1, rip2, rip3):</span>
+<a name="l96"><span class="ln">96   </span></a>	<span class="s1">print(lineno()</span><span class="s3">, </span><span class="s4">'cas_cas:'</span><span class="s3">, </span><span class="s1">cas_cas)</span>
+<a name="l97"><span class="ln">97   </span></a>	<span class="s0"># 804 cas_cas: ['+B', 'oD', '^A', '-*E', 'o*F', 'x^G', '-**G', '+^^F', 'x^^E', '***A', '+^^^D',</span>
+<a name="l98"><span class="ln">98   </span></a>	<span class="s0"># 'o***B', 'C', '^^^^C']</span>
+<a name="l99"><span class="ln">99   </span></a>	<span class="s4">'''cas_cas = Liste les notes diatoniques altérées jusqu'en position tonique'''</span>
+<a name="l100"><span class="ln">100  </span></a>	<span class="s4">'''.../ Rechercher les toniques des gammes absentes.'''</span>
+<a name="l101"><span class="ln">101  </span></a>		<span class="s3">if </span><span class="s1">key </span><span class="s3">in </span><span class="s1">dic_rip0.keys():</span>
+<a name="l102"><span class="ln">102  </span></a>			<span class="s1">cas_sos = dic_rip0[key][cas_duc[</span><span class="s6">1</span><span class="s1">]]</span><span class="s3">, </span><span class="s1">dic_rip1[key][cas_duc[</span><span class="s6">1</span><span class="s1">]]</span><span class="s3">, </span><span class="s4">'cas0'</span>
+<a name="l103"><span class="ln">103  </span></a>			<span class="s0"># cas_sos a les données dic_rip0.1 : Conteneur chromatique ()</span>
+<a name="l104"><span class="ln">104  </span></a>			<span class="s1">(lineno()</span><span class="s3">, </span><span class="s4">'cas_sos:'</span><span class="s3">, </span><span class="s1">cas_sos</span><span class="s3">, </span><span class="s4">'key:'</span><span class="s3">, </span><span class="s1">key</span><span class="s3">, </span><span class="s4">'...... Key in dic_rip0.keys()'</span><span class="s1">)</span>
+<a name="l105"><span class="ln">105  </span></a>			<span class="s4">'''815 cas_sos: ('E', '-F', 'cas0') key: 1 ...... Key in dic_rip0.keys() 
+<a name="l106"><span class="ln">106  </span></a>            815 cas_sos: ('+F', '-G', 'cas0') key: 3 ...... Key in dic_rip0.keys() 
+<a name="l107"><span class="ln">107  </span></a>            815 cas_sos: ('+G', '+G', 'cas0') key: 5 ...... Key in dic_rip0.keys()'''</span>
+<a name="l108"><span class="ln">108  </span></a>	<span class="s0"># Appel de fonction transposer avec passage de paramètres sans retour</span>
+<a name="l109"><span class="ln">109  </span></a>	<span class="s1">(</span><span class="s4">'     Transposer trip'</span><span class="s3">, </span><span class="s1">lineno()</span><span class="s3">, </span><span class="s4">'___ ___ Suite rip:'</span><span class="s3">, </span><span class="s1">tripe0</span><span class="s3">, </span><span class="s1">tripe1</span><span class="s3">, </span><span class="s1">tripe2</span><span class="s3">, </span><span class="s1">tripe3)</span>
+<a name="l110"><span class="ln">110  </span></a>	<span class="s0"># transposer(tripe0, tripe1, tripe2, tripe3) : Voir ligne 8</span>
+<a name="l111"><span class="ln">111  </span></a><span class="s0"># Dictionnaire des tonalités majeures complètement renseigné.</span>
+<a name="l112"><span class="ln">112  </span></a><span class="s1">(lineno()</span><span class="s3">, </span><span class="s4">'dic_maj.keys():'</span><span class="s3">, </span><span class="s1">dic_maj.keys())</span>
+<a name="l113"><span class="ln">113  </span></a><span class="s4">'''858 dic_maj.keys(): dict_keys(['C', 'D', 'E', 'F', 'G', 'A', 'B', '-D', '+C', '-E', '+D', '-G', '+F', '-A', '+G', '-B', '+A', 'oD', '+B'])'''</span>
+<a name="l114"><span class="ln">114  </span></a><span class="s0">#</span>
+<a name="l115"><span class="ln">115  </span></a><span class="s4">''' Ici, nous connaissons les gammes commatiques qui sont impliquées au commatisme. 
+<a name="l116"><span class="ln">116  </span></a>    Nous utilisons un dictionnaire modulaire des situations isolées ou couplées. 
+<a name="l117"><span class="ln">117  </span></a>    Quand une note est isolée c'est qu'elle n'a pas de parallélisme chromatique. 
+<a name="l118"><span class="ln">118  </span></a>    Par définition la note isolée est intégrée à la gamme diatonique, hors contexte chromatique.'''</span>
+<a name="l119"><span class="ln">119  </span></a><span class="s0"># , dic_rap0, dic_rap2 = Modules de transport diatonique, des lignes supérieures et inférieures.</span>
+<a name="l120"><span class="ln">120  </span></a>    <span class="s0"># cap0[num_sup], cap1[not_sup], cap2[not_inf], cap3[num_inf]</span>
+<a name="l121"><span class="ln">121  </span></a>    <span class="s0"># dic_cap0, dic_cap1, dic_cap2, dic_cap3</span>
+<a name="l122"><span class="ln">122  </span></a>    <span class="s3">for </span><span class="s1">ik </span><span class="s3">in </span><span class="s1">range(</span><span class="s6">12</span><span class="s1">):</span>
+<a name="l123"><span class="ln">123  </span></a>        <span class="s0"># Initialiser la nouvelle clef du dictionnaire.</span>
+<a name="l124"><span class="ln">124  </span></a>		<span class="s4">'''Sortie des mises en forme des relatives majeures. ²La tonique fait la tonalité² 
+<a name="l125"><span class="ln">125  </span></a>           En référencement aux tableaux des tonalités majeures[(bas, haut), (not_iso0, not_iso1, not_iso2)] 
+<a name="l126"><span class="ln">126  </span></a>        Zone détaillant les notes[Signe, note, tonique, degré, tonalité] 
+<a name="l127"><span class="ln">127  </span></a>            Formatage = alteration (Signe) + Tables (dic_maj[Notes. Intervalles], gam_abc[Notes])'''</span>
+<a name="l128"><span class="ln">128  </span></a>		<span class="s0">#</span>
+<a name="l129"><span class="ln">129  </span></a>        <span class="s4">'''# Exécution du traitement diatonique (num + note). 
+<a name="l130"><span class="ln">130  </span></a>            Le premier cycle a donné les principales valeurs diatoniques. 
+<a name="l131"><span class="ln">131  </span></a>            Le développement diatonique modal de la gamme commatique énoncée. 
+<a name="l132"><span class="ln">132  </span></a>            De sa position chromatique réelle, ou son emplacement diatonique.'''</span>
+<a name="l133"><span class="ln">133  </span></a>        <span class="s1">(lineno()</span><span class="s3">, </span><span class="s4">'dic_cap0:'</span><span class="s3">, </span><span class="s1">dic_cap0)</span>
+<a name="l134"><span class="ln">134  </span></a>        <span class="s3">for </span><span class="s1">dia </span><span class="s3">in </span><span class="s1">range(</span><span class="s6">1</span><span class="s3">, </span><span class="s6">13</span><span class="s1">):  </span><span class="s0"># VERSIONS NUMÉRIQUES DES DEGRÉS MODAUX</span>
+<a name="l135"><span class="ln">135  </span></a>            <span class="s0"># dic_cap0[ik], dic_cap3[ik] = Parties numériques[inf/sup].</span>
+<a name="l136"><span class="ln">136  </span></a>            <span class="s0"># dic_cap1[ik], dic_cap2[ik] = Parties analogiques[inf/sup].</span>
+<a name="l137"><span class="ln">137  </span></a>			<span class="s4">'''# Compare s'il n'y a pas de couplage chromatique.'''</span>
+<a name="l138"><span class="ln">138  </span></a>			<span class="s3">if </span><span class="s1">dic_rap0[ik][dia] == dic_rap2[ik][dia]:  </span><span class="s0"># Les notes (sup/inf) sont identiques.</span>
+<a name="l139"><span class="ln">139  </span></a>				<span class="s1">not_gam.append(dic_rap2[ik][dia])  </span><span class="s0"># not_gam = Note tonique de la gamme</span>
+<a name="l140"><span class="ln">140  </span></a>				<span class="s0"># Les notes iso font prioritairement partie du lot heptatonique.</span>
+<a name="l141"><span class="ln">141  </span></a>			<span class="s3">else</span><span class="s1">:  </span><span class="s0"># Les notes (sup/inf) sont différentes.</span>
+<a name="l142"><span class="ln">142  </span></a>			<span class="s4">''' PARTIES DU CODE INUTILISÉ POUR L'INSTANT'''</span>
+<a name="l143"><span class="ln">143  </span></a><span class="s4">''' Exemple de premier mode commatique 
+<a name="l144"><span class="ln">144  </span></a>1021 ik: 1 dic_cap0[ik]: ['1', '*3', '*4', '-3', '*5', '4', '*6', 'o6', '*7', '^^^1', '-7', '^^^2'] 
+<a name="l145"><span class="ln">145  </span></a>1022 ik: 1 dic_cap1[ik]: ['+B', '-D', 'oE', '+D', '-F', '+E', '-G', 'G', '-A', 'oB', '+A', '-C'] 
+<a name="l146"><span class="ln">146  </span></a>1023 ik: 1 dic_cap2[ik]: ['C', '-D', 'xC', '-E', 'xD', 'F', '+F', 'G', '-A', 'xG', '-B', 'xA'] 
+<a name="l147"><span class="ln">147  </span></a>1024 ik: 1 dic_cap3[ik]: ['1', '-2', 'x1', '-3', 'x2', '4', '+4', '5', '-6', 'x5', '-7', 'x6']  
+<a name="l148"><span class="ln">148  </span></a>1038 not_gam: ['-D', 'G', '-A'] Les notes isolées appartiennent à une gamme fondamentale. 
+<a name="l149"><span class="ln">149  </span></a>1039 ... ;'''</span>
+<a name="l150"><span class="ln">150  </span></a>				<span class="s0"># La gamme est composée de ['-D', 'G', '-A']</span>
+<a name="l151"><span class="ln">151  </span></a>			<span class="s0"># OUT OF DIATONIC</span>
+<a name="l152"><span class="ln">152  </span></a></pre>
+</body>
+</html>

@@ -2743,8 +2743,6 @@ class Gammique(Tk):
     # Moment self.gama
     def momentgama(self, event):
         if event != '':
-            # if 174 < event.x < 303 and 36 < event.y < 626:
-            print(lineno(), 'event:', event)
             self.btgama.invoke()
 
     # Définition des curseurs
@@ -3331,14 +3329,14 @@ class Gammique(Tk):
         lis_pds_tri.sort()
         couleurs = ['black', 'green', 'blue', 'grey', 'red', 'orange', 'yellow']
         ligne += 20  # Ajouter une ligne d'aération
-        print(lineno(), '\nlis_pds cas:', lis_pds)
+        print(lineno(), 'lis_pds cas:', lis_pds)
         print(lineno(), 'lis_pds_tri:', lis_pds_tri, rb_, 'ligne:', ligne)
         # Dessiner les courbes harmoniques et les boules colorées
         jusque = ligne + (6 * 20) + 1
         lig_deg = list(range(ligne, jusque, 20))
         fin = a_d = a_g = 0
-        axe, tip, clones, el_pt, el_pt2 = 150, True, [], '', ''  # tip = Information pour basculer le sens de l'arc
-        ind_fin_arc = ''
+        axe, tip, el_pt, el_pt2 = 150, True, '', ''  # tip = Information pour basculer le sens de l'arc
+        ind_fin_arc, clones, clones2, fin2 = '', [], [], []
         for lpt2 in lis_pds_tri:
             if lis_pds.count(lpt2) > 1:
                 top = 0
@@ -3348,7 +3346,8 @@ class Gammique(Tk):
                     top += 1
                     if el_pt2 not in clones:
                         clones.append(el_pt2)
-                (lineno(), fin, '*\tPlusieurs mêmes poids. Nombre:', 'clones:', clones)
+                        clones2.append(ept2)
+                (lineno(), fin, '*\tPlusieurs mêmes poids. Nombre:', 'clones:', clones, 'clones2:', clones2)
 
         # Tester les niveaux entre début et fin
         def tester(cas_deb, cas_fin, clou):
@@ -3356,27 +3355,28 @@ class Gammique(Tk):
                 ind_vide = clou.index('')
                 clou.remove(clou[ind_vide])
             if len(clou) > 2:
-                print(lineno(), '[def tester] Deb. La liste des clones a plusieurs doublons')
+                (lineno(), '[def tester] Deb. La liste des clones a plusieurs doublons')
             ind_x = ''
             if cas_deb in clou:  # cas_deb = Index du début de l'arc
-                print(lineno(), '******* test:', 'cas_deb:', cas_deb, 'cas_fin:', cas_fin, 'clou:', clou)
+                (lineno(), '******* test:', 'cas_deb:', cas_deb, 'cas_fin:', cas_fin, 'clou:', clou)
                 if clou.index(cas_deb) == 0:
                     ind_x = 1
                 elif clou.index(cas_deb) == 1:
                     ind_x = 0
                 # Tester l'indexation
-                print(lineno(), '******* test cas_deb:', cas_deb, 'ind_x:', ind_x, 'clou:', clou)
-                if cas_deb > ind_x:
-                    dif_a = lig_deg[cas_deb] - lig_deg[clou[ind_x]]
+                (lineno(), '******* test cas_deb:', cas_deb, 'ind_x:', ind_x, 'clou:', clou)
+                if clou[ind_x] > fin_arc:
+                    dif_a = lig_deg[clou[ind_x]] - lig_deg[fin_arc]
                     mili = dif_a // 2
-                    mil0 = lig_deg[cas_deb] - mili
+                    mil0 = lig_deg[clou[ind_x]] - mili
                 else:
-                    dif_a = lig_deg[clou[ind_x]] - lig_deg[cas_deb]
+                    dif_a = lig_deg[fin_arc] - lig_deg[clou[ind_x]]
                     mili = dif_a // 2
-                    mil0 = lig_deg[cas_deb] + mili
-                print(lineno(), '******* test début clou:', clou[ind_x], 'mil0:', mil0)
+                    mil0 = lig_deg[clou[ind_x]] + mili
+                (lineno(), '******* test début clou:', clou[ind_x], 'fin:', fin_arc, 'mil0:', mil0)
                 return clou[ind_x], mil0
             if cas_fin in clou:  # cas_fin = Index de la fin de l'arc
+                (lineno(), '******* test clou:', clou)
                 if len(clou) == 3:
                     clou.remove(clou[0])
                 if clou.index(cas_fin) == 0:
@@ -3393,11 +3393,13 @@ class Gammique(Tk):
                     dif_a = lig_deg[clou[ind_x]] - lig_deg[cas_fin]
                     mili = dif_a // 2
                     mil0 = lig_deg[cas_fin] + mili
+                (lineno(), '******* test fin clou:', clou[ind_x], 'fin:', fin_arc, 'mil0:', mil0)
                 return clou[ind_x], mil0
 
         f_cat3 = Font(family='courier', size=11, slant='roman')
         for lpt in lis_pds_tri:  # lis_pds_tri =
-            print(lineno(), '_____________________________________________________________________')
+            print(lineno(), '___________________________________________________')
+            couleur = 'black'
             fin += 1
             if fin + 1 < 8:
                 deb_arc = lis_pds.index(lpt)  # Index
@@ -3418,74 +3420,93 @@ class Gammique(Tk):
                 if tip:  # Arc du côté droit
                     a_d += 30
                     dep = axe + a_d
+                    if lis_pds[deb_arc] in clones2 or lis_pds[fin_arc] in clones2:
+                        couleur = 'red'
+                    (lineno(), '* D_couleur:', couleur, 'clones2:', clones2)
                     self.cat.create_line((axe, lig_deg[deb_arc]), (dep, mil), (axe, lig_deg[fin_arc]),
-                                         smooth=True, width=2, fill='black')
-                    self.cat.create_line((axe, lig_deg[deb_arc]), (axe+60, lig_deg[deb_arc]), dash=(3, 3))
-                    texte = str(fin) + ') ' + str(lis_pds[deb_arc])
-                    self.cat.create_text(axe+100, lig_deg[deb_arc], text=texte, font=f_cat3, fill='red')
-                    (lineno(), 'texte droite:', texte)
-                    (lineno(), fin, 'DROIT normal deb:', deb_arc, 'fin:', fin_arc, 'mil:', mil, 'lpt:', lpt)
+                                         smooth=True, width=1, fill=couleur, arrow='last', arrowshape=(10, 15, 5))
+                    if lis_pds_tri[fin-1] not in fin2:
+                        fin2.append(lis_pds_tri[fin-1])
+                        self.cat.create_line((axe, lig_deg[deb_arc]), (axe+60, lig_deg[deb_arc]), dash=(3, 3))
+                        texte = str(fin) + ') ' + str(lis_pds[deb_arc])
+                        self.cat.create_text(axe+100, lig_deg[deb_arc], text=texte, font=f_cat3, fill='red')
+                        (lineno(), 'texte droite:', texte, 'fin2:', fin2, fin-1)
+                    print(lineno(), fin, 'Droit normal deb:', deb_arc, 'fin:', fin_arc, 'mil:', mil, 'lpt:', lpt)
                     if fin == 6:  # Fin de droite
                         self.cat.create_line((axe, lig_deg[fin_arc]), (axe + 60, lig_deg[fin_arc]), dash=(3, 3))
                         texte = str(fin+1) + ') ' + str(lis_pds[lis_pds_tri[fin]])
                         self.cat.create_text(axe + 100, lig_deg[fin_arc], text=texte, font=f_cat3, fill='red')
                     if deb_arc in clones:  # Rencontré un clone Partie droite
                         conclu = tester(deb_arc, fin_arc, clones)
-                        (lineno(), 'Retour D Deb_conclu:', conclu, 'fin:', fin)
+                        con0, con1 = conclu[0], conclu[1]
+                        print(lineno(), fin, 'RD rouge Deb_conclu:', conclu, 'lpt:', lpt)
                         # 3395 conclu: (5, 150) fin: 5
-                        self.cat.create_line((axe, lig_deg[conclu[0]]), (dep, conclu[1]), (axe, lig_deg[fin_arc]),
-                                             smooth=True, width=2, fill='red')
-                        self.cat.create_line((axe, lig_deg[conclu[0]]), (axe + 60, lig_deg[conclu[0]]), dash=(3, 3))
+                        self.cat.create_line((axe, lig_deg[con0]), (dep, con1), (axe, lig_deg[fin_arc]),
+                                             smooth=True, width=1, fill='red', arrow='last', arrowshape=(10, 15, 5))
+                        self.cat.create_line((axe, lig_deg[con0]), (axe + 60, lig_deg[con0]), dash=(3, 3))
                         texte = str(fin) + ') ' + str(lis_pds[deb_arc])
-                        self.cat.create_text(axe + 100, lig_deg[conclu[0]], text=texte, font=f_cat3, fill='red')
+                        self.cat.create_text(axe + 100, lig_deg[con0], text=texte, font=f_cat3, fill='red')
                         (lineno(), 'texte droite deb:', texte)
                         (lineno(), '* D_deb clones:', clones, lig_deg[fin_arc], ind_fin_arc)
-                        (lineno(), fin, 'DROIT clone deb:', deb_arc, 'fin:', fin_arc, 'mil:', mil, 'lpt:', lpt)
+                        print(lineno(), fin, 'D_con0:', con0, 'fin:', fin_arc, 'mil:', con1)
                     elif fin_arc in clones:
                         conclu = tester(deb_arc, fin_arc, clones)
-                        (lineno(), 'Retour D Fin_conclu:', conclu, 'fin:', fin)
+                        con0, con1 = conclu[0], conclu[1]
+                        print(lineno(), fin, 'RD rouge Fin_conclu:', conclu, 'lpt:', lpt)
                         # 3402 conclu: (5, 150) fin: 3
-                        self.cat.create_line((axe, lig_deg[deb_arc]), (dep, conclu[1]), (axe, lig_deg[conclu[0]]),
-                                             smooth=True, width=2, fill='red')
+                        self.cat.create_line((axe, lig_deg[deb_arc]), (dep, con1), (axe, lig_deg[con0]),
+                                             smooth=True, width=1, fill='red', arrow='last', arrowshape=(10, 15, 5))
                         (lineno(), '* D_fin clones:', clones, lig_deg[fin_arc], ind_fin_arc)
-                        (lineno(), fin, 'DROITE deb:', deb_arc, 'fin:', fin_arc, 'mil:', mil, 'lpt:', lpt)
+                        print(lineno(), fin, 'D_deb:', deb_arc, 'fin:', fin_arc, 'mil:', con1)
                     tip = False
 
                 else:  # Arc du côté gauche
                     a_g -= 30
                     dep = axe + a_g
+                    if lis_pds[deb_arc] in clones2 or lis_pds[fin_arc] in clones2:
+                        couleur = 'blue'
+                    (lineno(), '* D_couleur:', couleur, 'clones2:', clones2)
                     self.cat.create_line((axe, lig_deg[deb_arc]), (dep, mil), (axe, lig_deg[fin_arc]),
-                                         smooth=True, width=2, fill='black')
-                    self.cat.create_line((axe, lig_deg[deb_arc]), (axe - 60, lig_deg[deb_arc]), dash=(3, 3))
-                    texte = str(fin) + ') ' + str(lis_pds[deb_arc])
-                    self.cat.create_text(axe - 100, lig_deg[deb_arc], text=texte, font=f_cat3, fill='red')
-                    (lineno(), 'texte gauche:', texte)
+                                         smooth=True, width=1, fill=couleur, arrow='last', arrowshape=(10, 15, 5))
+                    if lis_pds_tri[fin-1] not in fin2:
+                        fin2.append(lis_pds_tri[fin-1])
+                        self.cat.create_line((axe, lig_deg[deb_arc]), (axe - 60, lig_deg[deb_arc]), dash=(3, 3))
+                        texte = str(fin) + ') ' + str(lis_pds[deb_arc])
+                        self.cat.create_text(axe - 100, lig_deg[deb_arc], text=texte, font=f_cat3, fill='red')
+                        (lineno(), 'texte gauche:', texte, 'fin2:', fin2, fin-1)
+                    print(lineno(), fin, 'Gauche normal deb:', deb_arc, 'fin:', fin_arc, 'mil:', mil, 'lpt:', lpt)
                     if fin == 6:  # Fin de gauche
                         self.cat.create_line((axe, lig_deg[fin_arc]), (axe - 60, lig_deg[fin_arc]), dash=(3, 3))
                         texte = str(fin+1) + ') ' + str(lis_pds_tri[6])
                         self.cat.create_text(axe - 100, lig_deg[fin_arc], text=texte, font=f_cat3, fill='red')
                     if deb_arc in clones:  # Rencontré plusieurs clones
                         conclu = tester(deb_arc, fin_arc, clones)
-                        print(lineno(), 'Retour G Deb_conclu:', conclu, 'fin:', fin)
+                        con0, con1 = conclu[0], conclu[1]
+                        print(lineno(), fin, 'RG bleu Deb_conclu:', conclu, 'lpt:', lpt)
                         # 3436 conclu: (5, 150) fin: 5
-                        self.cat.create_line((axe, lig_deg[conclu[0]]), (dep, conclu[1]), (axe, lig_deg[fin_arc]),
-                                             smooth=True, width=2, fill='blue')
+                        self.cat.create_line((axe, lig_deg[con0]), (dep, con1), (axe, lig_deg[fin_arc]),
+                                             smooth=True, width=1, fill='blue', arrow='last', arrowshape=(10, 15, 5))
                         self.cat.create_line((axe, lig_deg[deb_arc]), (axe - 60, lig_deg[deb_arc]), dash=(3, 3))
                         texte = str(fin) + ') ' + str(lis_pds[deb_arc])
                         self.cat.create_text(axe - 100, lig_deg[deb_arc], text=texte, font=f_cat3, fill='red')
                         (lineno(), 'texte gauche deb:', texte)
                         (lineno(), '* G_deb clones:', clones, lig_deg[deb_arc])
-                        print(lineno(), fin, 'GAUCHE clone deb:', deb_arc, 'fin:', fin_arc, 'mil:', mil, 'lpt:', lpt)
+                        print(lineno(), fin, 'G_deb:', deb_arc, 'fin:', fin_arc, 'mil:', con1)
                     elif fin_arc in clones:
                         conclu = tester(deb_arc, fin_arc, clones)
-                        (lineno(), 'Retour G Fin_conclu:', conclu, 'fin:', fin)
+                        con0, con1 = conclu[0], conclu[1]
+                        print(lineno(), fin, 'RG Fin_conclu:', conclu, 'lpt:', lpt)
                         # 3402 conclu: (5, 150) fin: 3
-                        self.cat.create_line((axe, lig_deg[deb_arc]), (dep, conclu[1]), (axe, lig_deg[conclu[0]]),
-                                             smooth=True, width=2, fill='blue')
+                        self.cat.create_line((axe, lig_deg[deb_arc]), (dep, con1), (axe, lig_deg[con0]),
+                                             smooth=True, width=1, fill='blue', arrow='last', arrowshape=(10, 15, 5))
                         (lineno(), '* G_fin clones:', clones, lig_deg[fin_arc])
-                        (lineno(), fin, 'GAUCHE deb:', deb_arc, 'fin:', fin_arc, 'mil:', mil, 'lpt:', lpt)
+                        print(lineno(), fin, 'G_fin deb:', deb_arc, 'con0:', con0, 'mil:', con1)
                     tip = True
-
+        ligne += 8 * 20
+        lis_com = ', '.join(str(xy) for xy in lis_pds)
+        lis_titre = 'Poids composés =\n [' + lis_com + ' ]'
+        self.cat.create_text(axe, ligne, text=lis_titre, font=f_cat2, fill='black')
+        print(lineno(), 'ligne:', ligne)
         for cou in range(7):
             self.cat.create_oval(axe - rb_, lig_deg[cou] - rb_, axe + rb_, lig_deg[cou] + rb_, fill=couleurs[cou])
         print(lineno(), 'lig_deg:', lig_deg, 'clones:', clones, '\n')

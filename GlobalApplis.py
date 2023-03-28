@@ -11,9 +11,13 @@ Explications :
     par les gammes gestionnaires de l'intervalle, assemble 2 modèles tétras superposés. La création
     tétracordique mène à une gammologie musicale à partir d'un simple cluster de 4 éléments."""
 
+import inspect
+from tkinter import *
+
 import GlobModelGammy
 
 globgamy = GlobModelGammy
+
 
 # Fichiers développés
 """..."""

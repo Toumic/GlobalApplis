@@ -1,0 +1,76 @@
+﻿Contemplation 2ème
+Contemplation
+# Nécessités pour repérages :
+Tableau des signatures majeures (Comparaisons)
+    : gamme poids : Dictionnaire Signatures Majeures
+        : gamme poids = {1 : [0,0,0,0,0,0,0], 2 : [0,0,-4,0,0,0,-8],
+Tableau modèles supposés fondamentaux (Toniques)
+    1 : Signature numérique pour chaque mode diatonique
+        : mode poids = [[0,-3, -5, 7, 7, 7,0], [0,-3, -5, -6, 7, 7,0],
+    2 : Signature binaire correspondante
+        : mode biner = ['111000001111', '111100000111', '111110000011',
+*********
+2ème vue :   Augmentation de la définition modale
+*********
+Premiers modes majeurs de comparaison, chacun des modes diatoniques 
+a une tonalité exprimée numériquement. Exemple : -3 = b3. Ainsi le 
+deuxième mode numérisé de la gamme naturelle :
+    Analogie IIème degré majeur    = [1, 2, b3, 4, 5, 6, b7]
+    Numérisation du même degré      = [1, 2, -3, 4, 5, 6, -7]
+    Autre numérisation retenue      = [0, 0, -4, 0, 0, 0, -8]
+        : Contemplation altération 1 :
+            Modèle Concept de Base
+# Nous savons que sept modes forment la gamme naturellement majeure : #
+Ces tonalités diatoniques & majeures aux sept points capitaux :
+    Le capital majeur de chacune de ses unités modales, fait
+    l'utilité comparative du modèle non-diatonique majeur.
+
+Le pouvoir naturel Uème majeur !
+Il est vérifiable lors de cette opération :
+    Un Uème point majeur est comparé à un Uème point étranger.
+        Uème mode inconnu non-majeur & Nouvelle Série Diatonique.
+        Faire la différence entre Uème non-majeur et Uème point majeur.
+    Pour un Uème point majeur en service Diatonique non-majeur.
+    Ici chaque mode non-majeur cumule les valeurs Uème points majeurs.
+    Exemple final :
+        MANA : [147, 441, 931, 392, 245, 784, 1225] 147
+        O : MANA : Table absolue Cumulée de chaque degré
+        Min MANA : 111000001111 : [0, -3, -5, 7, 7, 7, 0]
+        O : Min MANA : Définitions (binaire/numérisation retenue)
+        O : Min MANA : = [1, b2, bb3, ###4, ##5, #6, 7] \*Utilisation 3 signes #*\
+    Ce dernier ne répond finalement pas à la limitation altérative, une 
+    idéologie ayant approuvé les termes du processus natif arrêté à deux.
+
+    Topographie du champ d'entre deux modèles non-diatoniques.
+
+MANA : [147, 441, 931, 392, 245, 784, 1225] MINI : 147
+    MAN :147 Min Mana : 111000001111 : [0, -3, -5, 7, 7, 7, 0]              | MINI 1er
+    *** [1, -2, °3, ^4, x5, +6] = [0, -3, -5, 7, 7, 7, 0] °34^ = ###4 	\*3 signes #*\
+    ____1 *** MAN : 441 111100000111 : [0, -3, -5, -6, 7, 7, 0]             | MINI 4ème
+    ________*** [1, -2, °3, °4, x5, +6, 7] = [0, -3, -5, -6, 7, 7, 0] °45x
+    2 *** MAN : 931 111110000011 : [0, -3, -5, -6, -8, 7, 0]                | MINI 6ème
+    *** [1, -2, °3, °4, *5, +6] = [0, -3, -5, -6, -8, 7, 0] *56+ = bbb5 	\*3 signes b*\
+    3 *** MAN : 392 111111000001 : [0, -3, -5, -6, -8, -10, 0]              | MINI 3ème
+    *** [1, -2, °3, °4, *5, -*6, 7] = [0, -3, -5, -6, -8, -10, 0] *5 = bbb5 	\*3 signes b*\
+    4 *** MAN : 245 111111100000 : [0, -3, -5, -6, -8, -10, -12]            | MINI 2ème
+    *** [1, -2, °3, °4, *5, -*6, °*7] = [0, -3, -5, -6, -8, -10, -12] 	\*7ème non-majeur*\
+    5 *** MAN : 784 100000111111 : [0, 6, 6, 7, 7, 7, 0]                    | MINI 5ème
+    *** [1, +^2, ^3, ^4, x5, +6, 7] = [0, 6, 6, 7, 7, 7, 0] +^2 = ####2 	\*3 signes #*\
+    6 *** MAN : 1225 110000011111 : [0, -3, 6, 7, 7, 7, 0]                  | MINI 7ème
+    *** [1, -2, ^3, ^4, x5, +6, 7] = [0, -3, 6, 7, 7, 7, 0] -23^ = ###3 	\*3 signes #*\
+
+    Topologie du même champ d'approfondissement moyen.
+
+MANA : [147, 441, 931, 392, 245, 784, 1225]. 1ère table générée.
+    En divisant par sept le rang zéro de MANA on obtient [147, 21, 3, 0]
+    : [147, 21, 3, 0] : Est le 1er sujet ouvert des divisions par sept.
+        Son minimal hors zéro est trois fois loin de zéro.
+    Génération facteur sept restreint :
+        {1 : [147, 21, 3, 0], 2 : [441, 63, 9, 1, 0], 3 : [931, 133, 19, 2, 0],
+        4 : [392, 56, 8, 1, 0], 5 : [245, 35, 5, 0], 6 : [784, 112, 16, 2, 0],
+        7 : [1225, 175, 25, 3, 0]}
+    Cas Minimal 1 :
+        : [441, 63, 9, 1, 0] = °45x |&| [392, 56, 8, 1, 0] = -*6 :
+
+vendredi 31 mars 20230Contemplation_20
+

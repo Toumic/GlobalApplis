@@ -1,0 +1,60 @@
+Ce samedi 26 juin 2021 : Vicenté Llavata Abreu
+
+Définition des modules utilisés pour calculer les gammes.
+
+GlobalDoc dossier documentation
+
+GlobalImages dossier des images
+
+GlobalTexte dossier des textes
+
+GlobalApplis module principal:
+    Ce 1er module a pour but de générer les tétracordes,
+    afin de les assembler en couple pour former les modes.
+    Comporte un accès d'affichage en choix multiple: GlobalApplis[Voir fin du script]
+        print('Modes binaires.      Tapez 1')
+        print('Modes majeurs 7.     Tapez 2 ')
+        print('Modes poids.         Tapez 3')
+        print('Modes utile/inutile. Tapez 4')
+        print('Modes détaillés.     Tapez 5')
+
+GlobModelGammy module de triage:
+    Ce module a une fonction de tri fondamental,
+    afin d'en binariser les modes.
+    Branche module GlobGamFonds
+
+GlobGamFonds module de masse:
+    Cet unième module présenté nous donne un résultat,
+    sous-forme d'un degré tonique de poids le plus faible.
+    Voir: calcul_tare_gam (dossier:GlobalDoc)
+    Branche module GlobEnModes
+
+GlobEnModes module du poids:
+    Ce module affine l'unité de poids en algorithme,
+    1- Cumul diatonique naturel entier, par degré
+    2- Démultiplication par un rapport de sept
+    3- Ajouter un tableau de mise en altéraction
+    Mémoriser les modélisations analytiques clones
+    Branche module GlobInverseAcc
+
+GlobInverseAcc module du miroir:
+    Chaque mode tonique a son image inversée
+    Le compte-rendu des modèles renversants
+    Branche module GlobGamVers6
+
+GlobGamChrom module du chromatisme:
+    Transmutations modales, soit : chromatique vers commatique
+    C'est une série de transcriptions commatiques
+    Voir GlobalApplis/exportToHTML/CommentGlobGamChromII.py.html et section README.md
+
+GloGamMicro module du commatisme:
+    Développement diatonique d'une gamme commatique
+    Branche module GlobGamVers6
+
+GlobTetraCord module tétracordique:
+
+progamV6encore module utilisateur:
+    Amorce globale des sujets gammiques ou des modules
+    Branche module GlobGamChrom
+    Branche module GlobGamMicro
+    Branche module GlobTetraCord

@@ -3329,8 +3329,8 @@ class Gammique(Tk):
         lis_pds_tri.sort()
         couleurs = ['black', 'green', 'blue', 'grey', 'red', 'orange', 'yellow']
         ligne += 20  # Ajouter une ligne d'aération
-        print(lineno(), 'lis_pds cas:', lis_pds)
-        print(lineno(), 'lis_pds_tri:', lis_pds_tri, rb_, 'ligne:', ligne)
+        (lineno(), 'lis_pds cas:', lis_pds)
+        (lineno(), 'lis_pds_tri:', lis_pds_tri, rb_, 'ligne:', ligne)
         # Dessiner les courbes harmoniques et les boules colorées
         jusque = ligne + (6 * 20) + 1
         lig_deg = list(range(ligne, jusque, 20))
@@ -3398,7 +3398,7 @@ class Gammique(Tk):
 
         f_cat3 = Font(family='courier', size=11, slant='roman')
         for lpt in lis_pds_tri:  # lis_pds_tri =
-            print(lineno(), '___________________________________________________')
+            (lineno(), '___________________________________________________')
             couleur = 'black'
             fin += 1
             if fin + 1 < 8:
@@ -3431,7 +3431,7 @@ class Gammique(Tk):
                         texte = str(fin) + ') ' + str(lis_pds[deb_arc])
                         self.cat.create_text(axe+100, lig_deg[deb_arc], text=texte, font=f_cat3, fill='red')
                         (lineno(), 'texte droite:', texte, 'fin2:', fin2, fin-1)
-                    print(lineno(), fin, 'Droit normal deb:', deb_arc, 'fin:', fin_arc, 'mil:', mil, 'lpt:', lpt)
+                    (lineno(), fin, 'Droit normal deb:', deb_arc, 'fin:', fin_arc, 'mil:', mil, 'lpt:', lpt)
                     if fin == 6:  # Fin de droite
                         self.cat.create_line((axe, lig_deg[fin_arc]), (axe + 60, lig_deg[fin_arc]), dash=(3, 3))
                         texte = str(fin+1) + ') ' + str(lis_pds[lis_pds_tri[fin]])
@@ -3439,7 +3439,7 @@ class Gammique(Tk):
                     if deb_arc in clones:  # Rencontré un clone Partie droite
                         conclu = tester(deb_arc, fin_arc, clones)
                         con0, con1 = conclu[0], conclu[1]
-                        print(lineno(), fin, 'RD rouge Deb_conclu:', conclu, 'lpt:', lpt)
+                        (lineno(), fin, 'RD rouge Deb_conclu:', conclu, 'lpt:', lpt)
                         # 3395 conclu: (5, 150) fin: 5
                         self.cat.create_line((axe, lig_deg[con0]), (dep, con1), (axe, lig_deg[fin_arc]),
                                              smooth=True, width=1, fill='red', arrow='last', arrowshape=(10, 15, 5))
@@ -3448,16 +3448,16 @@ class Gammique(Tk):
                         self.cat.create_text(axe + 100, lig_deg[con0], text=texte, font=f_cat3, fill='red')
                         (lineno(), 'texte droite deb:', texte)
                         (lineno(), '* D_deb clones:', clones, lig_deg[fin_arc], ind_fin_arc)
-                        print(lineno(), fin, 'D_con0:', con0, 'fin:', fin_arc, 'mil:', con1)
+                        (lineno(), fin, 'D_con0:', con0, 'fin:', fin_arc, 'mil:', con1)
                     elif fin_arc in clones:
                         conclu = tester(deb_arc, fin_arc, clones)
                         con0, con1 = conclu[0], conclu[1]
-                        print(lineno(), fin, 'RD rouge Fin_conclu:', conclu, 'lpt:', lpt)
+                        (lineno(), fin, 'RD rouge Fin_conclu:', conclu, 'lpt:', lpt)
                         # 3402 conclu: (5, 150) fin: 3
                         self.cat.create_line((axe, lig_deg[deb_arc]), (dep, con1), (axe, lig_deg[con0]),
                                              smooth=True, width=1, fill='red', arrow='last', arrowshape=(10, 15, 5))
                         (lineno(), '* D_fin clones:', clones, lig_deg[fin_arc], ind_fin_arc)
-                        print(lineno(), fin, 'D_deb:', deb_arc, 'fin:', fin_arc, 'mil:', con1)
+                        (lineno(), fin, 'D_deb:', deb_arc, 'fin:', fin_arc, 'mil:', con1)
                     tip = False
 
                 else:  # Arc du côté gauche
@@ -3474,7 +3474,7 @@ class Gammique(Tk):
                         texte = str(fin) + ') ' + str(lis_pds[deb_arc])
                         self.cat.create_text(axe - 100, lig_deg[deb_arc], text=texte, font=f_cat3, fill='red')
                         (lineno(), 'texte gauche:', texte, 'fin2:', fin2, fin-1)
-                    print(lineno(), fin, 'Gauche normal deb:', deb_arc, 'fin:', fin_arc, 'mil:', mil, 'lpt:', lpt)
+                    (lineno(), fin, 'Gauche normal deb:', deb_arc, 'fin:', fin_arc, 'mil:', mil, 'lpt:', lpt)
                     if fin == 6:  # Fin de gauche
                         self.cat.create_line((axe, lig_deg[fin_arc]), (axe - 60, lig_deg[fin_arc]), dash=(3, 3))
                         texte = str(fin+1) + ') ' + str(lis_pds_tri[6])
@@ -3482,7 +3482,7 @@ class Gammique(Tk):
                     if deb_arc in clones:  # Rencontré plusieurs clones
                         conclu = tester(deb_arc, fin_arc, clones)
                         con0, con1 = conclu[0], conclu[1]
-                        print(lineno(), fin, 'RG bleu Deb_conclu:', conclu, 'lpt:', lpt)
+                        (lineno(), fin, 'RG bleu Deb_conclu:', conclu, 'lpt:', lpt)
                         # 3436 conclu: (5, 150) fin: 5
                         self.cat.create_line((axe, lig_deg[con0]), (dep, con1), (axe, lig_deg[fin_arc]),
                                              smooth=True, width=1, fill='blue', arrow='last', arrowshape=(10, 15, 5))
@@ -3491,25 +3491,25 @@ class Gammique(Tk):
                         self.cat.create_text(axe - 100, lig_deg[deb_arc], text=texte, font=f_cat3, fill='red')
                         (lineno(), 'texte gauche deb:', texte)
                         (lineno(), '* G_deb clones:', clones, lig_deg[deb_arc])
-                        print(lineno(), fin, 'G_deb:', deb_arc, 'fin:', fin_arc, 'mil:', con1)
+                        (lineno(), fin, 'G_deb:', deb_arc, 'fin:', fin_arc, 'mil:', con1)
                     elif fin_arc in clones:
                         conclu = tester(deb_arc, fin_arc, clones)
                         con0, con1 = conclu[0], conclu[1]
-                        print(lineno(), fin, 'RG Fin_conclu:', conclu, 'lpt:', lpt)
+                        (lineno(), fin, 'RG Fin_conclu:', conclu, 'lpt:', lpt)
                         # 3402 conclu: (5, 150) fin: 3
                         self.cat.create_line((axe, lig_deg[deb_arc]), (dep, con1), (axe, lig_deg[con0]),
                                              smooth=True, width=1, fill='blue', arrow='last', arrowshape=(10, 15, 5))
                         (lineno(), '* G_fin clones:', clones, lig_deg[fin_arc])
-                        print(lineno(), fin, 'G_fin deb:', deb_arc, 'con0:', con0, 'mil:', con1)
+                        (lineno(), fin, 'G_fin deb:', deb_arc, 'con0:', con0, 'mil:', con1)
                     tip = True
         ligne += 8 * 20
         lis_com = ', '.join(str(xy) for xy in lis_pds)
         lis_titre = 'Poids composés =\n [' + lis_com + ' ]'
         self.cat.create_text(axe, ligne, text=lis_titre, font=f_cat2, fill='black')
-        print(lineno(), 'ligne:', ligne)
+        (lineno(), 'ligne:', ligne)
         for cou in range(7):
             self.cat.create_oval(axe - rb_, lig_deg[cou] - rb_, axe + rb_, lig_deg[cou] + rb_, fill=couleurs[cou])
-        print(lineno(), 'lig_deg:', lig_deg, 'clones:', clones, '\n')
+        (lineno(), 'lig_deg:', lig_deg, 'clones:', clones, '\n')
         self.cat.create_text(160, 600, text='§ VISIONS §', font='bold')
 
     gamme0 = {}

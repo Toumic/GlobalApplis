@@ -88,7 +88,7 @@ def run():
             x2 += 1
 
     # Fonction format diatonique tétracordique
-    def diatone(dia):
+    def diatone(dia, uni):
         """Chromatisation des tétras bas/haut"""
         x1d, oo, o1o, o8o = -1, 0, [], []
         for deg in dia:
@@ -118,6 +118,7 @@ def run():
                     o8o.append(ooo8[0])
         t_bas.append(o1o)
         t_haut.append(o8o)
+        dicoG[uni] = list(o1o + o8o)
 
     # Charge limite tétra
     for i in tetra1:
@@ -226,37 +227,66 @@ def run():
                 u2, u3, u4 = 1, 1, 0  # .....    .....   .....   .....   False:OUT
     unit = u
     for t in range(len(tablette)):
-        diatone(tablette[unit])
+        diatone(tablette[unit], unit)
         unit += 1
 
     couple()
 
-    # Écriture fichier tétra.
-    """GlobDicTCord = Tétras uniques"""
-    fil_cluster = open('GlobalTexte/globdicTcord.txt', 'w')
-    for d in tablette:
-        ee = ''.join(e for e in d)
-        ee += '\n'
-        fil_cluster.write(ee)
-    fil_cluster.close()
+    # Vérification fichier tétra
+    pre_cluster = open('GlobalTexte/globdicTcord.txt', 'r')
+    clu = 0
+    for pre_clu in pre_cluster:
+        if len(pre_clu) > 1:
+            clu += 1
+    # print('pre_cluster/clu:', clu, ' Nombre de tétracordes utiles.')
+    pre_cluster.close()
+    if clu != 56:
+        # Écriture fichier tétra.
+        """GlobDicTCord = Tétras uniques"""
+        fil_cluster = open('GlobalTexte/globdicTcord.txt', 'w')
+        for d in tablette:
+            ee = ''.join(e for e in d)
+            ee += '\n'
+            fil_cluster.write(ee)
+        fil_cluster.close()
 
-    """GlobDicTCoup = Tétras couplés"""
-    fil_couple = open('GlobalTexte/globdicTcoup.txt', 'w')
-    for d in dicoT.values():
-        ee = ''.join(e for e in d)
-        ee += '\n'
-        fil_couple.write(ee)
-    fil_couple.close()
+    # Vérification fichier couple
+    pre_couple = open('GlobalTexte/globdicTcoup.txt', 'r')
+    cou = 0
+    for pre_cou in pre_couple:
+        if len(pre_cou) > 1:
+            cou += 1
+    # print('pre_couple/cou:', cou, ' Nombre de couplages modaux.')
+    pre_couple.close()
+    if cou != 462:
+        # Écriture fichier couple
+        """GlobDicTCoup = Tétras couplés"""
+        fil_couple = open('GlobalTexte/globdicTcoup.txt', 'w')
+        for d in dicoT.values():
+            ee = ''.join(e for e in d)
+            ee += '\n'
+            fil_couple.write(ee)
+        fil_couple.close()
 
-    """GlobDicTCode = Tétras codés"""
-    fil_codage = open('GlobalTexte/globdicTcode.txt', 'w')
-    f = 0
-    while f < len(t_bas):
-        ee = str(t_bas[f] + t_haut[f])
-        ee += '\n'
-        fil_codage.write(ee)
-        f += 15
-    fil_codage.close()
+    # Vérification fichier code
+    pre_codage = open('GlobalTexte/globdicTcode.txt', 'r')
+    cod = 0
+    for pre_cod in pre_codage:
+        if len(pre_cod) > 1:
+            cod += 1
+    # print('pre_codage/cod:', cod, ' Nombre de codages modaux.')
+    pre_codage.close()
+    if cod != 56:
+        # Écriture fichier code
+        """GlobDicTCode = Tétras codés"""
+        fil_codage = open('GlobalTexte/globdicTcode.txt', 'w')
+        f = 0
+        while f < len(dicoG.keys()):
+            ee = str(dicoG[f])
+            ee += '\n'
+            fil_codage.write(ee)
+            f += 1
+        fil_codage.close()
 
     '''Section des choix d'affichage (print)'''
     table = []

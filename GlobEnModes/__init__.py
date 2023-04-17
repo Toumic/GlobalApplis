@@ -525,7 +525,7 @@ def maj7_fonc(table, unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC
                     cou = kv[1]
                 elif len(kv) == 3:  # Signature 1 signe (clé) + 2 notes
                     for kepi in kv:
-                        if kepi in alteractif.keys():  # Les cas altéractifs sont uniques
+                        if kepi in alteractif.keys():  # Les cas altéractifs sont uniques.
                             '''|56(9)[-4]||40(9)[+3]|'''
                             cou = kepi
                     if cou is None:

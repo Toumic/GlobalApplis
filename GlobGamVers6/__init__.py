@@ -3176,7 +3176,7 @@ class Gammique(Tk):
                             cnom += tnom[:-1] + ' maj'
                         else:  # La note est altérée et elle n'est pas majeure
                             cnom += gnom + ' ' + gamnoms[myx2]
-                    elif tnom[-1:] == '0':  # La gamme est majeure
+                    elif tnom[-1:] == '0':  # La gamme est majeure.
                         cnom = tnom[:-1] + ' maj'
                     else:  # La note n'est pas altérée et la gamme n'est pas majeure
                         cnom = gnom + ' ' + gamnoms[myx2]
@@ -3218,7 +3218,7 @@ class Gammique(Tk):
                 self.dechire[(deg, maj)] = cmod  # Utilisation chromatique
             if tt_ind == 0:
                 tt_ind = 66
-            # Les degrés data[7] ne correspond pas selon le choix[classique ou calculé]
+            # Les degrés data[7] ne correspondent pas selon le choix[classique ou calculé]
             (lineno(), 'deg:', deg, tt_nom)
             if deg == 0:
                 stop = False

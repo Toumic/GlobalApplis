@@ -262,13 +262,13 @@ class Gammique(Tk):
         # Les notes cursives scalpha : Graduations gérées.
         self.sca = []
         for (label, color, f, t, command) in (
-                ("C", "black", 0, 5, self.scanote1),
-                ("D", "green", -1, 4, self.scanote2),
-                ("E", "blue", -2, 3, self.scanote3),
-                ("F", "grey", -2, 3, self.scanote4),
-                ("G", "red", -3, 2, self.scanote5),
-                ("A", "orange", -4, 1, self.scanote6),
-                ("B", "yellow", -5, 0, self.scanote7),
+                ("C", "red", 0, 5, self.scanote1),
+                ("D", "orange", -1, 4, self.scanote2),
+                ("E", "yellow", -2, 3, self.scanote3),
+                ("F", "green", -2, 3, self.scanote4),
+                ("G", "blue", -3, 2, self.scanote5),
+                ("A", "indigo", -4, 1, self.scanote6),
+                ("B", "violet", -5, 0, self.scanote7),
                 ("CDEFGAB", "ivory", -12, 12, self.scanote8),
         ):
             self.sca.append(Scale(
@@ -2933,6 +2933,8 @@ class Gammique(Tk):
         self.decore.clear()  # Remise au zéro tonique des accords
         self.can.delete(ALL)
         self.cat.delete(ALL)
+        # col_class = Table des couleurs de l'arc-en-ciel
+        col_class = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
         # Tracé d'encadrement
         # Données de l'encadré : Axes(x,y)=365(x),220(y)
         self.can.create_line(10, 450, 740, 450, fill='blue')
@@ -2997,8 +2999,8 @@ class Gammique(Tk):
         rc_ = 5
         self.tablenotes[0] = int(xc_)
         self.tablehaute[0] = int(yc_)
-        self.can.create_line(xc_, 350, xc_, 40, fill='black')
-        self.can.create_oval(xc_ - rc_, yc_ - rc_, xc_ + rc_, yc_ + rc_, fill='black')
+        self.can.create_line(xc_, 350, xc_, 40, fill=col_class[0])
+        self.can.create_oval(xc_ - rc_, yc_ - rc_, xc_ + rc_, yc_ + rc_, fill=col_class[0])
         yre = self.sca[1].get()
         xcpos_ = 420 - xxx
         ycpos_ = 220 + xxx
@@ -3007,8 +3009,8 @@ class Gammique(Tk):
         rd_ = 5
         self.tablenotes[1] = int(xd_)
         self.tablehaute[1] = int(yd_)
-        self.can.create_line(xd_, 360, xd_, 50, fill='green')
-        self.can.create_oval(xd_ - rd_, yd_ - rd_, xd_ + rd_, yd_ + rd_, fill='green')
+        self.can.create_line(xd_, 360, xd_, 50, fill=col_class[1])
+        self.can.create_oval(xd_ - rd_, yd_ - rd_, xd_ + rd_, yd_ + rd_, fill=col_class[1])
         ymi = self.sca[2].get()
         xcpos_ = 440 - xxx
         ycpos_ = 220 + xxx
@@ -3017,8 +3019,8 @@ class Gammique(Tk):
         re_ = 5
         self.tablenotes[2] = int(xe_)
         self.tablehaute[2] = int(ye_)
-        self.can.create_line(xe_, 370, xe_, 60, fill='blue')
-        self.can.create_oval(xe_ - re_, ye_ - re_, xe_ + re_, ye_ + re_, fill='blue')
+        self.can.create_line(xe_, 370, xe_, 60, fill=col_class[2])
+        self.can.create_oval(xe_ - re_, ye_ - re_, xe_ + re_, ye_ + re_, fill=col_class[2])
         yfa = self.sca[3].get()
         xcpos_ = 450 - xxx
         ycpos_ = 220 + xxx
@@ -3027,8 +3029,8 @@ class Gammique(Tk):
         rf_ = 5
         self.tablenotes[3] = int(xf_)
         self.tablehaute[3] = int(yf_)
-        self.can.create_line(xf_, 370, xf_, 60, fill='grey')
-        self.can.create_oval(xf_ - rf_, yf_ - rf_, xf_ + rf_, yf_ + rf_, fill='grey')
+        self.can.create_line(xf_, 370, xf_, 60, fill=col_class[3])
+        self.can.create_oval(xf_ - rf_, yf_ - rf_, xf_ + rf_, yf_ + rf_, fill=col_class[3])
         ysol = self.sca[4].get()
         xcpos_ = 470 - xxx
         ycpos_ = 220 + xxx
@@ -3037,8 +3039,8 @@ class Gammique(Tk):
         rg_ = 5
         self.tablenotes[4] = int(xg_)
         self.tablehaute[4] = int(yg_)
-        self.can.create_line(xg_, 380, xg_, 70, fill='red')
-        self.can.create_oval(xg_ - rg_, yg_ - rg_, xg_ + rg_, yg_ + rg_, fill='red')
+        self.can.create_line(xg_, 380, xg_, 70, fill=col_class[4])
+        self.can.create_oval(xg_ - rg_, yg_ - rg_, xg_ + rg_, yg_ + rg_, fill=col_class[4])
         yla = self.sca[5].get()
         xcpos_ = 490 - xxx
         ycpos_ = 220 + xxx
@@ -3047,8 +3049,8 @@ class Gammique(Tk):
         ra_ = 5
         self.tablenotes[5] = int(xa_)
         self.tablehaute[5] = int(ya_)
-        self.can.create_line(xa_, 390, xa_, 80, fill='orange')
-        self.can.create_oval(xa_ - ra_, ya_ - ra_, xa_ + ra_, ya_ + ra_, fill='orange')
+        self.can.create_line(xa_, 390, xa_, 80, fill=col_class[5])
+        self.can.create_oval(xa_ - ra_, ya_ - ra_, xa_ + ra_, ya_ + ra_, fill=col_class[5])
         ysi = self.sca[6].get()
         xcpos_ = 510 - xxx
         ycpos_ = 220 + xxx
@@ -3057,8 +3059,8 @@ class Gammique(Tk):
         rb_ = 5
         self.tablenotes[6] = int(xb_)
         self.tablehaute[6] = int(yb_)
-        self.can.create_line(xb_, 400, xb_, 90, fill='yellow')
-        self.can.create_oval(xb_ - rb_, yb_ - rb_, xb_ + rb_, yb_ + rb_, fill='yellow')
+        self.can.create_line(xb_, 400, xb_, 90, fill=col_class[6])
+        self.can.create_oval(xb_ - rb_, yb_ - rb_, xb_ + rb_, yb_ + rb_, fill=col_class[6])
 
         # Mesure de l'intervalle tempéré
         c1 = (yre + 1) - ydo
@@ -3327,7 +3329,7 @@ class Gammique(Tk):
         # Trier les valeurs de lis_pds en ordre croissant
         lis_pds_tri = lis_pds.copy()
         lis_pds_tri.sort()
-        couleurs = ['black', 'green', 'blue', 'grey', 'red', 'orange', 'yellow']
+        couleurs = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
         ligne += 20  # Ajouter une ligne d'aération
         (lineno(), 'lis_pds cas:', lis_pds)
         (lineno(), 'lis_pds_tri:', lis_pds_tri, rb_, 'ligne:', ligne)

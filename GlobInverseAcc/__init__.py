@@ -1,7 +1,7 @@
 #!/usr/bin/env python 3.10
-# -*- coding: utf-8 -*-
+# -*- coding : utf-8 -*-
 # En construction
-# Mercredi 8 septembre 2021 2021
+# Mercredi 8 septembre 2021.
 
 # Conçu par Vicenté Llavata Abreu|Vicenté Quantic|Toumic
 # GlobInverseAcc
@@ -24,7 +24,7 @@ table_deg = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII']
 
 def inv_acc(pc, ego_p, ego_r, pratic_k, inutile_k, dana_k):
     """Traitement pc clone dictionnaire global
-    Synchronisation des modes diatoniques Formes classic et leurs inverses
+    Synchronisation des modes diatoniques Formes classic et leurs inversions.
     Approfondissement des mouvements des poids modaux, inversions incluses,
     ainsi que les types de résolution des poids (bruts et fins)"""
     ('\n§ GIA GlobInverseAcc  binaires \n', pc.keys(), pc['groupe'][66, 'I'], '\n')
@@ -49,7 +49,7 @@ def inv_acc(pc, ego_p, ego_r, pratic_k, inutile_k, dana_k):
                     c2 = g2, d4
                     c3 = c1, c2
                     compare.append(c3)
-    # Comparaisons miroir (duo/iso)
+    # Comparaisons_miroir (duo/iso)
     # Duo = Miroir 2 gammes | Iso = Miroir 1 gamme
     # Tonalité = Hauteur degré | Nom intervalle
     '''Notions basiques
@@ -152,17 +152,17 @@ def inv_acc(pc, ego_p, ego_r, pratic_k, inutile_k, dana_k):
                     if tr == dic_rng[kd][0]:
                         cop_str_fins += str(cop_rng_fins.index(tr))
                         ind_cop_f1.append(tr)
-                        # print('.Original KD', kd, dic_rng[kd], 'TR', tr)
+                        # print('. Original KD', kd, dic_rng[kd], 'TR', tr)
                         break
             for tr2 in tab_rng_forts:  # Poids forts pas triés
                 for kd2 in dic_rng.keys():
                     if tr2 == dic_rng[kd2][1]:
                         cop_str_forts += str(cop_rng_forts.index(tr2))
                         ind_cop_f2.append(tr2)
-                        # print('.Original KD2', kd2, dic_rng[kd2], 'TR2', tr2)
+                        # print('. Original KD2', kd2, dic_rng[kd2], 'TR2', tr2)
                         break
             dic_dic[val[0]] = cop_str_fins, ind_cop_f1, cop_str_forts, ind_cop_f2
-            # print('..Fin', cop_str_fins, 'Fort', cop_str_forts)
+            # print('. Fin', cop_str_fins, 'Fort', cop_str_forts)
             # print(val[0], 'Fin', tab_rng_fins, '\nFor', tab_rng_forts, '\n')
             tab_rng_fins.clear()
             tab_rng_forts.clear()

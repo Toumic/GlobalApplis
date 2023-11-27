@@ -1,6 +1,6 @@
 #!/usr/bin/env python 3.10
-# -*- coding: utf-8 -*-
-# mercredi 12 mai 2021 à 20 h 32 mn (premières lignes)
+# -*- coding : utf-8 -*-
+# mercredi 12 mai 2021 à 20 h 32 min (premières lignes)
 # Cabviva.fr Cab.Rich.Int.Music.Quant.
 # Mardi 27 juillet 2021
 
@@ -30,9 +30,9 @@ fondues = ['0', '-2', '+2', '^2', '-3', '-23', '-34x', '+34', '+23x', '-34', 'x3
            '-56', '-56+', '+56', 'x46+', '-26°', '-46+', '-46°', 'x36+', '-56°',
            '°46-', '°36+', '*6', '°46+', '°6', 'x26-']"""
 # Limites Tableau des signatures mini/maxi de chaque degré
-# limites = {1: [], 2: [-1, 4], 3: [-2, 3], 4: [-2, 3], 5: [-3, 2], 6: [-4, 1], 7: [-5, 0]}
+# limites = {1 : [], 2: [-1, 4], 3: [-2, 3], 4: [-2, 3], 5: [-3, 2], 6: [-4, 1], 7: [-5, 0]}
 # Signes Table des différents niveaux d'altérations sur les degrés
-# gamme_signaux = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []}
+# gamme_signaux = {1 : [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []}
 # gammic = {'maj': '102034050607'}
 # Gamme_Pesante Tableau des poids modaux de la gamme majeure
 gamme_pesante = {1: [[0], [0]], 2: [['b3', 'b7'], [-4, -8]],
@@ -69,7 +69,7 @@ h_bin = {}
 
 
 def diatonic(table, topic):
-    """Fonction de détection des gammes fondamentales & Écriture fichier 'globdicTgams.txt',
+    """La fonction de détection des gammes fondamentales & Écriture fichier 'globdicTgams.txt',
     basée sur le poids le plus faible donné par les degrés modaux."""
     kit = 0
     for top01 in topic:
@@ -96,8 +96,8 @@ def diatonic(table, topic):
                 """Passe: Poids du Unième mode"""
                 if t00 == '1':
                     grader += 1
-                    extra = gamme_majeure.index(str(grader))  # :extra= Position Degré
-                    lacune = regard - extra  # :lacune= Niveau Altération
+                    extra = gamme_majeure.index(str(grader))  # : extra= Position Degré
+                    lacune = regard - extra  # : lacune= Niveau Altération
                     if lacune < 0:
                         pesant[0] = lacune - grader
                     elif lacune == 0:
@@ -117,7 +117,7 @@ def diatonic(table, topic):
                 pilote.insert(0, pilote.pop())
             top00 = ''.join(p for p in pilote)
             ('GGF', lineno(), 'top00', top00)
-        # Détection septièmes majeures
+        # Détection des septièmes majeures
         lys_0, dic_pt, dic_neg, dico_neg = [], {}, {}, []
         h_bin[kit] = []
         for c in poids_class.keys():  # Selection modes
@@ -131,7 +131,7 @@ def diatonic(table, topic):
             print(lineno(), 'GGF Lys_0', lys_0)
         # 122 GGF Lys_0 [(('101010110101', 5), 66), (('101011010101', 0), 66)]
         mode_maj7[kit] = lys_0
-        for io in lys_0:  # lys_0: Issue Select Modes Majeurs
+        for io in lys_0:  # lys_0 : Issue Select : Modes Majeurs
             q, m, n = io[0], io[0][1], io[1]
             dic_neg[m] = q  # q: ('101011010101', 0)
             dic_pt[q] = m, n  # m: 0 | n: 66
@@ -170,7 +170,7 @@ def diatonic(table, topic):
             if len(n0) > 1:
                 f0 += 1
         if f0 < 3:  # Select Max2 Signes
-            # Gamme aval Des degrés simples et légers...
+            # La gamme aval Des degrés (simples et légers)...
             gamme_avals[mini[1]] = gamme  # mini[1]: N°_Gam ou gamme[12:][0][0][0][1]
             ('*', lineno(), 'M', mini[1], '_G8', gamme[12:][0][0][0][1])  # *164 MINI 66 _Gam8 66
         magma[mini[1]] = gamme
@@ -182,7 +182,7 @@ def diatonic(table, topic):
             else:
                 glob_en.seption(table, modes_modal, kit, magma[kit], gamme_avals, {}, {})
     (lineno(), 'GGF gamme_avals', gamme_avals.keys())
-    # 174 GGF gamme&avals dict_keys([21, 24, 38, 40, 45, 47, 48, 51, 55, 58, 61, 62, 64, 65, 66])
+    # 174 GGF gamme_avals dict_keys([21, 24, 38, 40, 45, 47, 48, 51, 55, 58, 61, 62, 64, 65, 66])
     # Long MagMa = Les modèles légers. Dictionnaire 66 éléments
     # (lineno(), 'GGF Long MagMa', len(magma), magma)
 

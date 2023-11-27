@@ -1,15 +1,15 @@
 #!/usr/bin/env python 3.10
 # -*- coding: utf-8 -*-
-# dimanche 28 mars 2021 à 19 h 45 mn (premières lignes)
+# dimanche 28 mars 2021 à 19 h 45 min (premières lignes)
 #
 # Conçu par Vicenté Llavata Abreu | Vicenté Quantic | Toumic
 # Module GlobalApplis.py
 """ Script de construction des gammes musicales utilisant ces notes (C, D, E, F, G, A, B)
 Explications :
     La création des gammes musicales englobe les notes & les intervalles dans une octave de 12 ½ tons,
-    elle se concentre sur les tétracordes étant des corps de 4 notes. L'assemblage formé
-    par les gammes gestionnaires de l'intervalle, assemble 2 modèles tétras superposés. La création
-    tétracordique mène à une gammologie musicale à partir d'un simple cluster de 4 éléments."""
+    elle se concentre sur les tétracordes étant des corps de quatre notes. L'assemblage formé
+    par les gammes gestionnaires de l'intervalle, assemble deux modèles tétras superposés. La création
+    tétracordique mène à une gammologie musicale à partir d'un simple cluster de quatre éléments."""
 
 import GlobModelGammy
 
@@ -42,7 +42,7 @@ def run():
     u, u1, u2, u3, u4 = 0, 0, 0, 0, 0  # unité de blocage
     x, stop, stop0, stop1 = 0, True, False, 5
     # Opération Dico(maxime)
-    maxime = {}  # Dépendances Degré(min/max)
+    maxime = {}  # Dépendances Degrés (min/max)
     """ Niveau T2 | MINI=1 MIDI=NULL MAXI=6 """
     """ Niveau T3 | MINI=2 MIDI=T2+1 MAXI=7 """
     """ Niveau T4 | MINI=3 MIDI=T3+1 MAXI=8 """
@@ -51,7 +51,7 @@ def run():
     gamme = '1020340506078'  # Chromatisme naturel
     notes = 'CDEFGABC'  # Notes musique
     alter = ['', '+', 'x', '^', '+^', 'x^', 'o*', '-*', '*', 'o', '-']
-    t_bas, t_haut = [], []  # Tétra*défaut
+    t_bas, t_haut = [], []  # Tétra * défaut
 
     # Fonction couplage tétracordique
     def couple():
@@ -164,7 +164,7 @@ def run():
                 u2, u3, u4 = 1, 1, 0  # .....    .....   .....       Tour Entier :GO(T4)
                 """ Motif T234;Index Degrés"""
                 t234 = [t2, t3, t4]
-                brique(t234)  # .....    .....   .....         Fonction brique tétra
+                brique(t234)  # .....    .....   ..... ..... Fonction brique tétra
                 # t234 = []
         else:
             if t4 <= maxi0:
@@ -183,7 +183,7 @@ def run():
                 u2, u3, u4 = 1, 1, 0  # .....    .....   .....   .....   Tour unique :GO(T4)
                 """ Motif T234;Index Degrés"""
                 t234 = [t2, t3, t4]
-                brique(t234)  # .....    .....   .....         Fonction brique tétra
+                brique(t234)  # .....    .....   ..... ..... Fonction brique tétra
                 t234.clear()
             else:
                 # Test(T3) Ici T4 > maxi0(8)"""
@@ -209,7 +209,7 @@ def run():
                 u2, u3, u4 = 1, 1, 0
                 """ Motif T234;Index Degrés"""
                 t234 = [t2, t3, t4]
-                brique(t234)  # .....    .....   .....         Fonction brique tétra
+                brique(t234)  # .....    .....   ..... ..... Fonction brique tétra
                 t234.clear()
             else:
                 # Test(T2) Ici t4 > maxi0(8)"""
@@ -238,7 +238,7 @@ def run():
     for pre_clu in pre_cluster:
         if len(pre_clu) > 1:
             clu += 1
-    # print('pre_cluster/clu:', clu, ' Nombre de tétracordes utiles.')
+    # print('pre_cluster/clu :', clu, ' Nombre de tétracordes utiles.')
     pre_cluster.close()
     if clu != 56:
         # Écriture fichier tétra.
@@ -256,7 +256,7 @@ def run():
     for pre_cou in pre_couple:
         if len(pre_cou) > 1:
             cou += 1
-    # print('pre_couple/cou:', cou, ' Nombre de couplages modaux.')
+    # print('pre_couple/cou :', cou, ' Nombre de couplages modaux.')
     pre_couple.close()
     if cou != 462:
         # Écriture fichier couple
@@ -274,7 +274,7 @@ def run():
     for pre_cod in pre_codage:
         if len(pre_cod) > 1:
             cod += 1
-    # print('pre_codage/cod:', cod, ' Nombre de codages modaux.')
+    # print('pre_codage/cod :', cod, ' Nombre de codages modaux.')
     pre_codage.close()
     if cod != 56:
         # Écriture fichier code

@@ -107,7 +107,7 @@ for yi in range(1, 12):  # Mise en forme pour un mode diatonique
 			815 cas_sos: ('+G', '+G', 'cas0') key: 5 ...... Key in dic_rip0.keys()'''
 	# Appel de fonction transposer avec passage de paramètres sans retour
 	('__ __ Transposer trip', lineno(), '___ ___ Suite rip:', tripe0, tripe1, tripe2, tripe3)
-	# transposer(tripe0, tripe1, tripe2, tripe3) : Voir ligne 8
+	# transposer (tripe0, tripe1, tripe2, tripe3) : Voir ligne 8
 # Dictionnaire des tonalités majeures complètement renseigné.
 (lineno(), 'dic_maj.keys():', dic_maj.keys())
 '''858 dic_maj.keys(): dict_keys(['C', 'D', 'E', 'F', 'G', 'A', 'B', '-D', '+C', '-E', '+D', '-G', '+F', '-A', '+G', '-B', '+A', 'oD', '+B'])'''
@@ -116,7 +116,7 @@ for yi in range(1, 12):  # Mise en forme pour un mode diatonique
 	Nous utilisons un dictionnaire modulaire des situations isolées ou couplées.
 	Quand une note est isolée, elle n'a pas de parallélisme chromatique.
 	Par définition la note isolée est intégrée à la gamme diatonique, hors contexte chromatique.'''
-# , dic_rap0, dic_rap2 = Modules de transport diatonique, des lignes supérieures et inférieures.
+#, dic_rap0, dic_rap2 = Modules de transport diatonique, des lignes supérieures et inférieures.
     # cap0[num_sup], cap1[not_sup], cap2[not_inf], cap3[num_inf]
     # dic_cap0, dic_cap1, dic_cap2, dic_cap3
     for ik in range(12):
@@ -141,11 +141,11 @@ for yi in range(1, 12):  # Mise en forme pour un mode diatonique
 			else:  # Les notes (sup/inf) sont différentes.
 			''' PARTIES DU CODE INUTILISÉ POUR L'INSTANT'''
 ''' Exemple de premier mode commatique
-1021 ik: 1 dic_cap0[ik]: ['1', '*3', '*4', '-3', '*5', '4', '*6', 'o6', '*7', '^^^1', '-7', '^^^2']
-1022 ik: 1 dic_cap1[ik]: ['+B', '-D', 'oE', '+D', '-F', '+E', '-G', 'G', '-A', 'oB', '+A', '-C']
-1023 ik: 1 dic_cap2[ik]: ['C', '-D', 'xC', '-E', 'xD', 'F', '+F', 'G', '-A', 'xG', '-B', 'xA']
-1024 ik: 1 dic_cap3[ik]: ['1', '-2', 'x1', '-3', 'x2', '4', '+4', '5', '-6', 'x5', '-7', 'x6'] 
-1038 not_gam: ['-D', 'G', '-A'] Les notes isolées appartiennent à une gamme fondamentale.
+1021 ik : 1 dic_cap0[ik] : ['1', '*3', '*4', '-3', '*5', '4', '*6', 'o6', '*7', '^^^1', '-7', '^^^2']
+1022 ik : 1 dic_cap1[ik] : ['+B', '-D', 'oE', '+D', '-F', '+E', '-G', 'G', '-A', 'oB', '+A', '-C']
+1023 ik : 1 dic_cap2[ik] : ['C', '-D', 'xC', '-E', 'xD', 'F', '+F', 'G', '-A', 'xG', '-B', 'xA']
+1024 ik : 1 dic_cap3[ik] : ['1', '-2', 'x1', '-3', 'x2', '4', '+4', '5', '-6', 'x5', '-7', 'x6']
+1038 not_gam : ['-D', 'G', '-A'] Les notes isolées appartiennent à une gamme fondamentale.
 1039 ... ;'''
 				# La gamme est composée de ['-D', 'G', '-A']
 			# OUT OF DIATONIC

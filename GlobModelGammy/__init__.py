@@ -1,5 +1,5 @@
 #!/usr/bin/env python 3.10
-# -*- coding: utf-8 -*-
+# -*- coding : utf-8 -*-
 # Le lundi 19 avril 2021 à 13 h 57 m (premières lignes)
 # Le lundi 3 mai 2021 (Développements diatoniques)
 # Le mardi 27 juillet 2021
@@ -10,13 +10,13 @@
 """ Module d'application au traitement de la résultante clustérienne
 en une diatonie relative à la gamme_majeure naturelle musicale.
     * L'aspect diatonique de la gamme_majeure:_ = Sur une octave de 12 notes
-    * L'aspect diatonique du tétracorde : Sur la diatonique tétra.
-Il y a autant de notes que de modulations diatoniques et
+    * L'aspect diatonique du tétracorde : Sur la diatonique_tétra.
+Avec autant de notes que de modulations diatoniques et
 les ensembles fondamentaux n'ont pas les mêmes modulations
 Ce module trie les diatoniques afin d'un rassemblement fondamental
 sans exécuter le traitement des tonalités avec les signes (b/#)
 Pour faciliter le traitement, chaque entrée [1,2,3,4] devient [1,1,1,1]
-    Rajouté : Pour plusieurs tétracordes de même longueur
+    Rajouté : Pour plusieurs tétracordes une même longueur
         Une suite consécutive de zéros tient de famille diatonique.
 """
 
@@ -63,7 +63,7 @@ def gammy(table):
     """Cumul des 66 assimilés fondamentaux binaires"""
 
     def transpose(module):
-        """Fonction Lecture Séquentielle Fichiers(Coupler, Cluster)"""
+        """Fonction Lecture Séquentielle des Fichiers (Coupler, Cluster)"""
         modes, binez1, binez2 = [], '', []
         ozo, ooo = len(module), list(module)
         if ozo < 12:
@@ -123,7 +123,7 @@ def gammy(table):
         col[0] += 1
         transpose(tr1)
 
-    # Diatoniques primitives coupler[]
+    # Diatoniques primitives 'coupler[]'
     """Les fondamentales sont plus légères 1234,0,5678"""
     col = [0]
     for clou in coupler:

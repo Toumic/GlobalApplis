@@ -31,7 +31,7 @@ progam_simis = GlobGamSim
 
 
 def progam(pratic, glob, ego_p, ego_r, utile, dana, pc):
-    """Pratic = Dictionnaire(clé=nom)(val=cumul).
+    """Pratic = Dictionnaire (clé=nom)(val=cumul).
         Glob = Modes à effet miroir (ISO = unique ou DUO = double).
         Ego_p = Gammes mêmes poids.
         Ego_r = Gammes mêmes rangs.
@@ -42,7 +42,7 @@ def progam(pratic, glob, ego_p, ego_r, utile, dana, pc):
     if pf_ku:
         for pp in pratic.keys():
             (lineno(), "GGV6/Pratique:", pratic[pp], 'pp:', pp, 'len:', len(pratic))
-            # 44 GGV6/Pratique: [1, 1, 0, 1, 1, 1, 0] pp: Maj len: 66
+            # 44 GGV6/Pratique : [1, 1, 0, 1, 1, 1, 0] pp : Maj len : 66
             break
         for ff in glob:
             (lineno(), 'GGV6/glob:', ff)
@@ -140,7 +140,7 @@ class Gammique(Tk):
         self.btchr = Button(self.cad, text='Chrome naturel', width=15, bg='light blue', command=self.chrome)
         self.btchr.pack()
 
-        # Bouton tableaux instruments
+        # Boutons tableaux des instruments
         # self.piano_wav : Ces fichiers vont être écrits sur votre disque dur
         self.tur = None
         self.sel_nbr = -1
@@ -153,7 +153,7 @@ class Gammique(Tk):
         self.bttab_2 = Button(self.cad, text='Tablature', width=15, bg='light blue', command=self.tabla)
         self.bttab_2.pack_forget()  # Pantomime
 
-        # Bouton accords avec écriture sur le disque dur
+        # Boutons accords avec écriture sur le disque dur
         # self.fichacc = les noms des fichiers audio_accords (communs)
         self.acc = None
         self.accdiese = ['', '+', 'x', '^', '+^', 'x^', '^^']  # Tableaux des accords - altérations
@@ -163,15 +163,15 @@ class Gammique(Tk):
         self.btacc = Button(self.cad, text='Accords', width=15, bg='light blue', command=self.accord)
         self.btacc.pack()
 
-        # Bouton tables tétracordiques
+        # Bouton table tétracordique
         self.ttt = None
         # self.tet_maj = {}
         self.pretetutil = 0
         self.bttet = Button(self.cad, text='Tétracorde', width=15, bg='ivory', command=self.tetra)
         self.bttet.pack()
 
-        # # Bouton tables commatiques :
-        # self.notespace = Dico degrés limités aux compressions
+        # # Bouton table commatique :
+        # self.notespace = Dico_degrés limités aux compressions
         self.com, self.pal = '', ''  # Caractères d'adressage ponctuel
         self.notespace = {180: ['', '+', 'x', '^', '+^', 'x^', '^^'],
                           290: ['-', '', '+', 'x', '^', '+^', 'x^'],
@@ -181,7 +181,7 @@ class Gammique(Tk):
                           613: ['-*', '*', 'o', '-', '', '+', 'x'],
                           714: ['o*', '-*', '*', 'o', '-', '', '+'],
                           888: [self.com, self.pal]}
-        # self.notespec6 = Dico degrés limités aux signes cumulés à six
+        # self.notespec6 = Dico_degrés limités aux signes cumulés à six
         self.notespec6 = {1: [['+^^', 'o*'], ['x^^', '-*'], ['^^^', '*'], ['+^^^', 'o'], ['x^^^', '-']],
                           2: [['o'], ['^^'], ['+^^', 'o*'], ['x^^', '-*'], ['^^^', '*'], ['+^^^', 'o']],
                           3: [['-*'], ['*'], ['x^'], ['^^'], ['+^^', 'o*'], ['x^^', '-*']],
@@ -196,9 +196,9 @@ class Gammique(Tk):
         self.comgen = []
         self.co_tbgen = [], [], [], [], [], [], [], [], [], [], [], []  # Table des notes altérées
         self.co_tbval = [], [], [], [], [], [], [], [], [], [], [], []  # Table des valeurs tonales
-        self.comfdb = [0]  # Ligne diatone, forme: dia ou/et com
-        self.comfcb = [0]  # Ligne chrome, forme : com ou/et dia
-        self.comfct = [0]  # -1: formulé chromatique total
+        self.comfdb = [0]  # La ligne diatone à forme: dia ou/et com
+        self.comfcb = [0]  # La ligne chrome à forme : com ou/et dia
+        self.comfct = [0]  # -1 : formulé chromatique total
         self.compy_ = [0]  # Les 2 niveaux chromatiques
         self.btcom3color = self.btcom4color = 'light grey'
         self.com2 = Commatique()
@@ -287,8 +287,8 @@ class Gammique(Tk):
             x.pack()
 
         # Case à cocher de conversion scanote8 (CDEFGAB) vers l'octave majeure
-        # Car, la gamme de bCmaj (scanote8) = Bmaj à l'octave principale
-        # Exemple : bC,bD,bE,bF,bG,bA,bB = B,#C,#D,E,#F,#G,#A
+        # Car, la gamme de bCmaj (scanote8) = Bmaj à l'octave principal
+        # Exemples : bC, bD, bE, bF, bG, bA, bB = B, #C, #D, E, #F, #G, #A
         self.fr_8 = [0, 0, 0, 0, 0, 0, 0]  # Les tableaux self.(fr/to/sc/_8)
         self.to_8 = [0, 0, 0, 0, 0, 0, 0]  # Sont utilisés à def self.scanote8(_8)
         self.sc_8 = [0, 0, 0, 0, 0, 0, 0]  # from_(fr), to(to), .set(sc)
@@ -299,7 +299,7 @@ class Gammique(Tk):
         self.cbchk8.deselect()
 
         # Bouton gamme_naturelle
-        self.scolors = ['black', 'green', 'blue', 'grey', 'red', 'orange', 'yellow']
+        self.scolors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
         self.fnotes = [0, -1, -2, -2, -3, -4, -5]  # Les from_'s majeurs
         self.tnotes = [+5, +4, +3, +3, +2, +1, 0]  # Les to's majeurs
         self.btzer = Button(self, text='Zéro', width=25, command=self.zero)
@@ -347,7 +347,7 @@ class Gammique(Tk):
             self.acc.destroy()
             self.acc = None
         elif fff == 'ferme':
-            # print('Fermeture fenêtre : chrome + comma ', fff)
+            # print('Fermeture_fenêtre : chrome + comma ', fff)
             self.ccc.destroy()
             self.chm.destroy()
             self.ccc, self.chm = None, None
@@ -356,7 +356,7 @@ class Gammique(Tk):
         """Modification du type de gamme
             1 : Les noms habituels
             2 : Les modes légers
-        Boutons(self) : btchr(chm), bttab(tur), btacc(acc), btcom(ccc), bttet(ttt) self.genre_chrome"""
+        Boutons (self) : btchr (chm), bttab (tur), btacc (acc), btcom (ccc), bttet (ttt) self.genre_chrome"""
         if typ == 1:  # Les gammes classiques (naturel)
             self.gamclas = True
             if self.gamcalc:
@@ -413,9 +413,9 @@ class Gammique(Tk):
         c_pp = []
         c_ii = []
         # Traitement d'accrochage de la gamme (nom et type)
-        # self.tbdegre : Première note du mode tonique en cours
+        # self.tbdegre : La première note du mode tonique en cours
         # self.gamula = ['C','D','E','F','G','A','B']
-        # self.sel_myx[0] : Est l'indice [i] en cours, dans self.gamnomscopie[i]
+        # self.sel_myx[0] : Est l'indice [i] en cours, dans le self.gamnomscopie[i]
         c_gam = self.gamnomscopie[self.sel_myx[0]]  # c_gam = Rapport du Type
         if c_gam == '0':
             c_gam = "Majeur"
@@ -543,7 +543,7 @@ class Gammique(Tk):
         fontval = Font(family='Liberation Serif', size=8)
         fontchr = Font(family='Liberation Serif', size=7)
         fontcom = Font(family='Liberation Serif', size=9)
-        # self.scolors = ['black','green','blue','grey','red','orange','yellow']# Couleurs usuelles
+        # self.scolors = ['black','green','blue','grey','red','orange','yellow']
         # self.chrgen : Dictionnaire du premier mode chromatique en cours
         # self.comchr : Premier mode chromatique indexé
         commaj_gam = [0, 2, 4, 5, 7, 9, 11]  # Forme majeure
@@ -563,7 +563,7 @@ class Gammique(Tk):
                 self.comchr[0].append(cochr)
         # print('comchr', self.comchr[0])
         compro[0] = self.comchr[0]
-        # ('compro',compro[0])  # Forme d'écriture et de lecture
+        # ('compro', compro[0]) # Forme d'écriture et de lecture
         # Composition du modèle chrome diatonique
         for ci in range(12):
             count, cow = ci, -1
@@ -575,7 +575,7 @@ class Gammique(Tk):
                     count = 0
             # ('comgen', ci, self.comgen[ci])
         # écriture du modèle chrome diatonique
-        # self.dechire[(deg,maj)] # Tableau des tonalités diatoniques
+        # self.dechire[(deg, maj)] # Tableau des tonalités diatoniques
         # c_deg = indice de tonalité
         c_deg0 = 0
         co_d1 = -1
@@ -622,7 +622,7 @@ class Gammique(Tk):
                     co_note0 = self.comgen[ci][co][2]
                     comcan_1.create_text(12 + co * 25, 30 + ci * 49, font=fontcom,
                                          text=co_note0[0], fill='black')
-                    # méthode 7 notes ("déchire")
+                    # Méthode : "Déchire".
                     if co_d2 < 7 and c_zer[0] == 'on':  # Ligne diatonique : dia
                         co_d2 += 1  # co_d2 = degré
                         co_d0 = self.dechire[(co_d1, co_d2)]  # co_d0 = signe (+/-)
@@ -800,7 +800,7 @@ class Gammique(Tk):
             self.chm.destroy()
         # cob2 = self.co_tbval
         # Self.co_tbgen, self.co_tbval : Utilisation au rapport commatique
-        # print('734 c_pp:', c_pp)  # Remplacer "#" par "print" pour la forme
+        # print('734 c_pp:', c_pp)  # Remplacer : "#" par "print" pour la forme
 
     # Panoplie tétracordique
     def tetra(self):
@@ -858,9 +858,9 @@ class Gammique(Tk):
         def ttractuac(t1):  # Actions des boutons (tétras, utiles, clones)
             """ Axe horizontal(x)/vertical(y)
                 Bouton intro (Remise grille à vide. Affichage primitif).
-                Bouton tétras (Dessine les tétras fondamentaux (classic ou calculé)
-                Bouton utiles (tet_is:inf/sup/nom,tet_tt:ordre,tgam_util: clone)
-                Bouton clones (ts_simil[0] = [('Inf', 'Inf', 0, '0'),])[Brouillon]"""
+                Boutons tétras (Dessine les tétras fondamentaux (classic ou calculé)
+                Boutons utiles (tet_is : inf/sup/nom, tet_tt : ordre, tgam_util : clone)
+                Boutons clones (ts_simil[0] = [('Inf', 'Inf', 0, '0')])[Brouillon]"""
             tetcan.delete(ALL)
             tetcan.create_line(50, 30, 250, 30, fill='blue')  # Ligne de soulignement
             for i1 in range(66):
@@ -1056,8 +1056,8 @@ class Gammique(Tk):
                     self.fr_inf.destroy()
                     self.btpont.destroy()
                 # te_pos = self.sel_myx[0]
-                # tg_in = tgam_tet[te_pos][0]  # Gamme choisie eu départ
-                # tg_su = tgam_tet[te_pos][1]  # Gamme choisie eu départ
+                # tg_in = tgam_tet[te_pos][0] # Gamme choisie eu départ
+                # tg_su = tgam_tet[te_pos][1] # Gamme choisie eu départ
                 te_ts = 0
                 te = -1
                 x_01i = x_01s = 0
@@ -1144,9 +1144,9 @@ class Gammique(Tk):
         # Développé tétra similaire diatonique : TETRA/CLONE/DIATONE
         # self.gamnomscopie[]:(noms[+2])gammes - signatures(int)
         # self.gammescopie[] :(valeurs[1,1,0,,,])gammes - intervalles(int)
-        # self.accdiese[(de  0 à +6)]: Table des altérations/str(+)
-        # self.accbemol[(de -1 à -6)]: Table des altérations/str(-)
-        # self.sel_myx[0] : Est l'indice [i] en cours, dans self.gamnomscopie[i]
+        # self.accdiese[(de 0 à +6)] : Table des altérations/str(+)
+        # self.accbemol[(de -1 à -6)] : Table des altérations/str(-)
+        # self.sel_myx[0] : Est l'indice [i] en cours, dans le self.gamnomscopie[i]
         # La transition modifie [1,1,0,1,1,1,0] en ([1,0,1,0,1,1],[1,0,1,0,1,1])
         tginf_tra = []  # Table transitive (inf)
         tgsup_tra = []  # Table transitive (sup)
@@ -1163,7 +1163,7 @@ class Gammique(Tk):
         tgam_sup = t_gam[4:]
         in_sim.append(self.gammescopie.index(t_gam))  # Index gamme originale
         (lineno(), 'tgam_inf', tgam_inf, tgam_sup, 'T_GAM', t_gam, self.c_ii)
-        # 1049 tgam_inf [1, 1, 0, 2] [0, 1, 0] T_GAM [1, 1, 0, 2, 0, 1, 0] C +5
+        # 1049 tgam_inf [1, 1, 0, 2] [0, 1, 0] T_GAM [1, 1, 0, 2, 0, 1, 0] C +5.
         '''Transformer les parties (cumuls intervalles) en tétras binarisés'''
         for tg_i in tgam_inf:
             if tg_i > 0:
@@ -1194,12 +1194,12 @@ class Gammique(Tk):
         tgsup_nbr += 1
         tg_tra[0] = tginf_tra, tgsup_tra  # Conception des deux tétracordes
         (lineno(), tg_tra, 'Gamme en cours:', self.c_ii)
-        # 1079 [([1, 0, 1, 0, 1, 1], [1, 1, 0, 1, 1])] Gamme en cours: C +5
-        # Bouton tétras : L'ensemble tétracordique
+        # 1079 [([1, 0, 1, 0, 1, 1], [1, 1, 0, 1, 1])] Gamme en cours : C +5.
+        # Bouton tétra : L'ensemble tétracordique
         t, w = 0, 0
         '''Les toniques fondamentales. self.gammescopie(Inf/Sup) (version cumul intervalles)
         Construction tgam_tet : Table tétra's fondamentaux (classic ou calcul)'''
-        for t_ in self.gammescopie:  # Les toniques fondamentales (version cumul intervalles)
+        for t_ in self.gammescopie:  # Les toniques fondamentales (version cumul des intervalles)
             tinf_tra = []
             tsup_tra = []
             tinf_nbr = tsup_nbr = 0
@@ -1241,7 +1241,7 @@ class Gammique(Tk):
             # 1123 t_tra[0]: ([1, 0, 0, 1, 1, 1], [1, 0, 1, 0, 1, 1]) 	N°: 2 Nom: +2 (classic)
             # 1123 t_tra[0]: ([1, 0, 1, 0, 1, 1], [1, 1, 0, 1, 1]) 	    N°: 2 Nom: +5 (calculé)
             w += 1  # Utilisé pour obtenir chaque nom de gamme du tétracorde
-        # Bouton clones : Les clones dans le système
+        # Bouton clone(s) : Les clones dans le système
         tin_f = tg_tra[0][0]  # Tétra inf Original
         tsu_p = tg_tra[0][1]  # Tétra sup Original
         (lineno(), 'Gam_origine', 'inf', tin_f, 'sup', tsu_p, 'c_ii:', self.c_ii, in_sim)
@@ -1303,7 +1303,7 @@ class Gammique(Tk):
                 tgam_util.append(tgam_tet[si[2]][0])
                 (lineno(), '...si[1]:', si[1], tgam_tet[si[2]][0], si[-1])
             tgam_nom.append(si[-1])
-            (lineno(), 'Si:', si, 'tgam_tet:', tgam_tet[si[2]])  # si[2] = indice gamme. tgam_tet[:6] = 66 unités
+            (lineno(), 'Si:', si, 'tgam_tet:', tgam_tet[si[2]])  # , si[2] = indice gamme., tgam_tet[:6] = 66 unités
             # 1224 Si: ['Inf', 'Sup', 1, '-2'] tgam_tet: ([1, 1, 0, 0, 1, 1], [1, 0, 1, 0, 1, 1])
         (lineno(), 'tet_is[:4]:', tet_is[:4], len(tet_is))
         ('     tet_tt[:16]:', tet_tt[:16], len(tet_tt))
@@ -1332,7 +1332,7 @@ class Gammique(Tk):
             self.select = self.sel_bon
             for z in range(7):
                 sel_z = self.select[z] - self.sel_gam[z]
-                # (z,sel_z)              # Remplacer "#" par "print" pour la forme
+                # (z, sel_z) # Remplacer : "#" par "print" pour la forme
                 self.sca[z].configure(from_=self.fnotes[z], to=self.tnotes[z])
                 self.sca[z].set(sel_z)
             self.sca[7].configure(from_=-12, to=12)
@@ -1343,7 +1343,7 @@ class Gammique(Tk):
 
     # Sel de fonction
     def selection(self):
-        # ('yes',self.select[0])                 # Remplacer "#" par "print" pour la forme
+        # ('yes',self.select[0]) # Remplacer : "#" par "print" pour la forme
         for z in range(7):
             sel_z = self.select[z] - self.sel_gam[z]
             self.sca[z].configure(from_=self.fnotes[z], to=self.tnotes[z])
@@ -1353,7 +1353,7 @@ class Gammique(Tk):
         self.tur.destroy()
         self.rad[1].invoke()  # Remise à l'octave zéro ou "ioi"
         self.btgama.invoke()
-        self.preselect[0] = 0  # def selec/Bouton sélection désactivé
+        self.preselect[0] = 0  # def selec/Bouton sélection désactivée
         self.bttab.invoke()
 
     # Piano ou clavier visuel
@@ -1362,8 +1362,8 @@ class Gammique(Tk):
             self.tur.destroy()
         del (self.sel_bon[:])  # Remise à zéro sélection
         # (min:max) ; Tonice(0). Tonale(1:3). Mélode(4:14). Médiane(15:18). Domine(19:42). Harmone(43:65)
-        # self.gamnomscopie : exemple(self.gamnomscopie[tbltr] == (noms)gammes concernées par ce type)
-        # self.gammescopie : exemple(self.gammescopie[tbltr] == (valeurs)gammes concernées par ce type)
+        # self.gamnomscopie : exemple (self.gamnomscopie[tbltr] == (noms) gammes concernées par ce type)
+        # self.gammescopie : exemple (self.gammescopie[tbltr] == (valeurs) gammes concernées par ce type)
         # self.sel_myx[0] : Contient l'indice de la table gammenoms[myx2] (gamme en cours)
         self.tur = Toplevel(self)
         self.tur.title('Entité Gammique : Tablature en %s' % self.c_ii)
@@ -1387,7 +1387,7 @@ class Gammique(Tk):
                 m_ = messe[0] + ' ' + bible
             return m_
 
-        if self.sel_yes[0] != '':  # sel_yes[0] = La note est altérée
+        if self.sel_yes[0] != '':  # sel_yes[0] = La note a une altération
             for s_ in self.sel_yes[0]:
                 s_yes += s_
                 # print('S_', s_yes, len(s_yes))
@@ -1423,7 +1423,7 @@ class Gammique(Tk):
             Label(self.tur, text='Sélectionner 7 notes, puis une dernière pour rechercher la gamme',
                   font=fontsel, fg='red').place(x=30, y=250, anchor='nw')
         # Encadrement littéral de la gamme
-        ind_ = ''  # Famille de la gamme(,, mélodique,,, harmonique,)
+        ind_ = ''  # Famille de la gamme(, mélodique,,, harmonique,)
         sel_ind = self.sel_myx[0]
         if sel_ind == 0:
             ind_ = self.tbltr_nom[0]
@@ -1650,12 +1650,12 @@ class Gammique(Tk):
             self.btchr.configure(text='Chrome atonal')
             self.chm.destroy()
             self.btchr.invoke()
-        elif a == 6:  # def tabla/Bouton sélection activé
+        elif a == 6:  # def tabla/Bouton sélection_activé
             self.preselect[0] = 1
             self.bttab_2.invoke()
         elif a == 7:  # def tabla/Bouton quitter
             Gammique.fermeture(self, 'tabla')
-        elif a == 8:  # def select/Bouton sélection activé
+        elif a == 8:  # def select/Bouton sélection_activé
             self.preselect[0] = 1
             self.bttab_2.invoke()
         elif a == 9:  # def init/Bouton Tablature activé
@@ -1690,7 +1690,7 @@ class Gammique(Tk):
         # Le pas graphique entre 2 notes = 10, en cotation horizontale
         # self.tablenotes : Conteneur diatonique | Calcul graphique horizontal
         # self.tablehaute : Conteneur diatonique | Calcul graphique vertical
-        # self.tbdegre : Première note du mode tonique en cours
+        # self.tbdegre : La première note du mode tonique en cours
         # self.chrgen : Tableau graphique chromatique( note , signe ,,, )
         # self.dechire : Tableau des positions altérées
         chnat_aug = [1, 2, 4, 5, 6]
@@ -2314,7 +2314,7 @@ class Gammique(Tk):
                         tbsign.append(b_alt)
                         break
                     z_ += -1
-            # Définition des accords de 7ᵉ
+            # Définition des accords de septième (7ᵉ)
             if tbsign[3] == 0:
                 # L'accord est majeur 7(maj7)
                 for t_ in range(4):
@@ -2412,7 +2412,7 @@ class Gammique(Tk):
                         caaacc.create_text(xtt, ydd, text=accsign, font=fofin, fill='blue')
                         caaacc.create_text(xtt + 20, ydd, text=accnote, font=fonot, fill='black')
             if (tbsign[3] == -1) and (tbsign[1] and tbsign[2] < 0):
-                # L'accord est demi-diminué 7(ø7)
+                # L'accord est demi-diminué 7(ø7).
                 for t_ in range(4):
                     txsg = ''
                     zone = 0
@@ -2970,8 +2970,8 @@ class Gammique(Tk):
         if self.gamcalc:
             gammes = list(self.data[1].values())
             gamnoms = list(self.data[1].keys())
-            # print(lineno(), gammes)
-            # print(lineno(), 'GGV6 DATA 2 : \n', self.data[1])
+            print(lineno(), gammes)
+            print(lineno(), 'GGV6 DATA 2 : \n', self.data[1])
         (lineno(), 'self.gamcalc', gamnoms)
         self.gammescopie = gammes.copy()
         self.gamnomscopie = gamnoms.copy()
@@ -3174,13 +3174,13 @@ class Gammique(Tk):
                     if ynom:  # Altération de la note
                         for yn in ynom:
                             cnom += yn
-                        if tnom[-1:] == '0':  # En plus la gamme est majeure
+                        if tnom[-1:] == '0':  # En plus la gamme est majeure.
                             cnom += tnom[:-1] + ' maj'
-                        else:  # La note est altérée et elle n'est pas majeure
+                        else:  # La note est altérée et elle n'est pas majeure.
                             cnom += gnom + ' ' + gamnoms[myx2]
                     elif tnom[-1:] == '0':  # La gamme est majeure.
                         cnom = tnom[:-1] + ' maj'
-                    else:  # La note n'est pas altérée et la gamme n'est pas majeure
+                    else:  # La note n'est pas altérée et la gamme n'est pas majeure.
                         cnom = gnom + ' ' + gamnoms[myx2]
                     self.c_ii = cnom
                     self.sel_yes = ynom, tnom  # Report nom vers sélection
@@ -3220,7 +3220,7 @@ class Gammique(Tk):
                 self.dechire[(deg, maj)] = cmod  # Utilisation chromatique
             if tt_ind == 0:
                 tt_ind = 66
-            # Les degrés data[7] ne correspondent pas selon le choix[classique ou calculé]
+            # Les degrés data[7] ne correspondent pas selon le choix[classique ou calculé].
             (lineno(), 'deg:', deg, tt_nom)
             if deg == 0:
                 stop = False
@@ -3553,7 +3553,7 @@ class Commatique(Frame):
         self.ccnbase = Canvas(self.ctpier, bg='Ivory', height=800, width=600)
         self.ccnbase.pack(padx=13, side="left")  # ccnbase = Premier Canvas original (pack_forget ou pas)
         self.ccnbase.delete(ALL)
-        # Empilement des boutons communs aux noms composés (notes non-couplées ou isolées)
+        # Empilement des boutons communs aux noms composés (notes non_couplées ou isolées)
         self.ccn_bout = Canvas(self.ctpier, bg='Ivory', height=800, width=100)
         self.ccn_bout.pack(expand=True)  # ccn_bout = Second Canvas original pour les boutons
         self.ccn_bout.delete(ALL)
@@ -3582,7 +3582,7 @@ class Commatique(Frame):
                     c_rop.append(c_rop2)
                 self.ctb_form[i].append(c_rop)
                 (lineno(), 'GGV6/ self.ctb_form[i]:', self.ctb_form[i])
-            # Dictionnaire des tonalités chromatiques en ordre ascendant(self.normal).
+            # Le dictionnaire des tonalités chromatiques en ordre ascendant(self.normal).
             for i in range(12):
                 self.normal[i] = self.ctb_form[i][0]
                 (lineno(), 'i    \t:', i, self.ctb_form[i][0])  # , 'ctb_form[i]')
@@ -3692,7 +3692,7 @@ class Commatique(Frame):
         # Bien détailler les gammes (heptatoniques et chromatiques !)
         # self.c_bb[0] = Mode tonique en cours len(1)=hepta et len(2)=chroma
         # c_iii = Nom de la gamme en cours
-        # self.normal = Tonalité numérique en cours
+        # self normal = Tonalité numérique en cours
         (lineno(), 'Pied de page', 'self.c_bb[0]', self.c_bb[0], 'Scalaire:', s_cal)
 
 # class Gammique

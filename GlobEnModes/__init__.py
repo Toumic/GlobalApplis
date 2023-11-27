@@ -1,5 +1,5 @@
 #!/usr/bin/env python 3.10
-# -*- coding: utf-8 -*-
+# -*- coding : utf-8 -*-
 # En cours de finalisation
 # mardi 27 juillet 2021
 
@@ -194,7 +194,7 @@ def maj7_fonc(table, unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC
         (lineno(), 'INFOS', 'infime', infime, 'survole', survole)
         # 138 INFOS infime ['o*', '-*', '*', 'o', '-'] survole ['x^', '+^', '^', 'x', '+']
         # affirmatif = ['o*7', '-*6', '*5', 'o4', 'o3', '+^2', '^3', '^4', 'x5']
-        # Amplifier affirmatif
+        # Amplifier affirmatif.
         amplifier = {
             'o3': ['-2'], 'o4': ['o3', '-2'], '*5': ['o4', 'o3', '-2'],
             '-*6': ['*5', 'o4', 'o3', '-2'], 'o*7': ['-*6', '*5', 'o4', 'o3', '-2'],
@@ -205,7 +205,7 @@ def maj7_fonc(table, unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC
             """Passage par les signes invariants (affirmatif, amplifier, altéractif)
             Permet la détection des invariants dans la signature modale (photo)
             Définition des variables :
-                Revu : True pour inverser sens lecture liste.
+                Revu : True pour inverser le sens lecture de la liste.
                 Box : Tableau contenu altéractif. Values().
                 Couler : Indice en cours de traitement."""
             (' S', lineno(), 'SIGNAL', signal, 'Topo', topo, 'Toc', toc)
@@ -216,8 +216,8 @@ def maj7_fonc(table, unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC
 
             def bil_riff(t10):
                 """Traitement des signatures complexes, quand plusieurs signes
-                occupent les notes du mode. Aboutissant à une écriture du nom,
-                qu'il soit entier ou décimal :
+                occupent les notes du mode. Aboutissant à une écriture du nom
+                entier ou décimal :
                     Entier = -35
                     Décimal = +45.-3"""
                 # (' __ ^* _ B²_ ^* _ T10', t10)
@@ -232,7 +232,7 @@ def maj7_fonc(table, unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC
                 for kt, vt in dicter.items():
                     if len(vt) > 1:
                         vt.sort()
-                        if kt in infime:  # Sens lecture signes diminués
+                        if kt in infime:  # Sens lecture des signes diminués
                             vt.reverse()
                         for v0 in vt:
                             dic += v0
@@ -263,7 +263,7 @@ def maj7_fonc(table, unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC
                             c1 = lise[0] + dicter[lise[0]][0]
                             c2 = lise[1] + dicter[lise[1]][0]
                             c10 = c1 + '.' + c2
-                    elif len(dicter.keys()) == 3:  # . . . . ... 3ème. 3 notes à double-signe
+                    elif len(dicter.keys()) == 3:  # . . . . ... 3ème. 3 notes à double_signe
                         # Exemple = B² BIL.dicter {'x': ['4'], '+': ['6'], '-': ['32']}
                         '''|60(11)[+43o.-7]||53(15)[x46+.-3]||43(5)[]|...'''
                         # ('\n\n\n\n\n  REPÈRE 3 Clés. \n\n\n\n\n')
@@ -283,7 +283,7 @@ def maj7_fonc(table, unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC
                         if les4 == 4:
                             '''|43(5)[o37-.+45]||38(18)[]||43(5)[]|...'''
                             # ('\n\n\n\n\n REPÈRE Les4. \n\n\n\n\n')
-                        # Il n'y a pas de 'les4' supérieur à quatre
+                        # Il n'a pas de 'les4' supérieur à quatre
                         for yo in lise:
                             if yo in survole and yo not in lys0['aug']:
                                 lys0['aug'].append(yo)
@@ -298,7 +298,7 @@ def maj7_fonc(table, unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC
                             biseau[3] = '.' + x2
                         x1, oxo, pensif1, pensif2 = '', 0, None, None
                         # Construction liste ordonnée des signes
-                        for lys in lys0.keys():  # Initialiser famille signes
+                        for lys in lys0.keys():  # Initialiser famille des signes
                             if lys == 'bis':
                                 break
                             elif len(lys0[lys]) > 1:  # Famille 2 signes
@@ -307,7 +307,7 @@ def maj7_fonc(table, unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC
                             elif len(lys0[lys]) == 1:  # Signe orphelin
                                 pensif2 = lys
                                 # ('Pensif2', pensif2)
-                        # Traitement familles des signes réunis
+                        # Traitement des familles des signes réunis
                         if lys0[pensif1]:
                             if x4 in lys0[pensif1]:
                                 ox0 = lys0[pensif1].index(x4)
@@ -344,7 +344,7 @@ def maj7_fonc(table, unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC
                     c10 = ox1
                 return c10
 
-            if toc == '1':  # FORMATAGE Signatures 1 clé
+            if toc == '1':  # FORMATAGE des Signatures à une clé
                 '''def former(signal, topo, toc('1')): FORME SIMPLE
                 Nous avons là un signal simple de la tonalité
                 len(signatures.keys()) == 1: Une clé(key) unique dans la signature.'''
@@ -376,9 +376,9 @@ def maj7_fonc(table, unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC
                 # Séparation des signatures opposées dans informatif['']
                 # infime = ['o*', '-*', '*', 'o', '-'], survole = ['x^', '+^', '^', 'x', '+']
                 for info in informatif:
-                    # Lecture constructive sur un suivi informatif['']
+                    # La lecture constructive sur un suivi informatif['']
                     # Une série ordonnée aux plus fortes altéractions.
-                    # Décrivant une décroissance des degrés allant de CINQ à Un.
+                    # Qui décrivent une décroissance des degrés allant de CINQ à Un.
                     # En deux lignes parallèles (±) en dégénérescence altéractive.
                     ''' GÉNÉRATION INVERSÉE :
                         Informatif[Bémols] = informatif[de 0 à 4]. Ou infime
@@ -582,7 +582,7 @@ def maj7_fonc(table, unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC
             depuis = len(groupe[fix])
             if '2' in table:
                 print(lineno(), 'UNIC.GROUPE =', fix, groupe[fix])
-            # 530 FONDRE.GROUPE = ['101010110101', '101011010101'] . FIX = 66
+            # 530 FONDRE.GROUPE = ['101010110101', '101011010101']. FIX = 66
             # Unic dict_keys([21, 24, 38, 40, 45, 47, 48, 51, 55, 58, 61, 62, 64, 65, 66])
             dep = []
             while depuis:
@@ -605,7 +605,7 @@ def maj7_fonc(table, unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC
             depuis = len(groupe[fix])
             if '2' in table:
                 print(lineno(), 'FONDRE.GROUPE =', fix, groupe[fix])
-            # 530 FONDRE.GROUPE = ['101010110101', '101011010101'] . FIX = 66
+            # 530 FONDRE.GROUPE = ['101010110101', '101011010101']. FIX = 66
             # Unic dict_keys([21, 24, 38, 40, 45, 47, 48, 51, 55, 58, 61, 62, 64, 65, 66])
             dep = []
             while depuis:
@@ -620,7 +620,7 @@ def maj7_fonc(table, unic, fondre, binez):  # MAJ7 Fonction 1ères entrées UNIC
 
 def dana_fonc(table, dana):
     """
-    Les dictionnaires {dan/ego/maj} :
+    Les dictionnaires sont (dan/ego/maj) :
         Tous. Intégrales_Poids/Modes
         Dan. Enregistrer infos gammes pour analyser
         Ego. Répertorier gammes mêmes types
@@ -633,7 +633,7 @@ def dana_fonc(table, dana):
         Diatonic (dan. Values()) = 7 Modes signés & pesants
             La signature modale [[0,-3,-5,,,]_ Tonalité
             La démultiplication modale _[147,21.0,3.0,,,]]
-                Divise Poids par 7 jusqu'à zéro entier
+                Divise Poids par sept jusqu'à zéro entier.
     Union : 1- Les tonalités aux mêmes poids.
         2- Les poids aux mêmes rangs.
         3- Les tonalités aux mêmes degrés
@@ -675,7 +675,7 @@ def dana_fonc(table, dana):
         maj_lest.sort()
         for mp in dan_poids[dan]:
             dan_rang[dan].append(maj_lest.index(mp))
-    # : iso_poids= Gammes de mêmes poids et rangs
+    # : iso_poids= Gammes aux mêmes poids et rangs.
     # : dif_poids= Mêmes rangées
     # : dat_rang= Tous les rangs
     vide, iso_poids, dif_poids, dat_rang = [], [], [], []
@@ -690,7 +690,7 @@ def dana_fonc(table, dana):
         if c1 not in ego_rang[memo]:
             ego_rang[memo].append(c1)
         for c2 in range(1, 67):
-            if c1 != c2:  # Quand :c1==c2: Mêmes gammes
+            if c1 != c2:  # Quand : c1==c2 : Mêmes gammes
                 if dan_poids[c1] == dan_poids[c2]:  # :dan_poids
                     if len(iso_poids) == 0:
                         c0 = [c1, c2]
@@ -733,7 +733,7 @@ def dana_fonc(table, dana):
 
 
 def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
-    """Réception des poids modaux standards à augmenter & Création 'GlobalTexte/globdic_Dana.txt'.
+    """La réception des poids modaux standards à augmenter & Création 'GlobalTexte/globdic_Dana.txt'.
     L'argument 'maj7' est le dictionnaire des modes maj septièmes et poids standards par gamme"""
     # Mode_poids = Sept modes diatoniques par gamme. Comprend les 66 gammes.
     goo = []
@@ -747,10 +747,10 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
     # Dico gamme_poids & Key_mode Majeur Comparer
     for gpk, gpv in gamme_poids.items():  # Mode_poids & Comparer Mode naturel
         """:gpv = [0,0,0,0,0,0,0],[0,0,-4,0,0,0,-8],"""
-        for com in gpv:  # :gpv= Valeur Majeure et mode dico gamme_poids
+        for com in gpv:  # : gpv= Valeur Majeure et mode dico gamme_poids
             """:com = [0,0,0,0,0,0,0]"""
             """:mode_poids = [[0,-3, -5, 7, 7, 7,0],[0,-3, -5, -6, 7, 7,0],"""
-            for mod in mode_poids:  # :mod= Section modale Non-Majeure
+            for mod in mode_poids:  # : mod= Section modale Non-Majeure
                 modal, cc = [], 0
                 """:mod = [0,-3, -5, 7, 7, 7,0]"""
                 for mo in mod:  # : mo= Signature Non Majeure
@@ -884,7 +884,7 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                             if s0i:
                                 labo.append(s0n)
                             s0n = ''
-                        # Labo Issue St9 = Degré(s) absolu(s) (non-altérés)
+                        # Labo (Issue St9) = Degré(s) absolu(s) (non-altérés)
                         if len(labo) == 1:  # Ici labo contient '0' ou majeur
                             source = [stock_nom, stock_bin]
                             toniques[index] = source
@@ -901,7 +901,7 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                             sgn1, deg1, deg2, sgn2 = labo[0], labo[1], labo[2], labo[3]
                             st9.append(deg1)
                             st9.append(deg2)
-                        # Labo Issue St9 = Degré(s) absolu(s) (non-altérés)
+                        # Labo (Issue St9) = Degré(s) absolu(s) (non-altérés)
                         # (lineno(), '+*° LABO', labo, 'LABO', sgn1, deg1, deg2, sgn2)
                         # Trouver le degré voisin supérieur
                         roule_bin = list(g0[0][0])
@@ -1009,7 +1009,7 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                                 # (lineno(), 'Origine', mod_origine, 'Cours', mod_cours)
                             if mod_origine == mod_cours or utile:
                                 cesse = True
-                                # ('Origine = Cours', mod_origine, mod_cours, 'Utile:', utile)
+                                # ('Origine = Cours', mod_origine, mod_cours, 'Utile :', utile)
                                 break
                         else:
                             pass
@@ -1082,7 +1082,7 @@ def seption(table, mode_poids, k1, pc1, gm1, maj7, h_b):
                             mod_txt = []
                             # Construction Forme neutre Photo
                             # Final = [1, 0, 2, 0, 3, 4, 0, 5, 0, 6, 0, 7]
-                            for dxt in deg_txt:  # Photo Négatif Deg_Txt
+                            for dxt in deg_txt:  # Photo Négatif 'Deg_Txt'.
                                 if dxt == '1':
                                     mod_txt.append(d)
                                     d += 1

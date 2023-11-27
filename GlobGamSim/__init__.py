@@ -1,5 +1,5 @@
 #!/usr/bin/env python 3
-# -*- coding: utf-8 -*-
+# -*- coding : utf-8 -*-
 # Le dimanche 12 février 2023 (Commencement du script)
 # GlobGamSim : Pour présenter les propriétés de la gamme en cours
 
@@ -30,25 +30,25 @@ iso_quant, duo_quant, gen_quant = {}, {}, {}
 # Dictionnaires des poids et des rangs mesurés
 dat_poids, dat_rangs, dat_singe = {}, {}, {}
 # Utilités (signe[altération], nom[tonalité], valeur[forme numérique])
-# Exemple: #C Maj. Signe = #.
+# Exemple : #C Maj. Signe = #.
 number, name, value, signe = [], [], [], []
 
 
 def simili(sim, dat, nom):
     """Partie analytique liée à la gamme en cours et déclare les similitudes.
     Similitudes (sim = Selon les noms des gammes[classique ou calculée])
-        Sim.keys() = Noms des gammes numériques (sans les notes)
-        Sim.values() = Formule modale aux intervalles cumulés (comme dat[1])
-    Poids modaux : (
-        (dat[1] = Dictionnaire. Clefs ('Maj', '-3',,,). Intervalles modaux genre cumulatif),
+        Sim_keys() = Noms des gammes numériques (sans les notes)
+        Sim_values() = Formule modale aux intervalles cumulés (comme dat[1])
+    Poids modaux :
+        (dat[1] = Dictionnaire. Clefs ('Maj', '-3',,,). Intervalles modaux à genre cumulatif),
         (dat[2] = Liste. Format dictionnaire[('ISO', (((1, 'I'), '+^2'), ((1, 'III'), '-*6')))],
-        : Le iso = Deux degrés d'une gamme sont croisés, en cas de lecture en sens inverse.
+        : L'iso = Deux degrés d'une gamme sont croisés, en cas de lecture en sens inversé.
         : Le duo = Même chose qu'iso, sauf que les gammes et les degrés sont différents.),
         (dat[3] = Dictionnaire. Clefs (147, 266,,,). Groupe des gammes aux mêmes poids),
         (dat[4] = Dictionnaire. Clefs ('0352146', '1253046',,,). Groupe des gammes aux mêmes rangs),
         (dat[5] = Dictionnaire. Clefs (de 1 à 66). Groupe les noms entiers diatoniques),
         (dat[6] = Dictionnaire. Clefs ((66, 'I'), (66, 'II'),,,). Groupe poids modaux diatoniques),
-        (dat[7] = Dictionnaire. Clefs ((66, 'I'), (66, 'II'),,,). Degrés et noms[entiers/décimaux] modaux))
+        (dat[7] = Dictionnaire. Clefs ((66, 'I'), (66, 'II'),,,). Degrés et noms[entiers/décimaux] modaux)
     Le nom de la gamme en cours (attention aux compositions : Exemple = 'oF x54o')"""
     # Objectif mettre en forme les données reçues pour une meilleure gestion
     (lineno(), 'GGS/sim:', sim, '\n', 'dat:', dat.keys(), type(dat), 'nom:', nom)
@@ -61,7 +61,7 @@ def simili(sim, dat, nom):
         Fonction de recherche du numéro de la gamme par rapport à son titre, et inversement.
         Titre = Soit 'tom', soit 'num'
             Quand c'est 'tom' = Valeur tonale sans la tonalité de la note.
-            Quand c'est 'num' = Numéro de la gamme en paramètre"""
+            Quand c'est 'num' = Numéro de la gamme en paramètre."""
         titre1 = ()
         if tom == 'tit':
             # Retrouver les numéros des gammes grâce au nom
@@ -152,7 +152,7 @@ def simili(sim, dat, nom):
                 En analysant les résultats de go et d2 on a des intervalles significatifs'''
             go, duo_ = 0, gen_
             for d2 in range(duo_, len(dat[2])):
-                go += 1  # Limite boucles for sid_bis
+                go += 1  # Limite boucles for 'sid_bis'
                 sid_bis = dat[2][d2]
                 if sid_bis[0] != 'ISO' and duo_est:
                     bis_1, bis_2 = sid_bis[1][0][0][0], sid_bis[1][1][0][0]

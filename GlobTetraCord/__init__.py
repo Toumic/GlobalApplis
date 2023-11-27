@@ -1,5 +1,5 @@
 #!/usr/bin/env python 3
-# -*- coding: utf-8 -*-
+# -*- coding : utf-8 -*-
 # Origine 10 octobre 2022
 # GlobTetraCord : Traitement tétracordique
 """GlobGamVers6 = Origine tétracordique.
@@ -8,11 +8,11 @@ La fonction tetra (self) :
     Elle transforme les arguments natifs-DataGammes, en :
         ('Inf', 'Sup', N°gamme, NomGamme)/(Position, Numéro, Gamme)
     GlobTetraCord Usine Direction Quantic.
-        Une gamme = Deux tétras. Pouvant être identiques + Notions positions.
-        Nœud tétra = Un tétra. Pouvant être différent + Position absolue.
+        Une gamme = Deux tétras. Peut-être identiques + Notions positions.
+        Nœud tétra = Un tétra. Sûrement différent + Position absolue.
         Édition d'un dictionnaire('Inf', 'Sup', N°, Nom) :
             Par n°gamme ayant chacune('Inf' liste, 'Sup' liste).
-            D'une position originale + D'une mise à niveau et nouage unipolaire (nœud).
+            Une position originale + une mise à niveau et nouage unipolaire (nœud).
 GlobTetraCord réhausse grâce aux nœuds bilatéraux, suivant une ligne diatonique*"""
 
 

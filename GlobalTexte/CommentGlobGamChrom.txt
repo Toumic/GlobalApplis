@@ -8,8 +8,8 @@ Il contient :
 	D'autres tables utiles [altérations(b, #), extensions...]
 
 Une fonction permet la transposition majeure diatonique de chacune des notes utilisées.
-	Def transposer(rip0, rip1, rip2, rip3):
-	-: Aide à la définition de la tonalité est donnée par la gamme majeure.
+	Def transposer (rip0, rip1, rip2, rip3):
+	- : Aide à la définition de la tonalité est donnée par la gamme majeure.
 	Elle est appliquée avec différentes mesures. Toniques issues de la gamme en cours et
 	celles développées par le système commatique.
 
@@ -18,7 +18,7 @@ Une fonction pour une forme d'altération complexe (index(±), signe(int))
 	- Transforme son état [nombre réel, index table, signe altératif]
 
 La principale fonction, celle de la liaison chromatique et commatique.
-	def chromatic(a, b, c, s):
+	Def chromatic(a, b, c, s):
 	- Tout s'exerce par les paramètres, puis elle se charge de transcrire (a,b,c,s)
     		A = Gamme hepta en cours
     		B = Nom de la tonalité analogique

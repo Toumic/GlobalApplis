@@ -1,5 +1,5 @@
 #!/usr/bin/env python 3
-# -*- coding: utf-8 -*-
+# -*- coding : utf-8 -*-
 # Le vendredi 30 décembre 2022 (Commencement du script)
 # GlobGamMicro : Construire les micro-intervalles sous-jacents à l'original[]
 
@@ -36,11 +36,11 @@ class Comique(Frame):
             comic[1] = Dictionnaire sans doublons (Clés pour dico global)
             comic[2] = Dictionnaire pour les doublons (Clés pour dico global)
             Choix... = Nom abrégé de l'ensemble des analogies isolées
-        Cette fonction rassemble les éléments utiles à la création de nouveaux modes commatiques,
+        Cette fonction rassemble les éléments utiles à la création des nouveaux modes commatiques,
         ses paramètres nous indiquent qu'on a :
-            2 modes analogiques chromatiques.
-            2 modes numériques chromatiques.
-                Il faut développer les douze modes diatoniques des 4 modes.
+            Deux modes analogiques chromatiques.
+            Deux modes numériques chromatiques.
+                Il faut développer les douze modes diatoniques des quatre modes.
         Au sujet de la tonalité diatonique de la gamme commatique, il y a de nombreux cas de gammes
         qui ne comportent que deux notes isolées :
             Les notes isolées appartiennent à la gamme, car le couple est normalement chromatique.
@@ -242,14 +242,14 @@ class Comique(Frame):
                     print(lineno(), '***')
         (lineno(), 'num_lie.keys():', num_lie.keys())
         '''240 num_lie.keys(): dict_keys([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])'''
-        # Vérification des correspondances des tonalités ; Aux valeurs numériques sup/inf
+        # Vérification des correspondances des tonalités : Aux valeurs numériques sup/inf
         '''Quand la condition est vraie, elle indique qu'il s'agit d'une gamme standard :
             Gamme standard = Coïncidence modales à la forme numérique de la tonalité.
             Autrement, chaque tonalité est unique et n'a qu'une seule forme numérique.'''
         if mdc_mod0[1] == mdc_mod3[0]:  # Gamme originale
             tri_log = True
             (lineno(), 'Mod0 et Mod3 Correspondent:', mdc_mod0[0], mdc_mod3[1])
-        else:  # Gamme bipartie et double-gamme
+        else:  # Gamme bipartie et double_gamme
             # mdc_mod4, mdc_mod5 = Parties analogues pour une trilogie
             ''' mdc_mod4 : Analogie en duo avec mdc_mod1
                 mdc_mod5 : Analogie en duo avec mdc_mod2
@@ -309,11 +309,11 @@ class Comique(Frame):
                 c_rop2 = mdc_mod0[i][j]  # Valeur numérique de la tonalité supérieure
                 self.cop_bout.create_text(c_x + c_j, c_y + c_i - tri, font=self.f_bt, text=c_rop2, fill='olive')
                 (lineno(), 'C_Rop2:', c_rop2)  # c_rop2 = Valeur numérique de la tonalité
-                if c_ripaug in mode:  # Les notes de la gamme sont isolées
+                if c_ripaug in mode:  # Les notes de la gamme sont isolées.
                     c_rip0 = c_ripaug  # Signal
                     self.cop_bout.create_text(c_x + c_j, c_y + c_i, font=self.f_bu, text=c_rip0, fill='black')
                     (lineno(), 'C_Rip0:', c_rip0)  # c_rip0 = Altération sur la note naturelle (gamme)
-                else:  # Les notes chromatiques sont couplées
+                else:  # Les notes chromatiques sont couplées.
                     c_rip1 = c_ripmin
                     self.cop_bout.create_text(c_x + c_j, c_y + c_i - 10, font=self.f_bv, text=c_rip1, fill='red')
                     c_rip2 = c_ripaug

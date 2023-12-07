@@ -29,7 +29,7 @@ class Comique(Frame):
         self.f_bu = Font(family='Arial', size=8, weight='bold')
         self.f_bv = Font(family='Arial', size=6)
 
-    def commatic(self, scale, comic, choix):
+    def commatic(self, scale, comic, choix, p_cyc):
         """Partie du développement diatonique de la gamme commatique.
             Scale... = Niveau d'inversion et suivi du traçage
             comic[0] = Dictionnaire global avec les formules (numériques, analogiques)
@@ -296,7 +296,7 @@ class Comique(Frame):
         tri = 20
         if tri_log:
             tri = 30
-        c_ii2 = "{}{}".format('Commatismes en cours de traçage : ', tracer)
+        c_ii2 = "{}{}{}".format('Commatismes en cours de traçage : ', tracer, p_cyc)
         self.cop_bout.create_text(180, 8, font=self.f_bt, text=c_ii2, fill='blue')
         for i in range(12):
             c_i = i * 60
@@ -329,7 +329,8 @@ class Comique(Frame):
                 (lineno(), 'C_Rop2:', c_rop2)  # c_rop2 = Valeur numérique de la tonalité
         if not tri_log:
             but_cop = Button(self.copier, text='Commane', height=1, width=15, bg='pink',
-                             command=lambda: progam_vers6.Commatique.brnch_1(self, lst_dia, num_lie, tracer, scale))
+                             command=lambda: progam_vers6.Commatique.brnch_1(self, lst_dia, num_lie, tracer,
+                                                                             scale, p_cyc))
             but_cop.pack(side=BOTTOM, pady=6)
 
 

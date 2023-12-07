@@ -228,7 +228,7 @@ def alteration(signe):
     return retour
 
 
-def chromatic(a, b, c, s):
+def chromatic(a, b, c, s, p_cyc):
     """Fonction chromatique afin de soulager le code GlobGamVers6
     Définitions :
     A = Gamme hepta en cours
@@ -312,7 +312,7 @@ def chromatic(a, b, c, s):
     dic_rip3.clear()
     gam0 = gam1 = ''
     # Changement manuel en prévision d'une commande.
-    lgn_haute, lgn_basse = 0, 1  # Les lignes chromatiques hautes et basses.
+    lgn_haute, lgn_basse = 1, 0  # Les lignes chromatiques hautes et basses. Par défaut (= 1, 0)
     for yep in range(1, 13):  # Mesurer dic_ana[yep](notes:gamme ou chrome)
         (lineno(), '___________________*************___________________ Début de cycle yep:', yep)
         abc = 0
@@ -345,10 +345,14 @@ def chromatic(a, b, c, s):
             (lineno(), 'GGC/dic_rip0.1[yep]:\t', yep, dic_rip0[yep], dic_rip1[yep])
         else:  # c_rip2, c_rip3 : Entretiennent les couplages
             # ##########################################################################
-            # Partie isolée correspondante au possible inversion des poles chromatiques.
+            # Partie isolée correspondante à la possible inversion des poles chromatiques.
             (lineno(), "Qu'est dic_ana[yep]?:", dic_ana[yep][0], dic_ana[yep][1], 'yep:', yep)
-            ''' Configuration normale, soit boucle chromatique fermée :
+            '''# lgn_haute, lgn_basse = 1, 0 # Les lignes chromatiques hautes et basses. Par défaut (= 1, 0)
+                Configuration normale, soit boucle chromatique fermée :
                     dic_rip2[yep] = list(dic_ana[yep][1]) et dic_rip3[yep] = list(dic_ana[yep][0])'''
+            (lineno(), "GGC p_cyc:", p_cyc)
+            if p_cyc == "Cycle ouvert":
+                lgn_haute, lgn_basse = 0, 1  # Les lignes chromatiques sont inversées.
             dic_rip2[yep] = list(dic_ana[yep][lgn_haute])
             dic_rip3[yep] = list(dic_ana[yep][lgn_basse])
             (lineno(), "dic_rip2.3:", dic_rip2[yep], dic_rip3[yep], 'yep:', yep)
@@ -371,6 +375,7 @@ def chromatic(a, b, c, s):
             (lineno(), 'GGC/dic_inv[yep]:   \t', yep, dic_inv[yep])
             (lineno(), 'GGC/dic_rip2inf[yep]:\t', yep, dic_rip2[yep])
             (lineno(), 'GGC/dic_rip3sup[yep]:\t', yep, dic_rip3[yep])
+            # ##########################################################################
     if 1 in dic_rip0.keys():
         dic_rip0[13], dic_rip1[13] = dic_rip0[1], dic_rip1[1]
     else:
@@ -853,7 +858,7 @@ def chromatic(a, b, c, s):
                         (lineno(), '**** cas2[1]:', cas2[1], 'tripe3:', tripe3[2], 'cas2:', cas2, 'maj:', maj)
                     (lineno(), 'cas2:', cas2, 'ckc:', ckc, 'gam0:', gam0, 'Tonique rencontrée')
                     break
-            (lineno(), 'cas3:', cas3, 'key:', key)
+            (lineno(), 'cas3:', cas3, 'key:', key, "dic_abs:", dic_abs)
             if cas3 > 11 and key == 12:
                 dic_abs[key, clef] = []
                 ('. absences ', lineno(), 'Cas3 absences dic_abs[key]:', dic_abs.keys())

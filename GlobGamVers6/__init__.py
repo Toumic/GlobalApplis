@@ -203,6 +203,8 @@ class Gammique(Tk):
         self.btcom3color = self.btcom4color = 'light grey'
         self.com2 = Commatique()
         self.scalair = 0  # Indice taux d'inversion
+        self.cyclic = StringVar()  # Indice type de bouclage chromatique.
+        self.cyclic = "Cycle fermé"
 
         # Mémoire fantomatique
         self.entfan = Entry(self)
@@ -404,7 +406,7 @@ class Gammique(Tk):
         if self.ccc is not None:
             self.ccc.destroy()
         self.ccc = Toplevel(self)
-        self.ccc.title('Entité Gammique : Chromatisme en %s' % self.c_ii)
+        self.ccc.title('Entité Gammique : Chromatisme en %s' % self.c_ii)  # Fenêtre chromatique compliquée.
         self.ccc.geometry('600x666+800+80')
         self.ccc.protocol("WM_DELETE_WINDOW", lambda: Gammique.fermeture(self, 'comma'))
         frcom_up = Frame(self.ccc, width=30, height=3)  # Partie haute
@@ -426,7 +428,7 @@ class Gammique(Tk):
         btcom_id = Button(frcom_up, text=c_ide, height=1, width=15, bg='light green')
         btcom_id.pack(side=RIGHT)
         btcom_up = Button(frcom_up, text='Commane', height=1, width=15, bg='pink',
-                          command=lambda: self.com2.brnch_1(c_oo, c_pp, self.c_ii, self.scalair))
+                          command=lambda: self.com2.brnch_1(c_oo, c_pp, self.c_ii, self.scalair, self.cyclic))
         btcom_up.pack(side=LEFT)
         frcom_gaup = Frame(self.ccc, width=30, height=3)  # Partie gauche
         frcom_gaup.place(x=20, y=10, anchor='nw')
@@ -451,17 +453,17 @@ class Gammique(Tk):
         btcom_ga04.pack()
 
         def compyac(y):
-            if y == 0:      # Forme totale
+            if y == 0:  # Forme totale
                 self.compy_[0] = 0
-            elif y == 1:    # Forme augmentée
+            elif y == 1:  # Forme augmentée
                 self.compy_[0] = 1
-            elif y == 2:    # Forme diminuée
+            elif y == 2:  # Forme diminuée
                 self.compy_[0] = 2
-            elif y == 3:    # Chrome naturel
+            elif y == 3:  # Chrome naturel
                 self.btchr.configure(text='Chrome naturel')
                 self.btcom3color = 'ivory'
                 self.btcom4color = 'light grey'
-            elif y == 4:    # Chrome atonal
+            elif y == 4:  # Chrome atonal
                 self.btchr.configure(text='Chrome atonal')
                 self.btcom3color = 'light grey'
                 self.btcom4color = 'ivory'
@@ -469,13 +471,32 @@ class Gammique(Tk):
             self.btcom.invoke()
 
         def scaler():
+            messe = ("Entrez un nombre entier de 1 à 12.\n"
+                     "Pour le traitement commatique.\n"
+                     "Par défaut, la dénivellation est fixée à 12.")
             while self.scalair in (0, "") or self.scalair > 12:
-                self.scalair = simpledialog.askinteger('Inversion', 'Entrez un nombre entier de 1 à 12' +
-                                                       '. Pour le traitement commatique' + '\n' +
-                                                       'Par défaut la dénivellation est fixée à 12')
-                if self.scalair == 0:
+                self.scalair = simpledialog.askinteger('Inversion', messe)
+                if self.scalair in (0, None):
                     self.scalair = 12
+                (lineno(), "self.scalair:", self.scalair)
             btcom_dr0up.configure(text='Scalaire = ' + str(self.scalair))
+            btcom_up.invoke()
+
+        def typies():
+            """L'utilisateur définit le type de bouclage chromatique"""
+            messe = ("Le cycle diatonique est fermé par défaut.\n"
+                     "_ Non  : pour rester en type fermé.\n"
+                     "_ Oui : pour passer en type ouvert.")
+            passe = messagebox.askyesnocancel('Bascule', messe)
+            # Passe (|Yes=True|No=False|Annuler=None|)
+            if passe:
+                passe_messe = "Cycle ouvert"
+            elif passe is not None:
+                passe_messe = "Cycle fermé"
+            else:
+                passe_messe = self.cyclic
+            self.cyclic = passe_messe
+            (lineno(), "Typies", "self.cyclic:", self.cyclic)
             btcom_up.invoke()
 
         frcom_drup2 = Frame(self.ccc, width=20, height=3)  # Partie droite
@@ -484,6 +505,10 @@ class Gammique(Tk):
         btcom_dr0up = Button(frcom_drup2, text=sca_txt, height=1, width=15, bg='yellow',
                              command=lambda: scaler())
         btcom_dr0up.pack()
+        typ_txt = 'Point cyclic'
+        btcom_dr1up = Button(frcom_drup2, text=typ_txt, height=1, width=15, bg='yellow',
+                             command=lambda: typies())
+        btcom_dr1up.pack()
         frcom_dr = Frame(self.ccc, width=30, height=3)  # Partie droite
         frcom_dr.pack(side=RIGHT)
         btcom_dr0 = Button(frcom_dr, text='Toutes les lignes', height=1, width=15, bg='white',
@@ -1668,7 +1693,7 @@ class Gammique(Tk):
         if self.chm is not None:
             self.chm.destroy()
         self.chm = Toplevel(self)
-        self.chm.title('Entité Gammique : Chromatisme en %s' % self.c_ii)
+        self.chm.title('Entité Gammique : Chromatisme en %s' % self.c_ii)  # Fenêtre chromatique.
         self.chm.geometry('700x600+800+40')
         self.chm.protocol("WM_DELETE_WINDOW", lambda: Gammique.fermeture(self, 'chrome'))
         # Sélection du mode chromatique (naturel) ou (atonal)
@@ -1755,6 +1780,7 @@ class Gammique(Tk):
                             rg_bemdeg = c, maj1
                             chr_bem.append(rg_bemdeg)
         (lineno(), ' chr_dies:', chr_dies, '\n chr_bem:', chr_bem)  # [(rangX, degréN)]
+
         # 1753  chr_dies: [(10, 1), (30, 2), (60, 4), (80, 5), (100, 6)]    chnat_aug = [1, 2, 4, 5, 6]
         #  chr_bem: [(10, 2), (30, 3), (60, 5), (80, 6), (100, 7)]          chnat_min = [2, 3, 5, 6, 7]
 
@@ -3405,10 +3431,10 @@ class Gammique(Tk):
             fin += 1
             if fin + 1 < 8:
                 deb_arc = lis_pds.index(lpt)  # Index
-                if lis_pds_tri[fin-1] != lis_pds_tri[fin]:
+                if lis_pds_tri[fin - 1] != lis_pds_tri[fin]:
                     pro_arc = lis_pds_tri[fin]
                 else:
-                    pro_arc = lis_pds_tri[fin+1]
+                    pro_arc = lis_pds_tri[fin + 1]
                 fin_arc = lis_pds.index(pro_arc)
                 if deb_arc > fin_arc:
                     dif_arc = lig_deg[deb_arc] - lig_deg[fin_arc]
@@ -3427,16 +3453,16 @@ class Gammique(Tk):
                     (lineno(), '* D_couleur:', couleur, 'clones2:', clones2)
                     self.cat.create_line((axe, lig_deg[deb_arc]), (dep, mil), (axe, lig_deg[fin_arc]),
                                          smooth=True, width=1, fill=couleur, arrow='last', arrowshape=(10, 15, 5))
-                    if lis_pds_tri[fin-1] not in fin2:
-                        fin2.append(lis_pds_tri[fin-1])
-                        self.cat.create_line((axe, lig_deg[deb_arc]), (axe+60, lig_deg[deb_arc]), dash=(3, 3))
+                    if lis_pds_tri[fin - 1] not in fin2:
+                        fin2.append(lis_pds_tri[fin - 1])
+                        self.cat.create_line((axe, lig_deg[deb_arc]), (axe + 60, lig_deg[deb_arc]), dash=(3, 3))
                         texte = str(fin) + ') ' + str(lis_pds[deb_arc])
-                        self.cat.create_text(axe+100, lig_deg[deb_arc], text=texte, font=f_cat3, fill='red')
-                        (lineno(), 'texte droite:', texte, 'fin2:', fin2, fin-1)
+                        self.cat.create_text(axe + 100, lig_deg[deb_arc], text=texte, font=f_cat3, fill='red')
+                        (lineno(), 'texte droite:', texte, 'fin2:', fin2, fin - 1)
                     (lineno(), fin, 'Droit normal deb:', deb_arc, 'fin:', fin_arc, 'mil:', mil, 'lpt:', lpt)
                     if fin == 6:  # Fin de droite
                         self.cat.create_line((axe, lig_deg[fin_arc]), (axe + 60, lig_deg[fin_arc]), dash=(3, 3))
-                        texte = str(fin+1) + ') ' + str(lis_pds[lis_pds_tri[fin]])
+                        texte = str(fin + 1) + ') ' + str(lis_pds[lis_pds_tri[fin]])
                         self.cat.create_text(axe + 100, lig_deg[fin_arc], text=texte, font=f_cat3, fill='red')
                     if deb_arc in clones:  # Rencontré un clone Partie droite
                         conclu = tester(deb_arc, fin_arc, clones)
@@ -3470,16 +3496,16 @@ class Gammique(Tk):
                     (lineno(), '* D_couleur:', couleur, 'clones2:', clones2)
                     self.cat.create_line((axe, lig_deg[deb_arc]), (dep, mil), (axe, lig_deg[fin_arc]),
                                          smooth=True, width=1, fill=couleur, arrow='last', arrowshape=(10, 15, 5))
-                    if lis_pds_tri[fin-1] not in fin2:
-                        fin2.append(lis_pds_tri[fin-1])
+                    if lis_pds_tri[fin - 1] not in fin2:
+                        fin2.append(lis_pds_tri[fin - 1])
                         self.cat.create_line((axe, lig_deg[deb_arc]), (axe - 60, lig_deg[deb_arc]), dash=(3, 3))
                         texte = str(fin) + ') ' + str(lis_pds[deb_arc])
                         self.cat.create_text(axe - 100, lig_deg[deb_arc], text=texte, font=f_cat3, fill='red')
-                        (lineno(), 'texte gauche:', texte, 'fin2:', fin2, fin-1)
+                        (lineno(), 'texte gauche:', texte, 'fin2:', fin2, fin - 1)
                     (lineno(), fin, 'Gauche normal deb:', deb_arc, 'fin:', fin_arc, 'mil:', mil, 'lpt:', lpt)
                     if fin == 6:  # Fin de gauche
                         self.cat.create_line((axe, lig_deg[fin_arc]), (axe - 60, lig_deg[fin_arc]), dash=(3, 3))
-                        texte = str(fin+1) + ') ' + str(lis_pds_tri[6])
+                        texte = str(fin + 1) + ') ' + str(lis_pds_tri[6])
                         self.cat.create_text(axe - 100, lig_deg[fin_arc], text=texte, font=f_cat3, fill='red')
                     if deb_arc in clones:  # Rencontré plusieurs clones
                         conclu = tester(deb_arc, fin_arc, clones)
@@ -3535,7 +3561,7 @@ class Commatique(Frame):
         # Dictionnarisation de l'ordre chromatique ascendant.
         self.normal = {}  # Dictionnaire des tonalités chromatiques en ordre ascendant(normal).
 
-    def brnch_1(self, c_oo, c_pp, c_iii, s_cal):
+    def brnch_1(self, c_oo, c_pp, c_iii, s_cal, p_cyc):
         """Réception des gammes calculées :
             c_oo = Modes diatoniques calculés + Chromes analogues (sup/inf)
             c_pp = Modes diatoniques calculés + Chromes numériques (sup/inf)
@@ -3554,7 +3580,7 @@ class Commatique(Frame):
         if self.ctpier is not None:
             self.ctpier.destroy()
         self.ctpier = Toplevel(self)  # Fenêtre des douze gammes commatiques.
-        self.ctpier.title('Entités Commatiques du Chromatisme en  %s' % c_iii)
+        self.ctpier.title('Entités Commatiques du Chromatisme en  %s' % c_iii)  # Fenêtre commatique simple.
         self.ctpier.geometry('900x900+150+100')
         # Écriture chromatique de la gamme en cours (les formules (ana/num)
         self.ccnbase = Canvas(self.ctpier, bg='Ivory', height=800, width=600)
@@ -3564,7 +3590,7 @@ class Commatique(Frame):
         self.ccn_bout = Canvas(self.ctpier, bg='Ivory', height=800, width=100)
         self.ccn_bout.pack(expand=True)  # ccn_bout = Second Canvas original pour les boutons
         self.ccn_bout.delete(ALL)
-        c_ii2 = "{}{}".format('Commatismes en cours : ', str(c_iii))
+        c_ii2 = "{}{}       {}".format('Commatismes en cours : ', str(c_iii), p_cyc)
         self.ccnbase.create_text(112, 8, font=self.f_bt, text=c_ii2, fill='blue')
         if s_cal == 0:  # Niveau d'inversion commatique par défaut.
             s_cal = 12
@@ -3601,7 +3627,8 @@ class Commatique(Frame):
 
         # Appel à la fonction de mise en forme commatique
         (lineno(), 'GGV6/', clo_bb, '\nc_iii:', c_iii, '\nclo_normal:', clo_normal, s_cal)
-        topo_com = progam_chrom.chromatic(clo_bb, c_iii, clo_normal, s_cal)
+        (lineno(), "GGV6 p_cyc:", p_cyc)
+        topo_com = progam_chrom.chromatic(clo_bb, c_iii, clo_normal, s_cal, p_cyc)
         (lineno(), 'self.c_bb[0]:', self.c_bb[0], 'Longueur =', len(self.c_bb[0]))
         '''3598 self.c_bb[0]: ([('', 'C')], [(('+', 'C'), ('-', 'D'))], [('', 'D')], [(('+', 'D'), ('-', 'E'))], 
         [('', 'E')], [('', 'F')], [(('+', 'F'), ('-', 'G'))], [('', 'G')], [(('+', 'G'), ('-', 'A'))], [('', 'A')], 
@@ -3610,7 +3637,7 @@ class Commatique(Frame):
         '''3602 GGV c_iii: C Maj Longueur = 5 s_cal: 12. s_cal (= Niveau d'inversion).'''
         (lineno(), 'self.normal:', self.normal, 'Longueur =', len(self.normal))
         '''3604 self.normal: {0: ['1', '+1', '2', '+2', '3', '4', '+4', '5', '+5', '6', '+6', '7']/...'''
-        (lineno(), 'GGV6/topo_com0:', topo_com[0], '\n1:', topo_com[1], '\n2:', topo_com[2], '\n:', topo_com)
+        (lineno(), 'GGV6/topo_com0:', topo_com[0], '\n*1:', topo_com[1], '\n*2:', topo_com[2], '\n*:', topo_com)
         '''Retour topo_com =
             topo_com[0] = Dictionnaire global des 12 premiers modes toniques commas.[dic_com]
                 Tracer les premiers modes, car il s'agit de la première inspection (None).
@@ -3677,7 +3704,7 @@ class Commatique(Frame):
                         self.ccnbase.create_text(c_x + c_j, c_y + c_i + 5, font=self.f_bv, text=c_rip2, fill='blue')
                         (lineno(), 'C_Rip1:', c_rip1, i)  # Note chromatique du rang supérieur('-D')
                         (lineno(), 'C_Rip2:', c_rip2, i)  # Note chromatique du rang inférieur('+C')
-                    c_rop2 = topo_com[0][cle_top0][4][j]   # Valeur numérique de la tonalité inférieure
+                    c_rop2 = topo_com[0][cle_top0][4][j]  # Valeur numérique de la tonalité inférieure
                     self.ccnbase.create_text(c_x + c_j, c_y + c_i + 20, font=self.f_bt, text=c_rop2, fill='olive')
                     (lineno(), 'C_Rop2:', c_rop2)  # c_rop2 = Valeur numérique de la tonalité
                 if i in c_rop9:
@@ -3692,7 +3719,7 @@ class Commatique(Frame):
             if 'DOUBLON' not in pin_rop[pr]:
                 pin_rop[pr] = Button(self.ccn_bout, text=pin_rop[pr], height=1, width=60, bg='lightblue',
                                      command=lambda m=pin_rop[pr]:
-                                     progam_micro.Comique.commatic(self, s_cal, topo_com, m))
+                                     progam_micro.Comique.commatic(self, s_cal, topo_com, m, p_cyc))
                 pin_rop[pr].pack(pady=6, padx=6)
         pin_rop.clear()
         (lineno(), topo_com[0], '\n ***', topo_com[1], '\n ***', topo_com[2])
@@ -3700,7 +3727,7 @@ class Commatique(Frame):
         # self.c_bb[0] = Mode tonique en cours len(1)=hepta et len(2)=chroma
         # c_iii = Nom de la gamme en cours
         # self normal = Tonalité numérique en cours
-        (lineno(), 'Pied de page', 'self.c_bb[0]', self.c_bb[0], 'Scalaire:', s_cal)
+        (lineno(), 'Pied de page', 'self.c_bb[0]', self.c_bb[0], 'Scalaire:', s_cal, "Cycles:", p_cyc)
 
 # class Gammique
 # Gammique().mainloop()

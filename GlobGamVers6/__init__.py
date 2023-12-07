@@ -469,7 +469,7 @@ class Gammique(Tk):
             self.btcom.invoke()
 
         def scaler():
-            while self.scalair > 12 or self.scalair in (0, ''):
+            while self.scalair in (0, "") or self.scalair > 12:
                 self.scalair = simpledialog.askinteger('Inversion', 'Entrez un nombre entier de 1 à 12' +
                                                        '. Pour le traitement commatique' + '\n' +
                                                        'Par défaut la dénivellation est fixée à 12')
@@ -3542,11 +3542,18 @@ class Commatique(Frame):
             c_iii = Nom de la gamme 'Note + Valeur'
             s_cal = Taux de dénivellation des degrés pour commatisme"""
         (lineno(), '2665-brnch_1-c_oo', type(c_oo), c_oo[0][0][0], '\n')
+        # 3544 2665-brnch_1-c_oo <class 'list'> ([('', 'C')], [(('+', 'C'), ('-', 'D'))], [('', 'D')], [(('+', 'D'),
+        # ('-', 'E'))], [('', 'E')], [('', 'F')], [(('+', 'F'), ('-', 'G'))], [('', 'G')], [(('+', 'G'), ('-', 'A'))],
+        # [('', 'A')], [(('+', 'A'), ('-', 'B'))], [('', 'B')])
         (lineno(), '2665-brnch_1-c_pp', type(c_pp), c_pp[0][0][0])
+        # 3548 2665-brnch_1-c_pp <class 'list'> ([('g', 0, '1')], [('', 1, '+1')], [('g', 2, '2')], [('', 3, '+2')],
+        # [('g', 4, '3')], [('g', 5, '4')], [('', 6, '+4')], [('g', 7, '5')], [('', 8, '+5')], [('g', 9, '6')],
+        # [('', 10, '+6')], [('g', 11, '7')])
         (lineno(), '2665-brnch_1-c_iii', type(c_iii), c_iii, 'Long:', len(c_iii), 'SCA:', s_cal)
+        # 3552 2665-brnch_1-c_iii <class 'str'> C Maj Long: 5 SCA: 0.
         if self.ctpier is not None:
             self.ctpier.destroy()
-        self.ctpier = Toplevel(self)
+        self.ctpier = Toplevel(self)  # Fenêtre des douze gammes commatiques.
         self.ctpier.title('Entités Commatiques du Chromatisme en  %s' % c_iii)
         self.ctpier.geometry('900x900+150+100')
         # Écriture chromatique de la gamme en cours (les formules (ana/num)
@@ -3559,7 +3566,7 @@ class Commatique(Frame):
         self.ccn_bout.delete(ALL)
         c_ii2 = "{}{}".format('Commatismes en cours : ', str(c_iii))
         self.ccnbase.create_text(112, 8, font=self.f_bt, text=c_ii2, fill='blue')
-        if s_cal == 0:
+        if s_cal == 0:  # Niveau d'inversion commatique par défaut.
             s_cal = 12
             (lineno(), 'Scalaire:', s_cal)
         #
@@ -3596,13 +3603,13 @@ class Commatique(Frame):
         (lineno(), 'GGV6/', clo_bb, '\nc_iii:', c_iii, '\nclo_normal:', clo_normal, s_cal)
         topo_com = progam_chrom.chromatic(clo_bb, c_iii, clo_normal, s_cal)
         (lineno(), 'self.c_bb[0]:', self.c_bb[0], 'Longueur =', len(self.c_bb[0]))
-        '''3127 self.c_bb[0]: ([('', 'C')], [(('+', 'C'), ('-', 'D'))], [('', 'D')], [(('+', 'D'), ('-', 'E'))], 
+        '''3598 self.c_bb[0]: ([('', 'C')], [(('+', 'C'), ('-', 'D'))], [('', 'D')], [(('+', 'D'), ('-', 'E'))], 
         [('', 'E')], [('', 'F')], [(('+', 'F'), ('-', 'G'))], [('', 'G')], [(('+', 'G'), ('-', 'A'))], [('', 'A')], 
         [(('+', 'A'), ('-', 'B'))], [('', 'B')]) Longueur = 12'''
-        (lineno(), 'c_iii:', c_iii, 'Longueur =', len(c_iii))
-        '''3131 c_iii: [[12, '-DG-A', ('C Maj', 1)]] Longueur = 1'''
+        (lineno(), 'GGV c_iii:', c_iii, 'Longueur =', len(c_iii), "s_cal:", s_cal)
+        '''3602 GGV c_iii: C Maj Longueur = 5 s_cal: 12. s_cal (= Niveau d'inversion).'''
         (lineno(), 'self.normal:', self.normal, 'Longueur =', len(self.normal))
-        '''3133 self.normal: {0: ['1', '+1', '2', '+2', '3', '4', '+4', '5', '+5', '6', '+6', '7']/...'''
+        '''3604 self.normal: {0: ['1', '+1', '2', '+2', '3', '4', '+4', '5', '+5', '6', '+6', '7']/...'''
         (lineno(), 'GGV6/topo_com0:', topo_com[0], '\n1:', topo_com[1], '\n2:', topo_com[2], '\n:', topo_com)
         '''Retour topo_com =
             topo_com[0] = Dictionnaire global des 12 premiers modes toniques commas.[dic_com]
@@ -3697,6 +3704,3 @@ class Commatique(Frame):
 
 # class Gammique
 # Gammique().mainloop()
-
-
-'''canvas.create_line((50, 50), (100, 100), width=4, fill='red')'''

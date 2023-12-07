@@ -56,10 +56,14 @@ def transposer(rip0, rip1, rip2, rip3, sub):
     # 3: {2: ['+', 'C'], 4: ['+', 'D'], 7: ['+', 'F'], 9: ['+', 'G'], 11: ['+', 'A']}  len(rip0): 8
 
     # Montage table des clés majeures de dic_maj
-    cle_aut, note, note1, ok = [], '', '', False
+    cle_aut, note, ok = [], '', False
+    note0, note1, note2, note3 = '', '', '', ''
     for i in range(1, 14):
         if i in rip1.keys():
-            (lineno(), rip0, '\n', rip1, len(rip0), len(rip1))
+            (lineno(), rip0, len(rip0), '\n', rip1, len(rip1))
+            # 62 {1: ['C'], 3: ['D'], 5: ['E'], 6: ['F'], 8: ['G'], 10: ['A'], 12: ['B'], 13: ['C']} 8
+            #    {1: ['C'], 3: ['D'], 5: ['E'], 6: ['F'], 8: ['G'], 10: ['A'], 12: ['B'], 13: ['C']} 8
+            # ou : 62 {1: '+B'} 1 {1: ''} 1. Comment : Utilisation rip0.1 pour d'autres fins.
             if len(rip0) > 1:
                 note0 = rip0[i][0]
                 ('>1>1>1', lineno(), 'len2 note0:', note0)
@@ -73,20 +77,32 @@ def transposer(rip0, rip1, rip2, rip3, sub):
                 cle_aut.append(note1)
                 (lineno(), 'note1:', note1)
         if i in rip2.keys():
-            (lineno(), rip2, '\n', rip3, len(rip2), len(rip3))
+            (lineno(), "rip2:", rip2, len(rip2), '\n   rip3:', rip3, len(rip3))
+            # 79 rip2: {2: ['-', 'D'], 4: ['-', 'E'], 7: ['-', 'G'], 9: ['-', 'A'], 11: ['-', 'B']} 5
+            #    rip3: {2: ['+', 'C'], 4: ['+', 'D'], 7: ['+', 'F'], 9: ['+', 'G'], 11: ['+', 'A']} 5
             if len(rip2) > 2:
+                (lineno(), "ok:", ok, "rip2:", rip2, len(rip2))
+                # 83 ok: False rip2: {2: ['-', 'D'], 4: ['-', 'E'], 7: ['-', 'G'], 9: ['-', 'A'], 11: ['-', 'B']} 5
                 if len(rip2[i]) == 1:
                     note2 = rip2[i]
+                    (lineno(), "rip2:", rip2[i], len(rip2[i]))
                 else:
                     note2 = rip2[i][0] + rip2[i][1]
+                    (lineno(), "rip2:", rip2[i], len(rip2[i]))
+                    # 89 rip2: ['-', 'D'] 2
                 if len(rip3[i]) == 1:
                     note3 = rip3[i]
+                    (lineno(), "rip3:", rip3[i], len(rip3[i]))
                 else:
                     note3 = rip3[i][0] + rip3[i][1]
-                (lineno(), rip2)
+                    (lineno(), "rip3:", rip3[i], len(rip3[i]))
+                    # 96 rip3: ['+', 'C'] 2
+                (lineno(), )
             else:
                 note2, note3 = rip2[i], rip3[i]
                 ok = True
+                (lineno(), "ok:", ok, "note2:", note2, "note3:", note3)
+                # 103 ok: True note2:  note3:
             if note2 not in cle_aut and len(note2) > 1:
                 cle_aut.append(note2)
                 (lineno(), 'note2:', note2)
@@ -95,7 +111,9 @@ def transposer(rip0, rip1, rip2, rip3, sub):
                 (lineno(), 'note3:', note3)
         if ok:
             break
-    print(lineno(), 'cle_aut:', cle_aut)
+    (lineno(), "Break note0:", note0, "n1:", note1, "n2:", note2, "n3:", note3)
+    # 114 Break note0: C n1:  n2: -B n3: +A
+    (lineno(), 'cle_aut:', cle_aut)
     x = 0
     for ca in cle_aut:  # Lire les clés une par une
         ('\n', lineno(), 'ca:', ca)
@@ -190,7 +208,8 @@ def transposer(rip0, rip1, rip2, rip3, sub):
                 if note not in dic_maj[ca]:
                     dic_maj[ca].append(note)
                     gam_abc[ca].append(note)
-    ('\n', lineno(), 'dic_maj:', dic_maj.keys(), '\ngam_abc:', gam_abc['C'])
+    ('\n GGC', lineno(), 'dic_maj:', dic_maj.keys(), '\ngam_abc:', gam_abc['C'])
+    # GGC 211 dic_maj et gam_abc, les dictionnaires sont liés aux gammes majeures.
     if sub == 'sub':  # Employé par GlobGamSim pour des nouvelles gammes majeures
         return dic_maj
 
@@ -245,7 +264,7 @@ def chromatic(a, b, c, s):
         # (ia, 'a_diatonic[0][ia][0]:', a_diatonic)
         if ia == 11:
             (lineno(), 'GGC/dic_ana:', dic_ana, 'len:', len(a_diatonic[0][ia][0]), 'ia:', ia)
-            '''232 GGC/dic_ana: {1: ('', 'C'), 2: (('+', 'C'), ('-', 'D')), 3: ('', 'D'), 4: (('+', 'D'), ('-', 'E')), 
+            '''266 GGC/dic_ana: {1: ('', 'C'), 2: (('+', 'C'), ('-', 'D')), 3: ('', 'D'), 4: (('+', 'D'), ('-', 'E')), 
             5: ('', 'E'), 6: ('', 'F'), 7: (('+', 'F'), ('-', 'G')), 8: ('', 'G'), 9: (('+', 'G'), ('-', 'A')), 
             10: ('', 'A'), 11: (('+', 'A'), ('-', 'B')), 12: ('', 'B')} len: 2 ia: 11'''
     # Mise en forme du dictionnaire dic_mod(ordre)(numéric)
@@ -292,6 +311,8 @@ def chromatic(a, b, c, s):
     dic_rip2.clear()
     dic_rip3.clear()
     gam0 = gam1 = ''
+    # Changement manuel en prévision d'une commande.
+    lgn_haute, lgn_basse = 0, 1  # Les lignes chromatiques hautes et basses.
     for yep in range(1, 13):  # Mesurer dic_ana[yep](notes:gamme ou chrome)
         (lineno(), '___________________*************___________________ Début de cycle yep:', yep)
         abc = 0
@@ -301,7 +322,10 @@ def chromatic(a, b, c, s):
                     abc += 1
         '''# abc < 2 = Note isolée dans dic_rip0 et dic_rip1'''
         if abc < 2:  # c_rip0, c_rip1 (note gamme avec/sans altération)
-            (lineno(), "Qu'est dic_ana[yep]?:", dic_ana[yep])
+            (lineno(), "Qu'est dic_ana[yep]?:", dic_ana[yep], "abc:", abc)
+            ''' Configuration normale :
+                    dic_rip0[yep] = note absolue = list(dic_ana[yep][1]) et 
+                    dic_rip1[yep] = note altérée = list(dic_ana[yep][1])'''
             if not list(dic_ana[yep][0]):  # Indexe la partie gauche de ('','') où est la note naturelle
                 dic_rip0[yep] = list(dic_ana[yep][1])
                 dic_rip1[yep] = list(dic_ana[yep][1])
@@ -320,23 +344,27 @@ def chromatic(a, b, c, s):
                 dic_inv[13] = dic_inv[1]
             (lineno(), 'GGC/dic_rip0.1[yep]:\t', yep, dic_rip0[yep], dic_rip1[yep])
         else:  # c_rip2, c_rip3 : Entretiennent les couplages
+            # ##########################################################################
+            # Partie isolée correspondante au possible inversion des poles chromatiques.
             (lineno(), "Qu'est dic_ana[yep]?:", dic_ana[yep][0], dic_ana[yep][1], 'yep:', yep)
-            dic_rip2[yep] = list(dic_ana[yep][1])
-            dic_rip3[yep] = list(dic_ana[yep][0])
+            ''' Configuration normale, soit boucle chromatique fermée :
+                    dic_rip2[yep] = list(dic_ana[yep][1]) et dic_rip3[yep] = list(dic_ana[yep][0])'''
+            dic_rip2[yep] = list(dic_ana[yep][lgn_haute])
+            dic_rip3[yep] = list(dic_ana[yep][lgn_basse])
             (lineno(), "dic_rip2.3:", dic_rip2[yep], dic_rip3[yep], 'yep:', yep)
             if yep == 1 and 1 in dic_rip2.keys():
                 (lineno(), "dic_rip2.3:", dic_rip2[yep], dic_rip3[yep], 'dic_ana[yep]:', dic_ana[yep], 'yep:', yep)
                 if dic_rip2[yep][0] != '':
-                    dic_rip2[yep] = [dic_ana[yep][1][0] + dic_ana[yep][1][1]]
+                    dic_rip2[yep] = [dic_ana[yep][lgn_haute][0] + dic_ana[yep][lgn_haute][1]]
                     (lineno(), "dic_rip2:", dic_rip2[yep], dic_ana[yep][1][0], dic_ana[yep][1][1])
                 else:
-                    dic_rip2[yep] = dic_ana[yep][1][1]
+                    dic_rip2[yep] = dic_ana[yep][lgn_haute][1]
                     (lineno(), "dic_rip2:", dic_rip2[yep])
                 if dic_rip3[yep][1][0] != '':
-                    dic_rip3[yep] = [dic_ana[yep][0][0] + dic_ana[yep][0][1]]
+                    dic_rip3[yep] = [dic_ana[yep][lgn_basse][0] + dic_ana[yep][lgn_basse][1]]
                     (lineno(), "dic_rip3:", dic_rip3[yep])
                 else:
-                    dic_rip3[yep] = dic_ana[yep][0][1]
+                    dic_rip3[yep] = dic_ana[yep][lgn_basse][1]
                     (lineno(), "dic_rip3:", dic_rip3[yep], 'dic_ana[yep][0][1]:', dic_ana[yep][0])
                 gam0, gam1 = dic_rip2[yep][0], dic_rip3[yep]  # Gamme en cours originale
                 (lineno(), 'gam0.1:', gam0, gam1)
@@ -348,9 +376,16 @@ def chromatic(a, b, c, s):
     else:
         dic_rip2[13], dic_rip3[13] = dic_rip2[1], dic_rip3[1]
     ('\n', lineno(), 'transposer dic_rip0.1.2.3:', dic_rip0, '\n1:', dic_rip1, '\n2:', dic_rip2, '\n3:', dic_rip3)
+    # 369 transposer dic_rip0.1.2.3: {1: ['C'], 3: ['D'], 5: ['E'], 6: ['F'], 8: ['G'], 10: ['A'], 12: ['B'], 13: ['C']}
+    # 1: {1: ['C'], 3: ['D'], 5: ['E'], 6: ['F'], 8: ['G'], 10: ['A'], 12: ['B'], 13: ['C']}
+    # 2: {2: ['-', 'D'], 4: ['-', 'E'], 7: ['-', 'G'], 9: ['-', 'A'], 11: ['-', 'B']}
+    # 3: {2: ['+', 'C'], 4: ['+', 'D'], 7: ['+', 'F'], 9: ['+', 'G'], 11: ['+', 'A']}
     transposer(dic_rip0, dic_rip1, dic_rip2, dic_rip3, '')
-    (lineno(), '_GGC/dic_rip0.1:  \n', dic_rip0, '\n', dic_rip1)
-    (lineno(), '_GGC/dic_rip2.3:  \n', dic_rip2, '\n', dic_rip3)
+    (lineno(), '_GGC/dic_rip : n0', dic_rip0, '\nn1', dic_rip1, '\nn2', dic_rip2, '\nn3', dic_rip3)
+    # 371 _GGC/dic_rip : n0 {1: ['C'], 3: ['D'], 5: ['E'], 6: ['F'], 8: ['G'], 10: ['A'], 12: ['B'], 13: ['C']}
+    # n1 {1: ['C'], 3: ['D'], 5: ['E'], 6: ['F'], 8: ['G'], 10: ['A'], 12: ['B'], 13: ['C']}
+    # n2 {2: ['-', 'D'], 4: ['-', 'E'], 7: ['-', 'G'], 9: ['-', 'A'], 11: ['-', 'B']}
+    # n3 {2: ['+', 'C'], 4: ['+', 'D'], 7: ['+', 'F'], 9: ['+', 'G'], 11: ['+', 'A']}
     (lineno(), 'Indices \tgam0:', gam0, '\t\tgam1:', gam1, '\t\tb_diatonic[0]:', b_diatonic[0])
 
     '''Phase de renseignement de la matrice (yep) | gam_mod = dic_maj = Modes majeurs avec les intervalles'''
@@ -854,160 +889,166 @@ def chromatic(a, b, c, s):
             (lineno(), 'tab:', tab_trip[tab], 'rap_trip:', rap_trip[tab])
     '''Recueil des toniques présentes : gam0 = Tonalité principale parmi les toniques'''
     # Lecture des colonnes absentes pour trouver les toniques fondamentales
-    (lineno(), 'Cas3 ABSENCES dic_abs:', dic_abs, dic_maj.keys())
+    (lineno(), 'Cas3 ABSENCES dic_abs:', dic_abs, dic_maj.keys(), "ton_un:", ton_un)
     '''790 Cas3 ABSENCES dic_abs: {}'''  # Toujours pas d'absence ?!
-    for cas_duc in dic_abs.keys():
-        (lineno(), 'GGC/ton_un:', ton_un, '\n', dic_maj[ton_un])
-        ('___ ___ ___ ___ ___ ___ ___ ;', lineno(), 'Cas3 cas_duc:', cas_duc[1])
-        len_sos1 = len_sos2 = 0
-        but = False
-        # Définir les notes (hautes et basses) de gam0[0].
-        axe = ici = 0
-        sur_cas, bas_cas, cas_cas = [], [], []
-        (lineno(), 'ton_un:', ton_un, 'ici:', ici)
-        #
-        while not but:
-            ici += 1
-            axe -= 1
-            if ici == 12:
-                ici = 0
-            if axe == -1:
-                axe = 11
-            if dic_maj[ton_un][ici]:  # ic_cas = Cas à diminuer
-                ic_cas = dic_maj[ton_un][ici]
-                ic_deg, ic_sig = ic_cas[len(ic_cas) - 1:], ic_cas[:len(ic_cas) - 1]
-                ic_rng = int(alteration(ic_sig))  # Rang de l'altération
-                # Mise à niveau tonique des degrés(Cas à diminuer)
-                if ic_rng < 0:  # 'diminuer un diminué'
-                    (lineno(), 'ic_rng:', ic_rng, 'diminuer un diminué ici:', ici)
-                    id_cas = abs(ic_rng) + ici
-                    no_cas = tab_inf[id_cas] + ic_deg
-                    if no_cas not in cas_cas:
-                        cas_cas.append(no_cas)
-                        (lineno(), 'cas_cas:', cas_cas)
-                else:  # 'diminuer un augmenté'
-                    (lineno(), 'ic_rng:', ic_rng, 'diminuer un augmenté ici:', ici)
-                    if ic_rng - ici > 0:
-                        id_cas = ic_rng - ici
-                        no_cas = tab_sup[id_cas] + ic_deg
-                        if no_cas not in cas_cas:
-                            cas_cas.append(no_cas)
-                            (lineno(), 'id_cas:', id_cas, 'ici:', ici, 'no_cas:', no_cas)
-                    else:  # La différence est inférieure à zéro
-                        id_cas = ici - ic_rng
-                        no_cas = tab_inf[id_cas] + ic_deg
-                        if no_cas not in cas_cas:
-                            cas_cas.append(no_cas)
-                            (lineno(), 'id_cas:', id_cas, 'ici:', ici, 'no_cas:', no_cas)
-                    (lineno(), 'ici:', ici, 'ic_rng:', ic_rng)
-                ic = dic_maj[ton_un][ici], ici
-                sur_cas.append(ic)  # sur_cas = Couple (note/index) de la partie supérieure
-                (lineno(), 'ic:', ic, ':', ic_deg, ic_sig, 'cas_cas:', cas_cas)
-            if dic_maj[ton_un][axe]:  # ax_cas = Cas à augmenter
-                ax_cas = dic_maj[ton_un][axe]
-                ax_deg, ax_sig = ax_cas[len(ax_cas)-1:], ax_cas[:len(ax_cas)-1]
-                ax_rng = int(alteration(ax_sig))
-                # Mise à niveau tonique des degrés(Cas à augmenter)
-                if ax_rng > -1:  # 'augmenter un augmenté'
-                    (lineno(), 'ax_rng:', ax_rng, 'augmenter un augmenté axe:', axe)
-                    if axe == 11:  # ax=11 = Emplacement 7ème majeure
-                        no_cas = tab_sup[ax_rng + 1] + ax_deg
-                        if no_cas not in cas_cas:
-                            cas_cas.append(no_cas)
-                            (lineno(), 'id_cas:', 'no_cas:', no_cas)
-                    else:  # autre cas que 11
-                        id_cas = (12 - axe) + ax_rng
-                        no_cas = tab_sup[id_cas] + ax_deg
-                        if no_cas not in cas_cas:
-                            cas_cas.append(no_cas)
-                            (lineno(), 'id_cas:', id_cas, 'axe:', axe)
-                else:  # 'augmenter un diminué'
-                    (lineno(), 'ax_rng:', ax_rng, 'augmenter un diminué axe:', axe)
-                    if axe == 11:  # ax=11 = Emplacement 7ème majeure
-                        id_cas = abs(ax_rng) - 1
-                        no_cas = tab_inf[id_cas] + ax_deg
-                        if no_cas not in cas_cas:
-                            cas_cas.append(no_cas)
-                            (lineno(), 'ax=11', cas_cas[0])
-                    else:  # autre cas que 11
-                        if abs(ax_rng) - (12 - axe) > 0:
-                            id_cas = abs(ax_rng) - (12 - axe)
-                            no_cas = tab_inf[id_cas] + ax_deg
+    # Pas d'absence à traiter jusqu'à maintenant, correction possible à venir (au cas).
+    # Sinon, cette section est obsolète.
+    for da in dic_abs.values():
+        if da:
+            (lineno(), "*** ton_un:", ton_un, "da:", da)
+            for cas_duc in dic_abs.keys():
+                (lineno(), 'GGC/ton_un:', ton_un, '\n', dic_maj.keys())
+                ('___ ___ ___ ___ ___ ___ ___ ;', lineno(), 'Cas3 cas_duc:', cas_duc[1])
+                len_sos1 = len_sos2 = 0
+                but = False
+                # Définir les notes (hautes et basses) de gam0[0].
+                axe = ici = 0
+                sur_cas, bas_cas, cas_cas = [], [], []
+                (lineno(), 'ton_un:', ton_un, 'ici:', ici)
+                #
+                while not but:
+                    ici += 1
+                    axe -= 1
+                    if ici == 12:
+                        ici = 0
+                    if axe == -1:
+                        axe = 11
+                    if dic_maj[ton_un][ici]:  # ic_cas = Cas à diminuer
+                        ic_cas = dic_maj[ton_un][ici]
+                        ic_deg, ic_sig = ic_cas[len(ic_cas) - 1:], ic_cas[:len(ic_cas) - 1]
+                        ic_rng = int(alteration(ic_sig))  # Rang de l'altération
+                        # Mise à niveau tonique des degrés(Cas à diminuer)
+                        if ic_rng < 0:  # 'diminuer un diminué'
+                            (lineno(), 'ic_rng:', ic_rng, 'diminuer un diminué ici:', ici)
+                            id_cas = abs(ic_rng) + ici
+                            no_cas = tab_inf[id_cas] + ic_deg
                             if no_cas not in cas_cas:
                                 cas_cas.append(no_cas)
-                                (lineno(), 'id_cas:', id_cas, 'axe:', axe, 'no_cas:', no_cas)
-                        else:  # La différence est inférieure à zéro
-                            id_cas = (12 - axe) + ax_rng
-                            no_cas = tab_sup[id_cas] + ax_deg
-                            if no_cas not in cas_cas:
-                                cas_cas.append(no_cas)
-                                (lineno(), 'id_cas:', id_cas, 'axe:', axe, 'no_cas:', no_cas)
-                ax = dic_maj[ton_un][axe], axe
-                bas_cas.append(ax)  # bas_cas = Couple (note/index) de la partie inférieure
-                (lineno(), 'ax:', ax, 'ax_deg:', ax_deg, 'ax_sig:', ax_sig, 'cas_cas:', cas_cas)
-            if len(sur_cas) == len(bas_cas) == 12:
-                but = True
-                (lineno(), '(sur_cas):', len(sur_cas), '(bas_cas):', len(bas_cas), 'cas_duc[1]:', cas_duc[1])
-                ('§', cas_duc[1], lineno())
+                                (lineno(), 'cas_cas:', cas_cas)
+                        else:  # 'diminuer un augmenté'
+                            (lineno(), 'ic_rng:', ic_rng, 'diminuer un augmenté ici:', ici)
+                            if ic_rng - ici > 0:
+                                id_cas = ic_rng - ici
+                                no_cas = tab_sup[id_cas] + ic_deg
+                                if no_cas not in cas_cas:
+                                    cas_cas.append(no_cas)
+                                    (lineno(), 'id_cas:', id_cas, 'ici:', ici, 'no_cas:', no_cas)
+                            else:  # La différence est inférieure à zéro
+                                id_cas = ici - ic_rng
+                                no_cas = tab_inf[id_cas] + ic_deg
+                                if no_cas not in cas_cas:
+                                    cas_cas.append(no_cas)
+                                    (lineno(), 'id_cas:', id_cas, 'ici:', ici, 'no_cas:', no_cas)
+                            (lineno(), 'ici:', ici, 'ic_rng:', ic_rng)
+                        ic = dic_maj[ton_un][ici], ici
+                        sur_cas.append(ic)  # sur_cas = Couple (note/index) de la partie supérieure
+                        (lineno(), 'ic:', ic, ':', ic_deg, ic_sig, 'cas_cas:', cas_cas)
+                    if dic_maj[ton_un][axe]:  # ax_cas = Cas à augmenter
+                        ax_cas = dic_maj[ton_un][axe]
+                        ax_deg, ax_sig = ax_cas[len(ax_cas)-1:], ax_cas[:len(ax_cas)-1]
+                        ax_rng = int(alteration(ax_sig))
+                        # Mise à niveau tonique des degrés(Cas à augmenter)
+                        if ax_rng > -1:  # 'augmenter un augmenté'
+                            (lineno(), 'ax_rng:', ax_rng, 'augmenter un augmenté axe:', axe)
+                            if axe == 11:  # ax=11 = Emplacement 7ème majeure
+                                no_cas = tab_sup[ax_rng + 1] + ax_deg
+                                if no_cas not in cas_cas:
+                                    cas_cas.append(no_cas)
+                                    (lineno(), 'id_cas:', 'no_cas:', no_cas)
+                            else:  # autre cas que 11
+                                id_cas = (12 - axe) + ax_rng
+                                no_cas = tab_sup[id_cas] + ax_deg
+                                if no_cas not in cas_cas:
+                                    cas_cas.append(no_cas)
+                                    (lineno(), 'id_cas:', id_cas, 'axe:', axe)
+                        else:  # 'augmenter un diminué'
+                            (lineno(), 'ax_rng:', ax_rng, 'augmenter un diminué axe:', axe)
+                            if axe == 11:  # ax=11 = Emplacement 7ème majeure
+                                id_cas = abs(ax_rng) - 1
+                                no_cas = tab_inf[id_cas] + ax_deg
+                                if no_cas not in cas_cas:
+                                    cas_cas.append(no_cas)
+                                    (lineno(), 'ax=11', cas_cas[0])
+                            else:  # autre cas que 11
+                                if abs(ax_rng) - (12 - axe) > 0:
+                                    id_cas = abs(ax_rng) - (12 - axe)
+                                    no_cas = tab_inf[id_cas] + ax_deg
+                                    if no_cas not in cas_cas:
+                                        cas_cas.append(no_cas)
+                                        (lineno(), 'id_cas:', id_cas, 'axe:', axe, 'no_cas:', no_cas)
+                                else:  # La différence est inférieure à zéro
+                                    id_cas = (12 - axe) + ax_rng
+                                    no_cas = tab_sup[id_cas] + ax_deg
+                                    if no_cas not in cas_cas:
+                                        cas_cas.append(no_cas)
+                                        (lineno(), 'id_cas:', id_cas, 'axe:', axe, 'no_cas:', no_cas)
+                        ax = dic_maj[ton_un][axe], axe
+                        bas_cas.append(ax)  # bas_cas = Couple (note/index) de la partie inférieure
+                        (lineno(), 'ax:', ax, 'ax_deg:', ax_deg, 'ax_sig:', ax_sig, 'cas_cas:', cas_cas)
+                    if len(sur_cas) == len(bas_cas) == 12:
+                        but = True
+                        (lineno(), '(sur_cas):', len(sur_cas), '(bas_cas):', len(bas_cas), 'cas_duc[1]:', cas_duc[1])
+                        ('§', cas_duc[1], lineno())
 
-        # Enregistrement des toniques absentes dans dic_cas et dans dic_maj, en passant par la fonction transposer()
-        # def transposer(rip0, rip1, rip2, rip3):
-        ('===== == ======', lineno(), 'cas_cas:', cas_cas)
-        ('== == ==', lineno(), 'cas_cas:', dic_cas)
-        # 804 cas_cas: ['+B', 'oD', '^A', '-*E', 'o*F', 'x^G', '-**G', '+^^F', 'x^^E', '***A', '+^^^D',
-        # 'o***B', 'C', '^^^^C'] Exemple
-        '''# cas_cas = Liste les notes diatoniques altérées jusqu'en position tonique'''
-        (lineno(), 'dic_maj.keys():', dic_maj.keys())
-        ''' tripe0 = tripe1 = {1: []}, {1: []}  # Pour les notes de la gamme originale(et plus)
-            tripe2 = tripe3 = {2: []}, {2: []}  # Pour les notes chromatiques parallèles'''
-        for key in range(1, 14):
-            len_sos1, len_sos2 = len(dic_cas[gam0, 'cas0']), len(dic_cas[gam0, 'cas2'])
-            if key in dic_rip0.keys():
-                cas_sos = dic_rip0[key][cas_duc[1]], dic_rip1[key][cas_duc[1]], 'cas0'
-                (lineno(), 'cas_sos:', cas_sos, 'key:', key, '...... Key in dic_rip0.keys()')
-                for sos in range(2):
-                    if cas_sos[sos] in cas_cas:
-                        (lineno(), 'SOS:', sos, cas_sos[sos], 'dic_maj.keys():', dic_maj.keys())
-                        ckc = cas_sos[:2], (key, cas_duc[1])
-                        dic_cas[gam0, cas_sos[2]].append(ckc)
-                        if cas_sos[0] not in dic_maj.keys():
-                            tripe0[1] = cas_sos[0]
-                            ('trip', lineno(), 'tripe0:', tripe0, 'cas_sos[0]:', cas_sos[0])
-                        if cas_sos[1] not in dic_maj.keys():
-                            tripe1[1] = cas_sos[1]
-                            ('trip', lineno(), 'tripe1:', tripe1, 'cas_sos[1]:', cas_sos[1])
-                        ('TRIP', lineno(), 'tripe0:', tripe0, 'tripe1:', tripe1)
-                        (lineno(), 'sos:', dic_cas[gam0, cas_sos[2]], '\tkey:', key)
-                        #
-                (lineno(), 'cas_sos 0:', cas_sos, 'key:', key, 'cas_duc[1]:', cas_duc[1])
-                (lineno(), 'dic_cas 0:', dic_cas[gam0, 'cas0'][0])
-            else:
-                cas_sos = dic_rip2[key][cas_duc[1]], dic_rip3[key][cas_duc[1]], 'cas2'
-                (lineno(), 'cas_sos:', cas_sos, 'key:', key, '...... Key in dic_rip2.keys()')
-                for sos in range(2):
-                    if cas_sos[sos] in cas_cas:
-                        (lineno(), 'SOS:', sos, cas_sos[sos], 'dic_maj.keys():', dic_maj.keys())
-                        ckc = cas_sos[:2], (key, cas_duc[1])
-                        dic_cas[gam0, cas_sos[2]].append(ckc)
-                        if cas_sos[0] not in dic_maj.keys():
-                            tripe2[2] = cas_sos[0]
-                            ('TRIP', lineno(), 'tripe2:', tripe2)
-                        if cas_sos[1] not in dic_maj.keys():
-                            tripe3[2] = cas_sos[1]
-                            ('TRIP', lineno(), 'tripe3:', tripe3)
-                        ('TRIP', lineno(), 'tripe2:', tripe2, 'tripe3:', tripe3)
-                        (lineno(), 'sos:', dic_cas[gam0, cas_sos[2]], '\tkey:', key, 'SOS:', sos)
-                        #
-                (lineno(), 'cas_sos 2:', cas_sos, 'key:', key, 'cas_duc[1]:', cas_duc[1])
-                (lineno(), 'dic_cas 2:', dic_cas[gam0, 'cas2'])
-            deg_cas, sig_cas = cas_sos[0][len(cas_sos[0])-1:], cas_sos[0][:len(cas_sos[0])-1]
-            (lineno(), 'deg_cas:', deg_cas, 'sig_cas:', sig_cas)
-        # Appel de fonction (transposer) avec passage de paramètres sans retour
-        ('......Transposer tripe0.1.2.3', lineno(), '___ ___ Suite rip:', tripe0, tripe1, tripe2, tripe3)
-        transposer(tripe0, tripe1, tripe2, tripe3, '')
-        (lineno(), 'dic_cas:', dic_cas[gam0, 'cas0'], '\n :', dic_cas[gam0, 'cas2'])
-        ('** ', lineno(), '** ** ** len_sos:', len_sos1, 'len_sos2:', len_sos2)
-    #
+                # Enregistrement des toniques absentes dans dic_cas et dans dic_maj,
+                # en passant par la fonction transposer()
+                # def transposer(rip0, rip1, rip2, rip3):
+                ('===== == ======', lineno(), 'cas_cas:', cas_cas)
+                ('== == ==', lineno(), 'cas_cas:', dic_cas)
+                # 804 cas_cas: ['+B', 'oD', '^A', '-*E', 'o*F', 'x^G', '-**G', '+^^F', 'x^^E', '***A', '+^^^D',
+                # 'o***B', 'C', '^^^^C'] Exemple
+                '''# cas_cas = Liste les notes diatoniques altérées jusqu'en position tonique'''
+                (lineno(), 'dic_maj.keys():', dic_maj.keys())
+                ''' tripe0 = tripe1 = {1: []}, {1: []}  # Pour les notes de la gamme originale(et plus)
+                    tripe2 = tripe3 = {2: []}, {2: []}  # Pour les notes chromatiques parallèles'''
+                for key in range(1, 14):
+                    len_sos1, len_sos2 = len(dic_cas[gam0, 'cas0']), len(dic_cas[gam0, 'cas2'])
+                    if key in dic_rip0.keys():
+                        cas_sos = dic_rip0[key][cas_duc[1]], dic_rip1[key][cas_duc[1]], 'cas0'
+                        (lineno(), 'cas_sos:', cas_sos, 'key:', key, '...... Key in dic_rip0.keys()')
+                        for sos in range(2):
+                            if cas_sos[sos] in cas_cas:
+                                (lineno(), 'SOS:', sos, cas_sos[sos], 'dic_maj.keys():', dic_maj.keys())
+                                ckc = cas_sos[:2], (key, cas_duc[1])
+                                dic_cas[gam0, cas_sos[2]].append(ckc)
+                                if cas_sos[0] not in dic_maj.keys():
+                                    tripe0[1] = cas_sos[0]
+                                    ('trip', lineno(), 'tripe0:', tripe0, 'cas_sos[0]:', cas_sos[0])
+                                if cas_sos[1] not in dic_maj.keys():
+                                    tripe1[1] = cas_sos[1]
+                                    ('trip', lineno(), 'tripe1:', tripe1, 'cas_sos[1]:', cas_sos[1])
+                                ('TRIP', lineno(), 'tripe0:', tripe0, 'tripe1:', tripe1)
+                                (lineno(), 'sos:', dic_cas[gam0, cas_sos[2]], '\tkey:', key)
+                                #
+                        (lineno(), 'cas_sos 0:', cas_sos, 'key:', key, 'cas_duc[1]:', cas_duc[1])
+                        (lineno(), 'dic_cas 0:', dic_cas[gam0, 'cas0'][0])
+                    else:
+                        cas_sos = dic_rip2[key][cas_duc[1]], dic_rip3[key][cas_duc[1]], 'cas2'
+                        (lineno(), 'cas_sos:', cas_sos, 'key:', key, '...... Key in dic_rip2.keys()')
+                        for sos in range(2):
+                            if cas_sos[sos] in cas_cas:
+                                (lineno(), 'SOS:', sos, cas_sos[sos], 'dic_maj.keys():', dic_maj.keys())
+                                ckc = cas_sos[:2], (key, cas_duc[1])
+                                dic_cas[gam0, cas_sos[2]].append(ckc)
+                                if cas_sos[0] not in dic_maj.keys():
+                                    tripe2[2] = cas_sos[0]
+                                    ('TRIP', lineno(), 'tripe2:', tripe2)
+                                if cas_sos[1] not in dic_maj.keys():
+                                    tripe3[2] = cas_sos[1]
+                                    ('TRIP', lineno(), 'tripe3:', tripe3)
+                                ('TRIP', lineno(), 'tripe2:', tripe2, 'tripe3:', tripe3)
+                                (lineno(), 'sos:', dic_cas[gam0, cas_sos[2]], '\tkey:', key, 'SOS:', sos)
+                                #
+                        (lineno(), 'cas_sos 2:', cas_sos, 'key:', key, 'cas_duc[1]:', cas_duc[1])
+                        (lineno(), 'dic_cas 2:', dic_cas[gam0, 'cas2'])
+                    deg_cas, sig_cas = cas_sos[0][len(cas_sos[0])-1:], cas_sos[0][:len(cas_sos[0])-1]
+                    (lineno(), 'deg_cas:', deg_cas, 'sig_cas:', sig_cas)
+                # Appel de fonction (transposer) avec passage de paramètres sans retour
+                ('......Transposer tripe0.1.2.3', lineno(), '___ ___ Suite rip:', tripe0, tripe1, tripe2, tripe3)
+                transposer(tripe0, tripe1, tripe2, tripe3, '')
+                (lineno(), 'dic_cas:', dic_cas[gam0, 'cas0'], '\n :', dic_cas[gam0, 'cas2'])
+                ('** ', lineno(), '** ** ** len_sos:', len_sos1, 'len_sos2:', len_sos2)
+            #
     (lineno(), 'dic_cas:', dic_cas[gam0, 'cas0'], '\n', dic_cas[gam0, 'cas2'])
     (lineno(), 'dic_maj.keys():', dic_maj.keys(), 'len:', len(dic_maj.keys()))
     #

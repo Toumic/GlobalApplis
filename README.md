@@ -1,4 +1,4 @@
-{ GlobalApplis `Cette application`}
+{GlobalApplis `Cette application`}
 
 README.md
 
@@ -8,23 +8,23 @@ _Est une application qui rassemble plusieurs instruments de mesure._
 ## Résumé gammologique :
     La gammologie est une science qui consiste à étudier les gammes musicales
 La gamme musicale est naturelle et elle comporte 12 ½ tons chromatiques, dont sept tonalités majeures. Le fait de comprendre que les intervalles forment une ressource et une voie de développement, nous oriente dans une bonne direction. Celle du déploiement des possibilités gammales :
-###     _C'est bien connu ! Il y a 462 modulations diatoniques_
+###     _C'est bien connu ! Il y a quatre-cent-soixante-deux modulations diatoniques_
     _Les 66 gammes fondamentales & Uniques diatoniques toniques. & leurs 396 modes diatoniques_
 Les gammes sont développées grâce aux altérations bémol et dièse. Elles servent à la découverte des modèles fondamentaux et de leurs tonalités, et elles commencent le développement par la gamme naturellement majeure et non altérée. La nature non signée des notes est une indication de départ, si bien que cette gamme a des degrés modaux faisant partie d'une seule diatonie.
  
 ###    _C'est naturellement que la gamme comporte 7 tonalités différentes_
     _Tout un rassemblement diatonique aux tonalités qui se suivent sans se répéter_
-La simplicité de cette gamme (**CDEFGAB**). Et la calculabilité des tonalités et la légèreté des modes toniques fondamentaux. Un ensemble d'informations aisément transmissibles à un quelconque algorithme. On notera que la notion de poids prend son pied avec la gamme, la charge diatonique répartie sur les tares modales associées, pouvant à terme être démultiplié au facteur 7.
+La simplicité de cette gamme (**CDEFGAB**). Elle a la calculabilité des tonalités et la légèreté des modes toniques fondamentaux. Un ensemble d'informations aisément transmissibles à un quelconque algorithme. On notera que la notion de poids prend son pied avec la gamme, la charge diatonique répartie sur les tares modales associées, pouvant à terme être démultiplié au facteur 7.
  
-### _Comment cette appli agit pour "calculer" la gamme naturelle._
+### _Comment cette appli agit pour calculer : la gamme naturelle._
     _La gamme naturelle comporte deux tétracordes et sept modulations diatoniques_
-Normalement chaque nouvelle gamme fondamentale créée possède sept qualités modales majeures, si bien qu'à ce niveau la gamme de Do majeure et celle de Ré majeure ont les mêmes qualités tonales. Car elles sont égales du point de vue des intervalles. La gamme a sept notes & cinq intervalles qui déterminent sa tonalité, et en particulier la valeur naturelle de la tonalité. Comme il a été dit le tétracorde en fait partie en tant qu'objet, le mode tonique majeur de toutes les tonalités représentent une forme qualitative identique. Parmi les fondements ; il y a **°45x**, & ces notes : **[Do, bRé, bbMi, bbFa, ##Sol, #La, Si]**.
+Normalement chaque nouvelle gamme fondamentale créée possède sept qualités modales majeures, si bien qu'à ce niveau la gamme de Do majeure et celle de Ré majeure ont les mêmes qualités tonales. Car elles sont égales du point de vue des intervalles. La gamme a sept notes & cinq intervalles qui déterminent sa tonalité, et en particulier la valeur naturelle de la tonalité. Comme il a été dit le tétracorde en fait partie en tant qu'objet, le mode tonique majeur de toutes les tonalités représentent une forme qualitative identique. Parmi les fondements, il y a **°45x**, & ces notes :**[Do, bRé, bbMi, bbFa, ##Sol, #La, Si]**.
 Les tétras majeurs occupent l'octave de Do à Do : Do, _, Ré, _, Mi, Fa et Sol, _, La, _, Si, Do. Ils ont une forme similaire : **"OoOoOO" = "OoOoOO" = ~~FAUX~~**. Puis le cas "°45x" donne l'aperçu d'un tétra minimal aussi appelé cluster : **OOOOoooooOOOO**
 `Le développement clusterien initialiser systémique`
  
 ###Pour parler un peu du système tétra = Développer cluster
     _Le milieu tétra n'est pas limité à la gamme naturelle_
-Et si cette limite faisait l'occasion à l'apprentissage d'une organisation clustérienne, de voir dans cet infini de combinaisons un systémisme gammique clustérien. En ce qui me concerne, le tétracorde a été vu pendant le développement des tonalités fondamentales. Il a été aussi perçu comme un système à part, selon le modèle cluster. Qui configure une série hiérarchique en croissance d'intervalles, ceci dans un espace donné de 12 notes (~~Octave~~). Le cluster inférieur débute à 1 et le supérieur prend fin à 13 ; En termes mathématiques : **Cluster = 4 notes** et :**Gamme = 2 clusters**, lorsque les 2 clusters sont limités aux extrémités `| La tonique(inf) / la quarte(sup) |`. Ils sont exponentiellement limités, `Voir GlobalApplis.py ligne 38.` Le cluster inférieur peut s'étendre à 9 notes :**= Octave - Cluster**. Au point de développement initial, il y a cinq intervalles vides : `OOOOoooooOOOO`; `Exemple extension : OOOoooooOOOOO, ici = °34^`.
+Et si cette limite faisait l'occasion à l'apprentissage d'une organisation clustérienne, de voir dans cet infini de combinaisons un systémisme gammique clustérien. En ce qui me concerne, le tétracorde a été vu pendant le développement des tonalités fondamentales. Il a été aussi perçu comme un système à part, selon le modèle cluster. Qui configure une série hiérarchique en croissance d'intervalles, ceci dans un espace donné de 12 notes (~~Octave~~). Le cluster inférieur débute à 1 et le supérieur prend fin à 13 ; En termes mathématiques : **Cluster = 4 notes** et : **Gamme = 2 clusters**, lorsque les 2 clusters sont limités aux extrémités `| La tonique(inf) / la quarte(sup) |`. Ils sont exponentiellement limités, `Voir GlobalApplis.py ligne 38.` Le cluster inférieur peut s'étendre à 9 notes :**= Octave - Cluster**. Au point de développement initial, il y a cinq intervalles vides : `OOOOoooooOOOO`; `Exemple extension : OOOoooooOOOOO, ici = °34^`.
 #### §§§_& Le visuel mécanique & L'expansion méthodologique & `L'idéologie gammique`
     Le verbe idéal a l'empreinte des différents aspects des gammes fondamentales.
         `GlobalApplis Ligne 44 & 45`: Les notes 'CDEFGAB'
@@ -63,9 +63,9 @@ _L'application a des modules sobres en fonction_
 `def fond_gam(mode, fol): A la charge signer les gammes(notes et signes)+ Modes diatoniques.`
 
 
-###### Brièvement ; Augmenter les mesures entrantes. Capter les septièmes majeures. Trier les gammes selon leurs masses : Mêmes poids signifient également mêmes rangs. Mêmes rangs possibilité de poids différents. Préciser les différentes natures gammales, soit que l'issue fonctionnelle produise un ensemble fondamental basé sur la légèreté des gammes à noms entiers.
+###### Brièvement : Augmenter les mesures entrantes. Capter les septièmes majeures. Trier les gammes selon leurs masses : Mêmes poids signifient également mêmes rangs. Mêmes rangs aux possibles poids différents. Préciser les différentes natures gammales, soit que l'issue fonctionnelle produise un ensemble fondamental basé sur la légèreté des gammes à noms entiers.
 
-Les gammes fondamentales sont les 1ers modes diatoniques, ces modes fondamentaux ont leurs importances et aussi leurs exactitudes est primordiale. En un premier temps, nous avons déterminé selon deux vecteurs : Les poids modaux. Les noms entiers. Et dans une deuxième mesure pouvant être décisive, nous avons décidé de réaliser une seconde expertise avec la même méthode que celle appliquée dans le développement diatonique. Et ainsi saisir l'occasion de valider ou pas la 1ʳᵉ déduction fondamentale :
+Les gammes fondamentales sont les 1ers modes diatoniques, ces modes fondamentaux ont leurs importances et aussi leurs exactitudes sont primordiales. En un premier temps, nous avons déterminé selon deux vecteurs : Les poids modaux. Les noms entiers. Et dans une deuxième mesure pouvant être décisive, nous avons décidé de réaliser une seconde expertise avec la même méthode que celle appliquée dans le développement diatonique. Et ainsi saisir l'occasion de valider ou pas la 1ʳᵉ déduction fondamentale :
 
 Le premier degré modal naturel est majeur à toutes les tonalités, ainsi que tous les autres modes diatoniques.
 Afin la lecture s'améliore sans les mots inutiles, et en scriptant l'écriture explicative : 
@@ -77,13 +77,13 @@ Afin la lecture s'améliore sans les mots inutiles, et en scriptant l'écriture 
 Chaque modulation diatonique a sa propre définition, elle est chargée de s'appliquer au modèle fondamental. 
 Si, `I. Tonique harmonique. Tonie(b6). |. II. (b3, b7)+(b5). |. III. (b3, b6, b7)+(b4). |. IV. (#4)+(b3). 
 |. V. (b7)+(b2). |. VI. (b3, b6, b7)+(b1). |. VII. VII. (b2, b3, b5, b6, b7)+(b7).`. 
-À bonne lecture bon entendeur, il y a une présence modale qui présente une improbable qualité modale : 
+À bonne lecture du bon entendeur, il y a une présence modale qui présente une improbable qualité modale : 
 `|. VI. (b3, b6, b7)+(b1). |`
 
 #### Glob Modely `Program Test & Actif [(Test.Précis)(Acte.Effet)]`
 
 ### _GlobInverseAcc ***_
-**Le module des inverses.**'GIA' Le but est qu'à chacun des modèles modaux on puisse y trouver son inverse, 
+**Le module des inverses.**'GIA' Le but est qu'à chacun des modèles modaux, on puisse y trouver son inverse, 
 soit que le modèle inversé ressemble en tout les points au modèle original comme à son image devant un miroir. 
 Il est évident, que chacune des révélations soient renseignées par le nom de la gamme ainsi que celui du degré diatonique.
 
@@ -94,54 +94,57 @@ Il est évident, que chacune des révélations soient renseignées par le nom de
 puisque chaque gamme a sa définition chromatique. La gamme chromatique fait l'usage d'une trilogie, car elle est composée de la gamme originale et de deux chromatismes altérés. Alors, et selon la mise en place du chromatisme augmenté ou diminué, le développement diatonique produit un cycle ouvert ou fermé.
 * Lorsque le cycle est ouvert : Les modes voisins n'ont pas les mêmes formules numériques
 * Et quand le cycle est fermé : Les modes voisins ont les mêmes formules numériques<br>
-* Expliqués de GlobGamChrom\init.py. Ce samedi 12 décembre 2022<br>
+* La commande d'inversion des lignes 'hautes et basses', focalise de la ligne de 350 à 368.
+* Expliqués de GlobGamChrom\init.py. Ce lundi 12 décembre 2022. <br>
+
 Il contient :<br>
 ... Une table des gammes majeures en cours d'utilisation.<br>
 ...	D'autres tables utiles (altérations(b, #), extensions...)
 
 Une fonction permet la transposition majeure diatonique de chacune des notes utilisées.<br>
-...	Def transposer(rip0, rip1, rip2, rip3):<br>
+...	Def transposer (rip0, rip1, rip2, rip3) : <br>
 ...	- Aide à la définition de la tonalité est donnée par la gamme majeure.
-	Elle est appliquée avec différentes mesures. Toniques issues de la gamme en cours et
+	Elle est appliquée avec différentes mesures, des toniques issues de la gamme en cours et
 	celles développées par le système commatique.
 
 Une fonction pour une forme d'altération complexe (index(±), signe(int))<br>
-...	def alteration(signe):<br>
+...	def alteration (signe) : <br>
 ...	- Transforme son état (nombre réel, index table, signe altératif)
 
-**La principale fonction, est celle de la liaison chromatique et commatique.<br>**
-...	def chromatic(a, b, c, s):
-...	- Tout s'exerce par les paramètres, puis elle se charge de transcrire (a,b,c,s)<br>
-...    		A = Gamme hepta en cours
-    		B = Nom de la tonalité analogique
-    		C = Tonalité numérique ordre croissant
-    		S = Degré d'inversion demandé ou donné par défaut<br>	
-...	1er recueil. La séparation des notes diatoniques (gamme, chrome)
-...	2ème réconciliation d'une analogie numérique (notes + tonalités)
-...	3ème développement à partir d'une tonique mise à la tonalité diatonique
-...	4ème résolution aux sujets des notes en extension (de 8 à 15)."octaves"
-...	5ème récupération des analogies dans le sens vertical (modifiable)
-...	6ème construction diatonique des notes analogiques/verticales/atonales<br>
-...		dic_rapt = {}  # dic_rapt = Dictionnaire des premiers commatismes
-...		dic_rap0, dic_rap2 = {}, {}  # Afficher les chromatismes parallèles<br>
+**La principale fonction, est celle de la liaison chromatique et commatique. <br>**
+...	def chromatic(a, b, c, s) :
+...	- Tout s'exerce par les paramètres, puis elle se charge de transcrire (a, b, c, s). <br>
+...    		A = Gamme hepta en cours.
+    		B = Nom de la tonalité analogique.
+    		C = Tonalité numérique ordre croissant.
+    		S = Degré d'inversion demandé ou donné par défaut. <br>	
+...	1er recueil. La séparation des notes diatoniques (gamme, chrome).
+...	2ème réconciliation d'une analogie numérique (notes + tonalités).
+...	3ème développement à partir d'une tonique mise à la tonalité diatonique.
+...	4ème résolution aux sujets des notes en extension (de 8 à 15)."octaves".
+...	5ème récupération des analogies dans le sens vertical (modifiable).
+...	6ème construction diatonique des notes analogiques/verticales/atonales. <br>
+...		dic_rapt = {}  # dic_rapt = Dictionnaire des premiers commatismes.
+...		dic_rap0, dic_rap2 = {}, {}  # Afficher les chromatismes parallèles. <br>
+
 `Ce module est consacré à la mise en forme du dictionnaire à l'aide des tables reçues de GlobGamVers6. 
 Le dictionnaire est donc renvoyé, sa forme est simplifiée par rapport aux tables reçues.`
 #### Ligne 706 : Lecture des colonnes absentes pour trouver les toniques fondamentales
     (lineno(), 'Cas3 ABSENCES dic_abs:', dic_abs)
-#### Enregistrement des toniques absentes dans dic_cas et dans dic_maj, par la fonction transposer()
+#### Enregistrement des toniques absentes dans dic_cas et dans dic_maj, par la fonction 'transposer()'.
 	# def transposer(rip0, rip1, rip2, rip3):
 `(lineno(), 'dic_maj.keys():', dic_maj.keys())`
-'''858 dic_maj.keys(): dict_keys(['C', 'D', 'E', 'F', 'G', 'A', 'B', '-D', '+C', '-E', '+D', '-G', '+F', '-A', '+G', '-B', '+A', 'oD', '+B'])'''
+'''858 dic_maj.keys() : dict_keys(['C', 'D', 'E', 'F', 'G', 'A', 'B', '-D', '+C', '-E', '+D', '-G', '+F', '-A', '+G', '-B', '+A', 'oD', '+B'])'''
 `print(lineno(), 'cas_cas:', cas_cas)`
-	# 804 cas_cas: ['+B', 'oD', '^A', '-*E', 'o*F', 'x^G', '-**G', '+^^F', 'x^^E', '***A', '+^^^D',
+	# 804 cas_cas : ['+B', 'oD', '^A', '-*E', 'o*F', 'x^G', '-**G', '+^^F', 'x^^E', '***A', '+^^^D',
 	# 'o***B', 'C', '^^^^C']<br>
 Le cas "804", cas_cas = Liste les notes diatoniques altérées jusqu'en position tonique.<br>
 En révisant les gammes dont les toniques n'ont pas été trouvées la première fois, on tombe sur un élément de "804"<br>
-#### Appel de fonction transposer avec passage de paramètres sans retour
+#### Appel de fonction 'transposer' avec passage de paramètres sans retour
 	('     Transposer trip', lineno(), '___ ___ Suite rip:', tripe0, tripe1, tripe2, tripe3)
 	# transposer(tripe0, tripe1, tripe2, tripe3) : Voir ligne 103 [...	Def transposer(rip0, rip1, rip2, rip3):]
 * POUR UN...
-#### Dictionnaire des tonalités majeures complètement renseigné.
+#### Dictionnaire des tonalités majeures, il est complètement renseigné.
 `(lineno(), 'dic_maj.keys():', dic_maj.keys())`<br>
 * SANS RIRE
 
@@ -189,12 +192,12 @@ L'utilisation de GlobGamVers6, dans sa section de la gamme en cours produisant u
 primordiales, dont chacune d'entre-elles dispose d'une capacité diatonique.
 
 ### `_Progressions commatiques_`
-Voici le séquentiel de la gamme :<br>
+Voici le séquentiel de la gamme : <br>
 ... Au début, il y a une gamme fondamentale<br>
 ... Ensuite les intervalles prennent des valeurs chromatiques<br>
 ... Pour qu'une gamme chromatique primitive produise 12 modes diatoniques différents<br>
 ... Dans le mode chromatique "fermé", il n'y a pas de modulation de la tonalité<br>
-... Par contre le mode chromatique "ouvert" a un mode tonique à deux tonalités<br>
+... Par contre, le mode chromatique "ouvert" a un mode tonique à deux tonalités<br>
 ... ... Ce mode chromatique "ouvert" n'est pas appliqué à ce jour du lundi 30 janvier 2023
 
 
@@ -203,10 +206,10 @@ Voici le séquentiel de la gamme :<br>
 
 
 ### _GlobGamSim ***_
-**Le module similitudes.** 'GGS' Permet dans un premier temps d'obtenir des renseignements relatifs aux poids et rangs. 
-La gamme sur laquelle repose votre attention, a plusieurs poids modaux, et en ordonnant l'ordre des grandeurs pesantes 
+**Le module 'similitudes'.** 'GGS' Permet dans un premier temps d'obtenir des renseignements relatifs aux poids et rangs. 
+La gamme sur laquelle repose votre attention, a plusieurs poids modaux, et en ordonnant l'ordre des grandeurs pesantes, 
 on obtient un ordre modal différent de celui annoncé par le développement diatonique de la gamme.
-Ainsi, plusieurs gammes peuvent les mêmes poids modaux aux rangés différemment. Ou bien, elles sont rangées 
+Ainsi, plusieurs gammes peuvent avoir les mêmes poids modaux rangés différemment. Ou bien, elles sont rangées 
 de la même manière, tout en ayant une différenciation au niveau des poids modaux.<br>
 On affirme que les gammes ayant les mêmes poids modaux, sont rangés de façon identique. Jusqu'à l'apparition d'un contraire.
 #### Pour la gamme majeure

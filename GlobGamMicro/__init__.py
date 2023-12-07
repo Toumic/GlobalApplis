@@ -272,15 +272,15 @@ class Comique(Frame):
                 if cle0 == 0:  # Initialisation des toniques des listes à compléter
                     une_mod2[cle0].append(mdc_mod2[cle0][0])
                     sec_mod1[cle0].append(mdc_mod1[cle0][0])
-                    print(lineno(), 'GGM/Toniques premier:', une_mod2[cle0], ', et second:', sec_mod1[cle0])
+                    (lineno(), 'GGM/Toniques premier:', une_mod2[cle0], ', et second:', sec_mod1[cle0])
                 for hop in range(12):
                     # Partie de la première gamme
                     une_mod3[cle0].append(une_mod0[cle1][hop])  # Tonalité du mode suivant
-                    # print(lineno(), 'cle0:', cle0, 'une_mod0:', une_mod0[cle0][:hop], 'hop:', hop)
-                    # print(lineno(), 'cle0:', cle0, 'une_mod1:', une_mod1[cle0][:hop], 'hop:', hop)
-                    # print(lineno(), 'cle0:', cle0, 'une_mod2:', une_mod2[cle0][:hop], 'hop:', hop)
-                    # print(lineno(), 'cle0:', cle0, 'une_mod3:', une_mod3[cle0][:hop], 'hop:', hop)
-                    # print(lineno(), '***')
+                    (lineno(), 'cle0:', cle0, 'une_mod0:', une_mod0[cle0][:hop], 'hop:', hop)
+                    (lineno(), 'cle0:', cle0, 'une_mod1:', une_mod1[cle0][:hop], 'hop:', hop)
+                    (lineno(), 'cle0:', cle0, 'une_mod2:', une_mod2[cle0][:hop], 'hop:', hop)
+                    (lineno(), 'cle0:', cle0, 'une_mod3:', une_mod3[cle0][:hop], 'hop:', hop)
+                    (lineno(), '***')
                     #
                     # Partie de la seconde gamme
                     sec_mod0[cle0].append(sec_mod3[cle1][hop])

@@ -1,0 +1,209 @@
+Révision du code (aspect et utilité)
+
+Nouvelle fonction maj7_fonc (entier, décimal)
+  Détection des modes binaires (unic, fondre)
+En cours fonction fond_gam (binaire). Ligne 76
+  Commentaires d'introduction
+Les gammes fondamentales ont reçu un 1er traitement concernant les modes les plus légers,
+dont les noms sont entiers. Aussi tous les modes majeurs de septième ont des noms
+maintenant, soit ils sont entiers comme (-35), soit ils sont décimaux comme (+45.-3).
+Ce premier traitement fait partie d'un ensemble de conditions permettant la finalisation
+qui a sélectionné le mode tonique du modèle diatonique. RésultatRunGlobalApplisPy.txt est
+la fenêtre donnant cette première réalité.
+Janvier 2022 les nominations diatoniques supportent 462 noms modaux.
+Ces noms sont composés de degrés et de signes altératifs, ils sont conditionnés par une première unité
+allant jusqu'à deux notes et deux signes, ainsi que : +47- aussi simple.
+Point de réussite jeudi 27 janvier 2022
+
+Pour le moment l'application a une forme brute, ceci permet de transformer plus facilement.
+À vous de choisir ce qui est intéressant à afficher à l'aide des prints.
+Les rangs et les degrés ont été créés. J'élèverai ensuite d'autres fonctions relatives aux gammes
+comme tels les chromatismes et…
+Point de réussite lundi 14 mars 2022
+
+Une étape importante mérite d'être réalisée :
+    Celle de la gestion des lignes d'écritures à l'aide des prints du script.
+    Fait !
+Point de réussite mercredi 4 mai 2022
+
+Je vais ajouter deux modules viennent compléter l'application GlobalApplis, à des fins utiles ultérieurement.
+Il est question des chromatismes et des commatismes, les deux piliers produits par les gammes classiques.
+Et aussi, le programme principal (GlobalApplis) a une nouvelle composition. Cette dernière est plus ancienne, elle est intéressante, car elle dispose d'une interface utilisateur Tkinter.
+Point de réussite mardi 26 juillet 2022
+
+Nouvelle version GlobalApplis_0.1.1, le programme "progamV6encore" a été renommé GlobGamVers6.
+Des corrections ont été réalisées sur GlobGamVers6 maintenant,
+il affiche normalement le graphisme de l'échelle de la gamme.
+Point de réussite mardi 2 août 2022
+
+Le programme GlobalApplis et sa suite de modules(\__init__.py) donne une autre version des gammes fondamentales,
+puis d'autres informations liées aux gammes. Voici ce qui s'est passé, il a été rendu possible de transférer
+ces nouvelles visions des gammes à GlobGamVers6. Maintenant l'interface utilisateur va avoir des nouvelles
+fonctionnalités.
+Point de réussite jeudi 11 août 2022
+
+A été ajouté l'utilisation des extensions afin d'éviter un trop grand cumul dans la signature altérative.
+Et aussi, les gammes produites par GlobalApplis.py/GlobEnModes.py venant faire une certaine nuance gammologique.
+Point de réussite dimanche 21 août 2022
+
+Maintenance à résultats aléatoire visant à éliminer des dossiers inutiles.
+Point de maintenance mardi 23 août 2022
+
+Mises à jour des fonctionnalités relatives aux gammes calculées, et à la gestion des Toplevel
+Point de réussite vendredi 26 août 2022
+
+Correction des notes altérées dans le chromatisme :
+Avant = 0(A), 1(G). Maintenant = A, +G
+Point de réussite dimanche 28 août 2022
+
+Mise en place des fenêtres sur l'écran principal et signalement d'un problème dans le nouveau dossier : problèmes.md.
+Point de traitement mercredi 21 septembre 2022
+
+Résolution des problèmes de fenêtrage, voir problèmes.md.
+Point de réussite mardi 27 septembre 2022
+
+Mise en forme des affichages textuels, notamment en retirant les apostrophes inutiles.
+Point d'avancée samedi 1er octobre 2022
+
+Correction des mises en forme du dictionnaire français.
+Réussite du lundi 3 octobre 2022
+
+Refaire l'utilisation des tétras avec des boutons (clones) + message.
+Point d'avancée lundi 17 octobre 2022
+
+Partie tétra principal terminé avant complément à venir
+Point de réussite mardi 18 octobre 2022
+
+Mise en fonction du bouton scalaire permettant de décider d'une dénivellation des degrés,
+qui par défaut est égale à douze. Préparation de la bonne compréhension sur l'utilisation de quelques boutons.
+Avancée du mercredi 26 octobre 2022
+
+Grâce aux formules numériques les notes analogiques ont été produites et les premiers pas vers les
+modèles commatiques primitifs. Le niveau de confiance est moyen en raison de ne pas avoir testé
+divers niveaux scalaires.
+Avancée du vendredi 25 novembre 2022
+
+Correctif "autre cas (AVA[486]/SUI[565])", laisser cette éventualité...
+Prise en charge des éléments chromatiques, pour compléter les interférences nécessaires.
+Correctif du mardi 29 novembre 2022
+
+Correction au niveau des extensions du module GlobGamVers6, ainsi qu'une mineure au module GlobGamChrom.
+Correctif du vendredi 2 décembre 2022
+
+Création d'un tableau contenant la mise à zéro des notes diatoniques, afin de rechercher
+la valeur tonique parmi la série "dic_rip(0123)". Puis la mémorisation des toniques absentes dans
+le dictionnaire dic_cas, pour compléter la liste des toniques.
+Point de réussite du 10 décembre 2022
+
+Transformations pour utiliser la fonction qui donne la diatonique majeure selon la tonique initiale.
+Voir le détail : https://github.com/Toumic/GlobalApplis/blob/91758a5c1251e5fed7033d376dd0b92891471737/README.md
+Point de réussite du samedi 17 décembre 2022
+
+Le premier dictionnaire des douze gammes commatiques et leurs diatonies, finalisé au dernier traitement formulant
+la valeur numérique de la tonalité diatonique.
+Point de réussite du vendredi 23 décembre 2022
+
+Quelques améliorations au niveau des notifications données en commentaire dans le fichier README.MD,
+dans la section du module GlogGamChrom.py
+Mise-à-jour comment du samedi 24 décembre 2022
+
+Mise en situation de la gestion des extensions, ayant comme point d'équilibre un maximum de six altérations cumulées.
+Point de réussite du lundi 26 décembre 2022
+
+Améliorer l'aspect visuel des dossiers (doc, image, texte), analyse de l'évolution du cours commatic et
+de ses notes communes isolées. Passage des modes toniques obtenus au module GlobGamMicro.
+Point de réussite du vendredi 30 décembre 2022
+
+Affichage à l'aide de Tkinter des premiers modes toniques obtenus, avec la notification de la présence d'un doublon.
+Chacune des gammes commatiques a ses formules numériques aux lignes (supérieures et inférieures).
+Point de réussite du mardi 3 janvier 2023
+
+Réalisation d'une correction d'un problème de manque de clef dans le dictionnaire (dic_maj) des modes toniques majeurs.
+Point de correction du jeudi 5 janvier 2022
+
+Avancée chaotique du choix de la nouvelle gamme commatique ("Un changement de résultat a eu lieu,
+en imposant un contrôle"), résolution partielle de l'algorithme qui était basé sur une seule note tonique.
+Et, la nouvelle gamme commatique a un couple en position tonique.
+Point d'avancée du lundi 16 janvier 2023
+
+Changement dans l'aperçu diatonic_commatic puisque les tonalités supérieures et inférieures ne correspondent
+pas en recherche des correspondances diatoniques.
+Point d'avancée du dimanche 22 janvier 2023
+
+Les tonalités rétablies correspondent à l'original (sup = analogie diminuée et inf = analogie augmentée),
+en raison diatonique du chromatisme traité ici. Soit que le développement en cours ait un cycle fermé,
+contrairement au cycle ouvert n'étant pas en core traité jusqu'à présent.
+Point de réussite du mardi 24 janvier 2023
+
+C'est une révision du processus du développement commatique avec corrections en faisant un traitement
+sans possibilité de développement diatonique pour les doublons. Ainsi la diatonie commatique ne donnant pas
+de nouveaux modèles commas enchaîne une absence qui pourrait exister en cas de mode chromatique 'ouvert'
+Point de révision du lundi 30 janvier 2023
+
+Les 66 gammes primitives ont été vues une par une, et chacune a donné 12 modes toniques commatiques.
+Une liste a été créée dans : GlobalTexte\tonicGamComTexte. Parmi ces (12*66) primitives, elles se sont
+démarqué par une série de doublons et une autre d'absences de notes isolées.
+Point de réussite du mercredi 1 février 2023
+
+Changement [important] sur l'utilisation-souris sur les scale's, agit une fois le bouton relâché.
+Rassembler les données utiles afin d'établir des propriétés.
+Mise à jour du mardi 14 février 2023
+
+Il y a un commencement de la fonction du bouton "propriétés" donnant les gammes aux mêmes poids/rangs.
+Avec la création du module GlobGamSim qui affiche une fenêtre dédiée aux détails.
+Point d'avancée du lundi 27 février 2023
+
+Les noms modaux['+5'] apparaissent maintenant à côté des degrés['II'], pour chaque combinaison diatonique
+et pour toutes les gammes.
+Point de réussite du mercredi 1 mars 2023
+
+Corrections liées au déplacement anormal des notes chromatiques, lors de la fonction du curseur,
+celui qui module toutes les altérations.
+Point de correction du mercredi 8 mars 2023
+
+Correction des noms des degrés modaux et des composantes de la fenêtre § VISIONS §
+Point de correction du vendredi 10 mars 2023
+
+Correction de l'ordre des degrés modaux affichés (selon classiques ou calculés),
+tant sur la fenêtre principale que dans celle qui est nommée § VISIONS §
+Point de correction du dimanche 12 mars 2023
+
+C'est un ajout d'une figure représentant l'ordre croissant des poids modaux relatifs à la gamme en cours.
+Point de réussite lundi 20 mars 2023
+
+C'est une aUne amélioration de la détection des scales, avec notamment l'utilisation des deux boutons de la souris.
+Point d'avancée du 23 mars 2023
+
+Achever la figuration et la liste des poids relatifs à la gamme en cours.
+Point de réussite du 27 mars 2023
+
+Mise à jour globale avec les dossiers (build et dist) renseignés après pyinstaller GlobalApplis.spec,
+pour une éventuelle aide.
+Point de mise à jour du mardi 28 mars 2023
+
+Abandon de la réalisation d'un exécutable pour cause de non-réussite, remise à jour du code original
+qui a été revu depuis.
+Point de mise à jour du samedi 1 avril 2023
+
+Rectification du fichier globdicTcode.txt, car il était incomplet. Ce fichier représente l'ensemble
+des couples tétras mis en formes des notes signées.
+Point de correction du lundi 17 avril 2023
+
+Ajustement de la couleur des notes en fonction des couleurs de
+l'arc-en-ciel = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'].
+Point de correction du samedi 22 avril 2023
+
+Parce que Markdown n'affichait pas la fenêtre contextuelle de la mise en forme du texte,
+j'ai fait un restore setup et du coup ça n'a pas été génial "perte de données".
+Point de correction du jeudi 23 novembre 2023
+
+Détection du point de retournement des notes chromatiques altérées. Quand la gamme est normale,
+les notes diminuées sont au-dessus = boucle_fermée. Quand la boucle chromatique est ouverte,
+les notes augmentées sont au-dessus des notes de la gamme heptatonique. Des lignes 350 à 368, module GGC.
+Point d'avancée du vendredi 8 décembre 2023
+
+Création d'un fichier texte pour y écrire l'histoire des modifications de ce projet "Histoire_maj".
+Mise en place d'un bouton permettant de basculer entre développé diatonique de la gamme chromatique
+en cycle ouvert ou fermé.
+Point de réussite du samedi 23 décembre 2023
+

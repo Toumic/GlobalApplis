@@ -6,7 +6,7 @@
 import inspect
 from typing import Callable
 
-# lineno() Pour consulter le programme grâce au suivi des print's
+# lineno() Pour consulter le programme grâce au suivi des print’s
 lineno: Callable[[], int] = lambda: inspect.currentframe().f_back.f_lineno
 
 # Module de chromatisation chromatique
@@ -55,7 +55,7 @@ def transposer(rip0, rip1, rip2, rip3, sub):
     # 2: {2: ['-', 'D'], 4: ['-', 'E'], 7: ['-', 'G'], 9: ['-', 'A'], 11: ['-', 'B']}
     # 3: {2: ['+', 'C'], 4: ['+', 'D'], 7: ['+', 'F'], 9: ['+', 'G'], 11: ['+', 'A']}  len(rip0): 8
 
-    # Montage table des clés majeures de dic_maj
+    # Montage table des clés majeures de 'dic_maj'
     cle_aut, note, ok = [], '', False
     note0, note1, note2, note3 = '', '', '', ''
     for i in range(1, 14):
@@ -138,7 +138,7 @@ def transposer(rip0, rip1, rip2, rip3, sub):
                 elif dm != '':  # Éviter les intervalles vides
                     et, to = dm[:len(dm) - 1], dm[len(dm) - 1:]  # et = L'altération sur le degré majeur
                     if et in tab_sup:  # L'altération majeure dans tab_supérieur(+, x, ^,)
-                        ind_et = tab_sup.index(et)  # ind_et = Mesure l'Index dans tab_sup
+                        ind_et = tab_sup.index(et)  # ind_et = Mesure l'Index dans 'tab_sup'
                         dif_si = abs(ind_si) - ind_et  # ind_et = Toujours un nombre entier
                         ('***************', abs(dif_si), dif_si, 'ind_si:', ind_si, 'ind_et:', ind_et, dm)
                         if abs(dif_si) > ind_et:  # Si la différence est supérieure à l'état (et).
@@ -209,15 +209,15 @@ def transposer(rip0, rip1, rip2, rip3, sub):
                     dic_maj[ca].append(note)
                     gam_abc[ca].append(note)
     ('\n GGC', lineno(), 'dic_maj:', dic_maj.keys(), '\ngam_abc:', gam_abc['C'])
-    # GGC 211 dic_maj et gam_abc, les dictionnaires sont liés aux gammes majeures.
+    # GGC 211 'dic_maj' et 'gam_abc', les dictionnaires sont liés aux gammes majeures.
     if sub == 'sub':  # Employé par GlobGamSim pour des nouvelles gammes majeures
         return dic_maj
 
 
 def alteration(signe):
-    """Permet d'obtenir la valeur numérique réelle de l'altération
+    """Ceci permet d'obtenir la valeur numérique réelle de l'altération
     Quand le signe est dans tab_sup = Valeur(+ et son rang (index))
-    Quand le signe est dans tab_inf = Valeur(- et son rang (index))"""
+    Quand le signe est dans tab_inf = Valeur(- et son rang (index)). """
     retour = ''
     if signe in tab_sup:
         retour = '+' + str(tab_sup.index(signe))
@@ -258,7 +258,7 @@ def chromatic(a, b, c, s, p_cyc):
     a_diatonic.append(a)  # Tonalité analogique
     b_diatonic.append(b)  # Nom de la tonalité
     c_diatonic.append(c)  # Tonalité numéric croissant
-    # Mise en forme du dictionnaire dic_ana (analogie)
+    # Mise en forme du dictionnaire 'dic_ana' (analogie)
     for ia in range(len(a_diatonic[0])):
         dic_ana[ia + 1] = a_diatonic[0][ia][0]
         # (ia, 'a_diatonic[0][ia][0]:', a_diatonic)
@@ -276,7 +276,7 @@ def chromatic(a, b, c, s, p_cyc):
     # Mise en forme du dictionnaire dic_inv(inverse)(numéric)
     tab_inv = []  #
     graduation = s
-    if s in range(1, 13):  # Occurrences d'arrivages (ne peut être autrement !)
+    if s in range(1, 13):  # Occurrences d'arrivages (ne peut être autrement)
         wh, wi, we = True, s, 0
         while wh:
             we += 1  # Clé du dico: dic_mod_al
@@ -420,14 +420,14 @@ def chromatic(a, b, c, s, p_cyc):
             for no in dic_rip2[yes]:
                 ripe += no
             dic_rip2[yes] = [ripe]
-            gam_mod[ripe] = dic_maj[ripe]  # Notes avec intervalle de dic_maj
+            gam_mod[ripe] = dic_maj[ripe]  # Notes avec intervalle de 'dic_maj'
             rip0 = dic_maj[ripe][0]
             # Section rip1_3
             ripe = ''
             for no in dic_rip3[yes]:
                 ripe += no
             dic_rip3[yes] = [ripe]
-            gam_mod[ripe] = dic_maj[ripe]  # Notes avec intervalle de dic_maj
+            gam_mod[ripe] = dic_maj[ripe]  # Notes avec intervalle de 'dic_maj'
             rip1 = dic_maj[ripe][0]
             (lineno(), 'rip0:', rip0, 'rip1:', rip1, 'ripe:', ripe, 'dic_rip3[yes]:', dic_rip3[yes])
             (lineno(), 'gam_mod:', gam_mod)
@@ -468,7 +468,7 @@ def chromatic(a, b, c, s, p_cyc):
                 cop_sui -= 7
                 (lineno(), 'cop_sui:', cop_sui, 'deg_sui:', deg_sui)
             (lineno(), 'GGC/****cop_ava:', cop_ava, 'cop_sui:', cop_sui)
-            # not_ava et not_sui tirées de gam_abc
+            # not_ava et 'not_sui' tirées de 'gam_abc'
             not_ava, not_sui = gam_abc[rip0][cop_ava - 1], gam_abc[rip1][cop_sui - 1]
             (lineno(), 'GGC/****not_ava:', not_ava, 'not_sui:', not_sui, 'Notes à altérer')
             rip_app0, rip_app1, rng_maj = '§', '§', ''
@@ -539,12 +539,12 @@ def chromatic(a, b, c, s, p_cyc):
                     # result1 = Ligne inférieure
                     (lineno(), 'deg_bas:', deg_bas, '\trng_bas:', rng_bas, '\trng_nue:', rng_nue)
                     '''Passage aux traitements des modulations, avec deux choix possibles(qui_ava/qui_sui)'''
-                    if int(rng_nue) > -1:  # rng_nue = dic_inv est altération à appliquer sur rng_bas
+                    if int(rng_nue) > -1:  # rng_nue = dic_inv est altération à appliquer sur 'rng_bas'
                         if int(rng_bas) < 0:  # rng_bas = tab_inf
                             '''Analyser la disposition altérative'''
                             dif_bas = abs(int(rng_bas)) - abs(int(rng_nue))
-                            # Si dif_bas est négatif, il a besoin d'utiliser tab_sup.
-                            # Autrement, utiliser tab_inf
+                            # Si 'dif_bas' est négatif, il a besoin d'utiliser 'tab_sup'.
+                            # Autrement, utiliser 'tab_inf'
                             (lineno(), 'dif_bas:', dif_bas)
                             if dif_bas > -1:
                                 sig_mod = tab_inf[dif_bas]
@@ -566,8 +566,8 @@ def chromatic(a, b, c, s, p_cyc):
                                 result1 = sig_mod + deg_bas
                             (lineno(), 'dif_bas:', dif_bas, 'sig_mod:', sig_mod, '')
                             (lineno(), 'EX/nue>-1_bas>-1 result0:', result0, 'result1:', result1)
-                    elif int(rng_nue) < 0:  # rng_nue = dic_inv est altération à appliquer sur rng_bas
-                        if int(rng_bas) < 0:  # rng_bas = tab_inf
+                    elif int(rng_nue) < 0:  # 'rng_nue' = 'dic_inv' est altération à appliquer sur 'rng_bas'
+                        if int(rng_bas) < 0:  # 'rng_bas' = 'tab_inf'
                             '''Tout va bien on peut continuer'''
                             dif_bas = abs(int(rng_bas)) + abs(int(rng_nue))
                             sig_mod = tab_inf[dif_bas]
@@ -686,7 +686,7 @@ def chromatic(a, b, c, s, p_cyc):
                             sig_not = tab_inf[dif_not]  # Initialiser l'altération
                             result1 = sig_not + deg_maj  # Construire la note finale
                             (lineno(), 'GGC/INF result1:', result1, '*****************')
-                        else:  # Voir dans tab_inf
+                        else:  # Voir dans 'tab_inf'
                             dif_not = abs(res_not) - ind_sup  # Calcul différence à reporter
                             sig_not = tab_sup[abs(dif_not)]  # Initialiser l'altération
                             result1 = sig_not + deg_maj  # Construire la note finale
@@ -1114,10 +1114,10 @@ def chromatic(a, b, c, s, p_cyc):
         not_iso0, not_iso1, not_iso2, not_gam, nom_gam = '', '', '',  [], ''
         '''# Compare, il n'y a pas de couplage chromatique?'''
         if dic_rap0[ik][1] == dic_rap2[ik][1]:  # Les notes (sup/inf) sont identiques.
-            not_iso0 = dic_rap2[ik][1]  # not_iso0.1.2 = Notes toniques de la gamme (dic_maj[not_iso]).
+            not_iso0 = dic_rap2[ik][1]  # not_iso0.1.2 = Notes toniques de la gamme ('dic_maj'['not_iso']).
             (lineno(), 'not_iso0:', not_iso0)
-            gam_vol0 = dic_maj[not_iso0][0]  # gam_vol0 = Clé de la gamme majeure[dans dic_maj[]]
-            gam_vol1 = dic_maj[not_iso0][0]  # gam_vol1 = Clé de la gamme majeure[dans dic_maj[]]
+            gam_vol0 = dic_maj[not_iso0][0]  # gam_vol0 = Clé de la gamme majeure[dans 'dic_maj'[]]
+            gam_vol1 = dic_maj[not_iso0][0]  # gam_vol1 = Clé de la gamme majeure[dans 'dic_maj'[]]
             (lineno(), 'gam_vol0:', gam_vol0, ':&1:', gam_vol1, '\t.\t\tPartie isolée.')
         else:  # Les notes (sup/inf) sont différentes.
             not_iso1, not_iso2 = dic_rap0[ik][1], dic_rap2[ik][1]  # Formation en couple.
@@ -1328,7 +1328,7 @@ def chromatic(a, b, c, s, p_cyc):
                 if k_key in dic_com.keys():
                     (lineno(), 'trans[0][0]:', trans[0][0], '[k_duo[0], k_key]:', [k_duo[0], k_key])
                     (lineno(), 'trans[0][0]:', trans[0][0], '[k_duo[0], k_key]:', [k_duo[0], k_key])
-                    # Capter la clé k_key du doublon
+                    # Capter la clé 'k_key' du doublon
                     if dic_com[k_duo[0], k_key][0] == trans[0][0]:  # Ici, seulement les noms sont comparés.
                         if dic_com[k_duo[0], k_key] != trans[0]:  # Ici, les valeurs sont différentes (noms égaux).
                             tab_uni.append(trans[0])  # Tableau basic des notes isolées

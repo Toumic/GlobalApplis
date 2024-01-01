@@ -507,7 +507,7 @@ class Gammique(Tk):
         btcom_dr0up = Button(frcom_drup2, text=sca_txt, height=1, width=15, bg='yellow',
                              command=lambda: scaler())
         btcom_dr0up.pack()
-        typ_txt = 'Point cyclic'
+        typ_txt = "Cycle fermé"
         btcom_dr1up = Button(frcom_drup2, text=typ_txt, height=1, width=15, bg='yellow',
                              command=lambda: typies())
         btcom_dr1up.pack()

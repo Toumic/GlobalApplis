@@ -491,8 +491,10 @@ class Gammique(Tk):
             # Passe (|Yes=True|No=False|Annuler=None|)
             if passe:
                 passe_messe = "Cycle ouvert"
+                btcom_dr1up.configure(text="Cycle ouvert")
             elif passe is not None:
                 passe_messe = "Cycle fermé"
+                btcom_dr1up.configure(text="Cycle fermé")
             else:
                 passe_messe = self.cyclic
             self.cyclic = passe_messe

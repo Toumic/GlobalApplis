@@ -44,7 +44,7 @@ extension = [8, 9, 10, 11, 12, 13, 14]
 
 def transposer(rip0, rip1, rip2, rip3, sub):
     """Ici, on réceptionne les gammes qui ont leurs tonices altérées.
-    Séquences du traitement : - Obtenir la gamme majeure signée ou non signée.
+    Séquences du traitement :  Obtenir la gamme majeure signée ou non signée.
      - Transposer la gamme au niveau altéré. - Résoudre la tonalité.
     Rip0.1 = Huit notes. Rip2.3 = Cinq notes.☺
     Pour transposer les notes de la gamme (Rip0.1)
@@ -234,7 +234,7 @@ def chromatic(a, b, c, s, p_cyc):
     A = Gamme hepta en cours
     B = Nom de la tonalité analogique
     C = Tonalité numérique ordre croissant
-    S = Degré d'inversion demandé ou donné par défaut :
+    S = Le degré d'inversion est demandé ou donné par défaut :
         Ce degré est invariable, car il forme une chronologie.
         Tout changement fait une modulation de l'inversion parallèle.
         - Cette modulation de l'inversion le pourrait. Mais, elle n'est pas dans le code."""

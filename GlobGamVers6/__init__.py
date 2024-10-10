@@ -156,8 +156,8 @@ class Gammique(Tk):
         # Boutons accords avec écriture sur le disque dur
         # self.fichacc = les noms des fichiers audio_accords (communs)
         self.acc = None
-        self.accdiese = ['', '+', 'x', '^', '+^', 'x^', '^^']  # Tableaux des accords - altérations
-        self.accbemol = ['', '**', 'o*', '-*', '*', 'o', '-']  # Tableaux des accords - altérations
+        self.accdiese = ['', '+', 'x', '^', '+^', 'x^', '^^']  # Tableaux des accords – altérations
+        self.accbemol = ['', '**', 'o*', '-*', '*', 'o', '-']  # Tableaux des accords – altérations
         # self.fichacc : Ces fichiers vont être écrits sur votre disque dur
         self.fichacc = ['acc1.wav', 'acc2.wav', 'acc3.wav', 'acc4.wav', 'acc5.wav', 'acc6.wav', 'acc7.wav']
         self.btacc = Button(self.cad, text='Accords', width=15, bg='light blue', command=self.accord)
@@ -315,7 +315,7 @@ class Gammique(Tk):
         self.gammescopie = []
         self.gamnomscopie = []
         self.decore = {}  # Base du zéro tonique des accords
-        self.declare = {}  # Base (degrés - notes - altérations)
+        self.declare = {}  # Base (degrés – notes – altérations)
         self.dechire = {}  # Base avec l'indice adapté aux tableaux(b/#)
         self.btgama = Button(self, text='gamme', width=25, command=self.gama)
         self.btgama.pack_forget()  # Pantomime
@@ -981,7 +981,7 @@ class Gammique(Tk):
                             break
                     (lineno(), 'actif:', actif, 'actinf', actinf)
 
-                tu = tg = x_01i = x_01s = 0  # x_01: Jeux de marges du texte
+                tu = tg = x_01i = x_01s = 0  # x_01 : Jeux de marges du texte
                 plus, u_inf, u_sup = False, [], []
                 for tt in tgam_util:  # tt: clone(tt)=[1, 1, 1, 1] (classic ou calcul)
                     (lineno(), 'tt:', tt, '\t tu:', tu, 'tet_is[tu]:', tet_is[tu], 'tet_tt[tu]:', tet_tt[tu])

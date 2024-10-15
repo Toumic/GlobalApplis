@@ -20,6 +20,7 @@ import GlobGamChrom
 import GlobGamMicro
 import GlobTetraCord
 import GlobGamSim
+import songammes as sg
 
 # lineno() Pour consulter le programme grâce au suivi des print's
 lineno: Callable[[], int] = lambda: inspect.currentframe().f_back.f_lineno
@@ -28,6 +29,8 @@ progam_chrom = GlobGamChrom
 progam_micro = GlobGamMicro
 progam_tetra = GlobTetraCord
 progam_simis = GlobGamSim
+
+(lineno(), "sg", sg)
 
 
 def progam(pratic, glob, ego_p, ego_r, utile, dana, pc):
@@ -170,7 +173,7 @@ class Gammique(Tk):
         self.bttet = Button(self.cad, text='Tétracorde', width=15, bg='ivory', command=self.tetra)
         self.bttet.pack()
 
-        # # Bouton table commatique :
+        # Bouton table commatique :
         # self.notespace = Dico_degrés limités aux compressions
         self.com, self.pal = '', ''  # Caractères d'adressage ponctuel
         self.notespace = {180: ['', '+', 'x', '^', '+^', 'x^', '^^'],
@@ -205,6 +208,10 @@ class Gammique(Tk):
         self.scalair = 0  # Indice taux d'inversion
         self.cyclic = StringVar()  # Indice type de bouclage chromatique.
         self.cyclic = "Cycle fermé"
+
+        # Bouton système ego_iso
+        self.son_gam = Button(self.cad, text='Sonorités', width=15, bg='ivory', command=lambda : self.actuac(10))
+        self.son_gam.pack()
 
         # Mémoire fantomatique
         self.entfan = Entry(self)
@@ -1688,6 +1695,10 @@ class Gammique(Tk):
         elif a == 9:  # def init/Bouton Tablature activé
             self.preselect[0] = 0
             self.bttab_2.invoke()
+        elif a == 10:  # bouton vers songammes
+            sg.primordial()
+            # Origine. Relance(dic_codage, dic_binary, dic_indice, dic_force, dic_colon, dic_titres)
+
 
     # Prémices chromatiques
     def chrome(self):

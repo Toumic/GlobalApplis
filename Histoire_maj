@@ -214,3 +214,7 @@ Point de clarté du lundi 1er janvier 2024
 A éré ajouter un module visant à réaliser différents types de tri basés sur les formes binarisées des degrés modaux.
 Ainsi, les gammes vont connaitre des modulations dynamiques apportées selon les traitements de l'utilisateur.
 Point d'avancée du mardi 15 octobre 2024
+
+Réinitialisation en ligne 2009 de :
+xcpos_, ycpos_ = 180, 234
+Point correctif du mardi 15 octobre 2024

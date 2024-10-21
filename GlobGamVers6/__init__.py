@@ -210,7 +210,7 @@ class Gammique(Tk):
         self.cyclic = "Cycle fermé"
 
         # Bouton système ego_iso
-        self.son_gam = Button(self.cad, text='Sonorités', width=15, bg='ivory', command=lambda : self.actuac(10))
+        self.son_gam = Button(self.cad, text='Binarisation', width=15, bg='ivory', command=lambda : self.actuac(10))
         self.son_gam.pack()
 
         # Mémoire fantomatique
@@ -2006,6 +2006,7 @@ class Gammique(Tk):
         for cx_ in range(12):
             c1_ = c2_ = c3_ = c4_ = c5_ = c6_ = c7_ = 'n'  # -1 = Emplacement chromatique
             c2_a1 = c2_m1 = c3_a = c3_m = c4_a = c4_a1 = c4_m = c4_m1 = comp = 0
+            xcpos_, ycpos_ = 180, 234
             coltyp = 'light grey'  # Couleur des notes diatoniques
             if cx_ == 0:
                 c1_ = chr_trans[cx_tr]  # Incrustation position diatonique
@@ -2024,6 +2025,7 @@ class Gammique(Tk):
                 chposyn = c4_
                 xb_ = xcpos_ + (chposx * 30)
                 ybn_ = ycpos_ - (chposyn * 30)
+                (lineno(), "* ybn_", ybn_, "ycpos_", ycpos_, "chposyn * 30", chposyn * 30)
                 chvow_n = "{}{}".format(c2_, c3_[0])
                 chrcan.create_oval(xb_ - rb_, ybn_ - rb_, xb_ + rb_, ybn_ + rb_, fill=coltyp)  # Notes diatoniques
                 chrcan.create_text(xb_, ybn_, text=chvow_n, font=fontchr, fill='black')
@@ -2046,6 +2048,7 @@ class Gammique(Tk):
                     chposyn = c4_
                     xb_ = xcpos_ + (chposx * 30)
                     ybn_ = ycpos_ - (chposyn * 30)
+                    (lineno(), "* ybn_", ybn_, "ycpos_", ycpos_, "chposyn * 30", chposyn * 30)
                     chvow_n = "{}{}".format(c2_, c3_[0])  # chvow_n(entier réel) = Note diatonique[c3_[0]], signe[c2_]
                     chrcan.create_oval(xb_ - rb_, ybn_ - rb_, xb_ + rb_, ybn_ + rb_, fill=coltyp)  # Notes diatoniques
                     chrcan.create_text(xb_, ybn_, text=chvow_n, font=fontchr, fill='black')

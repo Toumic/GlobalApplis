@@ -1,4 +1,7 @@
-{GlobalApplis `Cette application`}
+{GlobalApplis `Cette application`} <br>
+* {Liens vers les autres READme <br>
+  * 	[songammes/READme_songammes.md](songammes/READme_songammes.md)
+  * }
 
 README.md
 
@@ -18,13 +21,13 @@ La simplicité de cette gamme (**CDEFGAB**). Elle a la calculabilité des tonali
  
 ### _Comment cette appli agit pour calculer : la gamme naturelle._
     _La gamme naturelle comporte deux tétracordes et sept modulations diatoniques_
-Normalement chaque nouvelle gamme fondamentale créée possède sept qualités modales majeures, si bien qu'à ce niveau la gamme de Do majeure et celle de Ré majeure ont les mêmes qualités tonales. Car elles sont égales du point de vue des intervalles. La gamme a sept notes & cinq intervalles qui déterminent sa tonalité, et en particulier la valeur naturelle de la tonalité. Comme il a été dit le tétracorde en fait partie en tant qu'objet, le mode tonique majeur de toutes les tonalités représentent une forme qualitative identique. Parmi les fondements, il y a **°45x**, & ces notes :**[Do, bRé, bbMi, bbFa, ##Sol, #La, Si]**.
+Normalement chaque nouvelle gamme fondamentale créée possède sept qualités modales majeures, si bien qu'à ce niveau la gamme de Do majeure et celle de Ré majeure ont les mêmes qualités tonales. Car elles sont égales du point de vue des intervalles. La gamme a sept notes & cinq intervalles qui déterminent sa tonalité, et en particulier la valeur naturelle de la tonalité. Comme il a été dit le tétracorde en fait partie en tant qu'objet, le mode tonique majeur de toutes les tonalités représentent une forme qualitative identique. Parmi les fondements, il y a **°45x**, & ces notes : **[Do, bRé, bbMi, bbFa, ##Sol, #La, Si]**.
 Les tétras majeurs occupent l'octave de Do à Do : Do, _, Ré, _, Mi, Fa et Sol, _, La, _, Si, Do. Ils ont une forme similaire : **"OoOoOO" = "OoOoOO" = ~~FAUX~~**. Puis le cas "°45x" donne l'aperçu d'un tétra minimal aussi appelé cluster : **OOOOoooooOOOO**
 `Le développement clusterien initialiser systémique`
  
 ###Pour parler un peu du système tétra = Développer cluster
     _Le milieu tétra n'est pas limité à la gamme naturelle_
-Et si cette limite faisait l'occasion à l'apprentissage d'une organisation clustérienne, de voir dans cet infini de combinaisons un systémisme gammique clustérien. En ce qui me concerne, le tétracorde a été vu pendant le développement des tonalités fondamentales. Il a été aussi perçu comme un système à part, selon le modèle cluster. Qui configure une série hiérarchique en croissance d'intervalles, ceci dans un espace donné de 12 notes (~~Octave~~). Le cluster inférieur débute à 1 et le supérieur prend fin à 13 ; En termes mathématiques : **Cluster = 4 notes** et : **Gamme = 2 clusters**, lorsque les 2 clusters sont limités aux extrémités `| La tonique(inf) / la quarte(sup) |`. Ils sont exponentiellement limités, `Voir GlobalApplis.py ligne 38.` Le cluster inférieur peut s'étendre à 9 notes :**= Octave - Cluster**. Au point de développement initial, il y a cinq intervalles vides : `OOOOoooooOOOO`; `Exemple extension : OOOoooooOOOOO, ici = °34^`.
+Et si cette limite faisait l'occasion à l'apprentissage d'une organisation clustérienne, de voir dans cet infini de combinaisons un systémisme gammique clustérien. En ce qui me concerne, le tétracorde a été vu pendant le développement des tonalités fondamentales. Il a été aussi perçu comme un système à part, selon le modèle cluster. Qui configure une série hiérarchique en croissance d'intervalles, ceci dans un espace donné de 12 notes (~~Octave~~). Le cluster inférieur débute à 1 et le supérieur prend fin à 13 ; En termes mathématiques : **Cluster = 4 notes** et : **Gamme = 2 clusters**, lorsque les 2 clusters sont limités aux extrémités `| La tonique(inf) / la quarte(sup) |`. Ils sont exponentiellement limités, `Voir GlobalApplis.py ligne 38.` Le cluster inférieur peut s'étendre à 9 notes :**= Octave - Cluster**. Au point de développement initial, il y a cinq intervalles vides : `OOOOoooooOOOO`; `Exemple extension : OOOoooooOOOOO, ici = °34^`.
 #### §§§_& Le visuel mécanique & L'expansion méthodologique & `L'idéologie gammique`
     Le verbe idéal a l'empreinte des différents aspects des gammes fondamentales.
         `GlobalApplis Ligne 44 & 45`: Les notes 'CDEFGAB'
@@ -117,7 +120,7 @@ Une fonction pour une forme d'altération complexe (index(±), signe(int))<br>
 ...    		A = Gamme hepta en cours.
     		B = Nom de la tonalité analogique.
     		C = Tonalité numérique ordre croissant.
-    		S = Degré d'inversion demandé ou donné par défaut. <br>	
+    		S = Degré d'inversion est demandé ou donné par défaut. <br>	
 ...	1er recueil. La séparation des notes diatoniques (gamme, chrome).
 ...	2ème réconciliation d'une analogie numérique (notes + tonalités).
 ...	3ème développement à partir d'une tonique mise à la tonalité diatonique.

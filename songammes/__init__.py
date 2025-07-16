@@ -410,6 +410,7 @@ class Relance(Toplevel):
         super().__init__()
         self.title("Base illusion")
         self.geometry("1824x1025+30+10")
+        self.grab_set()  # Empêcher l'interaction avec la fenêtre principale tant que la boîte est ouverte
         # self.protocol("WM_DELETE_WINDOW", self.quit())  # Pose problème au déroulement souhaité.
         self.borne = {1: "       "}
         self.quitter("1111111")
@@ -437,10 +438,12 @@ class Relance(Toplevel):
         if di_com:
             self.comment_sta = di_com
             # Ajouter du texte au Canvas
-            self.table_c.create_text(30, 20, text=self.comment_sta[0], anchor="center", font=("arial", 10, "bold"))
-            self.table_c.create_text(30, 40, text=self.comment_sta[1], anchor="center", font=("arial", 10, "bold"))
+            self.table_c.create_text(30, 10, text=self.comment_sta[0], anchor="center", font=("arial", 10, "bold"))
+            self.table_c.create_text(30, 30, text=self.comment_sta[1], anchor="center", font=("arial", 10, "bold"))
+            if di_com[0] != "Modes":
+                self.table_c.create_text(30, 50, text=self.comment_sta[2], anchor="center", font=("arial", 10, "bold"))
             (lineno(), "di_com", di_com)
-            # 606 di_com ['Gammes', 'TriEgo']
+            # 447 di_com ['Modes', 'mes\\BoutonAntiEgo']
         else:
             self.comment_sta = ["Modes", "TriEgo"]
             self.table_c.create_text(30, 20, text=self.comment_sta[0], anchor="center", font=("arial", 10, "bold"))
@@ -2076,7 +2079,14 @@ class Relance(Toplevel):
          "")
         self.tri = self.images_liste[item_id - 1]  # Relever le type de tri qui organise les gammes.
         self.comment_sta.append(self.zone_w4.get())
-        self.comment_sta.append(self.tri[6:-4])
+        cs2, cs1, cs0 = 0, "", self.tri.index(".")  # Compter pour se reprérer et mémoriser
+        for cs in self.tri:
+            cs2 += 1
+            if cs0 >= cs2 >= 17:
+                cs1 += cs
+                (lineno(), "cs2", cs2, "cs", cs, "cs0", cs0)
+        self.comment_sta.append(cs1)
+        (lineno(), "self.tri", self.tri, "comment_sta", self.comment_sta)
         liste_ego3, liste_iso3, ref_mode = [], [], ""
         mission_ego, mission_iso = [], []
 
@@ -2099,7 +2109,9 @@ class Relance(Toplevel):
                 retour_k = Relance.k_num_fonc(self)
                 mission_ego, mission_iso = retour_k[0], retour_k[1]
                 (lineno(), "retour fonction retour_k", retour_k[0], retour_k[1], retour_k[2])
-
+            self.comment_sta.append(self.retour_bouton)  # Ajout pour affichage
+            (lineno(), "retour_bouton", self.retour_bouton)
+            # 2113 retour_bouton 22
 
         l0, l1 = self.liste_iso1, self.liste_ego1
         (lineno(), "_iso0[ISO]", list(l0)[:3], "_iso1[EGO]", list(l1)[:3], "len0_1 :", len(l0), len(l1))
